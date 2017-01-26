@@ -15,4 +15,13 @@ npm run dev
 npm run build
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Admin Develop
+``` bash
+# 安装饿了么UI组件库
+npm install element-ui -S
+
+# 安装 Vue-router路由模块
+npm install vue-router -S
+# 安装 Vuex 状态管理模块
+npm install vuex -S
+```
