@@ -5,6 +5,9 @@
 ## Build Setup
 
 ``` bash
+# init project
+vue init webpack wancai-admin
+
 # install dependencies
 npm install
 
