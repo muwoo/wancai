@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '../views/login';
 import Index from '../views/index';
+import Admin from '../views/admin';
 
 
 Vue.use(Router);
@@ -15,12 +16,22 @@ const router = new Router({
       component: Index,
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login,
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
       meta: {
-        title: '登录',
+        title: '管理后台',
       },
+      children: [
+        {
+          path: 'login',
+          name: 'login',
+          component: Login,
+          meta: {
+            title: '登录',
+          },
+        },
+      ],
     },
   ],
 });
