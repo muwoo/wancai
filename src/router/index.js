@@ -16,6 +16,14 @@ const router = new Router({
       component: Index,
     },
     {
+      path: '/admin/login',
+      name: 'login',
+      component: Login,
+      meta: {
+        title: '登录',
+      },
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: Admin,
@@ -24,14 +32,6 @@ const router = new Router({
       },
       children: [
       ],
-    },
-    {
-      path: '/admin/login',
-      name: 'login',
-      component: Login,
-      meta: {
-        title: '登录',
-      },
     },
   ],
 });
