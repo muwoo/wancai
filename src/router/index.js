@@ -7,8 +7,8 @@ import Admin from '../views/admin';
 
 Vue.use(Router);
 const router = new Router({
-  // history mode
-  mode: 'hash',
+  // history | hash mode
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -23,15 +23,15 @@ const router = new Router({
         title: '管理后台',
       },
       children: [
-        {
-          path: 'login',
-          name: 'login',
-          component: Login,
-          meta: {
-            title: '登录',
-          },
-        },
       ],
+    },
+    {
+      path: '/admin/login',
+      name: 'login',
+      component: Login,
+      meta: {
+        title: '登录',
+      },
     },
   ],
 });
