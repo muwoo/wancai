@@ -17,4 +17,10 @@ export default {
 </script>
 
 <style>
+#app {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 100%;
+}
 </style>
