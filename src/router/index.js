@@ -24,6 +24,10 @@ const router = new Router({
       },
     },
     {
+      path: '/admin/password_find',
+      name: 'password_find',
+    },
+    {
       path: '/admin',
       name: 'admin',
       component: Admin,
