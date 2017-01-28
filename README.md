@@ -27,4 +27,8 @@ npm install element-ui -S
 npm install vue-router -S
 # 安装 Vuex 状态管理模块
 npm install vuex -S
+# 安装 Sass 模块
+npm install node-sass --save-dev
+# 安装 Sass-Loader 加载器
+npm install sass-loader --save-dev
 ```
