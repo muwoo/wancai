@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-row class="bg-grey">
+    <el-row>
       <el-col :span="4" class="logo">
-        <div class="title-content"><span class="logo-title">万才网</span></div>
+        <div class="title-content"><span>万才网</span></div>
         <div class="name-content"><span>项目管理控制台</span></div>
       </el-col>
     </el-row>
@@ -22,9 +22,10 @@
     name: 'Login',
   };
 </script>
-<style scoped>
+<style lang='scss' scoped>
   .el-row {
-    height: 90px;
+    height: rem-calc(90);
+    background: #EFF2F7;
     &:last-child {
       margin-bottom: 0;
     }
@@ -32,29 +33,27 @@
   .el-col {
     height: 100%;
   }
-  .bg-grey {
-    background: #EFF2F7;
-  }
   .logo {
     padding-left: 2%;
     /*background: #99a9bf;*/
-  }
-  .title-content {
-    margin-top: 10%;
-    width: 100%;
-    height: 40%;
-    line-height: 36px;
-  }
-  .name-content {
-    width: 100%;
-    height: 25%;
-  }
-  .logo-title {
-    font-size: 26px;
-    margin-bottom: 0;
+    > div:first-child {
+        margin-top: rem-calc(20);
+        width: 100%;
+        height: rem-calc(40);
+        line-height: 36px;
+
+        > span {
+          font-size: 26px;
+          margin-bottom: 0;
+        }
+    }
+    > div:last-child {
+      width: 100%;
+      height: 25%;
+    }
   }
   .login-title {
-    margin: 0px auto 40px auto;
+    margin: 0px auto rem-calc(40) auto;
     text-align: center;
     color: #a7b8ca
   }
