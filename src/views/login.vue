@@ -9,18 +9,18 @@
     <div class="body">
       <div class="ads"></div>
       <div class="loginField">
-        <el-form>
+        <el-form :model="loginForm" :rules="loginRules">
           <h3 class="loginTitle">登录</h3>
           <el-form-item prop="account">
-            <el-input type="text" auto-complete="off" autofocus="true" placeholder="请输入注册手机号"></el-input>
+            <el-input type="text" v-model="loginForm.account" auto-complete="off" placeholder="请输入注册手机号"></el-input>
           </el-form-item>
-          <el-form-item prop="checkPass">
-            <el-input type="password" auto-complete="off" placeholder="请输入密码"></el-input>
+          <el-form-item prop="password">
+            <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
           </el-form-item>
           <div class="passwordFind">
             <router-link :to="{ name: 'password_find'}" >忘记密码</router-link>
           </div>
-          <el-button type="success">登录</el-button>
+          <el-button type="success" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
         </el-form>
       </div>
     </div>
@@ -30,6 +30,27 @@
 <script>
   export default {
     name: 'Login',
+    data() {
+      return {
+        logining: false,
+        loginForm: {
+          account: 'admin',
+          password: 'password',
+        },
+        loginRules: {
+          account: [
+            { required: true, message: '请输入注册手机号', trigger: 'blur' },
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur' },
+          ],
+        },
+      };
+    },
+    methods: {
+      handleSubmit() {
+      },
+    },
   };
 </script>
 <style lang='scss' scoped>
