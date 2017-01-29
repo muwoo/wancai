@@ -49,6 +49,9 @@
     },
     methods: {
       handleSubmit() {
+        const msg = 'Hello World';
+        // eslint-disable-next-line
+        alert(msg);
       },
     },
   };
