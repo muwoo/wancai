@@ -34,8 +34,8 @@
       return {
         logining: false,
         loginForm: {
-          account: 'admin',
-          password: 'password',
+          account: '',
+          password: '',
         },
         loginRules: {
           account: [
@@ -49,9 +49,19 @@
     },
     methods: {
       handleSubmit() {
-        const msg = 'Hello World';
-        // eslint-disable-next-line
-        alert(msg);
+        // this.$http.post('http://localhost:3000/login').then((response) => {
+        //   // success callback
+        //
+        //   console.log(response.status);
+        //   // alert("登录成功");
+        // }, (response) => {
+        //   // error callback
+        //   console.log(response.status);
+        //   // alert("登录失败");
+        // });
+
+        // console.log(this.loginForm.account);
+        // console.log(this.loginForm.password);
       },
     },
   };
