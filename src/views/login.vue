@@ -1,10 +1,7 @@
 <template>
   <div class="login">
     <el-row>
-      <el-col :span="4" class="logo">
-        <div><span>万才网</span></div>
-        <div><span>项目管理控制台</span></div>
-      </el-col>
+      <logo></logo>
     </el-row>
     <div class="body">
       <div class="ads"></div>
@@ -28,8 +25,13 @@
   </div>
 </template>
 <script>
+  import logo from '../components/logo';
+
   export default {
     name: 'Login',
+    components: {
+      logo,
+    },
     data() {
       return {
         logining: false,

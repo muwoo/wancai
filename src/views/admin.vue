@@ -3,17 +3,18 @@
     <!-- 头部导航 -->
     <div class="header">
       <el-row>
-          <el-col :span="24">
-            <el-menu default-active="5" class="el-menu-demo" mode="horizontal" @select="">
-              <el-submenu index="1">
-                <template slot="title">我的项目</template>
-                <el-menu-item index="1-1">选项1</el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-                <el-menu-item index="1-3">选项3</el-menu-item>
-              </el-submenu>
-              <el-menu-item index="2">我的中心</el-menu-item>
-            </el-menu>
-          </el-col>
+        <logo></logo>
+        <el-col :span="20">
+          <el-menu default-active="2" class="el-menu-demo" mode="horizontal" @select="1-1">
+            <el-submenu index="1">
+              <template slot="title">我的项目</template>
+              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="1-2">选项2</el-menu-item>
+              <el-menu-item index="1-3">选项3</el-menu-item>
+            </el-submenu>
+            <el-menu-item index="2">我的中心</el-menu-item>
+          </el-menu>
+        </el-col>
       </el-row>
     </div>
     <div class="mainLeft">
@@ -54,15 +55,23 @@
   </div>
 </template>
 <script>
+  import logo from '../components/logo';
+
   export default{
     name: 'Admin',
+    components: {
+      logo,
+    },
   };
 </script>
 <style lang="scss" scoped>
 .header {
   z-index: 1000;
   .el-menu-demo {
-    padding-left: 300px!important;
+    // padding-left: 300px!important;
+  }
+  .el-row {
+    background: #EEF1F6;
   }
 }
 .mainLeft {
