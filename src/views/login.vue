@@ -28,7 +28,7 @@
   import logo from '../components/logo';
 
   export default {
-    name: 'Login',
+    name: 'login',
     components: {
       logo,
     },
