@@ -29,10 +29,10 @@
           <el-menu :router=true>
             <el-submenu index="demandManage">
               <template slot="title"><i class="el-icon-message"></i>需求管理</template>
-                <el-menu-item index="/admin/demandPending">待审核</el-menu-item>
-                <el-menu-item index="/admin/demandProcessed">处理中</el-menu-item>
-                <el-menu-item index="/admin/demandRefused">已驳回</el-menu-item>
-                <el-menu-item index="/admin/demandFinal">处理结束</el-menu-item>
+                <el-menu-item index="/project_manage/demandPending">待审核</el-menu-item>
+                <el-menu-item index="/project_manage/demandProcessed">处理中</el-menu-item>
+                <el-menu-item index="/project_manage/demandRefused">已驳回</el-menu-item>
+                <el-menu-item index="/project_manage/demandFinal">处理结束</el-menu-item>
             </el-submenu>
             <el-submenu index="itemManage">
               <template slot="title"><i class="el-icon-menu"></i>全职人员管理</template>

@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import login from '../views/login';
+import projectManageLogin from '../views/login/projectManageLogin';
+import adminLogin from '../views/login/adminLogin';
 import index from '../views/index';
 import admin from '../views/admin';
+import projectManage from '../views/projectManage';
 
 import profile from '../views/user/profile';
 import pendingDemand from '../views/demandManage/pendingDemand';
@@ -23,15 +25,15 @@ const router = new Router({
     },
     {
       path: '/admin/login',
-      name: 'login',
-      component: login,
+      name: 'adminLogin',
+      component: adminLogin,
       meta: {
-        title: '登录',
+        title: '后台登录',
       },
     },
     {
       path: '/admin/password_find',
-      name: 'password_find',
+      name: 'admin_password_find',
     },
     {
       path: '/admin',
@@ -41,12 +43,34 @@ const router = new Router({
         title: '管理后台',
       },
       children: [
-        { path: '', component: profile },
+        // { path: '', component: },
+      ],
+    },
+    {
+      path: '/project_manage/login',
+      name: 'projectManageLogin',
+      component: projectManageLogin,
+      meta: {
+        title: '项目经理登录',
+      },
+    },
+    {
+      path: '/project_manage/password_find',
+      name: 'project_manage_password_find',
+    },
+    {
+      path: '/project_manage',
+      name: 'projectManage',
+      component: projectManage,
+      meta: {
+        title: '项目管理',
+      },
+      children: [
+        { path: 'projectManage', component: profile },
         { path: 'demandPending', component: pendingDemand },
         { path: 'demandProcessed', component: processedDemand },
         { path: 'demandRefused', component: refusedDemand },
         { path: 'demandFinal', component: finalDemand },
-        // { path: '', component: },
       ],
     },
   ],
