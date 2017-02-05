@@ -1,6 +1,6 @@
 <template>
   <div id="processed-demand">
-    <p>Final Demand</p>
+    <p>Processed Demand</p>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div id="refused-demand">
-    <p>Final Demand</p>
+    <p>Refused Demand</p>
   </div>
 </template>
 

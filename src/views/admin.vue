@@ -26,27 +26,27 @@
         </div>
         <el-col>
           <!-- <el-menu default-active="2"  @open="handleOpen" @close="handleClose"> -->
-          <el-menu default-active="2">
-            <el-submenu index="1">
+          <el-menu router="true">
+            <el-submenu index="demandManage">
               <template slot="title"><i class="el-icon-message"></i>需求管理</template>
-                <el-menu-item index="1-1">待审核</el-menu-item>
-                <el-menu-item index="1-2">处理中</el-menu-item>
-                <el-menu-item index="1-3">已驳回</el-menu-item>
-                <el-menu-item index="1-4">处理结束</el-menu-item>
+                <el-menu-item index="/admin/demandPending">待审核</el-menu-item>
+                <el-menu-item index="/admin/demandProcessed">处理中</el-menu-item>
+                <el-menu-item index="/admin/demandRefused">已驳回</el-menu-item>
+                <el-menu-item index="/admin/demandFinal">处理结束</el-menu-item>
             </el-submenu>
-            <el-submenu index="2">
+            <el-submenu index="itemManage">
               <template slot="title"><i class="el-icon-menu"></i>全职人员管理</template>
                 <el-menu-item index="2-1">选项1</el-menu-item>
                 <el-menu-item index="2-2">选项2</el-menu-item>
                 <el-menu-item index="2-3">选项3</el-menu-item>
             </el-submenu>
-            <el-submenu index="3">
+            <el-submenu index="staffManage">
               <template slot="title"><i class="el-icon-setting"></i>兼职人员管理</template>
                 <el-menu-item index="3-1">选项1</el-menu-item>
                 <el-menu-item index="3-2">选项2</el-menu-item>
                 <el-menu-item index="3-3">选项3</el-menu-item>
             </el-submenu>
-            <el-submenu index="4">
+            <el-submenu index="temporaryStaffManage">
               <template slot="title"><i class="el-icon-setting"></i>项目管理</template>
                 <el-menu-item index="4-1">选项1</el-menu-item>
                 <el-menu-item index="4-2">选项2</el-menu-item>
@@ -57,9 +57,10 @@
       </div>
       <!-- 右侧内容区 -->
       <div class="main-right">
-        <transition name="fade">
+        <!-- <transition name="fade">
           <router-view></router-view>
-        </transition>
+        </transition> -->
+        <router-view></router-view>
       </div>
     </main>
   </div>
