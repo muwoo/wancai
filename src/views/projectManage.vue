@@ -22,7 +22,7 @@
     <main>
       <div class="main-left">
         <div class="recruit-btn">
-          <el-button type="primary" size="large" @click.native.prevent="" >+招聘需求申请表</el-button>
+          <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+招聘需求申请表</el-button>
         </div>
         <el-col>
           <!-- <el-menu default-active="2"  @open="handleOpen" @close="handleClose"> -->
@@ -73,11 +73,20 @@
     components: {
       logo,
     },
+    methods: {
+      handleApplyDemand() {
+        // console.log('handleApplyDemand');
+        // let This =
+        this.$router.replace('/project_manage/applyDemand');
+      },
+    },
   };
 </script>
 <style lang="scss" scoped>
 header {
   z-index: 1000;
+  width: 100%;
+  position: fixed;
   .el-menu-demo {
     // padding-left: 300px!important;
   }
@@ -91,6 +100,8 @@ main {
   flex-direction: row;
   width: 100%;
   min-height: 1200px;
+  // margin-top: 60px;
+  padding-top: 60px;
   // background-color: #FCFCFC;
   .main-left {
     // -webkit-box-flex: 0;
@@ -118,7 +129,7 @@ main {
     display: flex;
     flex-direction: column;
     width: 83%;
-    background: #FFF123;
+    // background: #FFF123;
   }
 }
 </style>

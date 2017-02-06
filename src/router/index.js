@@ -7,6 +7,7 @@ import admin from '../views/admin';
 import projectManage from '../views/projectManage';
 
 import profile from '../views/user/profile';
+import applyDemand from '../views/demandManage/applyDemand';
 import pendingDemand from '../views/demandManage/pendingDemand';
 import processedDemand from '../views/demandManage/processedDemand';
 import refusedDemand from '../views/demandManage/refusedDemand';
@@ -67,6 +68,7 @@ const router = new Router({
       },
       children: [
         { path: 'projectManage', component: profile },
+        { path: 'applyDemand', component: applyDemand },
         { path: 'demandPending', component: pendingDemand },
         { path: 'demandProcessed', component: processedDemand },
         { path: 'demandRefused', component: refusedDemand },
