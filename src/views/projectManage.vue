@@ -90,12 +90,14 @@ main {
   display: flex;
   flex-direction: row;
   width: 100%;
-  min-height: 1400px;
+  min-height: 1200px;
   // background-color: #FCFCFC;
   .main-left {
     // -webkit-box-flex: 0;
     // -ms-flex: 0 0 200px;
     // flex: 0 0 200px;
+    // position: absolute;
+    // position: fixed;
     display: flex;
     flex-direction: column;
 
