@@ -13,6 +13,8 @@ import processedDemand from '../views/demandManage/processedDemand';
 import refusedDemand from '../views/demandManage/refusedDemand';
 import finalDemand from '../views/demandManage/finalDemand';
 
+import notFound from '../views/404';
+
 Vue.use(Router);
 const router = new Router({
   // history | hash mode
@@ -98,6 +100,11 @@ const router = new Router({
       alias: '兼职人员管理',
       children: [
       ],
+    },
+    {
+      path: '*',
+      component: notFound,
+      hidden: true,
     },
   ],
 });

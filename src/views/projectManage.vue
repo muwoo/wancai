@@ -10,7 +10,7 @@
             <template slot="title">{{ currentProject.name }}</template>
             <el-menu-item v-for="item in allProjects" :index="item.id + ''">{{item.name}}</el-menu-item>
           </el-submenu>
-          <el-menu-item index="/project_manage/profile">我的中心</el-menu-item>
+          <el-menu-item index="profile">我的中心</el-menu-item>
         </el-menu>
       </el-col>
     </el-col>
@@ -84,13 +84,16 @@ export default {
       this.$router.replace('/project_manage/applyDemand');
     },
     handleSelectProject(id) {
-      if (id !== '/project_manage/profile') {
+      if (id !== 'profile') {
         for (let i = 0; i < this.allProjects.length; i += 1) {
           if (this.allProjects[i].id.toString() === id) {
             this.currentProject = this.allProjects[i];
           }
         }
+      } else {
+        this.$router.replace('/project_manage/profile');
       }
+
       // console.log('Hello World');
       this.$message(this.currentProject.name);
     },
