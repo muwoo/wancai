@@ -5,20 +5,21 @@
     <el-col :span="24" class="panel-top">
       <logo></logo>
       <el-col :span="20">
-        <el-menu default-active="2" class="el-menu-demo" mode="horizontal" @select="1-1">
-          <el-submenu index="1">
-            <template slot="title">我的项目</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-            <el-menu-item index="1-3">选项3</el-menu-item>
+        <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" @select="handleSelectProject">
+          <el-submenu :index="currentPath">
+            <template slot="title">{{ currentProject.name }}</template>
+            <el-menu-item v-for="item in allProjects" :index="item.id + ''">{{item.name}}</el-menu-item>
           </el-submenu>
-          <el-menu-item index="2">我的中心</el-menu-item>
+          <el-menu-item index="/project_manage/profile">我的中心</el-menu-item>
         </el-menu>
       </el-col>
     </el-col>
     <!-- 左侧导航 -->
     <el-col :span="24" class="panel-center">
       <aside>
+        <div class="recruit-btn">
+          <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+招聘需求申请表</el-button>
+        </div>
         <el-menu :default-active="currentPath" class="el-menu-vertical-demo" @select="handleSelect" router>
           <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden">
             <el-submenu :index="index+''" v-if="!item.leaf">
@@ -42,20 +43,56 @@ import logo from '../components/logo';
 
 export default {
   name: 'project',
+  data() {
+    return {
+      currentPath: '/profile',
+      allProjects: [
+        { id: 1, name: '萧山仓库' },
+        { id: 2, name: '余杭仓库' },
+        { id: 3, name: '下沙仓库' },
+      ],
+      currentProject: { id: '', name: '空项目' },
+    };
+  },
   components: {
     logo,
   },
   watch: {
-    // '$route'(to, from) {
-    //   this.currentPath = to.path;
-    // },
+    // eslint-disable-next-line
+    $route(to, from) {
+      this.currentPath = to.path;
+      // this.$message(this.currentPath);
+      // console.log(this.currentPath);
+      // console.log(this.$route.query);
+    },
   },
   methods: {
     // handleSelect: function(a, b) {
     //
     // },
+    initialCurrentProject() {
+      if (this.allProjects.length > 0) {
+        this.currentProject = this.allProjects[0];
+      } else {
+        this.currentProject = { id: '', name: '无项目' };
+      }
+    },
     handleSelect() {
-      console.log(this.$router.options.routes);
+      // console.log(this.$router.options.routes);
+    },
+    handleApplyDemand() {
+      this.$router.replace('/project_manage/applyDemand');
+    },
+    handleSelectProject(id) {
+      if (id !== '/project_manage/profile') {
+        for (let i = 0; i < this.allProjects.length; i += 1) {
+          if (this.allProjects[i].id.toString() === id) {
+            this.currentProject = this.allProjects[i];
+          }
+        }
+      }
+      // console.log('Hello World');
+      this.$message(this.currentProject.name);
     },
     // 退出登录
     logout() {
@@ -71,6 +108,7 @@ export default {
     },
   },
   mounted() {
+    this.initialCurrentProject();
   },
 };
 </script>
@@ -96,6 +134,14 @@ export default {
 
      aside {
        width: 230px;
+       .recruit-btn {
+          .el-button {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            width: 100%;
+          }
+        }
      }
      .panel-right {
        background: #d1a2d6;

@@ -63,7 +63,8 @@ const router = new Router({
       iconCls: 'el-icon-message',
       alias: '需求管理',
       children: [
-        { path: 'projectManage', component: profile, hidden: true },
+        { path: '', component: profile, hidden: true },
+        { path: 'profile', component: profile, hidden: true },
         { path: 'applyDemand', component: applyDemand, hidden: true },
         { path: 'demandPending', component: pendingDemand, alias: '待审核' },
         { path: 'demandProcessed', component: processedDemand, alias: '处理中' },
