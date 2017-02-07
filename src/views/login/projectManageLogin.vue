@@ -64,6 +64,7 @@
 
         // console.log(this.loginForm.account);
         // console.log(this.loginForm.password);
+        this.$router.push({ path: '/project_manage' });
       },
     },
   };
