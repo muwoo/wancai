@@ -23,26 +23,24 @@ const router = new Router({
       path: '/',
       name: 'index',
       component: index,
+      hidden: true, //不显示在导航栏中
     },
     {
       path: '/admin/login',
       name: 'adminLogin',
       component: adminLogin,
-      meta: {
-        title: '后台登录',
-      },
+      hidden: true,
     },
     {
       path: '/admin/password_find',
       name: 'admin_password_find',
+      hidden: true,
     },
     {
       path: '/admin',
       name: 'admin',
       component: admin,
-      meta: {
-        title: '管理后台',
-      },
+      hidden: true,
       children: [
         // { path: '', component: },
       ],
@@ -51,28 +49,53 @@ const router = new Router({
       path: '/project_manage/login',
       name: 'projectManageLogin',
       component: projectManageLogin,
-      meta: {
-        title: '项目经理登录',
-      },
+      hidden: true,
     },
     {
       path: '/project_manage/password_find',
       name: 'project_manage_password_find',
+      hidden: true,
     },
     {
       path: '/project_manage',
       name: 'projectManage',
       component: projectManage,
-      meta: {
-        title: '项目管理',
-      },
+      iconCls: 'el-icon-message',
+      alias: '需求管理',
       children: [
-        { path: 'projectManage', component: profile },
-        { path: 'applyDemand', component: applyDemand },
-        { path: 'demandPending', component: pendingDemand },
-        { path: 'demandProcessed', component: processedDemand },
-        { path: 'demandRefused', component: refusedDemand },
-        { path: 'demandFinal', component: finalDemand },
+        { path: 'projectManage', component: profile, hidden: true },
+        { path: 'applyDemand', component: applyDemand, hidden: true },
+        { path: 'demandPending', component: pendingDemand, alias: '待审核' },
+        { path: 'demandProcessed', component: processedDemand, alias: '处理中' },
+        { path: 'demandRefused', component: refusedDemand, alias: '已拒绝' },
+        { path: 'demandFinal', component: finalDemand, alias: '处理结束' },
+      ],
+    },
+    {
+      path: '/item_manage',
+      name: 'itemManage',
+      component: projectManage,
+      iconCls: 'el-icon-menu',
+      alias: '项目管理',
+      children: [
+      ],
+    },
+    {
+      path: '/staff_manage',
+      name: 'staffManage',
+      component: projectManage,
+      iconCls: 'el-icon-setting',
+      alias: '全职人员管理',
+      children: [
+      ],
+    },
+    {
+      path: '/tempoary_staff_manage',
+      name: 'tempoaryStaffManage',
+      component: projectManage,
+      iconCls: 'el-icon-setting',
+      alias: '兼职人员管理',
+      children: [
       ],
     },
   ],

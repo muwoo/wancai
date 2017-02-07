@@ -1,135 +1,112 @@
 <template>
-  <div id="admin">
+  <!-- 主面板 -->
+  <el-row class="panel">
     <!-- 头部导航 -->
-    <header>
-      <el-row>
-        <logo></logo>
-        <el-col :span="20">
-          <el-menu default-active="2" class="el-menu-demo" mode="horizontal" @select="1-1">
-            <el-submenu index="1">
-              <template slot="title">我的项目</template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-              <el-menu-item index="1-3">选项3</el-menu-item>
+    <el-col :span="24" class="panel-top">
+      <logo></logo>
+      <el-col :span="20">
+        <el-menu default-active="2" class="el-menu-demo" mode="horizontal" @select="1-1">
+          <el-submenu index="1">
+            <template slot="title">我的项目</template>
+            <el-menu-item index="1-1">选项1</el-menu-item>
+            <el-menu-item index="1-2">选项2</el-menu-item>
+            <el-menu-item index="1-3">选项3</el-menu-item>
+          </el-submenu>
+          <el-menu-item index="2">我的中心</el-menu-item>
+        </el-menu>
+      </el-col>
+    </el-col>
+    <!-- 左侧导航 -->
+    <el-col :span="24" class="panel-center">
+      <aside>
+        <el-menu :default-active="currentPath" class="el-menu-vertical-demo" @select="handleSelect" router>
+          <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden">
+            <el-submenu :index="index+''" v-if="!item.leaf">
+              <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
+              <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
             </el-submenu>
-            <el-menu-item index="2">我的中心</el-menu-item>
-          </el-menu>
-        </el-col>
-      </el-row>
-    </header>
-
-    <!-- 左侧内容区 -->
-    <main>
-      <div class="main-left">
-        <div class="recruit-btn">
-          <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+招聘需求申请表</el-button>
-        </div>
-        <el-col>
-          <!-- <el-menu default-active="2"  @open="handleOpen" @close="handleClose"> -->
-          <el-menu :router=true>
-            <el-submenu index="demandManage">
-              <template slot="title"><i class="el-icon-message"></i>需求管理</template>
-                <el-menu-item index="/project_manage/demandPending">待审核</el-menu-item>
-                <el-menu-item index="/project_manage/demandProcessed">处理中</el-menu-item>
-                <el-menu-item index="/project_manage/demandRefused">已驳回</el-menu-item>
-                <el-menu-item index="/project_manage/demandFinal">处理结束</el-menu-item>
-            </el-submenu>
-            <el-submenu index="itemManage">
-              <template slot="title"><i class="el-icon-menu"></i>全职人员管理</template>
-                <el-menu-item index="2-1">选项1</el-menu-item>
-                <el-menu-item index="2-2">选项2</el-menu-item>
-                <el-menu-item index="2-3">选项3</el-menu-item>
-            </el-submenu>
-            <el-submenu index="staffManage">
-              <template slot="title"><i class="el-icon-setting"></i>兼职人员管理</template>
-                <el-menu-item index="3-1">选项1</el-menu-item>
-                <el-menu-item index="3-2">选项2</el-menu-item>
-                <el-menu-item index="3-3">选项3</el-menu-item>
-            </el-submenu>
-            <el-submenu index="temporaryStaffManage">
-              <template slot="title"><i class="el-icon-setting"></i>项目管理</template>
-                <el-menu-item index="4-1">选项1</el-menu-item>
-                <el-menu-item index="4-2">选项2</el-menu-item>
-                <el-menu-item index="4-3">选项3</el-menu-item>
-            </el-submenu>
-          </el-menu>
-        </el-col>
-      </div>
-      <!-- 右侧内容区 -->
-      <div class="main-right">
-        <!-- <transition name="fade">
-          <router-view></router-view>
-        </transition> -->
+            <!-- <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item> -->
+          </template>
+        </el-menu>
+      </aside>
+      <!-- 主内容 -->
+      <section class="panel-right">
         <router-view></router-view>
-      </div>
-    </main>
-  </div>
+      </section>
+    </el-col>
+  </el-row>
 </template>
+
 <script>
-  import logo from '../components/logo';
+import logo from '../components/logo';
 
-  export default{
-    name: 'admin',
-    components: {
-      logo,
+export default {
+  name: 'project',
+  components: {
+    logo,
+  },
+  watch: {
+    // '$route'(to, from) {
+    //   this.currentPath = to.path;
+    // },
+  },
+  methods: {
+    // handleSelect: function(a, b) {
+    //
+    // },
+    handleSelect() {
+      console.log(this.$router.options.routes);
     },
-    methods: {
-      handleApplyDemand() {
-        // console.log('handleApplyDemand');
-        // let This =
-        this.$router.replace('/project_manage/applyDemand');
-      },
+    // 退出登录
+    logout() {
+      const that = this;
+      this.$confirm('确认退出吗?', '提示', {
+
+      }).then(() => {
+        // sessionStorage.removeItem('projectManager');
+        that.$router.replace('/project_manage/login');
+      }).catch(() => {
+
+      });
     },
-  };
+  },
+  mounted() {
+  },
+};
 </script>
-<style lang="scss" scoped>
-header {
-  z-index: 1000;
-  width: 100%;
-  position: fixed;
-  .el-menu-demo {
-    // padding-left: 300px!important;
-  }
-  .el-row {
-    background: #EEF1F6;
-  }
-}
-main {
-  // display: -webkit-flex;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  min-height: 1200px;
-  // margin-top: 60px;
-  padding-top: 60px;
-  // background-color: #FCFCFC;
-  .main-left {
-    // -webkit-box-flex: 0;
-    // -ms-flex: 0 0 200px;
-    // flex: 0 0 200px;
-    // position: absolute;
-    // position: fixed;
-    display: flex;
-    flex-direction: column;
 
-    width: 17%;
-    .recruit-btn {
-      .el-button {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-        width: 100%;
-      }
-    }
-    .el-col {
-      width: auto;
-    }
-  }
-  .main-right {
-    display: flex;
-    flex-direction: column;
-    width: 83%;
-    // background: #FFF123;
-  }
-}
+<style lang="scss" scoped>
+ .panel {
+   position: absolute;
+   top: 0px;
+   bottom: 0px;
+   width: 100%;
+
+   .panel-top {
+     height: 60px;
+     background: #EEF1F6;
+   }
+
+   .panel-center {
+     position: absolute;
+     top: 60px;
+     bottom: 0px;
+     overflow: hidden;
+    //  background-color: pink;
+
+     aside {
+       width: 230px;
+     }
+     .panel-right {
+       background: #d1a2d6;
+       position: absolute;
+       right: 0px;
+       top: 0px;
+       bottom: 0px;
+       left: 230px;
+       overflow-y: scroll;
+       padding: 20px;
+     }
+   }
+ }
 </style>

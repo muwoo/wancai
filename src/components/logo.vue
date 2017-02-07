@@ -17,15 +17,16 @@
   > div:first-child {
       // padding-top: 2px;
       height: 40px;
-      width: 100%;
-      line-height: 38px;
+      // width: 100%;
+      line-height: 40px;
       > span {
         font-size: 26px;
         margin-bottom: 0;
       }
   }
   > div:last-child {
-    width: 100%;
+    // width: 100%;
+    line-height: 20px;
     height: 20px;
   }
 }
