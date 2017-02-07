@@ -31,4 +31,6 @@ npm install vuex -S
 npm install node-sass --save-dev
 # 安装 Sass-Loader 加载器
 npm install sass-loader --save-dev
+# 安装 axios http请求
+npm install axios -S
 ```

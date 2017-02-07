@@ -7,9 +7,11 @@
 <script>
 import Vue from 'vue';
 import Element from 'element-ui';
+import axios from 'axios';
 import 'element-ui/lib/theme-default/index.css';
 
 Vue.use(Element);
+Vue.prototype.$http = axios;
 
 export default {
   name: 'app',
