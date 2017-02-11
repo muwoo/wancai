@@ -147,14 +147,16 @@ export default {
         }
      }
      .panel-right {
-       background: #d1a2d6;
+      //  background: #d1a2d6;
+      //  border:5px solid #4bb3ff;
+      //  border:1px solid #20a0ff;
        position: absolute;
        right: 0px;
        top: 0px;
        bottom: 0px;
        left: 230px;
        overflow-y: scroll;
-       padding: 20px;
+       padding: 10px;
      }
    }
  }

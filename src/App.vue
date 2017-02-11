@@ -11,7 +11,14 @@ import axios from 'axios';
 import 'element-ui/lib/theme-default/index.css';
 
 Vue.use(Element);
-Vue.prototype.$http = axios;
+const axiosInstance = axios.create({
+  baseURL: 'http://120.77.253.107:9090',
+  // headers: {
+  //   'Access-Control-Allow-Origin': 'http://localhost:8080',
+  // },
+});
+
+Vue.prototype.$http = axiosInstance;
 
 export default {
   name: 'app',

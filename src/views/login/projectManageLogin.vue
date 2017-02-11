@@ -6,7 +6,7 @@
     <el-col :span="14"  class="panel-ads">
     </el-col>
     <el-col :span="10"  class="panel-login" >
-      <el-form :model="loginForm" :rules="loginRules">
+      <el-form :model="loginForm" :rules="loginRules" ref="loginForm">
         <h3 class="loginTitle">登录</h3>
         <el-form-item prop="account">
           <el-input type="text" v-model="loginForm.account" auto-complete="off" placeholder="请输入注册手机号"></el-input>
@@ -49,7 +49,26 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.$router.push({ path: '/project_manage' });
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          // const loginParams = {
+          //   username: this.loginForm.account,
+          //   password: this.loginForm.password,
+          // };
+          this.logining = true;
+          // this.$http.post('/login', {
+          //   loginParams,
+          //   // eslint-disable-next-line
+          // }).then((response) => {
+          //   // eslint-disable-next-line
+          //   this.logining = false;
+          //   console.log(response);
+          // }).catch((error) => {
+          //   console.log(error);
+          // });
+        }
+        return false;
+      });
     },
   },
 };
