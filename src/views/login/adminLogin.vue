@@ -6,7 +6,7 @@
     <el-col :span="14"  class="panel-ads">
     </el-col>
     <el-col :span="10"  class="panel-login" >
-      <el-form :model="loginForm" :rules="loginRules">
+      <el-form :model="loginForm" :rules="loginRules" ref="loginForm">
         <h3 class="loginTitle">登录</h3>
         <el-form-item prop="account">
           <el-input type="text" v-model="loginForm.account" auto-complete="off" placeholder="请输入注册手机号"></el-input>
@@ -15,7 +15,7 @@
           <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
         </el-form-item>
         <div class="passwordFind">
-          <router-link :to="{ name: 'project_manage_password_find'}" >忘记密码</router-link>
+          <router-link :to="{ name: 'admin_password_find'}" >忘记密码</router-link>
         </div>
         <el-button type="success" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
       </el-form>
@@ -49,7 +49,26 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.$router.push({ path: '/admin' });
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          // const loginParams = {
+          //   username: this.loginForm.account,
+          //   password: this.loginForm.password,
+          // };
+          this.logining = true;
+          // this.$http.post('/login', {
+          //   loginParams,
+          //   // eslint-disable-next-line
+          // }).then((response) => {
+          //   // eslint-disable-next-line
+          //   this.logining = false;
+          //   console.log(response);
+          // }).catch((error) => {
+          //   console.log(error);
+          // });
+        }
+        return false;
+      });
     },
   },
 };

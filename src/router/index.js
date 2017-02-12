@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import projectManageLogin from '../views/login/projectManageLogin';
+import projectManagerLogin from '../views/login/projectManagerLogin';
 import adminLogin from '../views/login/adminLogin';
 import index from '../views/index';
 import admin from '../views/admin';
-import projectManage from '../views/projectManage';
+import projectManager from '../views/projectManager';
 
 import profile from '../views/user/profile';
 import applyDemand from '../views/demandManage/applyDemand';
@@ -44,24 +44,25 @@ const router = new Router({
       component: admin,
       hidden: true,
       children: [
-        // { path: '', component: },
+        // { path: '', component: adminDashboard, hidden: true },
+        // { path: '', component: adminDashboard, hidden: true },
       ],
     },
     {
-      path: '/project_manage/login',
-      name: 'projectManageLogin',
-      component: projectManageLogin,
+      path: '/project_manager/login',
+      name: 'projectManagerLogin',
+      component: projectManagerLogin,
       hidden: true,
     },
     {
-      path: '/project_manage/password_find',
-      name: 'project_manage_password_find',
+      path: '/project_manager/password_find',
+      name: 'project_manager_password_find',
       hidden: true,
     },
     {
-      path: '/project_manage',
-      name: 'projectManage',
-      component: projectManage,
+      path: '/project_manager',
+      name: 'projectManager',
+      component: projectManager,
       iconCls: 'el-icon-message',
       alias: '需求管理',
       children: [
@@ -77,7 +78,7 @@ const router = new Router({
     {
       path: '/item_manage',
       name: 'itemManage',
-      component: projectManage,
+      component: projectManager,
       iconCls: 'el-icon-menu',
       alias: '项目管理',
       children: [
@@ -86,7 +87,7 @@ const router = new Router({
     {
       path: '/staff_manage',
       name: 'staffManage',
-      component: projectManage,
+      component: projectManager,
       iconCls: 'el-icon-setting',
       alias: '全职人员管理',
       children: [
@@ -95,7 +96,7 @@ const router = new Router({
     {
       path: '/tempoary_staff_manage',
       name: 'tempoaryStaffManage',
-      component: projectManage,
+      component: projectManager,
       iconCls: 'el-icon-setting',
       alias: '兼职人员管理',
       children: [

@@ -42,7 +42,7 @@
 import logo from '../components/logo';
 
 export default {
-  name: 'project',
+  name: 'projectManager',
   data() {
     return {
       currentPath: '/profile',
