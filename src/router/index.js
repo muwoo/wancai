@@ -13,6 +13,10 @@ import processedDemand from '../views/demandManage/processedDemand';
 import refusedDemand from '../views/demandManage/refusedDemand';
 import finalDemand from '../views/demandManage/finalDemand';
 
+import adminDashboard from '../views/admin/adminDashboard';
+import staffCheck from '../views/admin/staffManage/check';
+import itemPublish from '../views/admin/itemManage/publish';
+
 import notFound from '../views/404';
 
 Vue.use(Router);
@@ -44,8 +48,32 @@ const router = new Router({
       component: admin,
       hidden: true,
       children: [
-        // { path: '', component: adminDashboard, hidden: true },
-        // { path: '', component: adminDashboard, hidden: true },
+        { path: '', redirect: 'dashboard', component: adminDashboard, hidden: true },
+        { path: 'dashboard', component: adminDashboard, hidden: true },
+      ],
+    },
+    {
+      path: '/admin/item_manage',
+      name: 'admin_itemManage',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '项目管理',
+      children: [
+        { path: '', component: adminDashboard, hidden: true },
+        { path: 'publish', component: itemPublish, alias: '项目发布' },
+        { path: 'adminDashboard', component: adminDashboard, hidden: true },
+      ],
+    },
+    {
+      path: '/admin/staff_manage',
+      name: 'admin_staffManage',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '人员管理',
+      children: [
+        { path: 'check', component: staffCheck, alias: '身份审核' },
       ],
     },
     {
@@ -63,42 +91,54 @@ const router = new Router({
       path: '/project_manager',
       name: 'projectManager',
       component: projectManager,
-      iconCls: 'el-icon-message',
-      alias: '需求管理',
+      hidden: true,
       children: [
-        { path: '', component: profile, hidden: true },
+        { path: '', redirect: 'profile', component: profile, hidden: true },
         { path: 'profile', component: profile, hidden: true },
         { path: 'applyDemand', component: applyDemand, hidden: true },
-        { path: 'demandPending', component: pendingDemand, alias: '待审核' },
-        { path: 'demandProcessed', component: processedDemand, alias: '处理中' },
-        { path: 'demandRefused', component: refusedDemand, alias: '已拒绝' },
-        { path: 'demandFinal', component: finalDemand, alias: '处理结束' },
       ],
     },
     {
-      path: '/item_manage',
+      path: '/project_manager/demand_manage',
+      name: 'demandManage',
+      component: projectManager,
+      iconCls: 'el-icon-message',
+      alias: '需求管理',
+      isAdmin: false,
+      children: [
+        { path: 'Pending', component: pendingDemand, alias: '待审核' },
+        { path: 'Processed', component: processedDemand, alias: '处理中' },
+        { path: 'Refused', component: refusedDemand, alias: '已拒绝' },
+        { path: 'Final', component: finalDemand, alias: '处理结束' },
+      ],
+    },
+    {
+      path: '/project_manager/item_manage',
       name: 'itemManage',
       component: projectManager,
       iconCls: 'el-icon-menu',
       alias: '项目管理',
+      isAdmin: false,
       children: [
       ],
     },
     {
-      path: '/staff_manage',
+      path: '/project_manager/staff_manage',
       name: 'staffManage',
       component: projectManager,
       iconCls: 'el-icon-setting',
+      isAdmin: false,
       alias: '全职人员管理',
       children: [
       ],
     },
     {
-      path: '/tempoary_staff_manage',
+      path: '/project_manager/tempoary_staff_manage',
       name: 'tempoaryStaffManage',
       component: projectManager,
       iconCls: 'el-icon-setting',
       alias: '兼职人员管理',
+      isAdmin: false,
       children: [
       ],
     },
