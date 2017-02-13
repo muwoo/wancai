@@ -3,13 +3,15 @@
   <el-row class="panel">
     <!-- 头部导航 -->
     <el-col :span="24" class="panel-top">
-      <logo></logo>
+      <el-col :span="5" class="logo">
+        <span>万才网管理后台</span>
+      </el-col>
     </el-col>
     <!-- 左侧导航 -->
     <el-col :span="24" class="panel-center">
       <aside>
-        <el-menu :default-active="currentPath" class="el-menu-vertical-demo" @select="handleSelect" router>
-          <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden">
+        <el-menu :default-active="currentPath" class="el-menu-vertical-demo" theme="dark" router>
+          <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && item.isAdmin">
             <el-submenu :index="index+''" v-if="!item.leaf">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
               <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
@@ -63,7 +65,7 @@ export default {
     },
   },
   mounted() {
-    this.initialCurrentProject();
+    // this.initialCurrentProject();
   },
 };
 </script>
@@ -74,10 +76,21 @@ export default {
    top: 0px;
    bottom: 0px;
    width: 100%;
+   background:#324057;
 
    .panel-top {
      height: 60px;
-     background: #EEF1F6;
+     background:#324057;
+     line-height: 60px;
+     text-align: center;
+     .logo {
+       height: 60px;
+       width: 230px;
+       > span {
+         font-size: 24px;
+         color: #FFFFFF;
+       }
+     }
    }
 
    .panel-center {
@@ -91,7 +104,7 @@ export default {
        width: 230px;
      }
      .panel-right {
-      //  background: #d1a2d6;
+       background: #ECEEF3;
       //  border:5px solid #4bb3ff;
       //  border:1px solid #20a0ff;
        position: absolute;

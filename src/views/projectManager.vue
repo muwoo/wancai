@@ -21,7 +21,7 @@
           <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+招聘需求申请表</el-button>
         </div>
         <el-menu :default-active="currentPath" class="el-menu-vertical-demo" @select="handleSelect" router>
-          <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden">
+          <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && !item.isAdmin">
             <el-submenu :index="index+''" v-if="!item.leaf">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
               <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
@@ -81,7 +81,7 @@ export default {
       // console.log(this.$router.options.routes);
     },
     handleApplyDemand() {
-      this.$router.replace('/project_manage/applyDemand');
+      this.$router.replace('/project_manager/applyDemand');
     },
     handleSelectProject(id) {
       if (id !== 'profile') {
