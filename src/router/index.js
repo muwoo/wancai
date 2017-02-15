@@ -14,7 +14,7 @@ import refusedDemand from '../views/demandManage/refusedDemand';
 import finalDemand from '../views/demandManage/finalDemand';
 
 import adminDashboard from '../views/admin/adminDashboard';
-import staffCheck from '../views/admin/staffManage/check';
+import middlemanCheck from '../views/admin/staffManage/middlemanCheck';
 import itemPublish from '../views/admin/itemManage/publish';
 
 import notFound from '../views/404';
@@ -73,7 +73,7 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '人员管理',
       children: [
-        { path: 'check', component: staffCheck, alias: '身份审核' },
+        { path: 'middleman', component: middlemanCheck, alias: '经纪人管理' },
       ],
     },
     {
