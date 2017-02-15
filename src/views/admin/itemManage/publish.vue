@@ -2,21 +2,21 @@
   <div id="itemPublish">
     <el-form :model="itemPublishInfo" :rules="itemPublishRules" ref="itemPublishForm">
       <h1 class="tips">基本信息</h1>
-      <el-form-item label="项目名称：" class="form-item">
-        <el-input v-model="itemPublishInfo.tableName" placeholder="请输入内容" style="width: 400px;"></el-input>
+      <el-form-item label="项目名称：" class="form-item" prop="itemName">
+        <el-input v-model="itemPublishInfo.itemName" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
-      <el-form-item label="项目地址：" class="form-item">
+      <el-form-item label="项目地址：" class="form-item" prop="address">
         <el-input v-model="itemPublishInfo.address" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
-      <el-form-item label="项目介绍：" class="form-item">
+      <el-form-item label="项目介绍：" class="form-item" prop="description">
         <el-input type="textarea" :rows="2" v-model="itemPublishInfo.description" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
       <h1 class="tips">匹配负责人</h1>
-      <el-form-item label="招聘前台：" class="form-item">
+      <el-form-item label="招聘前台：" class="form-item" prop="recruitManager">
         <span>{{ itemPublishInfo.recruitManager }}</span>
         <el-button type="primary">查找</el-button>
       </el-form-item>
-      <el-form-item label="项目负责人：" class="form-item">
+      <el-form-item label="项目负责人：" class="form-item" prop="projectManager">
         <span>{{ itemPublishInfo.projectManager }}</span>
         <el-button type="primary">查找</el-button>
       </el-form-item>
@@ -166,21 +166,21 @@ export default {
         giveOrderPrice: 0,
       },
       itemPublishRules: {
-        tableName: [
+        itemName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' },
         ],
         address: [
           { required: true, message: '请输入项目地址', trigger: 'blur' },
         ],
-        // description: [
-        //   { required: true, message: '请输入项目描述', trigger: 'blur' },
-        // ],
-        // recruitManager: [
-        //   { required: true, message: '请选择招聘前台', trigger: 'blur' },
-        // ],
-        // projectManager: [
-        //   { required: true, message: '请选择项目经理', trigger: 'blur' },
-        // ],
+        description: [
+          { required: true, message: '请输入项目描述', trigger: 'blur' },
+        ],
+        recruitManager: [
+          { required: true, message: '请选择招聘前台', trigger: 'blur' },
+        ],
+        projectManager: [
+          { required: true, message: '请选择项目经理', trigger: 'blur' },
+        ],
       },
     };
   },
@@ -202,7 +202,6 @@ export default {
     //   console.log(row);
     // },
     handleSubmit() {
-      console.log(this.$refs.itemPublishForm);
       this.$refs.itemPublishForm.validate((valid) => {
         if (valid) {
           this.publishing = true;
