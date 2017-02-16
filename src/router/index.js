@@ -14,7 +14,7 @@ import refusedDemand from '../views/demandManage/refusedDemand';
 import finalDemand from '../views/demandManage/finalDemand';
 
 import adminDashboard from '../views/admin/adminDashboard';
-import middlemanCheck from '../views/admin/staffManage/middlemanCheck';
+import middleManCheck from '../views/admin/staffManage/middleManCheck';
 import itemPublish from '../views/admin/itemManage/publish';
 
 import notFound from '../views/404';
@@ -61,7 +61,7 @@ const router = new Router({
       alias: '项目管理',
       children: [
         { path: '', component: adminDashboard, hidden: true },
-        { path: 'publish', component: itemPublish, alias: '项目发布' },
+        { path: 'publish', component: itemPublish, alias: '新建项目' },
         { path: 'adminDashboard', component: adminDashboard, hidden: true },
       ],
     },
@@ -73,7 +73,7 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '人员管理',
       children: [
-        { path: 'middleman', component: middlemanCheck, alias: '经纪人管理' },
+        { path: 'middleman', component: middleManCheck, alias: '经纪人管理' },
       ],
     },
     {
