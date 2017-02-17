@@ -16,6 +16,7 @@ import finalDemand from '../views/demandManage/finalDemand';
 import adminDashboard from '../views/admin/adminDashboard';
 import middleManCheck from '../views/admin/staffManage/middleManCheck';
 import itemPublish from '../views/admin/itemManage/publish';
+import itemList from '../views/admin/itemManage/list';
 
 import notFound from '../views/404';
 
@@ -62,6 +63,7 @@ const router = new Router({
       children: [
         { path: '', component: adminDashboard, hidden: true },
         { path: 'publish', component: itemPublish, alias: '新建项目' },
+        { path: 'list', component: itemList, alias: '管理项目' },
         { path: 'adminDashboard', component: adminDashboard, hidden: true },
       ],
     },
