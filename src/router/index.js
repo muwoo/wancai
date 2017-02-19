@@ -6,12 +6,13 @@ import index from '../views/index';
 import admin from '../views/admin';
 import projectManager from '../views/projectManager';
 
-import profile from '../views/user/profile';
-import applyDemand from '../views/demandManage/applyDemand';
-import pendingDemand from '../views/demandManage/pendingDemand';
-import processedDemand from '../views/demandManage/processedDemand';
-import refusedDemand from '../views/demandManage/refusedDemand';
-import finalDemand from '../views/demandManage/finalDemand';
+import adminProfile from '../views/admin/profile';
+import projectManagerProfile from '../views/projectManager/profile';
+import applyDemand from '../views/projectManager/demandManage/applyDemand';
+import pendingDemand from '../views/projectManager/demandManage/pendingDemand';
+import processedDemand from '../views/projectManager/demandManage/processedDemand';
+import refusedDemand from '../views/projectManager/demandManage/refusedDemand';
+import finalDemand from '../views/projectManager/demandManage/finalDemand';
 
 import adminDashboard from '../views/admin/adminDashboard';
 import middleManCheck from '../views/admin/staffManage/middleManCheck';
@@ -51,8 +52,8 @@ const router = new Router({
       component: admin,
       hidden: true,
       children: [
-        { path: '', redirect: 'dashboard', component: adminDashboard, hidden: true },
-        { path: 'dashboard', component: adminDashboard, hidden: true },
+        { path: '', redirect: 'profile', component: adminProfile, hidden: true },
+        { path: 'profile', component: adminProfile, hidden: true },
       ],
     },
     {
@@ -99,8 +100,8 @@ const router = new Router({
       component: projectManager,
       hidden: true,
       children: [
-        { path: '', redirect: 'profile', component: profile, hidden: true },
-        { path: 'profile', component: profile, hidden: true },
+        { path: '', redirect: 'profile', component: projectManagerProfile, hidden: true },
+        { path: 'profile', component: projectManagerProfile, hidden: true },
         { path: 'applyDemand', component: applyDemand, hidden: true },
       ],
     },

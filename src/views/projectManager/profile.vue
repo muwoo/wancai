@@ -1,12 +1,12 @@
 <template>
-  <div id="profile">
-    <p>Profile</p>
+  <div id="projectManagerProfile">
+    <p>projectManagerProfile</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'profile',
+  name: 'projectManagerProfile',
 };
 </script>
 
