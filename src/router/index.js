@@ -18,6 +18,7 @@ import middleManCheck from '../views/admin/staffManage/middleManCheck';
 import itemPublish from '../views/admin/itemManage/publish';
 import itemList from '../views/admin/itemManage/list';
 import employeeList from '../views/admin/staffManage/employeeList';
+import newProjectManager from '../views/admin/staffManage/newProjectManager';
 
 import notFound from '../views/404';
 
@@ -78,6 +79,7 @@ const router = new Router({
       children: [
         { path: 'middleman', component: middleManCheck, alias: '经纪人管理' },
         { path: 'employeeList', component: employeeList, alias: '人才库' },
+        { path: 'new_projectManager', component: newProjectManager, alias: '创建项目经理' },
       ],
     },
     {

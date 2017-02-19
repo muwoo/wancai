@@ -99,7 +99,7 @@ export default {
         isSelect: false,
         id: 444,
         committedAt: 1487218088,
-        status: 0,
+        status: 1,
         idCardImages: [
           'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
           'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',
@@ -145,7 +145,7 @@ export default {
         isSelect: false,
         id: 333,
         committedAt: 1487218088,
-        status: 0,
+        status: 2,
         idCardImages: [
           'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
           'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',

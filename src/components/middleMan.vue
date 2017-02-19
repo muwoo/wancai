@@ -30,10 +30,10 @@
         <el-row style="height: 30px;">兼职，日招聘能力：{{ middleMan.partTimeStaffNum }}</el-row>
       </el-col>
       <el-col class="btn-row" :span="3" :offset="1">
-        <el-button v-if="middleMan.status==0" type="success" size="large" @click.prevent="handlePass" >通过</el-button>
-        <el-button v-if="middleMan.status==0" type="primary" size="large" @click.prevent="handleRefuse" >不通过</el-button>
-        <el-button v-if="middleMan.status==1" type="danger" size="large" @click.prevent="handleBlackList" >拉黑</el-button>
-        <el-button v-if="middleMan.status==2" type="primary" size="large" @click.prevent="handleWhiteList" >解除</el-button>
+        <el-button v-if="middleMan.status==0" type="success" size="large" @click.prevent="handlePass" style="width: 80px;">通 过</el-button>
+        <el-button v-if="middleMan.status==0" type="primary" size="large" @click.prevent="handleRefuse" style="width: 80px; margin-left: 0px;">不通过</el-button>
+        <el-button v-if="middleMan.status==1" type="danger" size="large" @click.prevent="handleBlackList" style="width: 80px;">拉 黑</el-button>
+        <el-button v-if="middleMan.status==2" type="primary" size="large" @click.prevent="handleWhiteList" style="width: 80px;">解 除</el-button>
       </el-col>
     </el-row>
     <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
