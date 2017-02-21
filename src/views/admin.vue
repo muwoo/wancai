@@ -6,11 +6,18 @@
       <el-col :span="5" class="logo">
         <span>万才网管理后台</span>
       </el-col>
+      <el-col :span="20" >
+        <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" theme="dark" router>
+          <template v-for="(item, index) in $router.options.routes" v-if="item.isAdmin && !item.leaf">
+            <el-menu-item v-for="child in item.children" v-if="!child.hidden && child.isHeader" :index="item.path + '/' + child.path" >{{child.alias}}</el-menu-item>
+          </template>
+        </el-menu>
+      </el-col>
     </el-col>
     <!-- 左侧导航 -->
     <el-col :span="24" class="panel-center">
       <aside>
-        <el-menu :default-active="currentPath" class="el-menu-vertical-demo" theme="dark" router>
+        <el-menu :default-active="currentPath" :unique-opened='true' theme="dark" router>
           <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && item.isAdmin">
             <el-submenu :index="index+''" v-if="!item.leaf">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
@@ -35,7 +42,7 @@ export default {
   name: 'project',
   data() {
     return {
-      currentPath: '/dashboard',
+      currentPath: '/profile',
     };
   },
   components: {
@@ -45,10 +52,11 @@ export default {
     // eslint-disable-next-line
     $route(to, from) {
       this.currentPath = to.path;
-      // this.$message(this.currentPath);
+      console.log(this.currentPath);
       // console.log(this.currentPath);
       // console.log(this.$route.query);
     },
+
   },
   methods: {
     // 退出登录

@@ -2,7 +2,7 @@
   <div id="newProjectManager">
     <el-form :model="projectManagerInfo" :rules="projectManagerInfoRules" ref="projectManagerInfoForm">
       <el-form-item label="上传头像：" prop="avatar" label-width="300">
-        <el-upload
+        <!-- <el-upload
           action="//jsonplaceholder.typicode.com/posts/"
           type="drag"
           multiple='false'
@@ -14,7 +14,7 @@
           <i class="el-icon-upload"></i>
           <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
           <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
+        </el-upload> -->
       </el-form-item>
       <el-form-item label='手机号码：' prop="phoneNumber" label-width="300">
         <el-input v-model="projectManagerInfo.phoneNumber" placeholder="请输入内容" style="width: 240px;"></el-input>

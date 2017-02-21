@@ -50,10 +50,11 @@ const router = new Router({
       path: '/admin',
       name: 'admin',
       component: admin,
+      isAdmin: true,
       hidden: true,
       children: [
         { path: '', redirect: 'profile', component: adminProfile, hidden: true },
-        { path: 'profile', component: adminProfile, hidden: true },
+        { path: 'profile', component: adminProfile, isHeader: true, alias: '个人中心' },
       ],
     },
     {
