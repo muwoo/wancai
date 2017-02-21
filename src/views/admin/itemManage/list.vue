@@ -1,5 +1,22 @@
 <template>
   <div id="itemList">
+    <el-form :inline="true" :model="projectInfo" class="demo-form-inline" style="margin-top: 20px;">
+      <el-form-item label='ID' style="width: 240px;">
+        <el-input v-model="projectInfo.id" placeholder="请输入内容" style="width: 150px;"></el-input>
+      </el-form-item>
+      <el-form-item label='项目名称' style="width: 240px;">
+        <el-input v-model="projectInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
+      </el-form-item>
+      <el-form-item label='项目经理' style="width: 240px;">
+        <el-input v-model="projectInfo.projectManager" placeholder="请输入内容" style="width: 150px;"></el-input>
+      </el-form-item>
+      <el-form-item label='招聘前台' style="width: 240px;">
+        <el-input v-model="projectInfo.recruitManager" placeholder="请输入内容" style="width: 150px;"></el-input>
+      </el-form-item>
+      </el-form-item><el-form-item>
+        <el-button type="primary" @click="handleSearchItem">搜索项目</el-button>
+      </el-form-item>
+    </el-form>
     <el-table
       :data="projects"
       :border='true'
@@ -52,6 +69,12 @@
     name: 'list',
     data() {
       return {
+        projectInfo: {
+          id: '',
+          name: '',
+          projectManager: '',
+          recruitManager: '',
+        },
         projects: [{
           id: 1,
           name: '萧山仓库',
@@ -88,6 +111,9 @@
       },
       handleCurrentPageChange(val) {
         console.log(val);
+      },
+      handleSearchItem() {
+
       },
     },
   };
