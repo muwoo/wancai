@@ -6,12 +6,16 @@
       <el-col :span="5" class="logo">
         <span>万才网管理后台</span>
       </el-col>
-      <el-col :span="20" >
+      <el-col :span="12" >
         <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" theme="dark" router>
           <template v-for="(item, index) in $router.options.routes" v-if="item.isAdmin && !item.leaf">
             <el-menu-item v-for="child in item.children" v-if="!child.hidden && child.isHeader" :index="item.path + '/' + child.path" >{{child.alias}}</el-menu-item>
           </template>
         </el-menu>
+      </el-col>
+      <el-col :span="7">
+        <span>周潇，你好~</span>
+        <el-button type="primary" size="small" @click="logout">退 出</el-button>
       </el-col>
     </el-col>
     <!-- 左侧导航 -->
@@ -66,7 +70,7 @@ export default {
 
       }).then(() => {
         // sessionStorage.removeItem('projectManager');
-        that.$router.replace('/project_manage/login');
+        that.$router.replace('/admin/login');
       }).catch(() => {
 
       });
