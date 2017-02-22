@@ -14,11 +14,11 @@
       <h1 class="tips">匹配负责人</h1>
       <el-form-item label="招聘前台：" class="form-item" prop="recruitManager">
         <span>{{ itemPublishInfo.recruitManager }}</span>
-        <el-button type="primary">查找</el-button>
+        <el-button type="primary" @click="handleFindRecruitManager">查找</el-button>
       </el-form-item>
       <el-form-item label="项目负责人：" class="form-item" prop="projectManager">
         <span>{{ itemPublishInfo.projectManager }}</span>
-        <el-button type="primary">查找</el-button>
+        <el-button type="primary" @click="handleFindProjectManager">查找</el-button>
       </el-form-item>
       <!-- <h1 class="tips">财务设置</h1>
       <el-form-item label="利润提成（%）：" style="width: 500px;">
@@ -127,6 +127,58 @@
         <el-button type="primary" @click="editTeamOfGroupVisible = false">确 定</el-button>
       </div>
     </el-dialog> -->
+    <el-dialog title="选择负责人" v-model="findRecruitManager">
+      <el-input placeholder="请输入内容" v-model="searchContent">
+        <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width: 200px;">
+          <el-option label="餐厅名" value="1"></el-option>
+          <el-option label="订单号" value="2"></el-option>
+          <el-option label="用户电话" value="3"></el-option>
+        </el-select>
+        <el-button slot="append" icon="search" @click="handleSearch"></el-button>
+      </el-input>
+      <div class="search-table">
+        <el-table :data="RecruitManagerSearchData">
+          <el-table-column property="id" label="id" width="100"></el-table-column>
+          <el-table-column property="name" label="姓名" width="150"></el-table-column>
+          <el-table-column property="idCardNumber" label="身份证" width="200"></el-table-column>
+          <el-table-column property="phoneNumber" label="手机" width="200"></el-table-column>
+          <el-table-column
+            label="操作">
+            <template scope="scope">
+              <el-button
+                size="small"
+                @click="handleConfirmRecruitManager(scope.$index, scope.row)">选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-dialog>
+    <el-dialog title="选择负责人" v-model="findProjectManager">
+      <el-input placeholder="请输入内容" v-model="searchContent">
+        <el-select v-model="searchType" slot="prepend" placeholder="请选择">
+          <el-option label="餐厅名" value="1"></el-option>
+          <el-option label="订单号" value="2"></el-option>
+          <el-option label="用户电话" value="3"></el-option>
+        </el-select>
+        <el-button slot="append" icon="search" @click="handleSearch"></el-button>
+      </el-input>
+      <div class="search-table">
+        <el-table :data="ProjectManagerSearchData">
+          <el-table-column property="id" label="id" width="100"></el-table-column>
+          <el-table-column property="name" label="姓名" width="150"></el-table-column>
+          <el-table-column property="idCardNumber" label="身份证" width="200"></el-table-column>
+          <el-table-column property="phoneNumber" label="手机" width="200"></el-table-column>
+          <el-table-column
+            label="操作">
+            <template scope="scope">
+              <el-button
+                size="small"
+                @click="handleConfirmRecruitManager(scope.$index, scope.row)">选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -154,9 +206,6 @@ export default {
           lastEditTimeAt: new Date(parseInt(Date.now(), 10)).toLocaleString().replace(/:\d{1,2}$/, ' '),
         }],
       },
-      isProfitRateEdit: false,
-      editTeamOfGroupVisible: false,
-      publishing: false,
       editTeamOfGroupForm: {
         id: 0,
         oneLevelJob: '',
@@ -165,6 +214,25 @@ export default {
         getOrderPrice: 0,
         giveOrderPrice: 0,
       },
+      RecruitManagerSearchData: [{
+        id: 1,
+        name: '李四',
+        idCardNumber: 123211233341232213,
+        phoneNumber: 183549123,
+      }],
+      ProjectManagerSearchData: [{
+        id: 1,
+        name: '张三',
+        idCardNumber: 384123413123123123,
+        phoneNumber: 183549123,
+      }],
+      isProfitRateEdit: false,
+      editTeamOfGroupVisible: false,
+      publishing: false,
+      findRecruitManager: false,
+      findProjectManager: false,
+      searchContent: '',
+      searchType: '',
       itemPublishRules: {
         itemName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' },
@@ -209,6 +277,18 @@ export default {
         return false;
       });
     },
+    handleFindProjectManager() {
+      this.findProjectManager = true;
+    },
+    handleFindRecruitManager() {
+      this.findRecruitManager = true;
+    },
+    handleSearch() {
+      this.$message('search content');
+    },
+    handleConfirmManager() {
+
+    },
   },
 };
 </script>
@@ -221,6 +301,11 @@ export default {
   .form-item {
     width: 600px;
     margin-left: 100px;
+  }
+  .search-table {
+    margin-top: 30px;
+    height: 340px;
+    overflow-y: scroll;
   }
 }
 </style>
