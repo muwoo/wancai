@@ -138,10 +138,10 @@
       </el-input>
       <div class="search-table">
         <el-table :data="RecruitManagerSearchData">
-          <el-table-column property="id" label="id" width="100"></el-table-column>
-          <el-table-column property="name" label="姓名" width="150"></el-table-column>
+          <el-table-column property="id" label="id"></el-table-column>
+          <el-table-column property="name" label="姓名"></el-table-column>
           <el-table-column property="idCardNumber" label="身份证" width="200"></el-table-column>
-          <el-table-column property="phoneNumber" label="手机" width="200"></el-table-column>
+          <el-table-column property="phoneNumber" label="手机"></el-table-column>
           <el-table-column
             label="操作">
             <template scope="scope">
@@ -164,16 +164,16 @@
       </el-input>
       <div class="search-table">
         <el-table :data="ProjectManagerSearchData">
-          <el-table-column property="id" label="id" width="100"></el-table-column>
-          <el-table-column property="name" label="姓名" width="150"></el-table-column>
+          <el-table-column property="id" label="id"></el-table-column>
+          <el-table-column property="name" label="姓名"></el-table-column>
           <el-table-column property="idCardNumber" label="身份证" width="200"></el-table-column>
-          <el-table-column property="phoneNumber" label="手机" width="200"></el-table-column>
+          <el-table-column property="phoneNumber" label="手机"></el-table-column>
           <el-table-column
             label="操作">
             <template scope="scope">
               <el-button
                 size="small"
-                @click="handleConfirmRecruitManager(scope.$index, scope.row)">选择</el-button>
+                @click="handleConfirmProjectManager(scope.$index, scope.row)">选择</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -286,8 +286,15 @@ export default {
     handleSearch() {
       this.$message('search content');
     },
-    handleConfirmManager() {
-
+    // handleConfirmProjectManager(index, row) {
+    //   console.log(index);
+    //   console.log(row);
+    // },
+    handleConfirmRecruitManager(index, row) {
+      console.log(index);
+      this.itemPublishInfo.recruitManager = row.name;
+      this.$message(this.itemPublishInfo.recruitManager);
+      this.findRecruitManager = false;
     },
   },
 };
