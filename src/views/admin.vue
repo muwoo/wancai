@@ -6,14 +6,14 @@
       <el-col :span="5" class="logo">
         <span>万才网管理后台</span>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="15">
         <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" theme="dark" router>
           <template v-for="(item, index) in $router.options.routes" v-if="item.isAdmin && !item.leaf">
             <el-menu-item v-for="child in item.children" v-if="!child.hidden && child.isHeader" :index="item.path + '/' + child.path" >{{child.alias}}</el-menu-item>
           </template>
         </el-menu>
       </el-col>
-      <el-col :span="7" class="welcome">
+      <el-col :span="4" class="welcome">
         <span>周潇，你好~</span>
         <el-button type="primary" size="small" @click="logout">退 出</el-button>
       </el-col>
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import logo from '../components/logo';
 
 export default {
   name: 'project',
@@ -50,7 +49,6 @@ export default {
     };
   },
   components: {
-    logo,
   },
   watch: {
     // eslint-disable-next-line
@@ -92,19 +90,19 @@ export default {
 
    .panel-top {
      height: 60px;
-     background:#324057;
+     background: #324057;
      line-height: 60px;
      text-align: center;
      .logo {
        height: 60px;
-       width: 230px;
+      //  width: 230px;
        > span {
          font-size: 24px;
          color: #FFFFFF;
        }
      }
      .welcome {
-       padding-left: 30px;
+      //  padding-left: 30px;
        > span {
          color: #FFFFFF;
        }
