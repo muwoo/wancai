@@ -1,33 +1,63 @@
 <template>
   <div id="demandList">
     <el-form :inline="true" :model="demandInfo" class="demo-form-inline" style="margin-top: 20px;">
-      <el-form-item label='项目经理ID' style="width: 240px;">
-        <el-input v-model="demandInfo.projectManagerId" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='需求类型' style="width: 240px;">
-        <el-input v-model="demandInfo.type" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='需求ID' style="width: 240px;">
-        <el-input v-model="demandInfo.id" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='姓 名' style="widthz: 240px;">
-        <el-input v-model="demandInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='申请原因' style="widthz: 240px;">
-        <el-input v-model="demandInfo.reason" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='需求表名' style="widthz: 240px;">
-        <el-input v-model="demandInfo.tableName" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='身份证号' style="widthz: 240px;">
-        <el-input v-model="demandInfo.idCardNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='申请时间' style="widthz: 240px;">
-        <el-input v-model="demandInfo.applyedAt" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='手机号码' style="widthz: 240px;">
-        <el-input v-model="demandInfo.phoneNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
+      <el-row>
+        <el-col :span="24">
+          <el-col :span="8">
+            <el-form-item label='项目经理ID：' style="width: 100%;">
+              <el-input v-model="demandInfo.projectManagerId" placeholder="请输入内容" style="width: 100px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='需求类型：' style="width: 100%;">
+              <el-input v-model="demandInfo.type" placeholder="请输入内容" style="width: 100px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='需求ID：' style="width: 100%;">
+              <el-input v-model="demandInfo.id" placeholder="请输入内容" style="width: 100px;"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-col :span="8">
+            <el-form-item label='姓 名：' style="width: 100%;">
+              <el-input v-model="demandInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='申请原因：' style="width: 100%;">
+              <el-input v-model="demandInfo.reason" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='需求表名：' style="width: 100%;">
+              <el-input v-model="demandInfo.tableName" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-col :span="8">
+            <el-form-item label='身份证号' style="width: 100%;">
+              <el-input v-model="demandInfo.idCardNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='申请时间' style="width: 100%;">
+              <el-input v-model="demandInfo.applyedAt" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='手机号码' style="width: 100%;">
+              <el-input v-model="demandInfo.phoneNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-col>
+      </el-row>
       </el-form-item><el-form-item>
         <el-button type="primary" @click="handleSearchItem">搜索名单</el-button>
       </el-form-item>
@@ -58,7 +88,8 @@
       </el-table-column>
       <el-table-column
         prop="reason"
-        label="申请原因">
+        label="申请原因"
+        width="200">
       </el-table-column>
       <el-table-column
         label="操作">

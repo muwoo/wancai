@@ -1,24 +1,44 @@
 <template>
   <div id="employeeList">
-    <el-form :inline="true" :model="employeeInfo" class="demo-form-inline" style="margin-top: 20px;">
-      <el-form-item label='申请ID' style="width: 240px;">
-        <el-input v-model="employeeInfo.id" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='身份证号' style="width: 240px;">
-        <el-input v-model="employeeInfo.idCardNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='手机号' style="width: 240px;">
-        <el-input v-model="employeeInfo.phoneNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='姓名' style="width: 240px;">
-        <el-input v-model="employeeInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='性别' style="width: 240px;">
-        <el-input v-model="employeeInfo.sex" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
-      <el-form-item label='年龄' style="width: 240px;">
-        <el-input v-model="employeeInfo.age" placeholder="请输入内容" style="width: 150px;"></el-input>
-      </el-form-item>
+    <el-form :inline="true" :model="employeeInfo" style="margin-top: 20px;">
+      <el-row>
+        <el-col :span="24">
+          <el-col :span="8">
+            <el-form-item label='申请ID：' style="width: 100%;">
+              <el-input v-model="employeeInfo.id" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='身份证号：' style="width: 100%;">
+              <el-input v-model="employeeInfo.idCardNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='手机号：' style="width: 100%;">
+              <el-input v-model="employeeInfo.phoneNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-col :span="8">
+            <el-form-item label='姓 名：' style="width: 100%;">
+              <el-input v-model="employeeInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='性 别：' style="width: 100%;">
+              <el-input v-model="employeeInfo.sex" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label='年 龄：' style="width: 100%;">
+              <el-input v-model="employeeInfo.age" placeholder="请输入内容" style="width: 150px;"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-col>
+      </el-row>
       </el-form-item><el-form-item>
         <el-button type="primary" @click="handleSearchEmployee">搜索名单</el-button>
       </el-form-item>
@@ -86,7 +106,7 @@
         employees: [{
           id: '',
           idCardNumber: '15341312321323',
-          phoneNumber: '14122323232',
+          phoneNumber: '141223232',
           name: 'makcy',
           sex: '男',
           age: 18,

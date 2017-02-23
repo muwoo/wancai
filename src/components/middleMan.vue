@@ -2,8 +2,12 @@
   <div id="middleMan">
     <el-row class="top">
       <el-col :span="4"><el-checkbox v-model="middleMan.isSelect">申请ID：{{ middleMan.id }}</el-checkbox></el-col>
-      <el-col :span="13" :offset="1">提交时间：{{ middleMan.committedAt }}</el-col>
-      <el-col :span="5" :offset="1" style="text-align: right;">{{ formatStatus }}</el-col>
+      <el-col :span="13" :offset="1"><span>提交时间：{{ middleMan.committedAt }}</span></el-col>
+      <el-col :span="5" :offset="1">
+        <el-row type="flex" justify="end" style="padding-right: 20px;">
+          {{ formatStatus }}
+        </el-row>
+      </el-col>
     </el-row>
     <el-row class="body">
       <el-col :span="4">
@@ -176,6 +180,7 @@
    .el-col {
      height: 100%;
      line-height: 40px;
+     font-size: 14px;
    }
    .el-checkbox {
      width: 100%;
@@ -188,6 +193,7 @@
   //  background-color: pink;
    .el-col {
      height: 100%;
+     font-size: 14px;
     //  line-height: 40px;
    }
    .image-col {

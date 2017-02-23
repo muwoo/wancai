@@ -1,17 +1,17 @@
 <template>
   <div id="middleManCheck">
     <el-form :inline="true" :model="middleManInfo" class="demo-form-inline" style="margin-top: 20px;">
-      <el-form-item label='申请ID' style="width: 240px;">
-        <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 150px;"></el-input>
+      <el-form-item label='申请ID' style="width: 160px;">
+        <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       <el-form-item label='身份证号' style="width: 240px;">
-        <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 150px;"></el-input>
+        <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 170px;"></el-input>
       </el-form-item>
-      <el-form-item label='手机号' style="width: 240px;">
-        <el-input v-model="middleManInfo.phoneNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
+      <el-form-item label='手机号' style="width: 180px;">
+        <el-input v-model="middleManInfo.phoneNumber" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
-      <el-form-item label='姓名' style="width: 240px;">
-        <el-input v-model="middleManInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
+      <el-form-item label='姓名' style="width: 160px;">
+        <el-input v-model="middleManInfo.name" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       </el-form-item><el-form-item>
         <el-button type="primary" @click="handleSearchMiddleman">搜索经纪人</el-button>
