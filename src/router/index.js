@@ -18,6 +18,7 @@ import adminDashboard from '../views/admin/adminDashboard';
 import middleManCheck from '../views/admin/staffManage/middleManCheck';
 import itemPublish from '../views/admin/itemManage/publish';
 import itemList from '../views/admin/itemManage/list';
+import demandList from '../views/admin/demandManage/list';
 import employeeList from '../views/admin/staffManage/employeeList';
 import newProjectManager from '../views/admin/staffManage/newProjectManager';
 import newAdmin from '../views/admin/staffManage/newAdmin';
@@ -68,10 +69,20 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '项目管理',
       children: [
-        { path: '', component: adminDashboard, hidden: true },
         { path: 'publish', component: itemPublish, alias: '新建项目' },
         { path: 'list', component: itemList, alias: '管理项目' },
         { path: 'adminDashboard', component: adminDashboard, hidden: true },
+      ],
+    },
+    {
+      path: '/admin/demand_manage',
+      name: 'admin_demandManage',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '需求管理',
+      children: [
+        { path: 'list', component: demandList, alias: '管理需求' },
       ],
     },
     {

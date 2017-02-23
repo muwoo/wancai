@@ -286,14 +286,12 @@ export default {
     handleSearch() {
       this.$message('search content');
     },
-    // handleConfirmProjectManager(index, row) {
-    //   console.log(index);
-    //   console.log(row);
-    // },
+    handleConfirmProjectManager(index, row) {
+      this.itemPublishInfo.projectManager = row.name;
+      this.findProjectManager = false;
+    },
     handleConfirmRecruitManager(index, row) {
-      console.log(index);
       this.itemPublishInfo.recruitManager = row.name;
-      this.$message(this.itemPublishInfo.recruitManager);
       this.findRecruitManager = false;
     },
   },
