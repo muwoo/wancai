@@ -1,44 +1,23 @@
 <template>
   <div id="newRole">
-    <el-row>
-      <el-col :span="24" class="new-btn">
-        <el-row type="flex" justify="end">
-          <el-button type="primary">创建角色</el-button>
-        </el-row>
-      </el-col>
-      <el-col :span="24">
-        <el-table
-          :data="roles"
-          :border='true'
-          style="width: 100%;">
-          <el-table-column
-            prop="createdAt"
-            label="创建时间">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="角色名称">
-          </el-table-column>
-          <el-table-column
-            prop="comment"
-            label="备注">
-          </el-table-column>
-          <el-table-column
-            label="操作"
-            width="240">
-            <template scope="scope">
-              <el-button
-                size="small"
-                @click="handleSetLimit(scope.$index, scope.row)">修改权限</el-button>
-              <el-button
-                size="small"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-col>
-    </el-row>
+    <el-form ref="roleForm" :model="roleInfo" label-width="80px">
+      <el-form-item label="角色名称">
+        <el-input v-model="roleInfo.name"></el-input>
+      </el-form-item>
+      <el-form-item label="备注">
+        <el-input v-model="roleInfo.comment"></el-input>
+      </el-form-item>
+      <el-form-item label="权限">
+        <el-tree
+          :data="authItems"
+          :props="props"
+          :load="loadNode"
+          lazy
+          show-checkbox
+          @check-change="handleCheckChange">
+        </el-tree>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -47,24 +26,32 @@ export default {
   name: 'newRole',
   data() {
     return {
-      roles: [{
-        name: '超级管理员',
-        createdAt: '2015-1-1',
-        comment: '傻逼专用分组',
+      roleInfo: {
+        name: '',
+        comment: '',
+        auth: '',
+      },
+      authItems: [{
+        name: '经纪人管理',
+      },
+      {
+        name: '管理员管理',
       }],
+      props: {
+        label: 'name',
+        children: 'zones',
+      },
     };
   },
   methods: {
+    handleCheckChange() {
 
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
   #newRole {
-    .new-btn {
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
   }
 </style>

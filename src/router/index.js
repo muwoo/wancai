@@ -22,6 +22,7 @@ import employeeList from '../views/admin/staffManage/employeeList';
 import newProjectManager from '../views/admin/staffManage/newProjectManager';
 import newAdmin from '../views/admin/staffManage/newAdmin';
 import newRole from '../views/admin/staffManage/newRole';
+import roleManage from '../views/admin/staffManage/roleManage';
 
 import notFound from '../views/404';
 
@@ -86,6 +87,7 @@ const router = new Router({
         { path: 'new_projectManager', component: newProjectManager, alias: '创建项目经理' },
         { path: 'new_admin', component: newAdmin, alias: '创建管理员' },
         { path: 'new_role', component: newRole, alias: '创建角色' },
+        { path: 'roleManage', component: roleManage, alias: '角色管理' },
       ],
     },
     {
