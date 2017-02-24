@@ -109,7 +109,7 @@ export default {
         nation: '汉族',
         idCardNumber: '352341233214112232',
         birth: '91年4月',
-        address: '浙江省杭州市西湖区文三西路999号xxx小区15栋203浙江省杭州市西湖区文三西路999号xxx小区15栋203',
+        address: '浙江省杭州市西湖区文三西路999号xxx小区',
         city: '杭州市西湖区',
         job: '职业经纪人',
         company: '万才网',

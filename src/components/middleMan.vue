@@ -16,22 +16,26 @@
         </el-row>
       </el-col>
       <el-col :span="5" :offset="1">
-        <el-row style="height: 30px;">{{ middleMan.name }}</el-row>
-        <el-row style="height: 30px;">{{ middleMan.idCardNumber }}</el-row>
-        <el-row style="height: 30px;">{{ middleMan.birth }}</el-row>
-        <el-row style="height: 30px;">{{ middleMan.address }}</el-row>
+        <el-row class="unit-row">{{ middleMan.name }}</el-row>
+        <el-row class="unit-row">{{ middleMan.idCardNumber }}</el-row>
+        <el-row class="unit-row">{{ middleMan.birth }}</el-row>
+        <el-row style="height: 40px; line-height: 20px;">
+          <el-tooltip :content="middleMan.address" placement="top">
+            {{ limitAddress(middleMan.address) }}
+          </el-tooltip>
+        </el-row>
       </el-col>
       <el-col :span="4" :offset="1">
-        <el-row style="height: 30px;">所在城市：{{ middleMan.city }}</el-row>
-        <el-row style="height: 30px;">当前职业：{{ middleMan.job }}</el-row>
-        <el-row style="height: 30px;">单位：{{ middleMan.company }}</el-row>
-        <el-row style="height: 30px;">手机：{{ middleMan.phoneNumber }}</el-row>
+        <el-row style="height: 40px; line-height: 20px;">所在城市：{{ middleMan.city }}</el-row>
+        <el-row class="unit-row">职业：{{ middleMan.job }}</el-row>
+        <el-row class="unit-row">单位：{{ middleMan.company }}</el-row>
+        <el-row class="unit-row">手机：{{ middleMan.phoneNumber }}</el-row>
       </el-col>
       <el-col :span="4" :offset="1" >
-        <el-row style="height: 30px;">主要招聘渠道：{{ middleMan.city }}</el-row>
-        <el-row style="height: 30px;">招聘能力</el-row>
-        <el-row style="height: 30px;">全职，月招聘能力：{{ middleMan.fullTimeStaffNum }}</el-row>
-        <el-row style="height: 30px;">兼职，日招聘能力：{{ middleMan.partTimeStaffNum }}</el-row>
+        <el-row style="height: 40px; line-height: 20px;">主要招聘渠道：{{ middleMan.city }}</el-row>
+        <el-row class="unit-row">招聘能力：</el-row>
+        <el-row class="unit-row">全职，月招聘能力：{{ middleMan.fullTimeStaffNum }}</el-row>
+        <el-row class="unit-row">兼职，日招聘能力：{{ middleMan.partTimeStaffNum }}</el-row>
       </el-col>
       <el-col class="btn-row" :span="3" :offset="1">
         <el-button v-if="middleMan.status==0" type="success" size="large" @click.prevent="handlePass" style="width: 80px;">通 过</el-button>
@@ -151,6 +155,9 @@
       handleBigImageClose() {
         this.BigImageVisible = false;
       },
+      limitAddress(str) {
+        return `${str.substr(0, 20)}...`;
+      },
     },
     computed: {
       formatStatus() {
@@ -167,7 +174,7 @@
 <style lang="scss" scoped>
 #middleMan {
  width: 100%;
- height: 200px;
+ height: 190px;
  // margin-left: 10px;
  // margin-right: 10px;
  // padding-right: 10px;
@@ -189,7 +196,7 @@
    }
  }
  .body {
-   height: 160px;
+   height: 150px;
   //  background-color: pink;
    .el-col {
      height: 100%;
@@ -204,6 +211,10 @@
        width: 40%;
        height: 50px;
      }
+   }
+   .unit-row {
+     height: 30px;
+     line-height: 30px;
    }
    .btn-row {
      display: flex;
