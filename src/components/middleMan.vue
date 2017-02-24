@@ -44,12 +44,15 @@
         <el-button v-if="middleMan.status==2" type="primary" size="large" @click.prevent="handleWhiteList" style="width: 80px;">解 除</el-button>
       </el-col>
     </el-row>
-    <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
+    <!-- <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
       <img class="big-img" :src="currentImage" />
-    </el-dialog>
+    </el-dialog> -->
+    <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
   </div>
 </template>
 <script>
+  import bigImage from './bigImage';
+
   export default {
     name: 'middleMan',
     data() {
@@ -61,80 +64,9 @@
     props: [
       'middleMan',
     ],
-    // props: {
-    //   isSelect: {
-    //     type: Boolean,
-    //     default: false,
-    //   },
-    //   id: {
-    //     type: Number,
-    //     default: 0,
-    //   },
-    //   committedAt: {
-    //     type: Number,
-    //     default: 0,
-    //   },
-    //   status: {
-    //     type: Number,
-    //     default: 0,
-    //   },
-    //   idCardImages: {
-    //     type: Array,
-    //     default: () => [],
-    //   },
-    //   name: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   sex: {
-    //     type: String,
-    //     default: '未知',
-    //   },
-    //   nation: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   idCardNumber: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   birth: {
-    //     type: Number,
-    //     default: 0,
-    //   },
-    //   address: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   city: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   job: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   company: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   phoneNumber: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   channel: {
-    //     type: String,
-    //     default: '',
-    //   },
-    //   fullTimeStaffNum: {
-    //     type: Number,
-    //     default: 0,
-    //   },
-    //   partTimeStaffNum: {
-    //     type: Number,
-    //     default: 0,
-    //   },
-    // },
+    components: {
+      bigImage,
+    },
     methods: {
       handlePass(evt) {
         this.$emit('handlePass', evt);
@@ -152,11 +84,12 @@
         this.currentImage = evt.target.src;
         this.BigImageVisible = true;
       },
-      handleBigImageClose() {
-        this.BigImageVisible = false;
-      },
       limitAddress(str) {
         return `${str.substr(0, 20)}...`;
+      },
+      handleBigImageClose() {
+        this.BigImageVisible = false;
+        console.log('hello');
       },
     },
     computed: {
