@@ -56,16 +56,19 @@ export default {
           //   password: this.loginForm.password,
           // };
           this.logining = true;
-          // this.$http.post('/login', {
-          //   loginParams,
-          //   // eslint-disable-next-line
-          // }).then((response) => {
-          //   // eslint-disable-next-line
-          //   this.logining = false;
-          //   console.log(response);
-          // }).catch((error) => {
-          //   console.log(error);
-          // });
+          this.$http.post('/login', {
+            // username: this.loginForm.account,
+            // password: this.loginForm.password,
+            username: 'j_username',
+            password: 'j_password',
+            // eslint-disable-next-line
+          }).then((response) => {
+            // eslint-disable-next-line
+            this.logining = false;
+            console.log(response);
+          }).catch((error) => {
+            console.log(error);
+          });
         }
         return false;
       });

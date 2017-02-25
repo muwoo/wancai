@@ -91,7 +91,7 @@ export default {
           }
         }
       } else {
-        this.$router.replace('/project_manage/profile');
+        this.$router.replace('/project_manager/profile');
       }
 
       // console.log('Hello World');

@@ -43,7 +43,7 @@
         <el-button type="primary" @click="handleSearchEmployee">搜索名单</el-button>
       </el-form-item>
     </el-form>
-    <el-tabs v-model="defaultActiveTabName" @tab-click="handleStatusTagClick">
+    <el-tabs v-model="defaultActiveTabName" @tab-click="handleStatusTabClick">
       <el-tab-pane label="人才库" name="first">
         <el-table
           :data="employees"
@@ -71,11 +71,11 @@
             <template scope="scope">
               <el-button
                 size="small"
-                @click="handleSetProjectManager(scope.$index, scope.row)">设置</el-button>
+                @click="handleEmployeSet(scope.$index, scope.row)">设置</el-button>
               <el-button
                 size="small"
                 type="danger"
-                @click="handleProjectManager(scope.$index, scope.row)">详情</el-button>
+                @click="handleEmployeDetail(scope.$index, scope.row)">详情</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -104,7 +104,7 @@
           age: '',
         },
         employees: [{
-          id: '',
+          id: 1,
           idCardNumber: '15341312321323',
           phoneNumber: '141223232',
           name: 'makcy',
@@ -118,14 +118,27 @@
       };
     },
     methods: {
+      // 搜索
       handleSearchEmployee() {
 
       },
+      // 切换页面
       handleCurrentPageChange() {
 
       },
-      handleStatusTagClick() {
+      // tab切换
+      handleStatusTabClick() {
 
+      },
+      // 设置
+      handleEmployeSet() {
+
+      },
+      // 详情
+      handleEmployeDetail(index, row) {
+        // this.$router.push('home');
+        // this.$router.forward('home');
+        window.open(`#/staff/${row.id}`, 'target_blank');
       },
     },
   };

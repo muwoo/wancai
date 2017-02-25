@@ -12,7 +12,8 @@ import 'element-ui/lib/theme-default/index.css';
 
 Vue.use(Element);
 const axiosInstance = axios.create({
-  baseURL: 'http://120.77.253.107:9090',
+  // baseURL: 'http://120.77.253.107:9090',
+  baseURL: 'http://localhost:9090',
   // headers: {
   //   'Access-Control-Allow-Origin': 'http://localhost:8080',
   // },

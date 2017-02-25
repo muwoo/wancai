@@ -40,6 +40,7 @@
     align-items: center;
     justify-content: center;
     z-index: 20;
+    margin: 0 !important;
     .u-image {
       > img {
         z-index: 99;

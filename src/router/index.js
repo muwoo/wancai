@@ -24,6 +24,7 @@ import newProjectManager from '../views/admin/staffManage/newProjectManager';
 import newAdmin from '../views/admin/staffManage/newAdmin';
 import newRole from '../views/admin/staffManage/newRole';
 import roleManage from '../views/admin/staffManage/roleManage';
+import employe from '../components/employe';
 
 import notFound from '../views/404';
 
@@ -38,6 +39,12 @@ const router = new Router({
       name: 'index',
       component: index,
       hidden: true, //不显示在导航栏中
+    },
+    {
+      path: '/staff/:id',
+      name: 'employe',
+      component: employe,
+      hidden: true,
     },
     {
       path: '/admin/login',
@@ -82,7 +89,7 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '需求管理',
       children: [
-        { path: 'list', component: demandList, alias: '管理需求' },
+        { path: 'list', component: demandList, alias: '需求列表' },
       ],
     },
     {
