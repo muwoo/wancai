@@ -91,13 +91,14 @@ export default {
      height: 60px;
      background: #324057;
      line-height: 60px;
-     text-align: center;
+    //  text-align: center;
      .logo {
        height: 60px;
       //  width: 230px;
        > span {
          font-size: 24px;
          color: #FFFFFF;
+         padding-left: 31px;
        }
      }
      .welcome {
