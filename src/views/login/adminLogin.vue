@@ -55,7 +55,7 @@ export default {
           //   username: this.loginForm.account,
           //   password: this.loginForm.password,
           // };
-          this.logining = true;
+          // this.logining = true;
           this.$http.post('/login', {
             // username: this.loginForm.account,
             // password: this.loginForm.password,
@@ -69,6 +69,13 @@ export default {
           }).catch((error) => {
             console.log(error);
           });
+          // this.$http.get('/bos/token').then((response) => {
+          //   // eslint-disable-next-line
+          //   // this.logining = false;
+          //   console.log(response);
+          // }).catch((error) => {
+          //   console.log(error);
+          // });
         }
         return false;
       });
