@@ -10,6 +10,8 @@ import adminProfile from '../views/admin/profile';
 import projectManagerProfile from '../views/projectManager/profile';
 import applyDemand from '../views/projectManager/demandManage/applyDemand';
 import myDemandList from '../views/projectManager/demandManage/list';
+import fullTimeStaffList from '../views/projectManager/fullTimeStaffManage/list';
+import tempoaryStaffList from '../views/projectManager/tempoaryStaffManage/list';
 
 import adminDashboard from '../views/admin/adminDashboard';
 import middleManCheck from '../views/admin/staffManage/middleManCheck';
@@ -149,13 +151,14 @@ const router = new Router({
       ],
     },
     {
-      path: '/project_manager/staff_manage',
-      name: 'staffManage',
+      path: '/project_manager/full_time_staff_manage',
+      name: 'fullTimeStaffManage',
       component: projectManager,
       iconCls: 'el-icon-setting',
       isAdmin: false,
       alias: '全职人员管理',
       children: [
+        { path: 'list', component: fullTimeStaffList, alias: '全职人员列表' },
       ],
     },
     {
@@ -166,6 +169,7 @@ const router = new Router({
       alias: '兼职人员管理',
       isAdmin: false,
       children: [
+        { path: 'list', component: tempoaryStaffList, alias: '兼职人员列表' },
       ],
     },
     {
