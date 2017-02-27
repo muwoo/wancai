@@ -1,12 +1,12 @@
 <template>
-  <div id="pending-demand">
-    <p>Pending Demand</p>
+  <div id="demand-list">
+    <p>Demand List</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'pendingDemand',
+  name: 'demandList',
 };
 </script>
 

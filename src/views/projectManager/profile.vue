@@ -37,42 +37,35 @@
         <!-- <el-button type="text" size="small">记录</el-button> -->
       </div>
     </div>
-    <div class="card">
-      <div class="top">
-        <span>我的项目</span>
-      </div>
-      <div class="card-body">
-        <el-table
-          :data="projects"
-          height="200"
-          border
-          style="width: 100%; margin-top: 30px;">
-          <el-table-column
-            prop="id"
-            label="项目名称"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="项目名称"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="projectManager"
-            label="项目经理"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="recruitManager"
-            label="招聘前台">
-          </el-table-column>
-          <el-table-column
-            prop="createdAt"
-            label="创建时间">
-          </el-table-column>
-        </el-table>
-      </div>
-    </div>
+      <el-table
+        :data="projects"
+        height="500"
+        border
+        style="width: 100%; margin-top: 30px;">
+        <el-table-column
+          prop="id"
+          label="项目名称"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="项目名称"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="projectManager"
+          label="项目经理"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="recruitManager"
+          label="招聘前台">
+        </el-table-column>
+        <el-table-column
+          prop="createdAt"
+          label="创建时间">
+        </el-table-column>
+      </el-table>
   </div>
 </template>
 

@@ -9,16 +9,13 @@ import projectManager from '../views/projectManager';
 import adminProfile from '../views/admin/profile';
 import projectManagerProfile from '../views/projectManager/profile';
 import applyDemand from '../views/projectManager/demandManage/applyDemand';
-import pendingDemand from '../views/projectManager/demandManage/pendingDemand';
-import processedDemand from '../views/projectManager/demandManage/processedDemand';
-import refusedDemand from '../views/projectManager/demandManage/refusedDemand';
-import finalDemand from '../views/projectManager/demandManage/finalDemand';
+import myDemandList from '../views/projectManager/demandManage/list';
 
 import adminDashboard from '../views/admin/adminDashboard';
 import middleManCheck from '../views/admin/staffManage/middleManCheck';
 import itemPublish from '../views/admin/itemManage/publish';
 import itemList from '../views/admin/itemManage/list';
-import demandList from '../views/admin/demandManage/list';
+import allDemandList from '../views/admin/demandManage/list';
 import employeeList from '../views/admin/staffManage/employeeList';
 import newProjectManager from '../views/admin/staffManage/newProjectManager';
 import newAdmin from '../views/admin/staffManage/newAdmin';
@@ -89,7 +86,7 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '需求管理',
       children: [
-        { path: 'list', component: demandList, alias: '需求列表' },
+        { path: 'list', component: allDemandList, alias: '需求列表' },
       ],
     },
     {
@@ -138,10 +135,7 @@ const router = new Router({
       alias: '需求管理',
       isAdmin: false,
       children: [
-        { path: 'Pending', component: pendingDemand, alias: '待审核' },
-        { path: 'Processed', component: processedDemand, alias: '处理中' },
-        { path: 'Refused', component: refusedDemand, alias: '已拒绝' },
-        { path: 'Final', component: finalDemand, alias: '处理结束' },
+        { path: 'list', component: myDemandList, alias: '需求列表' },
       ],
     },
     {
