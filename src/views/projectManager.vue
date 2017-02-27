@@ -4,7 +4,7 @@
     <!-- 头部导航 -->
     <el-col :span="24" class="panel-top">
       <logo></logo>
-      <el-col :span="20">
+      <el-col :span="16">
         <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" @select="handleSelectProject">
           <el-submenu :index="currentPath">
             <template slot="title">{{ currentProject.name }}</template>
@@ -12,6 +12,10 @@
           </el-submenu>
           <el-menu-item index="profile">我的中心</el-menu-item>
         </el-menu>
+      </el-col>
+      <el-col :span="4" class="welcome">
+        <span>周潇，你好~</span>
+        <el-button type="primary" size="small" @click="logout">退 出</el-button>
       </el-col>
     </el-col>
     <!-- 左侧导航 -->
@@ -122,10 +126,14 @@ export default {
    top: 0px;
    bottom: 0px;
    width: 100%;
+   background: #eef1f6;
 
    .panel-top {
      height: 60px;
      background: #EEF1F6;
+     line-height: 60px;
+     .welcome {
+     }
    }
 
    .panel-center {
@@ -133,11 +141,12 @@ export default {
      top: 60px;
      bottom: 0px;
      overflow: hidden;
-    //  background-color: pink;
+     background-color: #eef1f6;
 
      aside {
        width: 230px;
        .recruit-btn {
+         background: #FFFFFF;
           .el-button {
             margin-top: 10px;
             margin-bottom: 10px;
@@ -147,7 +156,7 @@ export default {
         }
      }
      .panel-right {
-      //  background: #d1a2d6;
+       background: #FFFFFF;
       //  border:5px solid #4bb3ff;
       //  border:1px solid #20a0ff;
        position: absolute;
