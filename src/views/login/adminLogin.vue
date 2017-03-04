@@ -1,7 +1,9 @@
 <template>
   <el-row class="panel">
     <el-col :span="24" class="panel-top">
-      <logo></logo>
+      <el-col :span="5" class="logo">
+        <span>万才网管理后台</span>
+      </el-col>
     </el-col>
     <el-col :span="14"  class="panel-ads">
     </el-col>
@@ -23,13 +25,8 @@
   </el-row>
 </template>
 <script>
-import logo from '../../components/logo';
-
 export default {
   name: 'adminLogin',
-  components: {
-    logo,
-  },
   data() {
     return {
       logining: false,
@@ -92,11 +89,21 @@ export default {
 
     .panel-top {
       height: 60px;
-      background: #EEF1F6;
+      background: #324057;
+      line-height: 60px;
+      .logo {
+        height: 60px;
+       //  width: 230px;
+        > span {
+          font-size: 24px;
+          color: #FFFFFF;
+          padding-left: 31px;
+        }
+      }
     }
     .panel-ads {
       position: absolute;
-      background: #d1a2d6;
+      // background: #d1a2d6;
       top: 60px;
       bottom: 0px;
       overflow: hidden;
