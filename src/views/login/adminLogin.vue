@@ -53,6 +53,7 @@ export default {
           //   password: this.loginForm.password,
           // };
           // this.logining = true;
+          this.$router.replace('/admin');
           this.$http.post('/login', {
             // username: this.loginForm.account,
             // password: this.loginForm.password,
