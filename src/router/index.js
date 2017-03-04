@@ -6,24 +6,50 @@ import index from '../views/index';
 import admin from '../views/admin';
 import projectManager from '../views/projectManager';
 
-import adminProfile from '../views/admin/profile';
+
 import projectManagerProfile from '../views/projectManager/profile';
 import applyDemand from '../views/projectManager/demandManage/applyDemand';
 import myDemandList from '../views/projectManager/demandManage/list';
 import fullTimeStaffList from '../views/projectManager/fullTimeStaffManage/list';
 import tempoaryStaffList from '../views/projectManager/tempoaryStaffManage/list';
 
-import adminDashboard from '../views/admin/adminDashboard';
-import middleManCheck from '../views/admin/staffManage/middleManCheck';
-import itemPublish from '../views/admin/itemManage/publish';
-import itemList from '../views/admin/itemManage/list';
-import allDemandList from '../views/admin/demandManage/list';
-import employeeList from '../views/admin/staffManage/employeeList';
-import newProjectManager from '../views/admin/staffManage/newProjectManager';
-import newAdmin from '../views/admin/staffManage/newAdmin';
-import newRole from '../views/admin/staffManage/newRole';
-import roleManage from '../views/admin/staffManage/roleManage';
 import employe from '../components/employe';
+import adminProfile from '../views/admin/profile';
+
+import contentNotice from '../views/admin/content/notice';
+import contentProtocol from '../views/admin/content/protocol';
+import contentRule from '../views/admin/content/rule';
+import contentSchool from '../views/admin/content/school';
+
+import middleManBlackList from '../views/admin/middleman/blacklist';
+import middleManPending from '../views/admin/middleman/pending';
+import middleManRefused from '../views/admin/middleman/refused';
+import middleManSuccess from '../views/admin/middleman/success';
+
+import demandPending from '../views/admin/demand/pending';
+import demandProcessed from '../views/admin/demand/processed';
+import demandRefused from '../views/admin/demand/refused';
+import demandCompleted from '../views/admin/demand/completed';
+
+import projectManagerList from '../views/admin/project_manager/list';
+import projectManagerNew from '../views/admin/project_manager/new';
+
+import businessBlackList from '../views/admin/business/blacklist';
+import businessList from '../views/admin/business/list';
+
+import userList from '../views/admin/user/list';
+import userBlackList from '../views/admin/user/blacklist';
+
+import administratorList from '../views/admin/administrator/list';
+import administratorNew from '../views/admin/administrator/new';
+import administratorNewRole from '../views/admin/administrator/new_role';
+import administratorRoleList from '../views/admin/administrator/role_list';
+
+import itemList from '../views/admin/item/list';
+import itemNew from '../views/admin/item/new';
+
+import incomeMiddleMan from '../views/admin/income/middleman';
+import incomeProjectManager from '../views/admin/income/project_manager';
 
 import notFound from '../views/404';
 
@@ -68,43 +94,119 @@ const router = new Router({
       ],
     },
     {
-      path: '/admin/item_manage',
-      name: 'admin_itemManage',
+      path: '/admin/middleman',
+      name: 'admin_middleman',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '经纪人',
+      children: [
+        { path: 'pending', component: middleManPending, alias: '待审核' },
+        { path: 'success', component: middleManSuccess, alias: '审核通过' },
+        { path: 'refused', component: middleManRefused, alias: '审核不通过' },
+        { path: 'blacklist', component: middleManBlackList, alias: '黑名单' },
+      ],
+    },
+    {
+      path: '/admin/project_manager',
+      name: 'admin_project_manager',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '项目经理',
+      children: [
+        { path: 'list', component: projectManagerList, alias: '项目经理管理' },
+        { path: 'new', component: projectManagerNew, alias: '添加项目经理' },
+      ],
+    },
+    {
+      path: '/admin/business',
+      name: 'admin_business',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '商家',
+      children: [
+        { path: 'list', component: businessList, alias: '商家管理' },
+        { path: 'blacklist', component: businessBlackList, alias: '黑名单' },
+      ],
+    },
+    {
+      path: '/admin/administrator',
+      name: 'admin_administrator',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '管理员',
+      children: [
+        { path: 'list', component: administratorList, alias: '管理员管理' },
+        { path: 'new', component: administratorNew, alias: '新建管理员' },
+        { path: 'role_list', component: administratorRoleList, alias: '角色管理' },
+        { path: 'role_new', component: administratorNewRole, alias: '新建角色' },
+      ],
+    },
+    {
+      path: '/admin/user',
+      name: 'admin_user',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '人才库',
+      children: [
+        { path: 'list', component: userList, alias: '人才库管理' },
+        { path: 'blacklist', component: userBlackList, alias: '黑名单' },
+      ],
+    },
+    {
+      path: '/admin/item',
+      name: 'admin_item',
       component: admin,
       isAdmin: true,
       iconCls: 'el-icon-menu',
       alias: '项目管理',
       children: [
-        { path: 'publish', component: itemPublish, alias: '新建项目' },
-        { path: 'list', component: itemList, alias: '管理项目' },
-        { path: 'adminDashboard', component: adminDashboard, hidden: true },
+        { path: 'publish', component: itemNew, alias: '新建项目' },
+        { path: 'list', component: itemList, alias: '项目管理' },
       ],
     },
     {
-      path: '/admin/demand_manage',
-      name: 'admin_demandManage',
+      path: '/admin/demand',
+      name: 'admin_demand',
       component: admin,
       isAdmin: true,
       iconCls: 'el-icon-menu',
       alias: '需求管理',
       children: [
-        { path: 'list', component: allDemandList, alias: '需求列表' },
+        { path: 'pending', component: demandPending, alias: '待处理' },
+        { path: 'processed', component: demandProcessed, alias: '处理中' },
+        { path: 'completed', component: demandCompleted, alias: '已结束' },
+        { path: 'refused', component: demandRefused, alias: '已驳回' },
       ],
     },
     {
-      path: '/admin/staff_manage',
-      name: 'admin_staffManage',
+      path: '/admin/income',
+      name: 'admin_income',
       component: admin,
       isAdmin: true,
       iconCls: 'el-icon-menu',
-      alias: '人员管理',
+      alias: '收入发放',
       children: [
-        { path: 'middleman', component: middleManCheck, alias: '经纪人管理' },
-        { path: 'employeeList', component: employeeList, alias: '人才库' },
-        { path: 'new_projectManager', component: newProjectManager, alias: '创建项目经理' },
-        { path: 'new_admin', component: newAdmin, alias: '创建管理员' },
-        { path: 'new_role', component: newRole, alias: '创建角色' },
-        { path: 'roleManage', component: roleManage, alias: '角色管理' },
+        { path: 'middleman', component: incomeMiddleMan, alias: '经纪人收入' },
+        { path: 'project_manager', component: incomeProjectManager, alias: '项目经理收入' },
+      ],
+    },
+    {
+      path: '/admin/content',
+      name: 'admin_content',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '内容管理',
+      children: [
+        { path: 'notice', component: contentNotice, alias: '公告管理' },
+        { path: 'school', component: contentSchool, alias: '学堂管理' },
+        { path: 'rule', component: contentRule, alias: '规则管理' },
+        { path: 'protocol', component: contentProtocol, alias: '协议与文章管理' },
       ],
     },
     {

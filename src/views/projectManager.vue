@@ -30,7 +30,6 @@
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
               <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
             </el-submenu>
-            <!-- <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item> -->
           </template>
         </el-menu>
       </aside>

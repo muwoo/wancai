@@ -1,19 +1,18 @@
 <template>
   <div id="newProjectManager">
     <el-form :model="projectManagerInfo" label-width="240px" :rules="projectManagerInfoRules" ref="projectManagerInfoForm">
-      <el-form-item label="上传头像：" prop="avatar">
+      <!-- <el-form-item label="上传头像：" prop="avatar">
         <el-upload
-          action="//jsonplaceholder.typicode.com/posts/"
-          type="drag"
-          multiple='false'
-          :thumbnail-mode="true"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-        >
-          <i class="el-icon-upload"></i>
-          <div class="el-dragger__text"><em>点击上传</em></div>
+          class="avatar-uploader"
+          action="//up.qbox.me/"
+          :show-file-list='false'
+          :on-success="handleAvatarScucess"
+          :before-upload="beforeAvatarUpload"
+          :data="upload_form">
+          <img v-if="projectManagerInfo.imageUrl" :src="projectManagerInfo.imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label='手机号码：' prop="phoneNumber">
         <el-input v-model="projectManagerInfo.phoneNumber" placeholder="请输入内容" style="width: 240px;"></el-input>
       </el-form-item>
@@ -71,7 +70,7 @@ export default {
   data() {
     return {
       projectManagerInfo: {
-        avatar: '',
+        imageUrl: '',
         phoneNumber: '',
         idCardNumber: '',
         mail: '',
@@ -81,20 +80,54 @@ export default {
       projectManagerInfoRules: {
 
       },
+      upload_form: {},
     };
   },
   methods: {
-    handlePreview() {
-
-    },
-    handleRemove() {
-
-    },
+    // handleAvatarScucess(response, file) {
+    //   let key = response.key
+    //   let name = file.name
+    //   let prefix = this.supportWebp ? 'webp/' : ''
+    //   let img = `![${name}](${this.bucketHost}/${prefix}${encodeURI(key)})`
+    //
+    //   this.projectManagerInfo.imageUrl = img;
+    // },
+    // beforeAvatarUpload(file) {
+    //   const name = file.name;
+    //   this.upload_form = {
+    //     key: name,
+    //     token: ,
+    //   };
+    // },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 #newProjectManager {
+  .avatar-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+  }
+  .el-upload:hover {
+    border-color: #20a0ff;
+  }
+  .avatar-uploader-icon {
+    border: 1px dashed #d9d9d9;
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 }
 </style>

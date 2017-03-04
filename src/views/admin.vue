@@ -118,6 +118,8 @@ export default {
 
      aside {
        width: 230px;
+       height: 1000px;
+      //  overflow-y: scroll;
      }
      .panel-right {
        background: #ECEEF3;
