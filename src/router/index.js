@@ -209,6 +209,16 @@ const router = new Router({
         { path: 'protocol', component: contentProtocol, alias: '协议与文章管理' },
       ],
     },
+  // TODO: WTF！！！！
+    {
+      path: '/admin/profile',
+      name: 'admin_profile',
+      component: adminProfile,
+      isSingleMenu: true,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '个人中心',
+    },
     {
       path: '/project_manager/login',
       name: 'projectManagerLogin',

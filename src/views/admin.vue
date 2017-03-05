@@ -6,14 +6,7 @@
       <el-col :span="5" class="logo">
         <span>万才网管理后台</span>
       </el-col>
-      <el-col :span="15">
-        <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" theme="dark" router>
-          <template v-for="(item, index) in $router.options.routes" v-if="item.isAdmin && !item.leaf">
-            <el-menu-item v-for="child in item.children" v-if="!child.hidden && child.isHeader" :index="item.path + '/' + child.path" >{{child.alias}}</el-menu-item>
-          </template>
-        </el-menu>
-      </el-col>
-      <el-col :span="4" class="welcome">
+      <el-col :span="4" offset="15" class="welcome">
         <span>周潇，你好~</span>
         <el-button type="primary" size="small" @click="logout">退 出</el-button>
       </el-col>
@@ -23,7 +16,8 @@
       <aside>
         <el-menu :default-active="currentPath" :unique-opened='true' theme="dark" router>
           <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && item.isAdmin">
-            <el-submenu :index="index+''" v-if="!item.leaf">
+            <el-menu-item v-if="!item.hidden && item.isSingleMenu":index="item.path"><i :class="item.iconCls"></i>{{item.alias}}</el-menu-item>
+            <el-submenu :index="index+''" v-if="!item.leaf && !item.isSingleMenu">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
               <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
             </el-submenu>
