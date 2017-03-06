@@ -48,32 +48,28 @@ export default {
     handleSubmit() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          // const loginParams = {
-          //   username: this.loginForm.account,
-          //   password: this.loginForm.password,
-          // };
-          // this.logining = true;
-          this.$router.replace('/admin');
-          this.$http.post('/login', {
-            // username: this.loginForm.account,
-            // password: this.loginForm.password,
-            username: 'j_username',
-            password: 'j_password',
-            // eslint-disable-next-line
-          }).then((response) => {
+          this.logining = true;
+          const params = new URLSearchParams();
+          params.append('u', this.loginForm.account);
+          params.append('p', this.loginForm.password);
+          this.$http.post('/login', params,
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            }
+          ).then((response) => {
             // eslint-disable-next-line
             this.logining = false;
-            console.log(response);
+            this.$message({
+              message: '登录成功',
+              type: 'success',
+            });
+            sessionStorage.setItem('user', JSON.stringify(response.data));
           }).catch((error) => {
+            this.$message.error('登录异常');
             console.log(error);
           });
-          // this.$http.get('/bos/token').then((response) => {
-          //   // eslint-disable-next-line
-          //   // this.logining = false;
-          //   console.log(response);
-          // }).catch((error) => {
-          //   console.log(error);
-          // });
         }
         return false;
       });

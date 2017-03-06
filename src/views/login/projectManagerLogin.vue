@@ -51,21 +51,23 @@ export default {
     handleSubmit() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          // const loginParams = {
-          //   username: this.loginForm.account,
-          //   password: this.loginForm.password,
-          // };
-          this.logining = true;
-          // this.$http.post('/login', {
-          //   loginParams,
-          //   // eslint-disable-next-line
-          // }).then((response) => {
-          //   // eslint-disable-next-line
-          //   this.logining = false;
-          //   console.log(response);
-          // }).catch((error) => {
-          //   console.log(error);
-          // });
+          this.login = true;
+          const params = new URLSearchParams();
+          params.append('u', 1);
+          params.append('p', 1);
+          this.$http.post('/login', params,
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            }
+          ).then((response) => {
+            // eslint-disable-next-line
+            this.logining = false;
+            console.log(response.data);
+          }).catch((error) => {
+            console.log(error);
+          });
         }
         return false;
       });
