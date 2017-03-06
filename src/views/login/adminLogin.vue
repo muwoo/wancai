@@ -66,6 +66,7 @@ export default {
               type: 'success',
             });
             sessionStorage.setItem('user', JSON.stringify(response.data));
+            this.$router.replace({ path: '/admin' });
           }).catch((error) => {
             this.$message.error('登录异常');
             console.log(error);

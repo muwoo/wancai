@@ -6,8 +6,8 @@
       <el-col :span="5" class="logo">
         <span>万才网管理后台</span>
       </el-col>
-      <el-col :span="4" offset="15" class="welcome">
-        <span>周潇，你好~</span>
+      <el-col :span="4" :offset="15" class="welcome">
+        <span>欢迎~ {{ currentUser.name }}</span>
         <el-button type="primary" size="small" @click="logout">退 出</el-button>
       </el-col>
     </el-col>
@@ -39,6 +39,9 @@ export default {
   data() {
     return {
       currentPath: '/profile',
+      currentUser: {
+        name: '',
+      },
     };
   },
   components: {
@@ -69,6 +72,10 @@ export default {
   },
   mounted() {
     // this.initialCurrentProject();
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (user) {
+      this.currentUser.name = user.name || '';
+    }
   },
 };
 </script>
