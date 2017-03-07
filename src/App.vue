@@ -12,11 +12,13 @@ import 'element-ui/lib/theme-default/index.css';
 
 Vue.use(Element);
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:9090',
-  // baseURL: 'http://120.77.253.107:8089',
-  // headers: {
-  //   'X-CSRF-TOKEN': '2d81ad05-4d06-4eb5-a8f2-8b513c9f480f',
-  // },
+  baseURL: 'http://192.168.0.111:9090',
+  // baseURL: 'http://127.0.0.1:3000/',
+  headers: {
+    // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
 });
 
 Vue.prototype.$http = axiosInstance;
