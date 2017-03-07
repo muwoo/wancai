@@ -8,16 +8,16 @@
       <el-form-item label="项目地址：" class="form-item" prop="address">
         <el-input v-model="itemPublishInfo.address" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
-      <el-form-item label="项目介绍：" class="form-item" prop="description">
-        <el-input type="textarea" :rows="2" v-model="itemPublishInfo.description" placeholder="请输入内容" style="width: 400px;"></el-input>
+      <el-form-item label="项目介绍：" class="form-item" prop="introduction">
+        <el-input type="textarea" :rows="2" v-model="itemPublishInfo.introduction" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
       <h1 class="tips">匹配负责人</h1>
-      <el-form-item label="招聘前台：" class="form-item" prop="recruitManager">
-        <span>{{ itemPublishInfo.recruitManager }}</span>
+      <el-form-item label="招聘前台：" class="form-item" prop="recruitManager.name">
+        <span>{{ itemPublishInfo.recruitManager.name }}</span>
         <el-button type="primary" @click="handleFindRecruitManager">查找</el-button>
       </el-form-item>
-      <el-form-item label="项目负责人：" class="form-item" prop="projectManager">
-        <span>{{ itemPublishInfo.projectManager }}</span>
+      <el-form-item label="项目负责人：" class="form-item" prop="projectManager.name">
+        <span>{{ itemPublishInfo.projectManager.name }}</span>
         <el-button type="primary" @click="handleFindProjectManager">查找</el-button>
       </el-form-item>
       <!-- <h1 class="tips">财务设置</h1>
@@ -129,7 +129,7 @@
     </el-dialog> -->
     <el-dialog title="选择负责人" v-model="findRecruitManager">
       <el-input placeholder="请输入内容" v-model="searchContent">
-        <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width: 200px;">
+        <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width: 150px;">
           <el-option label="餐厅名" value="1"></el-option>
           <el-option label="订单号" value="2"></el-option>
           <el-option label="用户电话" value="3"></el-option>
@@ -141,7 +141,7 @@
           <el-table-column property="id" label="id"></el-table-column>
           <el-table-column property="name" label="姓名"></el-table-column>
           <el-table-column property="idCardNumber" label="身份证" width="200"></el-table-column>
-          <el-table-column property="phoneNumber" label="手机"></el-table-column>
+          <el-table-column property="phoneNumber" label="手机"  width="200"></el-table-column>
           <el-table-column
             label="操作">
             <template scope="scope">
@@ -155,7 +155,7 @@
     </el-dialog>
     <el-dialog title="选择负责人" v-model="findProjectManager">
       <el-input placeholder="请输入内容" v-model="searchContent">
-        <el-select v-model="searchType" slot="prepend" placeholder="请选择">
+        <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width: 150px;">
           <el-option label="餐厅名" value="1"></el-option>
           <el-option label="订单号" value="2"></el-option>
           <el-option label="用户电话" value="3"></el-option>
@@ -190,7 +190,7 @@ export default {
       itemPublishInfo: {
         itemName: '',
         address: '',
-        description: '',
+        introduction: '',
         recruitManager: '',
         projectManager: '',
         profitRate: 100,
@@ -240,7 +240,7 @@ export default {
         address: [
           { required: true, message: '请输入项目地址', trigger: 'blur' },
         ],
-        description: [
+        introduction: [
           { required: true, message: '请输入项目描述', trigger: 'blur' },
         ],
         recruitManager: [
@@ -273,6 +273,19 @@ export default {
       this.$refs.itemPublishForm.validate((valid) => {
         if (valid) {
           this.publishing = true;
+          this.$http.post('/insertProject', {
+            managerId: 1,
+            recruitFronts: 1,
+            title: this.itemPublishInfo.itemName,
+            address: this.itemPublishInfo.address,
+            introduction: this.itemPublishInfo.introduction,
+          }).then((response) => {
+            console.log(response);
+            this.publishing = false;
+          }).catch((error) => {
+            this.publishing = false;
+            console.log(error);
+          });
         }
         return false;
       });
@@ -287,11 +300,11 @@ export default {
       this.$message('search content');
     },
     handleConfirmProjectManager(index, row) {
-      this.itemPublishInfo.projectManager = row.name;
+      this.itemPublishInfo.projectManager = row;
       this.findProjectManager = false;
     },
     handleConfirmRecruitManager(index, row) {
-      this.itemPublishInfo.recruitManager = row.name;
+      this.itemPublishInfo.recruitManager = row;
       this.findRecruitManager = false;
     },
   },
