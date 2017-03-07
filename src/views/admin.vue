@@ -38,7 +38,7 @@ export default {
   name: 'project',
   data() {
     return {
-      currentPath: '/profile',
+      currentPath: '',
       currentUser: {
         name: '',
       },
@@ -63,7 +63,7 @@ export default {
       this.$confirm('确认退出吗?', '提示', {
 
       }).then(() => {
-        // sessionStorage.removeItem('projectManager');
+        sessionStorage.removeItem('admin');
         that.$router.replace('/admin/login');
       }).catch(() => {
 
@@ -71,10 +71,12 @@ export default {
     },
   },
   mounted() {
-    // this.initialCurrentProject();
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    if (user) {
-      this.currentUser.name = user.name || '';
+    this.currentPath = this.$route.path;
+    const admin = JSON.parse(sessionStorage.getItem('admin'));
+    if (admin) {
+      this.currentUser.name = admin.name || '';
+    } else {
+      this.$router.replace('/admin/login');
     }
   },
 };
