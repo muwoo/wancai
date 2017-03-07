@@ -243,12 +243,12 @@ export default {
         introduction: [
           { required: true, message: '请输入项目描述', trigger: 'blur' },
         ],
-        recruitManager: [
-          { required: true, message: '请选择招聘前台', trigger: 'blur' },
-        ],
-        projectManager: [
-          { required: true, message: '请选择项目经理', trigger: 'blur' },
-        ],
+        // recruitManager: [
+        //   { required: true, message: '请选择招聘前台', trigger: 'blur' },
+        // ],
+        // projectManager: [
+        //   { required: true, message: '请选择项目经理', trigger: 'blur' },
+        // ],
       },
     };
   },
