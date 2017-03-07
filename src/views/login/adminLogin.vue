@@ -52,13 +52,13 @@ export default {
           const params = new URLSearchParams();
           params.append('u', this.loginForm.account);
           params.append('p', this.loginForm.password);
-          this.$http.post('/login', params,
-            {
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-              },
-            }
-          ).then((response) => {
+
+          this.$http.post('/login', params, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              // 'Content-Type': 'application/json',
+            },
+          }).then((response) => {
             // eslint-disable-next-line
             this.logining = false;
             this.$message({
