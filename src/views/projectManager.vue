@@ -48,7 +48,7 @@ export default {
   name: 'projectManager',
   data() {
     return {
-      currentPath: '/profile',
+      currentPath: '',
       allProjects: [
         { id: 1, name: '萧山仓库' },
         { id: 2, name: '余杭仓库' },
@@ -106,7 +106,7 @@ export default {
       this.$confirm('确认退出吗?', '提示', {
 
       }).then(() => {
-        // sessionStorage.removeItem('projectManager');
+        sessionStorage.removeItem('projectManager');
         that.$router.replace('/project_manage/login');
       }).catch(() => {
 
@@ -114,6 +114,7 @@ export default {
     },
   },
   mounted() {
+    this.currentPath = this.$route.path;
     this.initialCurrentProject();
   },
 };

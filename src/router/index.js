@@ -6,12 +6,17 @@ import index from '../views/index';
 import admin from '../views/admin';
 import projectManager from '../views/projectManager';
 
-
+import projectmanagerApplyDemand from '../views/projectManager/applyDemand';
 import projectManagerProfile from '../views/projectManager/profile';
-import applyDemand from '../views/projectManager/demandManage/applyDemand';
-import myDemandList from '../views/projectManager/demandManage/list';
-import fullTimeStaffList from '../views/projectManager/fullTimeStaffManage/list';
-import tempoaryStaffList from '../views/projectManager/tempoaryStaffManage/list';
+import projectManagerDemandPending from '../views/projectManager/demand/pending';
+import projectManagerDemandProcessed from '../views/projectManager/demand/processed';
+import projectManagerDemandRefused from '../views/projectManager/demand/refused';
+import projectManagerDemandCompleted from '../views/projectManager/demand/completed';
+
+import projectManagerStaffFullTime from '../views/projectManager/staff/fullTime';
+import projectManagerStaffPartTime from '../views/projectManager/staff/partTime';
+
+import projectManagerItemDashboard from '../views/projectManager/item/dashboard';
 
 import employe from '../components/employe';
 import adminProfile from '../views/admin/profile';
@@ -237,50 +242,44 @@ const router = new Router({
       children: [
         { path: '', redirect: 'profile', component: projectManagerProfile, hidden: true },
         { path: 'profile', component: projectManagerProfile, hidden: true },
-        { path: 'applyDemand', component: applyDemand, hidden: true },
+        { path: 'applyDemand', component: projectmanagerApplyDemand, hidden: true },
       ],
     },
     {
-      path: '/project_manager/demand_manage',
-      name: 'demandManage',
+      path: '/project_manager/demand',
+      name: 'project_manager_demand',
       component: projectManager,
       iconCls: 'el-icon-message',
       alias: '需求管理',
       isAdmin: false,
       children: [
-        { path: 'list', component: myDemandList, alias: '需求列表' },
+        { path: 'pending', component: projectManagerDemandPending, alias: '待审核' },
+        { path: 'processed', component: projectManagerDemandProcessed, alias: '处理中' },
+        { path: 'refused', component: projectManagerDemandRefused, alias: '已驳回' },
+        { path: 'completed', component: projectManagerDemandCompleted, alias: '已结束' },
       ],
     },
     {
-      path: '/project_manager/item_manage',
-      name: 'itemManage',
+      path: '/project_manager/sftaff',
+      name: 'project_manager_sftaff',
+      component: projectManager,
+      iconCls: 'el-icon-message',
+      alias: '人员管理',
+      isAdmin: false,
+      children: [
+        { path: 'full_time', component: projectManagerStaffFullTime, alias: '全职人员管理' },
+        { path: 'part_time', component: projectManagerStaffPartTime, alias: '兼职人员管理' },
+      ],
+    },
+    {
+      path: '/project_manager/item',
+      name: 'project_manager_item',
       component: projectManager,
       iconCls: 'el-icon-menu',
       alias: '项目管理',
       isAdmin: false,
       children: [
-      ],
-    },
-    {
-      path: '/project_manager/full_time_staff_manage',
-      name: 'fullTimeStaffManage',
-      component: projectManager,
-      iconCls: 'el-icon-setting',
-      isAdmin: false,
-      alias: '全职人员管理',
-      children: [
-        { path: 'list', component: fullTimeStaffList, alias: '全职人员列表' },
-      ],
-    },
-    {
-      path: '/project_manager/tempoary_staff_manage',
-      name: 'tempoaryStaffManage',
-      component: projectManager,
-      iconCls: 'el-icon-setting',
-      alias: '兼职人员管理',
-      isAdmin: false,
-      children: [
-        { path: 'list', component: tempoaryStaffList, alias: '兼职人员列表' },
+        { path: 'dashboard', component: projectManagerItemDashboard, alias: '项目看板' },
       ],
     },
     {

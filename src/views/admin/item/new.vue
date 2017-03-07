@@ -279,6 +279,10 @@ export default {
             title: this.itemPublishInfo.itemName,
             address: this.itemPublishInfo.address,
             introduction: this.itemPublishInfo.introduction,
+          }, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
           }).then((response) => {
             console.log(response);
             this.publishing = false;

@@ -88,7 +88,7 @@ export default {
     }
     .panel-ads {
       position: absolute;
-      background: #d1a2d6;
+      // background: #d1a2d6;
       top: 60px;
       bottom: 0px;
       overflow: hidden;
