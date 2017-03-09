@@ -273,7 +273,7 @@ export default {
       this.$refs.itemPublishForm.validate((valid) => {
         if (valid) {
           this.publishing = true;
-          this.$http.post('/insertProject', {
+          this.$http.post('/project/add', {
             managerId: 1,
             recruitFronts: 1,
             title: this.itemPublishInfo.itemName,
@@ -285,6 +285,14 @@ export default {
             },
           }).then((response) => {
             console.log(response);
+            // eslint-disable-next-line
+            const { error, errorCode, moreInfo } = response.data;
+            if (errorCode === 10000) {
+              this.$message({
+                message: '新建成功',
+                type: 'success',
+              });
+            }
             this.publishing = false;
           }).catch((error) => {
             this.publishing = false;

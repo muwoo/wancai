@@ -58,6 +58,7 @@ export default {
       currentUser: {
         name: '',
       },
+      isLeftNav: true,
     };
   },
   components: {
@@ -153,6 +154,7 @@ export default {
 
      aside {
        width: 230px;
+      // width: 0px;
        .recruit-btn {
          background: #FFFFFF;
           .el-button {
