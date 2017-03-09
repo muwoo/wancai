@@ -19,32 +19,38 @@
       <el-table-column
         prop="id"
         label="ID"
-        width="80">
+        width="80"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="title"
         label="项目名称"
-        width="200">
+        width="200"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="projectManager"
         label="项目经理"
-        width="200">
+        width="200"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="recruitManager"
         label="招聘前台"
-        width="200">
+        width="200"
+        align="center">
       </el-table-column>
       <el-table-column
         prop="createdTime"
         :formatter="formatDate"
         label="创建时间"
-        width="200">
+        width="200"
+        align="center">
       </el-table-column>
       <el-table-column
         label="操作"
-        width="240">
+        width="240"
+        align="center">
         <template scope="scope">
           <el-button
             size="small"
