@@ -38,6 +38,7 @@
       </el-table-column>
       <el-table-column
         prop="createdTime"
+        :formatter="formatDate"
         label="创建时间"
         width="200">
       </el-table-column>
@@ -61,6 +62,8 @@
   </div>
 </template>
 <script>
+  import util from '../../../common/util';
+
   export default {
     name: 'itemList',
     data() {
@@ -71,7 +74,10 @@
           projectManager: '',
           recruitManager: '',
         },
-        projects: [],
+        projects: [{
+          title: 'xxx有限公司',
+          createdTime: 1489082849,
+        }],
         currentPage: 1,
         pageSize: 20,
         pageCount: 0,
@@ -112,12 +118,16 @@
         }).catch((error) => {
           console.log(error);
           this.loading = false;
-          this.$message.error('获取异常失败');
+          this.$message.error('获取数据失败');
         });
+      },
+      formatDate(row, column) {
+        const date = new Date(parseInt(row.createdTime, 0) * 1000);
+        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
       },
     },
     mounted() {
-      this.getProjects();
+      // this.getProjects();
     },
   };
 </script>
