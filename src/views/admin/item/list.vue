@@ -26,7 +26,8 @@
         prop="title"
         label="项目名称"
         width="200"
-        align="center">
+        align="center"
+        show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column
         prop="projectManager"
@@ -49,7 +50,6 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="240"
         align="center">
         <template scope="scope">
           <el-button
@@ -81,7 +81,7 @@
           recruitManager: '',
         },
         projects: [{
-          title: 'xxx有限公司',
+          title: 'xxx有限公司xxx有限公司xxx有限公司xxx有限公司',
           createdTime: 1489082849,
         }],
         currentPage: 1,
