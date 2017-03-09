@@ -6,11 +6,11 @@
       <logo></logo>
       <el-col :span="16">
         <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" @select="handleSelectProject">
-          <el-submenu :index="currentPath">
+          <el-submenu index="/project_manager/item/dashboard">
             <template slot="title">{{ currentProject.name }}</template>
             <el-menu-item v-for="item in allProjects" :index="item.id + ''">{{item.name}}</el-menu-item>
           </el-submenu>
-          <el-menu-item index="profile">我的中心</el-menu-item>
+          <el-menu-item index="/project_manager/profile">我的中心</el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span="4" class="welcome">
