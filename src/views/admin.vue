@@ -50,7 +50,7 @@ export default {
     // eslint-disable-next-line
     $route(to, from) {
       this.currentPath = to.path;
-      console.log(this.currentPath);
+      // console.log(this.currentPath);
       // console.log(this.currentPath);
       // console.log(this.$route.query);
     },
@@ -75,9 +75,10 @@ export default {
     const admin = JSON.parse(sessionStorage.getItem('admin'));
     if (admin) {
       this.currentUser.name = admin.name || '';
-    } else {
-      this.$router.replace('/admin/login');
     }
+    //  else {
+    //   this.$router.replace('/admin/login');
+    // }
   },
 };
 </script>

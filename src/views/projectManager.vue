@@ -14,7 +14,7 @@
         </el-menu>
       </el-col>
       <el-col :span="4" class="welcome">
-        <span>周潇，你好~</span>
+        <span>欢迎~ {{ currentUser.name }}</span>
         <el-button type="primary" size="small" @click="logout">退 出</el-button>
       </el-col>
     </el-col>
@@ -55,6 +55,9 @@ export default {
         { id: 3, name: '下沙仓库' },
       ],
       currentProject: { id: '', name: '空项目' },
+      currentUser: {
+        name: '',
+      },
     };
   },
   components: {
@@ -116,6 +119,10 @@ export default {
   mounted() {
     this.currentPath = this.$route.path;
     this.initialCurrentProject();
+    const projectManager = JSON.parse(sessionStorage.getItem('project_manager'));
+    if (projectManager) {
+      this.currentUser.name = projectManager.name || '';
+    }
   },
 };
 </script>
