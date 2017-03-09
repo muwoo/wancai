@@ -54,7 +54,7 @@ export default {
         { id: 2, name: '余杭仓库' },
         { id: 3, name: '下沙仓库' },
       ],
-      currentProject: { id: '', name: '空项目' },
+      currentProject: { id: '', name: '请选择项目' },
       currentUser: {
         name: '',
       },
@@ -77,11 +77,12 @@ export default {
     //
     // },
     initialCurrentProject() {
-      if (this.allProjects.length > 0) {
-        this.currentProject = this.allProjects[0];
-      } else {
-        this.currentProject = { id: '', name: '无项目' };
-      }
+      // if (this.allProjects.length > 0) {
+      //   this.currentProject = this.allProjects[0];
+      // } else {
+      //   this.currentProject = { id: '', name: '无项目' };
+      // }
+      // this.currentProject = { id: '', name: '无项目' };
     },
     handleSelect() {
       // console.log(this.$router.options.routes);
@@ -110,7 +111,7 @@ export default {
 
       }).then(() => {
         sessionStorage.removeItem('projectManager');
-        that.$router.replace('/project_manage/login');
+        that.$router.replace('/project_manager/login');
       }).catch(() => {
 
       });
