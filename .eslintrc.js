@@ -28,8 +28,9 @@ module.exports = {
       'js': 'never',
       'vue': 'never'
     }],
-    //  0 = off, 1 = warn, 2 = error  "vars": "none"
+    //  0 =  off, 1 = warn, 2 = error  "vars": "none"
     "no-unused-vars": ["off", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+    "no-console": ["off", { "allow": ["warn", "error"] }],
     // "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0

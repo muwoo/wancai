@@ -80,10 +80,7 @@
           projectManager: '',
           recruitManager: '',
         },
-        projects: [{
-          title: 'xxx有限公司xxx有限公司xxx有限公司xxx有限公司',
-          createdTime: 1489082849,
-        }],
+        projects: [],
         currentPage: 1,
         pageSize: 20,
         pageCount: 0,
