@@ -44,26 +44,31 @@
         style="width: 100%; margin-top: 30px;">
         <el-table-column
           prop="id"
-          label="项目名称"
-          width="180">
+          label="ID"
+          width="180"
+          align="center">
         </el-table-column>
         <el-table-column
           prop="name"
           label="项目名称"
-          width="180">
+          width="180"
+          align="center">
         </el-table-column>
         <el-table-column
           prop="projectManager"
           label="项目经理"
-          width="180">
+          width="180"
+          align="center">
         </el-table-column>
         <el-table-column
           prop="recruitManager"
-          label="招聘前台">
+          label="招聘前台"
+          align="center">
         </el-table-column>
         <el-table-column
           prop="createdAt"
-          label="创建时间">
+          label="创建时间"
+          align="center">
         </el-table-column>
       </el-table>
   </div>

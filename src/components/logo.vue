@@ -1,5 +1,5 @@
 <template>
-  <el-col :span="4">
+  <el-col :span="5">
     <div><span>万才网</span></div>
     <div><span>项目管理控制台</span></div>
   </el-col>
