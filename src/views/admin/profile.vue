@@ -1,5 +1,5 @@
 <template>
-  <div id="projectManagerProfile">
+  <div id="adminProfile">
     <div class="card">
       <div class="top">
         <span>个人中心</span>
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#projectManagerProfile {
+#adminProfile {
   .card {
     height: 200px;
     border: 1px solid #d1dbe5;
