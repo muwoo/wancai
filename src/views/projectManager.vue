@@ -4,7 +4,7 @@
     <!-- 头部导航 -->
     <el-col :span="24" class="panel-top">
       <logo></logo>
-      <el-col :span="16">
+      <el-col :span="15">
         <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" @select="handleSelectProject">
           <el-submenu index="/project_manager/item/dashboard">
             <template slot="title">{{ currentProject.name }}</template>
@@ -34,7 +34,7 @@
         </el-menu>
       </aside>
       <!-- 主内容 -->
-      <section class="panel-right">
+      <section :class="classScreenObject">
         <router-view></router-view>
       </section>
     </el-col>
@@ -92,17 +92,17 @@ export default {
       this.$router.replace('/project_manager/applyDemand');
     },
     handleSelectProject(id) {
-      if (id !== 'profile') {
+      if (id !== '/project_manager/profile') {
         for (let i = 0; i < this.allProjects.length; i += 1) {
           if (this.allProjects[i].id.toString() === id) {
             this.currentProject = this.allProjects[i];
           }
         }
+        this.isLeftNav = true;
       } else {
         this.$router.replace('/project_manager/profile');
+        this.isLeftNav = false;
       }
-
-      // console.log('Hello World');
       this.$message(this.currentProject.name);
     },
     // 退出登录
@@ -118,9 +118,20 @@ export default {
       });
     },
   },
+  computed: {
+    classScreenObject() {
+      return {
+        'panel-right': this.isLeftNav,
+        'panel-full-screen': !this.isLeftNav,
+      };
+    },
+  },
   mounted() {
     this.currentPath = this.$route.path;
     this.initialCurrentProject();
+    if (this.currentPath === '/project_manager/profile') {
+      this.isLeftNav = false;
+    }
     const projectManager = JSON.parse(sessionStorage.getItem('project_manager'));
     if (projectManager) {
       this.currentUser.name = projectManager.name || '';
@@ -174,6 +185,18 @@ export default {
        top: 0px;
        bottom: 0px;
        left: 230px;
+       overflow-y: scroll;
+       padding: 10px;
+     }
+     .panel-full-screen {
+       background: #FFFFFF;
+      //  border:5px solid #4bb3ff;
+      //  border:1px solid #20a0ff;
+       position: absolute;
+       right: 0px;
+       top: 0px;
+       bottom: 0px;
+       left: 0px;
        overflow-y: scroll;
        padding: 10px;
      }
