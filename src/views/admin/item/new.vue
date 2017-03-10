@@ -292,7 +292,7 @@ export default {
                 message: '新建成功',
                 type: 'success',
               });
-              this.$router.replace('itemList');
+              this.$router.push('list');
             }
             this.publishing = false;
           }).catch((error) => {

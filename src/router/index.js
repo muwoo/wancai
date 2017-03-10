@@ -52,6 +52,7 @@ import administratorRoleList from '../views/admin/administrator/role_list';
 
 import itemList from '../views/admin/item/list';
 import itemNew from '../views/admin/item/new';
+import itemEdit from '../views/admin/item/edit';
 
 import incomeMiddleMan from '../views/admin/income/middleman';
 import incomeProjectManager from '../views/admin/income/project_manager';
@@ -172,6 +173,7 @@ const router = new Router({
       children: [
         { path: 'publish', component: itemNew, alias: '新建项目' },
         { path: 'list', component: itemList, alias: '项目管理' },
+        { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
       ],
     },
     {

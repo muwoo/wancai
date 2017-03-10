@@ -19,26 +19,25 @@
       <el-table-column
         prop="id"
         label="ID"
-        width="80"
+        width="100"
         align="center">
       </el-table-column>
       <el-table-column
         prop="title"
         label="项目名称"
-        width="200"
         align="center"
-        show-overflow-tooltip="true">
+        :show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column
         prop="projectManager"
         label="项目经理"
-        width="200"
+        width="100"
         align="center">
       </el-table-column>
       <el-table-column
         prop="recruitManager"
         label="招聘前台"
-        width="200"
+        width="100"
         align="center">
       </el-table-column>
       <el-table-column
@@ -50,19 +49,19 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        align="center">
+        align="center"
+        width="200">
         <template scope="scope">
           <el-button
             size="small"
             @click="handleSetProjectManager(scope.$index, scope.row)">设置</el-button>
           <el-button
             size="small"
-            type="danger"
             @click="handleProjectManager(scope.$index, scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-col :span="24"style="margin-top:10px;">
+    <el-col :span="24" style="margin-top:10px;">
       <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
     </el-col>
   </div>
@@ -90,8 +89,7 @@
     },
     methods: {
       handleSetProjectManager(index, row) {
-        console.log(index);
-        console.log(row);
+        this.$router.push({ name: 'adminItemEdit', params: { id: row.id } });
       },
       handleProjectManager(index, row) {
         console.log(index);
@@ -125,12 +123,13 @@
         });
       },
       formatDate(row, column) {
-        const date = new Date(parseInt(row.createdTime, 0) * 1000);
+        // const date = new Date(parseInt(row.createdTime, 0) * 1000);
+        const date = new Date(parseInt(row.createdTime, 0));
         return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
       },
     },
     mounted() {
-      // this.getProjects();
+      this.getProjects();
     },
   };
 </script>
