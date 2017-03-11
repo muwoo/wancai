@@ -1,5 +1,5 @@
 <template>
-  <div id="itemPublish">
+  <div id="itemPublish" v-loading="loading">
     <el-form :model="itemPublishInfo" :rules="itemPublishRules" ref="itemPublishForm">
       <h1 class="tips">基本信息</h1>
       <el-form-item label="项目名称：" class="form-item" prop="title">
@@ -33,6 +33,7 @@
     data() {
       return {
         itemPublishInfo: {
+          id: '',
           title: '',
           address: '',
           introduction: '',
@@ -78,6 +79,7 @@
         findProjectManager: false,
         searchContent: '',
         searchType: '',
+        loading: false,
         itemPublishRules: {
           title: [
             { required: true, message: '请输入项目名称', trigger: 'blur' },
@@ -104,27 +106,75 @@
       handleFindProjectManager() {
 
       },
+      handleSubmit() {
+        this.$refs.itemPublishForm.validate((valid) => {
+          if (valid) {
+            this.publishing = true;
+            this.$http.post('project/modify', {
+              id: this.itemPublishInfo.id,
+              managerId: 1,
+              recruitFronts: 1,
+              title: this.itemPublishInfo.itemName,
+              address: this.itemPublishInfo.address,
+              introduction: this.itemPublishInfo.introduction,
+            }, {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }).then((response) => {
+              console.log(response);
+              // eslint-disable-next-line
+              const { error, errorCode, moreInfo } = response.data;
+              if (errorCode === 10000) {
+                this.$message({
+                  message: '修改成功',
+                  type: 'success',
+                });
+                this.getProject();
+                // this.$router.push('list');
+              } else {
+                this.$message({
+                  message: '修改失败',
+                  type: 'danger',
+                });
+              }
+              this.publishing = false;
+            }).catch((error) => {
+              this.publishing = false;
+              console.log(error);
+            });
+          }
+          return false;
+        });
+      },
+      getProject() {
+        const id = this.$route.params.id;
+        this.itemPublishInfo.id = id;
+        this.loading = true;
+        this.$http.get(`project/detail?id=${id}`).then((response) => {
+          console.log(response);
+          if (response.data.errorCode === 10000) {
+            const {
+              data: {
+                title, address, introduction,
+              },
+            } = response.data;
+            // console.log(data);
+            this.itemPublishInfo.title = title;
+            this.itemPublishInfo.address = address;
+            this.itemPublishInfo.introduction = introduction;
+          } else {
+            // 获取数据异常，跳回list界面
+          }
+          this.loading = false;
+        }).catch((error) => {
+          this.loading = false;
+          this.$message.error('数据异常');
+        });
+      },
     },
     mounted() {
-      const id = this.$route.params.id;
-      this.$http.get(`project/detail?id=${id}`).then((response) => {
-        console.log(response);
-        if (response.data.errorCode === 10000) {
-          const {
-            data: {
-              title, address, introduction,
-            },
-          } = response.data;
-          // console.log(data);
-          this.itemPublishInfo.title = title;
-          this.itemPublishInfo.address = address;
-          this.itemPublishInfo.introduction = introduction;
-        } else {
-          // 获取数据异常，跳回list界面
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
+      this.getProject();
     },
   };
 </script>
