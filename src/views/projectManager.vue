@@ -14,7 +14,7 @@
         </el-menu>
       </el-col>
       <el-col :span="4" class="welcome">
-        <span>欢迎~ {{ currentUser.name }}</span>
+        <span> {{ currentUser.name }}，您好</span>
         <el-button type="primary" size="small" @click="logout">退 出</el-button>
       </el-col>
     </el-col>

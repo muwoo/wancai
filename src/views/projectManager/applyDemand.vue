@@ -97,9 +97,10 @@
           <el-input-number v-model="demandInfo.minOld" :min="0" :max="10000" style="width: 140px;"></el-input-number>
         </el-col>
       </el-form-item>
-      <!-- <el-form-item label="人数：" style="width: 300px;">
-
-      </el-form-item> -->
+      <el-form-item>
+        <el-button type="text">+添加排班信息</el-button>
+        <el-button type="text">-删减排班信息</el-button>
+      </el-form-item>
     </el-form>
     <h1 class="tips">岗位要求</h1>
     <el-form ref="form" :model="demandInfo" label-width="100px">
