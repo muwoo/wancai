@@ -83,6 +83,16 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="排班信息：" style="width: 400px;">
+        <el-date-picker
+          v-model="demandInfo.partTimeDate"
+          type="datetimerange"
+          placeholder="选择时间范围">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="人数：" style="width: 300px;">
+        <el-input-number v-model="demandInfo.minOld" :min="0" :max="10000" style="width: 100%;"></el-input-number>
+      </el-form-item>
     </el-form>
     <h1 class="tips">岗位要求</h1>
     <el-form ref="form" :model="demandInfo" label-width="100px">
@@ -185,6 +195,7 @@ export default {
         marryType: 2,
         sex: 2,
         experience: '6',
+        partTimeDate: [],
       },
       workInfo: {
       },
