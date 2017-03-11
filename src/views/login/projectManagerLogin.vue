@@ -51,21 +51,27 @@ export default {
     handleSubmit() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.login = true;
+          this.logining = true;
           const params = new URLSearchParams();
-          params.append('u', 1);
-          params.append('p', 1);
-          this.$http.post('/login', params,
-            {
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-              },
-            }
-          ).then((response) => {
+          params.append('u', this.loginForm.account);
+          params.append('p', this.loginForm.password);
+
+          this.$http.post('/login', params, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              // 'Content-Type': 'application/json',
+            },
+          }).then((response) => {
             // eslint-disable-next-line
             this.logining = false;
-            console.log(response.data);
+            this.$message({
+              message: '登录成功',
+              type: 'success',
+            });
+            sessionStorage.setItem('project_manager', JSON.stringify(response.data));
+            this.$router.replace({ path: '/project_manager' });
           }).catch((error) => {
+            this.$message.error('登录异常');
             console.log(error);
           });
         }
