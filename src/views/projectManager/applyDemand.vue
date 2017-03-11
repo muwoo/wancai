@@ -1,9 +1,10 @@
 <template>
   <div id="apply-demand">
-    <el-steps :space="400" :active="1" :center=true :align-center=true>
+    <el-steps :space="240" :active="1" :center=true :align-center=true>
       <el-step title="填写需求表"></el-step>
       <el-step title="招聘前台审核"></el-step>
-      <el-step title="招聘前台发布招聘"></el-step>
+      <el-step title="招聘前台发布招聘计划"></el-step>
+      <el-step title="招聘经纪人提交求职者名单"></el-step>
     </el-steps>
     <el-form ref="form" label-width="100px" :model="demandInfo">
       <h1 class="tips">需求表</h1>
@@ -83,16 +84,22 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="排班信息：" style="width: 400px;">
-        <el-date-picker
-          v-model="demandInfo.partTimeDate"
-          type="datetimerange"
-          placeholder="选择时间范围">
-        </el-date-picker>
+      <el-form-item label="排班信息：" style="width: 800px;">
+        <el-col :span="13">
+          <el-date-picker
+            v-model="demandInfo.partTimeDate"
+            type="datetimerange"
+            placeholder="选择时间范围">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="3" style="text-align: left;">需求人数：</el-col>
+        <el-col :span="8">
+          <el-input-number v-model="demandInfo.minOld" :min="0" :max="10000" style="width: 140px;"></el-input-number>
+        </el-col>
       </el-form-item>
-      <el-form-item label="人数：" style="width: 300px;">
-        <el-input-number v-model="demandInfo.minOld" :min="0" :max="10000" style="width: 100%;"></el-input-number>
-      </el-form-item>
+      <!-- <el-form-item label="人数：" style="width: 300px;">
+
+      </el-form-item> -->
     </el-form>
     <h1 class="tips">岗位要求</h1>
     <el-form ref="form" :model="demandInfo" label-width="100px">
