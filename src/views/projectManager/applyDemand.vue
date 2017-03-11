@@ -34,7 +34,7 @@
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.profession" placeholder="请选择">
          <el-option
-           v-for="item in demandInfo.staffType"
+           v-for="item in staffType"
            :label="item.label"
            :value="item.value">
          </el-option>
@@ -43,15 +43,15 @@
       <el-form-item label="薪资：" style="width: 400px;">
         <el-input v-model="demandInfo.money" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <!-- <el-form-item label="结算方式：" style="width: 400px;">
-        <el-select v-model="demandInfo.moneyClearTypeValue" placeholder="请选择">
+      <el-form-item label="结算方式：" style="width: 400px;">
+        <el-select v-model="demandInfo.clearType" placeholder="请选择">
           <el-option
-            v-for="item in demandInfo.moneyClearType"
+            v-for="item in moneyClearType"
             :label="item.label"
-            :value="item.moneyClearTypeValue">
+            :value="item.value">
           </el-option>
         </el-select>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item label="需求人数：" style="width: 400px;">
          <el-input-number v-model="demandInfo.needStaffNum" :min="0" :max="10000"></el-input-number>
       </el-form-item>
@@ -66,7 +66,7 @@
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.profession" placeholder="请选择">
          <el-option
-           v-for="item in demandInfo.staffType"
+           v-for="item in staffType"
            :label="item.label"
            :value="item.value">
          </el-option>
@@ -76,11 +76,11 @@
         <el-input v-model="demandInfo.money" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="结算方式：" style="width: 400px;">
-        <el-select v-model="demandInfo.moneyClearTypeValue" placeholder="请选择">
+        <el-select v-model="demandInfo.clearType" placeholder="请选择">
           <el-option
-            v-for="item in demandInfo.moneyClearType"
+            v-for="item in moneyClearType"
             :label="item.label"
-            :value="item.moneyClearTypeValue">
+            :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
@@ -173,21 +173,6 @@ export default {
         workType: 0,
         titile: '',
         applyReason: 0,
-        staffType: [{
-          value: '1',
-          label: '工种1',
-        },
-        {
-          value: '2',
-          label: '工种2',
-        }],
-        moneyClearType: [{
-          value: '1',
-          label: '日结',
-        }, {
-          value: '2',
-          label: '月结',
-        }],
         minOld: 18,
         maxOld: 100,
         degree: '5',
@@ -197,15 +182,73 @@ export default {
         interviewArea: '',
         interviewTime: '',
         profession: '1',
-        moneyClearTypeValue: '日结',
+        clearType: '1',
         workContent: '',
         marryType: 2,
         sex: 2,
         experience: '6',
         partTimeDate: [],
       },
-      workInfo: {
+      staffType: [{
+        value: '1',
+        label: '快递员',
       },
+      {
+        value: '2',
+        label: '物流专员',
+      },
+      {
+        value: '3',
+        label: '分拣员',
+      },
+      {
+        value: '4',
+        label: '装卸／搬运工',
+      },
+      {
+        value: '5',
+        label: '单证员',
+      },
+      {
+        value: '6',
+        label: '调度员',
+      },
+      {
+        value: '7',
+        label: '物料管理',
+      },
+      {
+        value: '8',
+        label: '国际货运',
+      },
+      {
+        value: '9',
+        label: '仓库管理员',
+      },
+      {
+        value: '10',
+        label: '司机',
+      },
+      {
+        value: '11',
+        label: '仓库主管',
+      }],
+      moneyClearType: [{
+        value: '1',
+        label: '日结',
+      },
+      {
+        value: '2',
+        label: '周结',
+      },
+      {
+        value: '3',
+        label: '月结',
+      },
+      {
+        value: '4',
+        label: '完工结',
+      }],
       degreeType: [{
         value: '0',
         label: '初中',
