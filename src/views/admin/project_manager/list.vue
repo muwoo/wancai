@@ -27,6 +27,8 @@
     <div class="tips"></div>
     <div class="card-panel">
       <projectManagerInfo v-for="info in infos" :projectManager="info"
+      @handleEdit="handleEdit(this.event, info)"
+      @handleDelete="handleDelete(this.event, info)"
       style="margin-top: 10px;" ></projectManagerInfo>
     </div>
   </div>
@@ -65,10 +67,36 @@
           weChat: 'librazhoux',
           telePhone: '183000000',
           shortPhone: '45123',
+        },
+        {
+          id: 111,
+          createdAt: 1487218088000,
+          idCardImages: [
+            'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
+            'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',
+          ],
+          name: '赵日天',
+          sex: '男',
+          nation: '汉族',
+          idCard: '352341233214112232',
+          birth: '91年4月',
+          address: '浙江省杭州市西湖区文三西路999号',
+          phoneNumber: '13111111111',
+          mail: '123456@qq.com',
+          qq: '123456',
+          weChat: 'librazhoux',
+          telePhone: '183000000',
+          shortPhone: '45123',
         }],
       };
     },
     methods: {
+      handleEdit(event, obj) {
+        console.log(obj);
+      },
+      handleDelete(event, obj) {
+        console.log(event);
+      },
       handleSearchItem() {
 
       },

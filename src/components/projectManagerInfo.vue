@@ -15,7 +15,17 @@
         </el-row>
       </el-col>
       <el-col :span="7" :offset="1" class="content-eol ">
-        <el-row class="unit-row">{{ projectManager.name }}{{ projectManager.sex }}</el-row>
+        <el-row class="unit-row">
+          <el-col :span="5">
+            {{ projectManager.name }}
+          </el-col>
+          <el-col :span="3">
+            {{ projectManager.sex }}
+          </el-col>
+          <el-col :span="3">
+            {{ projectManager.nation }}
+          </el-col>
+        </el-row>
         <el-row class="unit-row">{{ projectManager.idCard }}</el-row>
         <el-row class="unit-row">{{ projectManager.birth }}</el-row>
         <el-row class="unit-row">
@@ -23,6 +33,8 @@
             {{ limitAddress(projectManager.address) }}
           </el-tooltip>
         </el-row>
+        <!-- <el-row class="unit-row"></el-row>
+        <el-row class="unit-row"></el-row> -->
       </el-col>
       <el-col :span="5" :offset="1" class="content-eol">
         <el-row class="unit-row">手机号码{{ projectManager.phoneNumber }}</el-row>
