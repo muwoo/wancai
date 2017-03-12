@@ -110,7 +110,6 @@
               list, pages, total, pageNum,
             },
           } = response.data;
-          console.log(pages);
           this.totalProjectSize = total;
           this.currentPage = pageNum;
           this.pageCount = pages;

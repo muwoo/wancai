@@ -11,7 +11,7 @@
     <el-row class="body">
       <el-col :span="6">
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
-          <img class="image" v-for="item in projectManager.idCardImages" @click.prevent="handleClickImage" :src="item"/>
+          <img class="image"  @click.prevent="handleClickImage" :src="projectManager.avatar"/>
         </el-row>
       </el-col>
       <el-col :span="7" :offset="1" class="content-eol ">
@@ -20,29 +20,21 @@
             {{ projectManager.name }}
           </el-col>
           <el-col :span="3">
-            {{ projectManager.sex }}
-          </el-col>
-          <el-col :span="3">
-            {{ projectManager.nation }}
+            {{ projectManager.sex | formatSex }}
           </el-col>
         </el-row>
         <el-row class="unit-row">{{ projectManager.idCard }}</el-row>
-        <el-row class="unit-row">{{ projectManager.birth }}</el-row>
-        <el-row class="unit-row">
-          <el-tooltip :content="projectManager.address" placement="top">
-            {{ limitAddress(projectManager.address) }}
-          </el-tooltip>
-        </el-row>
+        <el-row class="unit-row">生日：{{ projectManager.birthday | formatBirthday }}</el-row>
         <!-- <el-row class="unit-row"></el-row>
         <el-row class="unit-row"></el-row> -->
       </el-col>
       <el-col :span="5" :offset="1" class="content-eol">
-        <el-row class="unit-row">手机号码{{ projectManager.phoneNumber }}</el-row>
-        <el-row class="unit-row">邮箱：{{ projectManager.mail }}</el-row>
+        <el-row class="unit-row">手机号码：{{ projectManager.phone }}</el-row>
+        <el-row class="unit-row">邮箱：{{ projectManager.eMail }}</el-row>
         <el-row class="unit-row">QQ：{{ projectManager.qq }}</el-row>
         <el-row class="unit-row">微信号：{{ projectManager.weChat }}</el-row>
-        <el-row class="unit-row">电话：{{ projectManager.telePhone }}</el-row>
-        <el-row class="unit-row">短号：{{ projectManager.shortPhone }}</el-row>
+        <el-row class="unit-row">电话：{{ projectManager.telphone }}</el-row>
+        <el-row class="unit-row">短号：{{ projectManager.cornet }}</el-row>
       </el-col>
       <el-col class="btn-row" :span="3" :offset="1">
         <el-button type="primary" size="large" @click.prevent="handleEdit" style="width: 80px;">修 改</el-button>
@@ -95,6 +87,16 @@
       formatDate(time) {
         const date = new Date(parseInt(time, 0));
         return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+      },
+      formatSex(sex) {
+        return sex === 1 ? '男' : '女';
+      },
+      formatBirthday(time) {
+        if (time === undefined) {
+          return '无';
+        }
+        const date = new Date(parseInt(time, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd');
       },
     },
   };

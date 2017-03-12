@@ -14,10 +14,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-          <el-form-item label='姓名：' style="width: 100%;">
-              <el-input v-model="projectManagerInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
+            <el-form-item label='姓名：' style="width: 100%;">
+                <el-input v-model="projectManagerInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
-          </el-col>
+        </el-col>
         </el-col>
       </el-row>
       <el-form-item>
@@ -25,11 +25,15 @@
       </el-form-item>
     </el-form>
     <div class="tips"></div>
-    <div class="card-panel">
+    <div class="card-panel"
+      v-loading="loading">
       <projectManagerInfo v-for="info in infos" :projectManager="info"
       @handleEdit="handleEdit(this.event, info)"
       @handleDelete="handleDelete(this.event, info)"
       style="margin-top: 10px;" ></projectManagerInfo>
+      <el-col :span="24" style="margin-top:10px;">
+        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+      </el-col>
     </div>
   </div>
 </template>
@@ -48,46 +52,12 @@
           phoneNumber: '',
           name: '',
         },
-        infos: [{
-          id: 111,
-          createdAt: 1487218088000,
-          idCardImages: [
-            'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
-            'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',
-          ],
-          name: '赵日天',
-          sex: '男',
-          nation: '汉族',
-          idCard: '352341233214112232',
-          birth: '91年4月',
-          address: '浙江省杭州市西湖区文三西路999号',
-          phoneNumber: '13111111111',
-          mail: '123456@qq.com',
-          qq: '123456',
-          weChat: 'librazhoux',
-          telePhone: '183000000',
-          shortPhone: '45123',
-        },
-        {
-          id: 111,
-          createdAt: 1487218088000,
-          idCardImages: [
-            'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
-            'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',
-          ],
-          name: '赵日天',
-          sex: '男',
-          nation: '汉族',
-          idCard: '352341233214112232',
-          birth: '91年4月',
-          address: '浙江省杭州市西湖区文三西路999号',
-          phoneNumber: '13111111111',
-          mail: '123456@qq.com',
-          qq: '123456',
-          weChat: 'librazhoux',
-          telePhone: '183000000',
-          shortPhone: '45123',
-        }],
+        infos: [],
+        currentPage: 1,
+        pageSize: 20,
+        pageCount: 0,
+        totalProjectSize: 100,
+        loading: false,
       };
     },
     methods: {
@@ -100,6 +70,36 @@
       handleSearchItem() {
 
       },
+      handleCurrentPageChange(val) {
+        this.currentPage = val;
+        this.getProjectManagers();
+      },
+      getProjectManagers() {
+        this.loading = true;
+        const params = {
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+        };
+        // console.log(params);
+        this.$http.post('/manager/list', params).then((response) => {
+          const {
+            data: {
+              list, pages, total, pageNum,
+            },
+          } = response.data;
+          this.totalProjectSize = total;
+          this.currentPage = pageNum;
+          this.pageCount = pages;
+          this.infos = list;
+          this.loading = false;
+        }).catch((error) => {
+          console.log(error);
+          this.loading = false;
+        });
+      },
+    },
+    mounted() {
+      this.getProjectManagers();
     },
   };
 </script>
@@ -110,9 +110,7 @@
   }
   .card-panel {
     width: 100%;
-    height: 800px;
-    // overflow: hidden;
-    // overflow-y: scroll;
+    height: auto;
   }
 }
 </style>
