@@ -22,7 +22,7 @@
       <el-form-item label='身份证号码：' prop="idCard">
         <el-input v-model="projectManagerInfo.idCard" placeholder="请输入内容" style="width: 240px;" ></el-input>
       </el-form-item>
-      <el-form-item label="性别：" prop="sex">
+      <el-form-item label="性别：">
         <el-radio-group v-model="projectManagerInfo.sex">
           <el-radio :label='1'>男</el-radio>
           <el-radio :label='0'>女</el-radio>
@@ -53,8 +53,8 @@
       <el-form-item label='密码：' prop="password">
         <el-input v-model="projectManagerInfo.password" type="password" placeholder="请输入内容" style="width: 240px;"></el-input>
       </el-form-item>
-      <el-form-item label='确认密码：' prop="confirmPass">
-        <el-input v-model="projectManagerInfo.confirmPass" type="password" placeholder="请输入内容" style="width: 240px;"></el-input>
+      <el-form-item label='确认密码：' prop="checkPass">
+        <el-input v-model="projectManagerInfo.checkPass" type="password" placeholder="请输入内容" style="width: 240px;"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="handleSubmit">确定新建</el-button>
@@ -70,12 +70,16 @@ export default {
     return {
       projectManagerInfo: {
         sex: 1,
-        imageUrl: '',
-        phoneNumber: '',
-        idCardNumber: '',
-        mail: '',
+        avatar: '',
+        phone: '',
+        idCard: '',
+        eMail: '',
         qq: '',
+        weChat: '',
+        telphone: '',
+        cornet: '',
         birthday: '',
+        password: '',
       },
       projectManagerInfoRules: {
         name: [
@@ -86,10 +90,11 @@ export default {
         ],
         idCard: [
           { required: true, message: '请输入身份证', trigger: 'blur' },
+          { max: 18, message: '身份证最多18位', trigger: 'blur' },
         ],
-        sex: [
-          { required: true, message: '请选择性别', trigger: 'blur' },
-        ],
+//        sex: [
+//          { required: true, message: '请选择性别', trigger: 'blur' },
+//        ],
         birthday: [
           { required: true, message: '请选择出生年月', trigger: 'blur' },
         ],
@@ -111,7 +116,7 @@ export default {
         password: [
           { validator: this.validatePass, trigger: 'blur' },
         ],
-        confirmPass: [
+        checkPass: [
           { validator: this.validateCheckPass, trigger: 'blur' },
         ],
       },
@@ -148,19 +153,27 @@ export default {
         if (valid) {
           this.publishing = true;
           this.$http.post('/manager/add', {
-            name: '',
-            phone: '',
-            idCard: '',
-            sex: '',
-            birthday: '',
-            eMail: '',
-            qq: '',
-            weChat: '',
-            telephone: '',
-            cornet: '',
-            password: '',
+            avatar: 'http://wx2.sinaimg.cn/mw690/62decd96ly1fdj0twby3fg20do07fu0z.gif',
+            name: this.projectManagerInfo.name,
+            phone: this.projectManagerInfo.phone,
+            idCard: this.projectManagerInfo.idCard,
+            sex: this.projectManagerInfo.sex,
+            birthday: this.timestamp,
+            eMail: this.projectManagerInfo.eMail,
+            qq: this.projectManagerInfo.qq,
+            weChat: this.projectManagerInfo.weChat,
+            telphone: this.projectManagerInfo.telphone,
+            cornet: this.projectManagerInfo.cornet,
+            password: this.projectManagerInfo.password,
           }).then((response) => {
-            console.log(response);
+            const { error, errorCode } = response.data;
+            if (errorCode === 10000) {
+              this.$message({
+                message: '新建成功',
+                type: 'success',
+              });
+              this.$router.push('list');
+            }
             this.publishing = false;
           }).catch((error) => {
             console.log(error);
@@ -169,6 +182,14 @@ export default {
         }
         return false;
       });
+    },
+  },
+  computed: {
+    timestamp() {
+      if (this.projectManagerInfo.birthday !== '') {
+        return Date.parse(new Date(this.projectManagerInfo.birthday));
+      }
+      return '';
     },
   },
 };

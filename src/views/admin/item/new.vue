@@ -286,7 +286,8 @@ export default {
           }).then((response) => {
             console.log(response);
             // eslint-disable-next-line
-            const { error, errorCode, moreInfo } = response.data;
+            console.log(response.data);
+            const { error, errorCode } = response.data;
             if (errorCode === 10000) {
               this.$message({
                 message: '新建成功',

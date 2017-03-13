@@ -9,14 +9,14 @@
       </el-col>
     </el-row>
     <el-row class="body">
-      <el-col :span="6">
+      <el-col :span="4">
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
           <img class="image"  @click.prevent="handleClickImage" :src="projectManager.avatar"/>
         </el-row>
       </el-col>
       <el-col :span="7" :offset="1" class="content-eol ">
         <el-row class="unit-row">
-          <el-col :span="5">
+          <el-col :span="8">
             {{ projectManager.name }}
           </el-col>
           <el-col :span="3">
@@ -28,7 +28,7 @@
         <!-- <el-row class="unit-row"></el-row>
         <el-row class="unit-row"></el-row> -->
       </el-col>
-      <el-col :span="5" :offset="1" class="content-eol">
+      <el-col :span="7" :offset="1" class="content-eol">
         <el-row class="unit-row">手机号码：{{ projectManager.phone }}</el-row>
         <el-row class="unit-row">邮箱：{{ projectManager.eMail }}</el-row>
         <el-row class="unit-row">QQ：{{ projectManager.qq }}</el-row>

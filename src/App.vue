@@ -12,7 +12,7 @@ import 'element-ui/lib/theme-default/index.css';
 
 Vue.use(Element);
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.0.99:9090',
+  baseURL: 'http://192.168.31.253:9090',
   // baseURL: 'http://127.0.0.1:3000/',
   headers: {
     // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
