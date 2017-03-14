@@ -6,7 +6,7 @@
       <el-step title="招聘前台发布招聘计划"></el-step>
       <el-step title="招聘经纪人提交求职者名单"></el-step>
     </el-steps>
-    00px" :model="demandI    <el-form ref="form" label-width="1nfo">
+    <el-form ref="form" label-width="1nfo">
       <h1 class="tips">需求表</h1>
       <el-form-item label="表名：" style="width: 400px;">
         <el-input v-model="demandInfo.tableName" placeholder="请输入内容"></el-input>

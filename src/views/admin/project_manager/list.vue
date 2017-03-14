@@ -68,7 +68,7 @@
         console.log(event);
       },
       handleSearchItem() {
-
+        this.getProjectManagers();
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;
@@ -79,6 +79,9 @@
         const params = {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
+          idCard: this.projectManagerInfo.idCard,
+          phone: this.projectManagerInfo.phone,
+          name: this.projectManagerInfo.name,
         };
         // console.log(params);
         this.$http.post('/manager/list', params).then((response) => {
