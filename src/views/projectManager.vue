@@ -78,9 +78,8 @@ export default {
     },
     handleSelectProject(path) {
       if (path !== '/project_manager/profile') {
-        console.log(path);
         for (let i = 0; i < this.allProjects.length; i += 1) {
-          if (this.allProjects[i].path === path) {
+          if (this.allProjects[i].id.toString() === path) {
             this.currentProject = this.allProjects[i];
           }
         }
