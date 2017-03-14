@@ -7,8 +7,8 @@
       <el-col :span="15">
         <el-menu :default-active="currentPath" class="el-menu-demo" mode="horizontal" @select="handleSelectProject">
           <el-submenu index="/project_manager/item/dashboard">
-            <template slot="title">{{ currentProject.name }}</template>
-            <el-menu-item v-for="item in allProjects" :index="item.id + ''">{{item.name}}</el-menu-item>
+            <template slot="title">{{ currentProject.title }}</template>
+            <el-menu-item v-for="item in allProjects" :index="item.id + ''">{{item.title}}</el-menu-item>
           </el-submenu>
           <el-menu-item index="/project_manager/profile">我的中心</el-menu-item>
         </el-menu>
@@ -24,7 +24,7 @@
         <div class="recruit-btn">
           <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+招聘需求申请表</el-button>
         </div>
-        <el-menu :default-active="currentPath" class="el-menu-vertical-demo" @select="handleSelect" router>
+        <el-menu :default-active="currentPath" class="el-menu-vertical-demo" router>
           <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && !item.isAdmin">
             <el-submenu :index="index+''" v-if="!item.leaf">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
@@ -49,12 +49,8 @@ export default {
   data() {
     return {
       currentPath: '',
-      allProjects: [
-        { id: 1, name: '萧山仓库' },
-        { id: 2, name: '余杭仓库' },
-        { id: 3, name: '下沙仓库' },
-      ],
-      currentProject: { id: '', name: '请选择项目' },
+      allProjects: [],
+      currentProject: { id: '', title: '请选择项目' },
       currentUser: {
         name: '',
       },
@@ -74,30 +70,21 @@ export default {
     },
   },
   methods: {
-    // handleSelect: function(a, b) {
-    //
-    // },
-    initialCurrentProject() {
-      // if (this.allProjects.length > 0) {
-      //   this.currentProject = this.allProjects[0];
-      // } else {
-      //   this.currentProject = { id: '', name: '无项目' };
-      // }
-      // this.currentProject = { id: '', name: '无项目' };
-    },
     handleSelect() {
       // console.log(this.$router.options.routes);
     },
     handleApplyDemand() {
       this.$router.replace('/project_manager/applyDemand');
     },
-    handleSelectProject(id) {
-      if (id !== '/project_manager/profile') {
+    handleSelectProject(path) {
+      if (path !== '/project_manager/profile') {
+        console.log(path);
         for (let i = 0; i < this.allProjects.length; i += 1) {
-          if (this.allProjects[i].id.toString() === id) {
+          if (this.allProjects[i].path === path) {
             this.currentProject = this.allProjects[i];
           }
         }
+        this.$router.push(`/project_manager/item/dashboard?id=${path}`);
         this.isLeftNav = true;
       } else {
         this.$router.replace('/project_manager/profile');
@@ -128,14 +115,25 @@ export default {
   },
   mounted() {
     this.currentPath = this.$route.path;
-    this.initialCurrentProject();
     if (this.currentPath === '/project_manager/profile') {
       this.isLeftNav = false;
     }
     const projectManager = JSON.parse(sessionStorage.getItem('project_manager'));
-    if (projectManager) {
-      this.currentUser.name = projectManager.name || '';
+    if (projectManager.data) {
+      this.currentUser.name = projectManager.data.name || '';
     }
+
+    this.$http.post('/project/currentList?pageNum=1&pageSize=50').then((response) => {
+      const {
+        data: {
+          list,
+        },
+      } = response.data;
+      console.log(list);
+      this.allProjects = list;
+    }).catch((error) => {
+      console.log(error);
+    });
   },
 };
 </script>
