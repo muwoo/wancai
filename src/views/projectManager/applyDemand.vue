@@ -6,7 +6,7 @@
       <el-step title="招聘前台发布招聘计划"></el-step>
       <el-step title="招聘经纪人提交求职者名单"></el-step>
     </el-steps>
-    <el-form ref="form" label-width="1nfo">
+    <el-form ref="form" label-width="100px">
       <h1 class="tips">需求表</h1>
       <el-form-item label="表名：" style="width: 400px;">
         <el-input v-model="demandInfo.tableName" placeholder="请输入内容"></el-input>
@@ -94,7 +94,7 @@
         </el-col>
         <el-col :span="3" style="text-align: left;">需求人数：</el-col>
         <el-col :span="8">
-          <el-input-number v-model="demandInfo.minOld" :min="0" :max="10000" style="width: 140px;"></el-input-number>
+          <el-input-number v-model="demandInfo.personNum" :min="0" :max="10000" style="width: 140px;"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item>
@@ -176,6 +176,7 @@ export default {
         applyReason: 0,
         minOld: 18,
         maxOld: 100,
+        personNum: 0,
         degree: '5',
         money: '',
         needStaffNum: 0,
