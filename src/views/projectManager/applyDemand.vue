@@ -55,11 +55,18 @@
       <el-form-item label="需求人数：" style="width: 400px;">
          <el-input-number v-model="demandInfo.needStaffNum" :min="0" :max="10000"></el-input-number>
       </el-form-item>
-      <el-form-item label="到岗时间：" style="width: 400px;">
-        <el-input v-model="demandInfo.reportTime" placeholder="请输入内容"></el-input>
+      <el-form-item v-for="interview in demandInfo.listDemandInterview" label="到岗时间：">
+        <el-col :span="9">
+          <el-input v-model="interview.interviewTime" placeholder="请输入内容"></el-input>
+        </el-col>
+        <el-col :span="3" style="text-align: right;">面试地点：</el-col>
+        <el-col :span="12">
+          <el-input v-model="interview.interviewAddress" placeholder="请输入内容"></el-input>
+        </el-col>
       </el-form-item>
-      <el-form-item label="面试时间：" style="width: 400px;">
-        <el-input v-model="demandInfo.interviewTime" placeholder="请输入内容"></el-input>
+      <el-form-item>
+        <el-button type="text" @click="handleAddInterview">+添加面试安排</el-button>
+        <el-button v-if="demandInfo.listDemandInterview.length > 1" type="text" @click="handleDelInterview">-删减面试安排</el-button>
       </el-form-item>
     </el-form>
     <el-form v-if="demandInfo.workType === 0" refs="form" :model="demandInfo" label-width="100px">
@@ -188,9 +195,6 @@ export default {
         degree: '5',
         money: '',
         needStaffNum: 0,
-        reportTime: '',
-        interviewArea: '',
-        interviewTime: '',
         profession: '1',
         clearType: '1',
         workContent: '',
@@ -202,12 +206,12 @@ export default {
           endTime: 1489565603000,
           applyNumber: 10,
         }],
-        demandInterviews: {
+        listDemandInterview: [{
           interviewTime: '',
           interviewAddress: '',
           latitude: '',
           longitude: '',
-        },
+        }],
       },
       staffType: [{
         value: '1',
@@ -336,14 +340,12 @@ export default {
       }
     },
     handleAddInterview() {
-      this.$message('add interview');
+      this.demandInfo.listDemandInterview.push({ interviewTime: '', interviewAddress: '', latitude: 0, longitude: 0 });
     },
     handleDelInterview() {
-      this.$message('del interview');
-    },
-    formatDateRange(schedule) {
-      // let dateArray = [];
-      // dateArray.push();
+      if (this.demandInfo.listDemandInterview.length > 1) {
+        this.demandInfo.listDemandInterview.pop();
+      }
     },
   },
   filters: {
