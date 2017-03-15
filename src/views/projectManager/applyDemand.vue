@@ -12,7 +12,7 @@
         <el-input v-model="demandInfo.tableName" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="类型：">
-        <el-radio-group v-model="demandInfo.workType" @change="handleWorkTypeChange">
+        <el-radio-group v-model="demandInfo.workType">
           <el-radio :label="0">兼职</el-radio>
           <el-radio :label="1">全职</el-radio>
         </el-radio-group>
@@ -30,7 +30,7 @@
       </el-form-item>
     </el-form>
     <h1 class="tips">岗位信息</h1>
-    <el-form v-if="isFullTime" refs="form" :model="demandInfo" label-width="100px">
+    <el-form v-if="demandInfo.workType === 0" refs="form" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.profession" placeholder="请选择">
          <el-option
@@ -62,7 +62,7 @@
         <el-input v-model="demandInfo.interviewTime" placeholder="请输入内容"></el-input>
       </el-form-item>
     </el-form>
-    <el-form v-if="isPartTime" refs="form" :model="demandInfo" label-width="100px">
+    <el-form v-if="demandInfo.workType === 1" refs="form" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.profession" placeholder="请选择">
          <el-option
@@ -98,8 +98,8 @@
         </el-col>
       </el-form-item>
       <el-form-item>
-        <el-button type="text">+添加排班信息</el-button>
-        <el-button type="text">-删减排班信息</el-button>
+        <el-button type="text" @click="handleAddSchedule">+添加排班信息</el-button>
+        <el-button type="text" @click="handleDelSchedule">-删减排班信息</el-button>
       </el-form-item>
     </el-form>
     <h1 class="tips">岗位要求</h1>
@@ -303,22 +303,17 @@ export default {
         label: '不限',
         value: '6',
       }],
-      isFullTime: false,
-      isPartTime: true,
     };
   },
   methods: {
-    handleWorkTypeChange(val) {
-      if (val === 0) {
-        this.isFullTime = false;
-        this.isPartTime = true;
-      } else {
-        this.isFullTime = true;
-        this.isPartTime = false;
-      }
-    },
     handleDegreeChange(val) {
       console.log(this.demandInfo.degree);
+    },
+    handleAddSchedule() {
+      this.$message('add schedule');
+    },
+    handleDelSchedule() {
+      this.$message('del schedule');
     },
   },
 };
