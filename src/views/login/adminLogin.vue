@@ -56,7 +56,6 @@ export default {
           this.$http.post('/login', params, {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
-              // 'Content-Type': 'application/json',
             },
           }).then((response) => {
             // eslint-disable-next-line
@@ -75,6 +74,12 @@ export default {
         return false;
       });
     },
+  },
+  mounted() {
+    const admin = sessionStorage.getItem('admin');
+    if (admin) {
+      this.$router.push('');
+    }
   },
 };
 </script>

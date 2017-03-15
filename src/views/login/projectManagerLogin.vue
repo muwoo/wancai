@@ -79,6 +79,12 @@ export default {
       });
     },
   },
+  mounted() {
+    const projectManager = sessionStorage.getItem('project_manager');
+    if (projectManager) {
+      this.$router.push('');
+    }
+  },
 };
 </script>
 <style lang='scss' scoped>
