@@ -114,7 +114,7 @@
       <el-form-item label="年龄：" style="width: 400px;">
         <el-col :span="11">
           <el-form-item prop="minOld" style="width: 100%; margin-left: 0;">
-            <el-input-number v-model="demandInfo.minOld" :min="18" :max="100" style="width: 100%;"></el-input-number>
+            <el-input-number v-model="demandInfo.minOld" :min="18" :max="demandInfo.maxOld" style="width: 100%;"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="2" style="text-align: center">至</el-col>
