@@ -30,7 +30,7 @@
       </el-form-item>
     </el-form>
     <h1 class="tips">岗位信息</h1>
-    <el-form v-if="demandInfo.workType === 0" refs="form" :model="demandInfo" label-width="100px">
+    <el-form v-if="demandInfo.workType === 1" refs="form" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.profession" placeholder="请选择">
          <el-option
@@ -62,7 +62,7 @@
         <el-input v-model="demandInfo.interviewTime" placeholder="请输入内容"></el-input>
       </el-form-item>
     </el-form>
-    <el-form v-if="demandInfo.workType === 1" refs="form" :model="demandInfo" label-width="100px">
+    <el-form v-if="demandInfo.workType === 0" refs="form" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.profession" placeholder="请选择">
          <el-option
@@ -84,22 +84,30 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="排班信息：" style="width: 800px;">
-        <el-col :span="13">
+      <el-form-item v-for="schedule in demandInfo.schedules" label="排班信息：" style="width: 800px;">
+        <el-col :span="7">
           <el-date-picker
-            v-model="demandInfo.partTimeDate"
-            type="datetimerange"
-            placeholder="选择时间范围">
+            v-model="schedule.startTime"
+            type="datetime"
+            placeholder="选择日期时间">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="1">至</el-col>
+        <el-col :span="7">
+          <el-date-picker
+            v-model="schedule.endTime"
+            type="datetime"
+            placeholder="选择日期时间">
           </el-date-picker>
         </el-col>
         <el-col :span="3" style="text-align: left;">需求人数：</el-col>
-        <el-col :span="8">
-          <el-input-number v-model="demandInfo.personNum" :min="0" :max="10000" style="width: 140px;"></el-input-number>
+        <el-col :span="6">
+          <el-input-number v-model="schedule.applyNumber" :min="0" :max="10000" style="width: 140px;"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item>
         <el-button type="text" @click="handleAddSchedule">+添加排班信息</el-button>
-        <el-button type="text" @click="handleDelSchedule">-删减排班信息</el-button>
+        <el-button v-if="demandInfo.schedules.length > 1" type="text" @click="handleDelSchedule">-删减排班信息</el-button>
       </el-form-item>
     </el-form>
     <h1 class="tips">岗位要求</h1>
@@ -189,7 +197,17 @@ export default {
         marryType: 2,
         sex: 2,
         experience: '6',
-        partTimeDate: [],
+        schedules: [{
+          startTime: 1489392978000,
+          endTime: 1489565603000,
+          applyNumber: 10,
+        }],
+        demandInterviews: {
+          interviewTime: '',
+          interviewAddress: '',
+          latitude: '',
+          longitude: '',
+        },
       },
       staffType: [{
         value: '1',
@@ -310,10 +328,27 @@ export default {
       console.log(this.demandInfo.degree);
     },
     handleAddSchedule() {
-      this.$message('add schedule');
+      this.demandInfo.schedules.push({ startTime: '', endTime: '', applyNumber: 0 });
     },
     handleDelSchedule() {
-      this.$message('del schedule');
+      if (this.demandInfo.schedules.length > 1) {
+        this.demandInfo.schedules.pop();
+      }
+    },
+    handleAddInterview() {
+      this.$message('add interview');
+    },
+    handleDelInterview() {
+      this.$message('del interview');
+    },
+    formatDateRange(schedule) {
+      // let dateArray = [];
+      // dateArray.push();
+    },
+  },
+  filters: {
+    formatScheduleDate(date) {
+      return new Date(date);
     },
   },
 };
