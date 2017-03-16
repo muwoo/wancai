@@ -1,7 +1,7 @@
 <template>
   <div id="adminProfile">
     <el-row class="top">
-      <el-col :span="4">个人中心</el-col>
+      <el-col :span="4" class="title">个人中心</el-col>
       <el-col :span="8" :offset="12">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
           创建时间：{{ currentUser.createdAt | formatDate }}
@@ -122,7 +122,11 @@
     height: 40px;
     background-color: #eff2f7;
     border:1px solid #FFFFFF;
-
+    .title {
+      padding-left: 10px;
+      color: #9b9b9b;
+      font-size: 18px;
+    }
     .el-col {
       height: 100%;
       line-height: 40px;
