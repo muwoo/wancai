@@ -1,89 +1,185 @@
 <template>
   <div id="adminProfile">
-    <div class="card">
-      <div class="top">
-        <span>个人中心</span>
-      </div>
-      <div class="card-body">
-        <div class="avatar">
-          <!-- <img :src="avatar" /> -->
-        </div>
-        <div class="user-info">
-          <span>{{ currentUser.name }}</span>
-        </div>
-      </div>
-    </div>
+    <el-row class="top">
+      <el-col :span="4">个人中心</el-col>
+      <el-col :span="8" :offset="12">
+        <el-row type="flex" justify="end" style="padding-right: 20px;">
+          创建时间：{{ currentUser.createdAt | formatDate }}
+        </el-row>
+      </el-col>
+    </el-row>
+    <el-row class="body">
+      <el-col :span="4">
+        <el-row class="image-col" type="flex" justify="space-around" align="middle">
+          <img class="image"  @click.prevent="handleClickImage" :src="currentUser.avatar"/>
+        </el-row>
+      </el-col>
+      <el-col :span="7" :offset="1" class="content-eol ">
+        <el-row class="unit-row">
+          <el-col :span="8">
+            {{ currentUser.name }}
+          </el-col>
+          <el-col :span="3">
+            {{ currentUser.sex | formatSex }}
+          </el-col>
+        </el-row>
+        <el-row class="unit-row">{{ currentUser.idCard }}</el-row>
+        <el-row class="unit-row">生日：{{ currentUser.birthday | formatBirthday }}</el-row>
+        <!-- <el-row class="unit-row"></el-row>
+        <el-row class="unit-row"></el-row> -->
+      </el-col>
+      <el-col :span="7" :offset="1" class="content-eol">
+        <el-row class="unit-row">手机号码：{{ currentUser.phone }}</el-row>
+        <el-row class="unit-row">邮箱：{{ currentUser.eMail }}</el-row>
+        <el-row class="unit-row">QQ：{{ currentUser.qq }}</el-row>
+        <el-row class="unit-row">微信号：{{ currentUser.weChat }}</el-row>
+        <el-row class="unit-row">电话：{{ currentUser.telphone }}</el-row>
+        <el-row class="unit-row">短号：{{ currentUser.cornet }}</el-row>
+      </el-col>
+      <el-col class="btn-row" :span="3" :offset="1">
+        <el-button type="primary" size="large" @click.prevent="handleSetPassword">修改密码</el-button>
+      </el-col>
+    </el-row>
+    <!-- <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
+      <img class="big-img" :src="currentImage" />
+    </el-dialog> -->
+    <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'adminProfile',
-  data() {
-    return {
-      currentUser: {
-        name: '',
+  import bigImage from '../../components/bigImage';
+  import util from '../../common/util';
+
+  export default {
+    name: 'adminProfile',
+    data() {
+      return {
+        BigImageVisible: false,
+        currentImage: '',
+        currentUser: {
+          name: '赵日天',
+          createdAt: 1489678919000,
+          avatar: '',
+          sex: 1,
+          idCard: '1235123123',
+          birthday: 1489678919000,
+          phone: '139123123',
+          eMail: '123214@qq.com',
+          qq: '1235',
+          weChat: 'libra',
+          telphone: '123',
+          cornet: '321',
+        },
+      };
+    },
+    components: {
+      bigImage,
+    },
+    methods: {
+      handleClickImage(evt) {
+        this.currentImage = evt.target.src;
+        this.BigImageVisible = true;
       },
-    };
-  },
-  mounted() {
-    const admin = JSON.parse(sessionStorage.getItem('admin')).data;
-    if (admin) {
-      this.currentUser.name = admin.name || '';
-    }
-  },
-};
+      handleSetPassword() {
+
+      },
+    },
+    filters: {
+      formatDate(time) {
+        const date = new Date(parseInt(time, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+      },
+      formatSex(sex) {
+        return sex === 1 ? '男' : '女';
+      },
+      formatBirthday(time) {
+        if (time === undefined) {
+          return '无';
+        }
+        const date = new Date(parseInt(time, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd');
+      },
+    },
+    mounted() {
+      const admin = JSON.parse(sessionStorage.getItem('admin')).data;
+      if (admin) {
+        this.currentUser.name = admin.name || '';
+      }
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
 #adminProfile {
-  .card {
-    height: 200px;
-    border: 1px solid #d1dbe5;
-    border-radius: 4px;
-    background-color: #FFF;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
+  width: 100%;
+  height: 190px;
+  // margin-left: 10px;
+  // margin-right: 10px;
+  // padding-right: 10px;
+  background-color: #FFFFFF;
+  .top {
+    height: 40px;
+    background-color: #eff2f7;
+    border:1px solid #FFFFFF;
 
-    .top {
-      height: 30px;
-      background: #eef1f6;
-      line-height: 30px;
-      > span {
-        margin-left: 10px;
-        color: #9b9b9b;
-      }
+    .el-col {
+      height: 100%;
+      line-height: 40px;
+      font-size: 14px;
     }
-    .card-body {
-      height: 170px;
+    .el-checkbox {
       width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      .avatar {
-        width: 170px;
-        height: 100%;
-        > img {
-          width: 110px;
-          height: 110px;
-          padding: 30px;
-        }
-      }
-      .user-info {
-        height: 110px;
-        width: 100px;
-        // padding: 30px;
-        display: flex;
-        flex-direction: column;
-      }
-      .balance {
-        margin-left: 30px;
-        width: 100px;
-      }
+      height: 100%;
+      padding-left: 10px;
     }
   }
+  .body {
+    height: 150px;
+   //  background-color: pink;
+    .el-col {
+      height: 100%;
+      font-size: 14px;
+     //  line-height: 40px;
+    }
+    .image-col {
+      height: 100%;
+      width: 100%;
+     //  padding-top: 10px;
+      .image {
+        width: 40%;
+        height: 50px;
+      }
+    }
+    .unit-row {
+      height: 15px;
+      line-height: 15px;
+      margin-top: 5px;
+    }
+    .content-eol {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: center;
+    }
+    .btn-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-  > div + div {
-    margin-top: 40px;
+      > button + button {
+        margin-top: 10px;
+      }
+    }
+   //  .el-dialog {
+   //    width: 500px;
+   //    height: 300px;
+   //  }
+    .big-img {
+      width: 500px;
+      height: 300px;
+    }
   }
 }
 </style>

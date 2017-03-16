@@ -1,7 +1,7 @@
 <template>
   <div id="projectManagerInfo">
     <el-row class="top">
-      <el-col :span="4">ID：{{ projectManager.id }}</el-checkbox></el-col>
+      <el-col :span="4">ID：{{ projectManager.id }}</el-col>
       <el-col :span="8" :offset="12">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
           创建时间：{{ projectManager.createdAt | formatDate }}
