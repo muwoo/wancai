@@ -28,7 +28,7 @@
           <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && !item.isAdmin">
             <el-submenu :index="index+''" v-if="!item.leaf">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
-              <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
+              <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path + '?id=' + currentProject.id">{{child.alias}}</el-menu-item>
             </el-submenu>
           </template>
         </el-menu>
@@ -50,6 +50,7 @@ export default {
     return {
       currentPath: '',
       allProjects: [],
+      // currentProject: { id: '', title: '请选择项目' },
       currentProject: { id: '', title: '请选择项目' },
       currentUser: {
         name: '',
@@ -74,7 +75,7 @@ export default {
       // console.log(this.$router.options.routes);
     },
     handleApplyDemand() {
-      this.$router.replace('/project_manager/applyDemand');
+      this.$router.replace(`/project_manager/applyDemand?id=${this.currentProject.id}`);
     },
     handleSelectProject(path) {
       if (path !== '/project_manager/profile') {
@@ -95,7 +96,6 @@ export default {
     logout() {
       const that = this;
       this.$confirm('确认退出吗?', '提示', {
-
       }).then(() => {
         sessionStorage.removeItem('projectManager');
         that.$router.replace('/project_manager/login');
