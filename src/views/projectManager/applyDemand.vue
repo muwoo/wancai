@@ -6,19 +6,19 @@
       <el-step title="招聘前台发布招聘计划"></el-step>
       <el-step title="招聘经纪人提交求职者名单"></el-step>
     </el-steps>
-    <el-form ref="form" label-width="100px">
+    <el-form ref="applyDemandForm" label-width="100px">
       <h1 class="tips">需求表</h1>
       <el-form-item label="表名：" style="width: 400px;">
-        <el-input v-model="demandInfo.tableName" placeholder="请输入内容"></el-input>
+        <el-input v-model="demandInfo.title" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="类型：">
-        <el-radio-group v-model="demandInfo.workType">
+        <el-radio-group v-model="demandInfo.type">
           <el-radio :label="0">兼职</el-radio>
           <el-radio :label="1">全职</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="岗位：" style="width: 300px;">
-        <el-input v-model="demandInfo.workName" placeholder="请输入内容"></el-input>
+        <el-input v-model="demandInfo.job" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="申请原因：">
         <el-radio-group v-model="demandInfo.applyReason">
@@ -30,9 +30,9 @@
       </el-form-item>
     </el-form>
     <h1 class="tips">岗位信息</h1>
-    <el-form v-if="demandInfo.workType === 1" refs="form" :model="demandInfo" label-width="100px">
+    <el-form v-if="demandInfo.type === 1" refs="applyDemandForm" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
-        <el-select v-model="demandInfo.profession" placeholder="请选择">
+        <el-select v-model="demandInfo.workType" placeholder="请选择">
          <el-option
            v-for="item in staffType"
            :label="item.label"
@@ -41,10 +41,10 @@
        </el-select>
       </el-form-item>
       <el-form-item label="薪资：" style="width: 400px;">
-        <el-input v-model="demandInfo.money" placeholder="请输入内容"></el-input>
+        <el-input v-model="demandInfo.salary" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="结算方式：" style="width: 400px;">
-        <el-select v-model="demandInfo.clearType" placeholder="请选择">
+        <el-select v-model="demandInfo.settlementType" placeholder="请选择">
           <el-option
             v-for="item in moneyClearType"
             :label="item.label"
@@ -53,9 +53,12 @@
         </el-select>
       </el-form-item>
       <el-form-item label="需求人数：" style="width: 400px;">
-         <el-input-number v-model="demandInfo.needStaffNum" :min="0" :max="10000"></el-input-number>
+         <el-input-number v-model="demandInfo.applyNumber" :min="0" :max="10000"></el-input-number>
       </el-form-item>
-      <el-form-item v-for="interview in demandInfo.listDemandInterview" label="到岗时间：">
+      <el-form-item label="到岗时间：" style="width: 400px;">
+        <el-input v-model="demandInfo.workTime" placeholder="请输入内容"></el-input>
+      </el-form-item>
+      <el-form-item v-for="interview in demandInfo.listDemandInterview" label="面试时间：">
         <el-col :span="9">
           <el-input v-model="interview.interviewTime" placeholder="请输入内容"></el-input>
         </el-col>
@@ -69,9 +72,9 @@
         <el-button v-if="demandInfo.listDemandInterview.length > 1" type="text" @click="handleDelInterview">-删减面试安排</el-button>
       </el-form-item>
     </el-form>
-    <el-form v-if="demandInfo.workType === 0" refs="form" :model="demandInfo" label-width="100px">
+    <el-form v-if="demandInfo.type === 0" ref="applyDemandForm" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
-        <el-select v-model="demandInfo.profession" placeholder="请选择">
+        <el-select v-model="demandInfo.workType" placeholder="请选择">
          <el-option
            v-for="item in staffType"
            :label="item.label"
@@ -80,10 +83,10 @@
        </el-select>
       </el-form-item>
       <el-form-item label="薪资：" style="width: 400px;">
-        <el-input v-model="demandInfo.money" placeholder="请输入内容"></el-input>
+        <el-input v-model="demandInfo.salary" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="结算方式：" style="width: 400px;">
-        <el-select v-model="demandInfo.clearType" placeholder="请选择">
+        <el-select v-model="demandInfo.settlementType" placeholder="请选择">
           <el-option
             v-for="item in moneyClearType"
             :label="item.label"
@@ -91,7 +94,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item v-for="schedule in demandInfo.schedules" label="排班信息：" style="width: 800px;">
+      <el-form-item v-for="schedule in demandInfo.listSchedulingInformation" label="排班信息：" style="width: 800px;">
         <el-col :span="7">
           <el-date-picker
             v-model="schedule.startTime"
@@ -114,11 +117,11 @@
       </el-form-item>
       <el-form-item>
         <el-button type="text" @click="handleAddSchedule">+添加排班信息</el-button>
-        <el-button v-if="demandInfo.schedules.length > 1" type="text" @click="handleDelSchedule">-删减排班信息</el-button>
+        <el-button v-if="demandInfo.listSchedulingInformation.length > 1" type="text" @click="handleDelSchedule">-删减排班信息</el-button>
       </el-form-item>
     </el-form>
     <h1 class="tips">岗位要求</h1>
-    <el-form ref="form" :model="demandInfo" label-width="100px">
+    <el-form ref="applyDemandForm" :model="demandInfo" label-width="100px">
       <el-form-item label="性别：">
         <el-radio-group v-model="demandInfo.sex">
           <el-radio :label="2">不限</el-radio>
@@ -128,19 +131,19 @@
       </el-form-item>
       <el-form-item label="年龄：" style="width: 400px;">
         <el-col :span="11">
-          <el-form-item prop="minOld" style="width: 100%; margin-left: 0;">
-            <el-input-number v-model="demandInfo.minOld" :min="18" :max="demandInfo.maxOld" style="width: 100%;"></el-input-number>
+          <el-form-item prop="minAge" style="width: 100%; margin-left: 0;">
+            <el-input-number v-model="demandInfo.minAge" :min="18" :max="demandInfo.maxAge" style="width: 100%;"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="2" style="text-align: center">至</el-col>
         <el-col :span="11">
-          <el-form-item prop="maxOld" style="width: 100%; margin-left: 0;">
-            <el-input-number v-model="demandInfo.maxOld" :min="demandInfo.minOld" :max="100" style="width: 100%;"></el-input-number>
+          <el-form-item prop="maxAge" style="width: 100%; margin-left: 0;">
+            <el-input-number v-model="demandInfo.maxAge" :min="demandInfo.minAge" :max="100" style="width: 100%;"></el-input-number>
           </el-form-item>
         </el-col>
      </el-form-item>
       <el-form-item label="学历：">
-        <el-select v-model="demandInfo.degree" placeholder="请选择" @change="handleDegreeChange">
+        <el-select v-model="demandInfo.education" placeholder="请选择">
            <el-option
              v-for="item in degreeType"
              :label="item.label"
@@ -149,17 +152,17 @@
         </el-select>
       </el-form-item>
       <el-form-item label="专业：" style="width: 400px;">
-          <el-input v-model="demandInfo.name" placeholder="请输入内容"></el-input>
+        <el-input v-model="demandInfo.profession" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="婚否：">
-        <el-radio-group v-model="demandInfo.marryType">
+        <el-radio-group v-model="demandInfo.isMarry">
           <el-radio :label="2">不限</el-radio>
           <el-radio :label="0">是</el-radio>
           <el-radio :label="1">否</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="工作经验：">
-        <el-select v-model="demandInfo.experience" placeholder="请选择">
+        <el-select v-model="demandInfo.workExperience" placeholder="请选择">
            <el-option
              v-for="item in workExperience"
              :label="item.label"
@@ -172,11 +175,15 @@
           type="textarea"
           autosize
           placeholder="请输入内容"
-          v-model="demandInfo.workContent"
+          v-model="demandInfo.request"
           style="width: 400px;">
         </el-input>
       </el-form-item>
     </el-form>
+    <h1 class="tips"></h1>
+    <el-col :span="11" type="flex" align="center">
+      <el-button type="primary" @click="handleSubmit" :loading="publishing">提交申请</el-button>
+    </el-col>
   </div>
 </template>
 
@@ -186,33 +193,36 @@ export default {
   data() {
     return {
       demandInfo: {
-        workType: 0,
-        titile: '',
+        type: 0,
+        title: '',
+        job: '',
         applyReason: 0,
-        minOld: 18,
-        maxOld: 100,
+        workType: '1',
+        settlementType: '1',
+        salary: '',
+        applyNumber: 0,
+        education: '5',
+        profession: '',
+        minAge: 18,
+        maxAge: 100,
         personNum: 0,
-        degree: '5',
-        money: '',
-        needStaffNum: 0,
-        profession: '1',
-        clearType: '1',
-        workContent: '',
-        marryType: 2,
+        workExperience: '6',
+        request: '',
+        isMarry: 2,
         sex: 2,
-        experience: '6',
-        schedules: [{
-          startTime: 1489392978000,
-          endTime: 1489565603000,
-          applyNumber: 10,
-        }],
         listDemandInterview: [{
           interviewTime: '',
           interviewAddress: '',
-          latitude: '',
-          longitude: '',
+          latitude: 0,
+          longitude: 0,
+        }],
+        listSchedulingInformation: [{
+          startTime: '',
+          endTime: '',
+          applyNumber: 0,
         }],
       },
+      publishing: false,
       staffType: [{
         value: '1',
         label: '快递员',
@@ -328,15 +338,12 @@ export default {
     };
   },
   methods: {
-    handleDegreeChange(val) {
-      console.log(this.demandInfo.degree);
-    },
     handleAddSchedule() {
-      this.demandInfo.schedules.push({ startTime: '', endTime: '', applyNumber: 0 });
+      this.demandInfo.listSchedulingInformation.push({ startTime: '', endTime: '', applyNumber: 0 });
     },
     handleDelSchedule() {
-      if (this.demandInfo.schedules.length > 1) {
-        this.demandInfo.schedules.pop();
+      if (this.demandInfo.listSchedulingInformation.length > 1) {
+        this.demandInfo.listSchedulingInformation.pop();
       }
     },
     handleAddInterview() {
@@ -346,6 +353,42 @@ export default {
       if (this.demandInfo.listDemandInterview.length > 1) {
         this.demandInfo.listDemandInterview.pop();
       }
+    },
+    handleSubmit() {
+      this.$refs.applyDemandForm.validate((valid) => {
+        if (valid) {
+          this.publishing = false;
+          const params = {
+            projectId: this.$route.query.id,
+            title: this.demandInfo.title,
+            type: this.demandInfo.type,
+            job: this.demandInfo.job,
+            applyReason: this.demandInfo.applyReason,
+            workType: this.demandInfo.workType,
+            settlementType: this.demandInfo.settlementType,
+            salary: this.demandInfo.salary,
+            applyNumber: this.demandInfo.applyNumber,
+            education: this.demandInfo.education,
+            profession: this.demandInfo.profession,
+            workExperience: this.demandInfo.workExperience,
+            request: this.demandInfo.request,
+            sex: this.demandInfo.sex,
+            maxAge: this.demandInfo.maxAge,
+            minAge: this.demandInfo.minAge,
+            workTime: this.demandInfo.workTime,
+            isMarry: this.demandInfo.isMarry,
+            listDemandInterview: this.demandInfo.listDemandInterview,
+            listSchedulingInformation: this.demandInfo.listSchedulingInformation,
+          };
+          console.log(params);
+          this.$http.post('/demand/add', params).then((response) => {
+            console.log(response);
+          }).catch((error) => {
+            console.log(error);
+          });
+        }
+        return false;
+      });
     },
   },
   filters: {
