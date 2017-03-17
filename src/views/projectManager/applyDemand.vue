@@ -125,8 +125,8 @@
       <el-form-item label="性别：">
         <el-radio-group v-model="demandInfo.sex">
           <el-radio :label="2">不限</el-radio>
-          <el-radio :label="0">男</el-radio>
-          <el-radio :label="1">女</el-radio>
+          <el-radio :label="1">男</el-radio>
+          <el-radio :label="0">女</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="年龄：" style="width: 400px;">
@@ -157,8 +157,8 @@
       <el-form-item label="婚否：">
         <el-radio-group v-model="demandInfo.isMarry">
           <el-radio :label="2">不限</el-radio>
-          <el-radio :label="0">是</el-radio>
-          <el-radio :label="1">否</el-radio>
+          <el-radio :label="1">是</el-radio>
+          <el-radio :label="0">否</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="工作经验：">
