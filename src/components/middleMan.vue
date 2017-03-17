@@ -89,7 +89,6 @@
       },
       handleBigImageClose() {
         this.BigImageVisible = false;
-        console.log('hello');
       },
     },
     computed: {

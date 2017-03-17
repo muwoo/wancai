@@ -84,6 +84,9 @@
       handleSetPassword() {
 
       },
+      handleBigImageClose() {
+        this.BigImageVisible = false;
+      },
     },
     filters: {
       formatDate(time) {
