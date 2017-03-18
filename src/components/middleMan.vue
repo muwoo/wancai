@@ -115,7 +115,7 @@
         } else if (this.middleMan.status === 3) {
           return '审核未通过';
         } else if (this.middleMan.status === 4) {
-          return '拉黑';
+          return '已拉黑';
         }
         return '审核异常';
       },
