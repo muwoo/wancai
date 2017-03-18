@@ -104,7 +104,11 @@
       },
       getProjects() {
         this.loading = true;
-        this.$http.get(`/project/list?pageNum=${this.currentPage}&pageSize=${this.pageSize}`).then((response) => {
+        const params = {
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+        };
+        this.$http.post('/project/list', params).then((response) => {
           const {
             data: {
               list, pages, total, pageNum,
