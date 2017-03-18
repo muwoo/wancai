@@ -5,10 +5,10 @@
         <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       <el-form-item label='身份证号' style="width: 240px;">
-        <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 170px;"></el-input>
+        <el-input v-model="middleManInfo.idCard" placeholder="请输入内容" style="width: 170px;"></el-input>
       </el-form-item>
       <el-form-item label='手机号' style="width: 180px;">
-        <el-input v-model="middleManInfo.phoneNumber" placeholder="请输入内容" style="width: 100px;"></el-input>
+        <el-input v-model="middleManInfo.telphone" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       <el-form-item label='姓名' style="width: 160px;">
         <el-input v-model="middleManInfo.name" placeholder="请输入内容" style="width: 100px;"></el-input>
@@ -18,7 +18,7 @@
       </el-form-item>
     </el-form>
     <h1 class="tips"></h1>
-      <div>
+      <div v-loading="loading">
         <el-checkbox v-model="isAllSelect" @change="handleAllSelect" style="margin-left: 10px;">全选</el-checkbox>
         <el-button>批量通过</el-button>
         <el-button>批量不通过</el-button>
@@ -31,7 +31,7 @@
         @handleWhiteList="handleWhiteList"
         style="margin-top: 10px;" ></middleMan>
       <el-col :span="24"style="margin-top:10px;">
-        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :total="totalItemSize" style="float: right;"></el-pagination>
+        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
       </el-col>
     </div>
   </div>
@@ -52,46 +52,47 @@ export default {
         idCard: '',
         phoneNumber: '',
         name: '',
+        telphone: '',
       },
-      middleMans: [{
-        isSelect: false,
-        id: 111,
-        committedAt: 1487218088000,
-        status: 0,
-        idCardImages: [
-          'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
-          'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',
-        ],
-        name: '赵日天',
-        sex: '男',
-        nation: '汉族',
-        idCardNumber: '352341233214112232',
-        birth: '1489817918000',
-        address: '浙江省杭州市西湖区文三西路999号xxx小区15栋203浙江省杭州市西湖区文三西路999号xxx小区15栋203',
-        city: '杭州市西湖区',
-        job: '职业经纪人',
-        company: '万才网',
-        phoneNumber: '13111111111',
-        channel: '网络招聘',
-        fullTimeStaffNum: 0,
-        partTimeStaffNum: 0,
-      }],
-      defaultActiveTabName: 'first',
+      middleMans: [],
+      loading: false,
       isAllSelect: false,
       currentSelectArray: [],
-      totalItemSize: 100,
-      currentPage: 2,
+      pageSize: 20,
+      pageCount: 0,
+      currentPage: 1,
+      totalMiddleManSize: 0,
     };
   },
   methods: {
     getMiddleMans() {
-
+      this.loading = true;
+      const params = {
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        id: this.middleManInfo.id,
+        idCard: this.middleManInfo.idCard,
+        telphone: this.middleManInfo.telphone,
+        name: this.middleManInfo.name,
+        status: 1,
+      };
+      this.$http.post('/broker/list', params).then((response) => {
+        const {
+          data: {
+            list, pages, total, pageNum,
+          },
+        } = response.data;
+        this.totalMiddleManSize = total;
+        this.currentPage = pageNum;
+        this.pageCount = pages;
+        this.middleMans = list;
+        this.loading = false;
+      }).catch((error) => {
+        this.loading = false;
+      });
     },
     handleSearchMiddleman() {
-
-    },
-    handleStatusTagClick() {
-
+      this.getMiddleMans();
     },
     handlePass(event, obj) {
       console.log(obj.id);
@@ -116,6 +117,7 @@ export default {
     },
   },
   mounted() {
+    this.getMiddleMans();
   },
 };
 </script>

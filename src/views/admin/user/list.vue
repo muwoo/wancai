@@ -38,7 +38,7 @@
       </el-row>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="handleSearchEmployee">搜索名单</el-button>
+        <el-button type="primary" @click="handleSearchEmployee">搜索人才</el-button>
       </el-form-item>
     </el-form>
       <el-table

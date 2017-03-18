@@ -56,7 +56,7 @@
         currentPage: 1,
         pageSize: 20,
         pageCount: 0,
-        totalProjectSize: 100,
+        totalProjectSize: 0,
         loading: false,
       };
     },
@@ -83,7 +83,6 @@
           phone: this.projectManagerInfo.phone,
           name: this.projectManagerInfo.name,
         };
-        // console.log(params);
         this.$http.post('/manager/list', params).then((response) => {
           const {
             data: {

@@ -2,7 +2,7 @@
   <div id="middleMan">
     <el-row class="top">
       <el-col :span="4"><el-checkbox v-model="middleMan.isSelect">申请ID：{{ middleMan.id }}</el-checkbox></el-col>
-      <el-col :span="13" :offset="1"><span>提交时间：{{ middleMan.committedAt | formatDate }}</span></el-col>
+      <el-col :span="13" :offset="1"><span>提交时间：{{ middleMan.createdTime | formatDate }}</span></el-col>
       <el-col :span="5" :offset="1">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
           {{ formatStatus }}
@@ -12,7 +12,8 @@
     <el-row class="body">
       <el-col :span="4">
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
-          <img class="image" v-for="item in middleMan.idCardImages" @click.prevent="handleClickImage" :src="item"/>
+          <img class="image" v-if="middleMan.idCardHand" @click.prevent="handleClickImage" :src="middleMan.idCardHand"/>
+          <img class="image" v-if="middleMan.idCardPositive" @click.prevent="handleClickImage" :src="middleMan.idCardPositive"/>
         </el-row>
       </el-col>
       <el-col :span="5" :offset="1">
@@ -20,32 +21,38 @@
           <el-col :span="8">
             {{ middleMan.name }}
           </el-col>
+          <el-col :span="5">
+            {{ middleMan.sex | formatSex }}
+          </el-col>
+          <el-col :span="11">
+            {{ middleMan.nationName }}
+          </el-col>
         </el-row>
-        <el-row class="unit-row">{{ middleMan.idCardNumber }}</el-row>
-        <el-row class="unit-row">{{ middleMan.birth | formatBirthday }}</el-row>
+        <el-row class="unit-row">{{ middleMan.idCard }}</el-row>
+        <el-row class="unit-row">{{ middleMan.birthday | formatBirthday }}</el-row>
         <el-row style="height: 40px; line-height: 20px;">
           <el-tooltip :content="middleMan.address" placement="top">
-            {{ limitAddress(middleMan.address) }}
+            {{ limitAddress(middleMan.origin) }}
           </el-tooltip>
         </el-row>
       </el-col>
       <el-col :span="4" :offset="1">
-        <el-row style="height: 40px; line-height: 20px;">所在城市：{{ middleMan.city }}</el-row>
-        <el-row class="unit-row">职业：{{ middleMan.job }}</el-row>
+        <el-row style="height: 40px; line-height: 20px;">所在城市：{{ middleMan.cityName }}</el-row>
+        <el-row class="unit-row">职业：{{ middleMan.occupation }}</el-row>
         <el-row class="unit-row">单位：{{ middleMan.company }}</el-row>
-        <el-row class="unit-row">手机：{{ middleMan.phoneNumber }}</el-row>
+        <el-row class="unit-row">手机：{{ middleMan.telphone }}</el-row>
       </el-col>
-      <el-col :span="4" :offset="1" >
-        <el-row style="height: 40px; line-height: 20px;">主要招聘渠道：{{ middleMan.city }}</el-row>
+      <el-col :span="5" :offset="1" >
+        <el-row style="height: 40px; line-height: 20px;">主要招聘渠道：{{ middleMan.recruitChannel }}</el-row>
         <el-row class="unit-row">招聘能力：</el-row>
-        <el-row class="unit-row">全职，月招聘能力：{{ middleMan.fullTimeStaffNum }}</el-row>
-        <el-row class="unit-row">兼职，日招聘能力：{{ middleMan.partTimeStaffNum }}</el-row>
+        <el-row class="unit-row">全职，月招聘能力：{{ middleMan.fullTimeNumber }}</el-row>
+        <el-row class="unit-row">兼职，日招聘能力：{{ middleMan.partTimeNumber }}</el-row>
       </el-col>
-      <el-col class="btn-row" :span="3" :offset="1">
-        <el-button v-if="middleMan.status==0" type="success" size="large" @click.prevent="handlePass" style="width: 80px;">通 过</el-button>
-        <el-button v-if="middleMan.status==0" type="primary" size="large" @click.prevent="handleRefuse" style="width: 80px; margin-left: 0px;">不通过</el-button>
-        <el-button v-if="middleMan.status==1" type="danger" size="large" @click.prevent="handleBlackList" style="width: 80px;">拉 黑</el-button>
-        <el-button v-if="middleMan.status==2" type="primary" size="large" @click.prevent="handleWhiteList" style="width: 80px;">解 除</el-button>
+      <el-col class="btn-row" :span="3">
+        <el-button v-if="middleMan.status==1" type="success" size="large" @click.prevent="handlePass" style="width: 80px;">通 过</el-button>
+        <el-button v-if="middleMan.status==1" type="primary" size="large" @click.prevent="handleRefuse" style="width: 80px; margin-left: 0px;">不通过</el-button>
+        <el-button v-if="middleMan.status==2" type="danger" size="large" @click.prevent="handleBlackList" style="width: 80px;">拉 黑</el-button>
+        <el-button v-if="middleMan.status==4" type="primary" size="large" @click.prevent="handleWhiteList" style="width: 80px;">解 除</el-button>
       </el-col>
     </el-row>
     <!-- <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
@@ -98,8 +105,14 @@
     },
     computed: {
       formatStatus() {
-        if (this.middleMan.status === 0) {
+        if (this.middleMan.status === 1) {
           return '待审核';
+        } else if (this.middleMan.status === 2) {
+          return '审核通过';
+        } else if (this.middleMan.status === 3) {
+          return '审核未通过';
+        } else if (this.middleMan.status === 4) {
+          return '拉黑';
         }
         return '审核异常';
       },
