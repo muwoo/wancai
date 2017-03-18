@@ -37,13 +37,13 @@
         </el-row>
       </el-col>
       <el-col :span="4" :offset="1">
-        <el-row style="height: 40px; line-height: 20px;">所在城市：{{ middleMan.cityName }}</el-row>
+        <el-row style="height: 40px; line-height: 20px; padding-top: 5px;">所在城市：{{ middleMan.cityName }}</el-row>
         <el-row class="unit-row">职业：{{ middleMan.occupation }}</el-row>
         <el-row class="unit-row">单位：{{ middleMan.company }}</el-row>
         <el-row class="unit-row">手机：{{ middleMan.telphone }}</el-row>
       </el-col>
       <el-col :span="5" :offset="1" >
-        <el-row style="height: 40px; line-height: 20px;">主要招聘渠道：{{ middleMan.recruitChannel }}</el-row>
+        <el-row style="height: 40px; line-height: 20px; padding-top: 5px;">主要招聘渠道：{{ middleMan.recruitChannel }}</el-row>
         <el-row class="unit-row">招聘能力：</el-row>
         <el-row class="unit-row">全职，月招聘能力：{{ middleMan.fullTimeNumber }}</el-row>
         <el-row class="unit-row">兼职，日招聘能力：{{ middleMan.partTimeNumber }}</el-row>
