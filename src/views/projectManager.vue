@@ -122,7 +122,10 @@ export default {
       this.currentUser.name = projectManager.data.name || '';
     }
 
-    this.$http.post('/project/currentList?pageNum=1&pageSize=50').then((response) => {
+    this.$http.post('/project/currentList', {
+      pageNum: 1,
+      pageSize: 50,
+    }).then((response) => {
       const {
         data: {
           list,
