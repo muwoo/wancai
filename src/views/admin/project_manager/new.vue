@@ -1,18 +1,18 @@
 <template>
   <div id="projectManagerNew">
     <el-form :model="projectManagerInfo" label-width="240px" :rules="projectManagerInfoRules" ref="projectManagerInfoForm">
-      <!--<el-form-item label="上传头像：" prop="avatar">-->
-        <!--<el-upload-->
-          <!--class="avatar-uploader"-->
-          <!--action="//up.qbox.me/"-->
-          <!--:show-file-list='false'-->
-          <!--:on-success="handleAvatarScucess"-->
-          <!--:before-upload="beforeAvatarUpload"-->
-          <!--:data="upload_form">-->
-          <!--<img v-if="projectManagerInfo.imageUrl" :src="projectManagerInfo.imageUrl" class="avatar">-->
-          <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-        <!--</el-upload>-->
-      <!--</el-form-item>-->
+      <el-form-item label="上传头像：" prop="avatar">
+        <el-upload
+          class="avatar-uploader/"
+          action="//upload.qiniu.com/"
+          :show-file-list='false'
+          :on-success="handleAvatarScucess"
+          :before-upload="beforeAvatarUpload"
+          :data="upload_form">
+          <img v-if="projectManagerInfo.avatar" :src="projectManagerInfo.avatar" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
       <el-form-item label='姓名：' prop="name">
         <el-input v-model="projectManagerInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
       </el-form-item>
@@ -31,7 +31,7 @@
       <el-form-item label="生日：" prop="birhday" >
         <el-date-picker
           v-model="projectManagerInfo.birthday"
-          type="datetime"
+          type="date"
           placeholder="选择日期时间">
         </el-date-picker>
       </el-form-item>
@@ -81,7 +81,13 @@ export default {
         birthday: '',
         password: '',
       },
+      upload_form: {},
+      publishing: false,
+      bucketHost: 'olk6mtom3.bkt.clouddn.com',
       projectManagerInfoRules: {
+        avatar: [
+          { required: true, message: '请上传头像', trigger: 'blur' },
+        ],
         name: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
         ],
@@ -120,15 +126,30 @@ export default {
           { validator: this.validateCheckPass, trigger: 'blur' },
         ],
       },
-      upload_form: {},
-      publishing: false,
     };
   },
   methods: {
-//    handleAvatarScucess(response, file) {
-//    },
-//    beforeAvatarUpload(file) {
-//    },
+    handleAvatarScucess(response, file) {
+      const key = response.key;
+      // const name = file.name;
+      // const img = `${this.bucketHost}/${encodeURI(key)}`;
+      const img = `http://${this.bucketHost}/${key}`;
+      this.projectManagerInfo.avatar = img;
+    },
+    beforeAvatarUpload(file) {
+      this.$http.get('/qiniu/token').then((response) => {
+        const {
+          data: {
+            fileName, upToken,
+          },
+        } = response.data;
+        this.upload_form = {
+          key: fileName,
+          token: upToken,
+        };
+      }).catch((error) => {
+      });
+    },
     validatePass(rule, value, callback) {
       if (value === '') {
         callback(new Error('请输入密码'));
@@ -153,7 +174,8 @@ export default {
         if (valid) {
           this.publishing = true;
           this.$http.post('/manager/add', {
-            avatar: 'http://wx2.sinaimg.cn/mw690/62decd96ly1fdj0twby3fg20do07fu0z.gif',
+            avatar: this.projectManagerInfo.avatar,
+            // avatar: 'http://wx2.sinaimg.cn/mw690/62decd96ly1fdj0twby3fg20do07fu0z.gif',
             name: this.projectManagerInfo.name,
             phone: this.projectManagerInfo.phone,
             idCard: this.projectManagerInfo.idCard,
