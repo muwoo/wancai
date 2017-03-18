@@ -5,7 +5,13 @@
         <el-col :span="24">
           <el-col :span="8">
             <el-form-item label='需求类型：' style="width: 100%;">
-              <el-input v-model="demandInfo.type" placeholder="请输入内容" style="width: 100px;"></el-input>
+              <el-select v-model="demandInfo.type" style="width: 100px;">
+                <el-option
+                  v-for="item in workType"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -114,12 +120,9 @@
         demandInfo: {
           id: '',
           type: '',
-          projectManagerId: '',
           name: '',
-          reason: '',
           title: '',
           idCard: '',
-          applyedAt: '',
           telphone: '',
         },
         loading: false,
@@ -128,6 +131,18 @@
         totalDemandSize: 100,
         pageSize: 20,
         pageCount: 0,
+        workType: [{
+          value: '0',
+          label: '兼职',
+        },
+        {
+          value: '1',
+          label: '全职',
+        },
+        {
+          value: '',
+          label: '不限',
+        }],
       };
     },
     methods: {
@@ -151,6 +166,13 @@
         const params = {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
+          status: 0,
+          name: this.demandInfo.name,
+          type: this.demandInfo.type,
+          telphone: this.demandInfo.telphone,
+          id: this.demandInfo.id,
+          idCard: this.demandInfo.idCard,
+          title: this.demandInfo.title,
         };
         this.$http.post('/demand/list', params).then((response) => {
           const {
