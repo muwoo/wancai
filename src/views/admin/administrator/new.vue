@@ -74,7 +74,7 @@
 
 <script>
 export default {
-  name: 'projectManagerNew',
+  name: 'administratorNew',
   data() {
     return {
       administratorInfo: {
