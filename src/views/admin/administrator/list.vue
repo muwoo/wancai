@@ -102,7 +102,6 @@
       },
     },
     mounted() {
-      this.getProjectManagers();
     },
   };
 </script>

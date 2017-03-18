@@ -91,7 +91,7 @@ export default {
       this.getMiddleMans();
     },
     handleWhiteList(event, obj, index) {
-      this.handleEditMiddleManStatus(obj, 4, index, '已解除');
+      this.handleEditMiddleManStatus(obj, 2, index, '已解除');
     },
     handleAllSelect() {
       console.log('All Select');
