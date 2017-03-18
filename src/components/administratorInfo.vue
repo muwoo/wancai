@@ -14,7 +14,7 @@
           <img class="image"  @click.prevent="handleClickImage" :src="administrator.avatar"/>
         </el-row>
       </el-col>
-      <el-col :span="7" :offset="1" class="content-eol ">
+      <el-col :span="7" :offset="1" class="content-eol">
         <el-row class="unit-row">
           <el-col :span="8">
             {{ administrator.name }}
