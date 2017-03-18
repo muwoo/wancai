@@ -36,7 +36,7 @@
         <el-row class="unit-row">电话：{{ currentUser.telphone }}</el-row>
         <el-row class="unit-row">短号：{{ currentUser.cornet }}</el-row>
       </el-col>
-      <el-col class="btn-row" :span="3" :offset="1">
+      <el-col class="btn-row" :span="4">
         <el-button type="primary" size="large" @click.prevent="handleSetPassword">修改密码</el-button>
       </el-col>
     </el-row>
