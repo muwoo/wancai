@@ -35,6 +35,7 @@ import demandPending from '../views/admin/demand/pending';
 import demandProcessed from '../views/admin/demand/processed';
 import demandRefused from '../views/admin/demand/refused';
 import demandCompleted from '../views/admin/demand/completed';
+import demandCancled from '../views/admin/demand/cancled';
 
 import projectManagerList from '../views/admin/project_manager/list';
 import projectManagerNew from '../views/admin/project_manager/new';
@@ -188,6 +189,7 @@ const router = new Router({
         { path: 'processed', component: demandProcessed, alias: '处理中' },
         { path: 'completed', component: demandCompleted, alias: '已结束' },
         { path: 'refused', component: demandRefused, alias: '已驳回' },
+        { path: 'cancled', component: demandCancled, alias: '已取消' },
       ],
     },
     {

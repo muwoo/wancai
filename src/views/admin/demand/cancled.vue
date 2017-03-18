@@ -1,5 +1,5 @@
 <template>
-  <div id="demandRefused">
+  <div id="demandCancled">
     <el-form :inline="true" :model="demandInfo" class="demo-form-inline" style="margin-top: 20px;">
       <el-row>
         <el-col :span="24">
@@ -114,7 +114,7 @@
 </template>
 <script>
   export default {
-    name: 'demandRefused',
+    name: 'demandCancled',
     data() {
       return {
         demandInfo: {
@@ -166,7 +166,7 @@
         const params = {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          status: 2,
+          status: 4,
           name: this.demandInfo.name,
           type: this.demandInfo.type,
           telphone: this.demandInfo.telphone,
