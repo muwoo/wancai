@@ -46,22 +46,28 @@
           style="width: 100%;">
           <el-table-column
             prop="idCardNumber"
-            label="身份证号">
+            label="身份证号"
+            align="center"
+            width="200">
           </el-table-column>
           <el-table-column
             prop="name"
+            align="center"
             label="姓名">
           </el-table-column>
           <el-table-column
             prop="phoneNumber"
+            align="center"
             label="手机号">
           </el-table-column>
           <el-table-column
             prop="createdAt"
+            align="center"
             label="创建时间">
           </el-table-column>
           <el-table-column
             label="操作"
+            align="center"
             width="240">
             <template scope="scope">
               <el-button
