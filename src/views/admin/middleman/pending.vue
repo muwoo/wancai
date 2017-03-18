@@ -22,8 +22,8 @@
         <el-checkbox v-model="isAllSelect" @change="handleAllSelect" style="margin-left: 10px;">全选</el-checkbox>
         <el-button>批量通过</el-button>
         <el-button>批量不通过</el-button>
-        <el-button style="float: right">下一页</el-button>
-        <el-button style="float: right">上一页</el-button>
+        <el-button style="float: right" @click="NextPage">下一页</el-button>
+        <el-button style="float: right" @click="PrePage">上一页</el-button>
         <middleMan v-for="middleMan in middleMans" :middleMan="middleMan"
         @handlePass="handlePass(this.event, middleMan)"
         @handleRefuse="handleRefuse"
@@ -111,9 +111,21 @@ export default {
     handleAllSelect() {
       console.log('All Select');
     },
+    NextPage() {
+      if (this.pageCount > this.currentPage) {
+        this.currentPage += 1;
+        this.getMiddleMans();
+      }
+    },
+    PrePage() {
+      if (this.currentPage !== 1 && this.pageCount >= this.currentPage) {
+        this.currentPage -= 1;
+        this.getMiddleMans();
+      }
+    },
     handleCurrentPageChange(val) {
       this.currentPage = val;
-      console.log(val);
+      this.getMiddleMans();
     },
   },
   mounted() {
