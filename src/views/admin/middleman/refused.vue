@@ -1,14 +1,14 @@
 <template>
-  <div id="middleManCheck">
+  <div id="middleManRefused">
     <el-form :inline="true" :model="middleManInfo" class="demo-form-inline" style="margin-top: 20px;">
       <el-form-item label='申请ID' style="width: 160px;">
         <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       <el-form-item label='身份证号' style="width: 240px;">
-        <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 170px;"></el-input>
+        <el-input v-model="middleManInfo.idCard" placeholder="请输入内容" style="width: 170px;"></el-input>
       </el-form-item>
       <el-form-item label='手机号' style="width: 180px;">
-        <el-input v-model="middleManInfo.phoneNumber" placeholder="请输入内容" style="width: 100px;"></el-input>
+        <el-input v-model="middleManInfo.telphone" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       <el-form-item label='姓名' style="width: 160px;">
         <el-input v-model="middleManInfo.name" placeholder="请输入内容" style="width: 100px;"></el-input>
@@ -18,12 +18,12 @@
       </el-form-item>
     </el-form>
     <h1 class="tips"></h1>
-      <div>
+      <div v-loading="loading">
         <el-checkbox v-model="isAllSelect" @change="handleAllSelect" style="margin-left: 10px;">全选</el-checkbox>
         <el-button>批量通过</el-button>
         <el-button>批量不通过</el-button>
-        <el-button style="float: right">下一页</el-button>
-        <el-button style="float: right">上一页</el-button>
+        <el-button style="float: right" @click="NextPage">下一页</el-button>
+        <el-button style="float: right" @click="PrePage">上一页</el-button>
         <middleMan v-for="middleMan in middleMans" :middleMan="middleMan"
         @handlePass="handlePass(this.event, middleMan)"
         @handleRefuse="handleRefuse"
@@ -31,7 +31,7 @@
         @handleWhiteList="handleWhiteList"
         style="margin-top: 10px;" ></middleMan>
       <el-col :span="24"style="margin-top:10px;">
-        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :total="totalItemSize" style="float: right;"></el-pagination>
+        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
       </el-col>
     </div>
   </div>
@@ -52,69 +52,47 @@ export default {
         idCard: '',
         phoneNumber: '',
         name: '',
+        telphone: '',
       },
-      middleMans: [{
-        isSelect: false,
-        id: 111,
-        committedAt: 1487218088,
-        status: 1,
-        idCardImages: [
-          'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
-          'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',
-        ],
-        name: '赵日天',
-        sex: '男',
-        nation: '汉族',
-        idCardNumber: '352341233214112232',
-        birth: '91年4月',
-        address: '浙江省杭州市西湖区文三西路999号xxx小区15栋203浙江省杭州市西湖区文三西路999号xxx小区15栋203',
-        city: '杭州市西湖区',
-        job: '职业经纪人',
-        company: '万才网',
-        phoneNumber: '13111111111',
-        channel: '网络招聘',
-        fullTimeStaffNum: 0,
-        partTimeStaffNum: 0,
-      },
-      {
-        isSelect: false,
-        id: 444,
-        committedAt: 1487218088,
-        status: 1,
-        idCardImages: [
-          'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
-          'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',
-        ],
-        name: '赵日天',
-        sex: '男',
-        nation: '汉族',
-        idCardNumber: '352341233214112232',
-        birth: '91年4月',
-        address: '浙江省杭州市西湖区文三西路999号xxx小区',
-        city: '杭州市西湖区',
-        job: '职业经纪人',
-        company: '万才网',
-        phoneNumber: '13111111111',
-        channel: '网络招聘',
-        fullTimeStaffNum: 0,
-        partTimeStaffNum: 0,
-      }],
-      defaultActiveTabName: 'first',
+      middleMans: [],
+      loading: false,
       isAllSelect: false,
       currentSelectArray: [],
-      totalItemSize: 100,
-      currentPage: 2,
+      pageSize: 20,
+      pageCount: 0,
+      currentPage: 1,
+      totalMiddleManSize: 0,
     };
   },
   methods: {
     getMiddleMans() {
-
+      this.loading = true;
+      const params = {
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        id: this.middleManInfo.id,
+        idCard: this.middleManInfo.idCard,
+        telphone: this.middleManInfo.telphone,
+        name: this.middleManInfo.name,
+        status: 3,
+      };
+      this.$http.post('/broker/list', params).then((response) => {
+        const {
+          data: {
+            list, pages, total, pageNum,
+          },
+        } = response.data;
+        this.totalMiddleManSize = total;
+        this.currentPage = pageNum;
+        this.pageCount = pages;
+        this.middleMans = list;
+        this.loading = false;
+      }).catch((error) => {
+        this.loading = false;
+      });
     },
     handleSearchMiddleman() {
-
-    },
-    handleStatusTagClick() {
-
+      this.getMiddleMans();
     },
     handlePass(event, obj) {
       console.log(obj.id);
@@ -133,18 +111,31 @@ export default {
     handleAllSelect() {
       console.log('All Select');
     },
+    NextPage() {
+      if (this.pageCount > this.currentPage) {
+        this.currentPage += 1;
+        this.getMiddleMans();
+      }
+    },
+    PrePage() {
+      if (this.currentPage !== 1 && this.pageCount >= this.currentPage) {
+        this.currentPage -= 1;
+        this.getMiddleMans();
+      }
+    },
     handleCurrentPageChange(val) {
       this.currentPage = val;
-      console.log(val);
+      this.getMiddleMans();
     },
   },
   mounted() {
+    this.getMiddleMans();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  #middleManCheck {
+  #middleManRefused {
     .tips {
       border-bottom: 1px solid #e5e9f2;
     }

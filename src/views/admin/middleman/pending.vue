@@ -1,5 +1,5 @@
 <template>
-  <div id="middleManCheck">
+  <div id="middleManPending">
     <el-form :inline="true" :model="middleManInfo" class="demo-form-inline" style="margin-top: 20px;">
       <el-form-item label='申请ID' style="width: 160px;">
         <el-input v-model="middleManInfo.id" placeholder="请输入内容" style="width: 100px;"></el-input>
@@ -135,7 +135,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #middleManCheck {
+  #middleManPending {
     .tips {
       border-bottom: 1px solid #e5e9f2;
     }

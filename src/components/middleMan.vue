@@ -97,7 +97,10 @@
         this.BigImageVisible = true;
       },
       limitAddress(str) {
-        return `${str.substr(0, 20)}...`;
+        if (str.length > 20) {
+          return `${str.substr(0, 20)}...`;
+        }
+        return str;
       },
       handleBigImageClose() {
         this.BigImageVisible = false;
