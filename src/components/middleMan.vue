@@ -2,7 +2,7 @@
   <div id="middleMan">
     <el-row class="top">
       <el-col :span="4"><el-checkbox v-model="middleMan.isSelect">申请ID：{{ middleMan.id }}</el-checkbox></el-col>
-      <el-col :span="13" :offset="1"><span>提交时间：{{ middleMan.committedAt }}</span></el-col>
+      <el-col :span="13" :offset="1"><span>提交时间：{{ middleMan.committedAt | formatDate }}</span></el-col>
       <el-col :span="5" :offset="1">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
           {{ formatStatus }}
@@ -16,9 +16,13 @@
         </el-row>
       </el-col>
       <el-col :span="5" :offset="1">
-        <el-row class="unit-row">{{ middleMan.name }}</el-row>
+        <el-row class="unit-row">
+          <el-col :span="8">
+            {{ middleMan.name }}
+          </el-col>
+        </el-row>
         <el-row class="unit-row">{{ middleMan.idCardNumber }}</el-row>
-        <el-row class="unit-row">{{ middleMan.birth }}</el-row>
+        <el-row class="unit-row">{{ middleMan.birth | formatBirthday }}</el-row>
         <el-row style="height: 40px; line-height: 20px;">
           <el-tooltip :content="middleMan.address" placement="top">
             {{ limitAddress(middleMan.address) }}
@@ -52,6 +56,7 @@
 </template>
 <script>
   import bigImage from './bigImage';
+  import util from '../common/util';
 
   export default {
     name: 'middleMan',
@@ -99,6 +104,22 @@
         return '审核异常';
       },
       formatName() {
+      },
+    },
+    filters: {
+      formatDate(time) {
+        const date = new Date(parseInt(time, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+      },
+      formatSex(sex) {
+        return sex === 1 ? '男' : '女';
+      },
+      formatBirthday(time) {
+        if (time === undefined) {
+          return '无';
+        }
+        const date = new Date(parseInt(time, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd');
       },
     },
   };
