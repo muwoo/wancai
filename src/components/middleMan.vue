@@ -1,7 +1,10 @@
 <template>
   <div id="middleMan">
     <el-row class="top">
-      <el-col :span="4"><el-checkbox v-model="middleMan.isSelect">申请ID：{{ middleMan.id }}</el-checkbox></el-col>
+      <el-col :span="4">
+        <el-checkbox v-if="selectVisible" v-model="middleMan.isSelect">申请ID：{{ middleMan.id }}</el-checkbox>
+        <span v-else style="padding-left: 5px;">申请ID：{{ middleMan.id }}</span>
+      </el-col>
       <el-col :span="13" :offset="1"><span>提交时间：{{ middleMan.createdTime | formatDate }}</span></el-col>
       <el-col :span="5" :offset="1">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
@@ -71,10 +74,12 @@
       return {
         BigImageVisible: false,
         currentImage: '',
+        selectVisible: true,
       };
     },
     props: [
       'middleMan',
+      'selectVisible',
     ],
     components: {
       bigImage,

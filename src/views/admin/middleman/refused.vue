@@ -19,17 +19,19 @@
     </el-form>
     <h1 class="tips"></h1>
       <div v-loading="loading">
-        <el-checkbox v-model="isAllSelect" @change="handleAllSelect" style="margin-left: 10px;">全选</el-checkbox>
-        <el-button>批量通过</el-button>
-        <el-button>批量不通过</el-button>
-        <el-button style="float: right" @click="NextPage">下一页</el-button>
-        <el-button style="float: right" @click="PrePage">上一页</el-button>
-        <middleMan v-for="middleMan in middleMans" :middleMan="middleMan"
-        @handlePass="handlePass(this.event, middleMan)"
-        @handleRefuse="handleRefuse"
-        @handleBlackList="handleBlackList"
-        @handleWhiteList="handleWhiteList"
-        style="margin-top: 10px;" ></middleMan>
+        <el-row>
+          <el-button style="float: right; margin-left: 10px;" @click="NextPage">下一页</el-button>
+          <el-button style="float: right" @click="PrePage">上一页</el-button>
+        </el-row>
+        <div class="card-panel">
+          <middleMan v-for="middleMan in middleMans" :middleMan="middleMan"
+          :selectVisible="false"
+          @handlePass="handlePass(this.event, middleMan)"
+          @handleRefuse="handleRefuse"
+          @handleBlackList="handleBlackList"
+          @handleWhiteList="handleWhiteList"
+          style="margin-top: 10px;" ></middleMan>
+        </div>
       <el-col :span="24"style="margin-top:10px;">
         <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
       </el-col>
@@ -138,6 +140,10 @@ export default {
   #middleManRefused {
     .tips {
       border-bottom: 1px solid #e5e9f2;
+    }
+    .card-panel {
+      width: 100%;
+      height: auto;
     }
   }
 </style>

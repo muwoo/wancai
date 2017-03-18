@@ -20,15 +20,11 @@
     <h1 class="tips"></h1>
       <div v-loading="loading">
         <el-checkbox v-model="isAllSelect" @change="handleAllSelect" style="margin-left: 10px;">全选</el-checkbox>
-        <el-button>批量通过</el-button>
-        <el-button>批量不通过</el-button>
+        <el-button>批量解除</el-button>
         <el-button style="float: right" @click="NextPage">下一页</el-button>
         <el-button style="float: right" @click="PrePage">上一页</el-button>
         <middleMan v-for="middleMan in middleMans" :middleMan="middleMan"
-        @handlePass="handlePass(this.event, middleMan)"
-        @handleRefuse="handleRefuse"
-        @handleBlackList="handleBlackList"
-        @handleWhiteList="handleWhiteList"
+        @handleWhiteList="handleWhiteList(this.event, middleMan, index)"
         style="margin-top: 10px;" ></middleMan>
       <el-col :span="24"style="margin-top:10px;">
         <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
@@ -94,19 +90,8 @@ export default {
     handleSearchMiddleman() {
       this.getMiddleMans();
     },
-    handlePass(event, obj) {
-      console.log(obj.id);
-      console.log(event);
-      // console.log(id);
-    },
-    handleRefuse(evt) {
-      console.log(evt);
-    },
-    handleBlackList(evt) {
-      console.log(evt.target.value);
-    },
-    handleWhiteList(evt) {
-      console.log(evt.target.value);
+    handleWhiteList(event, obj, index) {
+      this.handleEditMiddleManStatus(obj, 4, index, '已解除');
     },
     handleAllSelect() {
       console.log('All Select');
@@ -122,6 +107,27 @@ export default {
         this.currentPage -= 1;
         this.getMiddleMans();
       }
+    },
+    handleEditMiddleManStatus(obj, currentStatus, index, msg) {
+      const params = {
+        id: obj.id,
+        status: currentStatus,
+      };
+      this.$http.post('/broker/updateStatus', params).then((response) => {
+        if (response.data.errorCode === 10000) {
+          this.$notify({
+            title: msg,
+            type: 'success',
+          });
+          this.middleMans.splice(index, 1);
+        } else {
+          this.$notify.error({
+            title: '修改异常',
+            type: 'success',
+          });
+        }
+      }).catch((error) => {
+      });
     },
     handleCurrentPageChange(val) {
       this.currentPage = val;
