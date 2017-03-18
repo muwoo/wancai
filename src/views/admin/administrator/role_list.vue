@@ -24,7 +24,7 @@
             <template scope="scope">
               <el-button
                 size="small"
-                @click="handleSetLiamit(scope.$index, scope.row)">修改权限</el-button>
+                @click="handleSetLimit(scope.$index, scope.row)">修改权限</el-button>
               <el-button
                 size="small"
                 type="danger"
@@ -50,7 +50,12 @@ export default {
     };
   },
   methods: {
+    handleSetLimit(index, row) {
 
+    },
+    handleDelete(index, row) {
+
+    },
   },
 };
 </script>
