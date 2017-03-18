@@ -74,13 +74,15 @@
       return {
         BigImageVisible: false,
         currentImage: '',
-        selectVisible: true,
       };
     },
-    props: [
-      'middleMan',
-      'selectVisible',
-    ],
+    props: {
+      middleMan: Object,
+      selectVisible: {
+        type: Boolean,
+        default: true,
+      },
+    },
     components: {
       bigImage,
     },
