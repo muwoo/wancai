@@ -88,6 +88,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
+        align="center"
         width="400">
         <template scope="scope">
           <el-button
@@ -147,6 +148,28 @@
       handleApplyDemand(index, row) {
       },
       handleEndDemand(index, row) {
+        this.handleEditDemandStatus(row, 3, index, '已结束');
+      },
+      handleEditDemandStatus(obj, currentStatus, index, msg) {
+        const params = {
+          id: obj.id,
+          status: currentStatus,
+        };
+        this.$http.post('/demand/modifyStatus', params).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: msg,
+              type: 'success',
+            });
+            this.demands.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((error) => {
+        });
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;

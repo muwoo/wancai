@@ -147,8 +147,31 @@
       handleDemanDetail(index, row) {
       },
       handleRefusedDemand(index, row) {
+        this.handleEditDemandStatus(row, 2, index, '已驳回');
       },
       handleProcessedDemand(index, row) {
+        this.handleEditDemandStatus(row, 1, index, '已处理');
+      },
+      handleEditDemandStatus(obj, currentStatus, index, msg) {
+        const params = {
+          id: obj.id,
+          status: currentStatus,
+        };
+        this.$http.post('/demand/modifyStatus', params).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: msg,
+              type: 'success',
+            });
+            this.demands.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((error) => {
+        });
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;
