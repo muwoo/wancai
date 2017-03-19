@@ -88,6 +88,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
+        align="center"
         width="400">
         <template scope="scope">
           <el-button
@@ -95,15 +96,12 @@
             @click="handleDemanDetail(scope.$index, scope.row)">详情</el-button>
           <el-button
             size="small"
-            @click="handleApplyDemand(scope.$index, scope.row)">发布招聘计划</el-button>
+            type="danger"
+            @click="handleRefusedDemand(scope.$index, scope.row)">驳回</el-button>
           <el-button
             size="small"
             type="danger"
-            @click="handleEndDemand(scope.$index, scope.row)">结束</el-button>
-          <el-button
-            size="small"
-            type="danger"
-            @click="handleCancelDemand(scope.$index, scope.row)">取消申请</el-button>
+            @click="handleProcessedDemand(scope.$index, scope.row)">处理</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -148,11 +146,9 @@
     methods: {
       handleDemanDetail(index, row) {
       },
-      handleApplyDemand(index, row) {
+      handleRefusedDemand(index, row) {
       },
-      handleEndDemand(index, row) {
-      },
-      handleCancelDemand(index, row) {
+      handleProcessedDemand(index, row) {
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;
