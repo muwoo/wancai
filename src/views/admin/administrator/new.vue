@@ -16,7 +16,8 @@
           action="//upload.qiniu.com/"
           :show-file-list='false'
           :on-success="handleAvatarScucess"
-          :before-upload="beforeAvatarUpload"
+          :on-remove="handleRemoveAvatar"
+          :on-error="handleUploadFiled"
           :data="upload_form">
           <img v-if="administratorInfo.avatar" :src="administratorInfo.avatar" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -152,23 +153,16 @@ export default {
   methods: {
     handleAvatarScucess(response, file) {
       const key = response.key;
-      // const name = file.name;
-      // const img = `${this.bucketHost}/${encodeURI(key)}`;
       const img = `http://${this.bucketHost}/${key}`;
       this.administratorInfo.avatar = img;
     },
-    beforeAvatarUpload(file) {
-      this.$http.get('/qiniu/token').then((response) => {
-        const {
-          data: {
-            fileName, upToken,
-          },
-        } = response.data;
-        this.upload_form = {
-          key: fileName,
-          token: upToken,
-        };
-      }).catch((error) => {
+    handleRemoveAvatar() {
+      this.administratorInfo.avatar = '';
+    },
+    handleUploadFiled() {
+      this.$notify.error({
+        title: '上传出错',
+        message: '请重新上传',
       });
     },
     validatePass(rule, value, callback) {
@@ -234,6 +228,20 @@ export default {
       }
       return '';
     },
+  },
+  mounted() {
+    this.$http.get('/qiniu/token').then((response) => {
+      const {
+        data: {
+          fileName, upToken,
+        },
+      } = response.data;
+      this.upload_form = {
+        key: fileName,
+        token: upToken,
+      };
+    }).catch((error) => {
+    });
   },
 };
 </script>
