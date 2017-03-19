@@ -136,6 +136,7 @@
     },
     methods: {
       handleDemandDetail(index, row) {
+        this.$router.push({ name: 'adminDemandShow', params: { id: row.id } });
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;

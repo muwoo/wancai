@@ -37,6 +37,7 @@ import demandProcessed from '../views/admin/demand/processed';
 import demandRefused from '../views/admin/demand/refused';
 import demandCompleted from '../views/admin/demand/completed';
 import demandCancled from '../views/admin/demand/cancled';
+import demandShow from '../views/admin/demand/show';
 
 import projectManagerList from '../views/admin/project_manager/list';
 import projectManagerNew from '../views/admin/project_manager/new';
@@ -55,6 +56,7 @@ import administratorRoleList from '../views/admin/administrator/role_list';
 import itemList from '../views/admin/item/list';
 import itemNew from '../views/admin/item/new';
 import itemEdit from '../views/admin/item/edit';
+import itemShow from '../views/admin/item/show';
 
 import incomeMiddleMan from '../views/admin/income/middleman';
 import incomeProjectManager from '../views/admin/income/project_manager';
@@ -176,6 +178,7 @@ const router = new Router({
         { path: 'publish', component: itemNew, alias: '新建项目' },
         { path: 'list', component: itemList, alias: '项目管理' },
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
+        { path: 'show/:id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
       ],
     },
     {
@@ -191,6 +194,7 @@ const router = new Router({
         { path: 'completed', component: demandCompleted, alias: '已结束' },
         { path: 'refused', component: demandRefused, alias: '已驳回' },
         { path: 'cancled', component: demandCancled, alias: '已取消' },
+        { path: 'show/:id', component: demandShow, alias: '需求详情', hidden: true },
       ],
     },
     {

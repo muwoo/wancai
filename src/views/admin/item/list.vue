@@ -5,7 +5,7 @@
         <el-input v-model="projectInfo.id" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       <el-form-item label='项目名称' style="width: 180px;">
-        <el-input v-model="projectInfo.name" placeholder="请输入内容" style="width: 100px;"></el-input>
+        <el-input v-model="projectInfo.title" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="handleSearchItem">搜索项目</el-button>
@@ -92,11 +92,10 @@
         this.$router.push({ name: 'adminItemEdit', params: { id: row.id } });
       },
       handleProjectManager(index, row) {
-        console.log(index);
-        console.log(row);
+        this.$router.push({ name: 'adminItemShow', params: { id: row.id } });
       },
       handleSearchItem() {
-
+        this.getProjects();
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;
@@ -107,6 +106,8 @@
         const params = {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
+          id: this.projectInfo.id,
+          title: this.projectInfo.title,
         };
         this.$http.post('/project/list', params).then((response) => {
           const {

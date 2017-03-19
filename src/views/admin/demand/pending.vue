@@ -93,7 +93,7 @@
         <template scope="scope">
           <el-button
             size="small"
-            @click="handleDemanDetail(scope.$index, scope.row)">详情</el-button>
+            @click="handleDemandDetail(scope.$index, scope.row)">详情</el-button>
           <el-button
             size="small"
             type="danger"
@@ -144,7 +144,8 @@
       };
     },
     methods: {
-      handleDemanDetail(index, row) {
+      handleDemandDetail(index, row) {
+        this.$router.push({ name: 'adminDemandShow', params: { id: row.id } });
       },
       handleRefusedDemand(index, row) {
         this.handleEditDemandStatus(row, 2, index, '已驳回');

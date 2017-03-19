@@ -144,6 +144,7 @@
     },
     methods: {
       handleDemandDetail(index, row) {
+        this.$router.push({ name: 'adminDemandShow', params: { id: row.id } });
       },
       handleApplyDemand(index, row) {
       },
