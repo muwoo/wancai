@@ -90,7 +90,15 @@ export default {
         this.$router.replace('/project_manager/profile');
         this.isLeftNav = false;
       }
-      this.$message(this.currentProject.name);
+      this.$message(this.currentProject.title);
+    },
+    setCurrentProject() {
+      const id = this.$route.query.id;
+      for (let i = 0; i < this.allProjects.length; i += 1) {
+        if (this.allProjects[i].id.toString() === id) {
+          this.currentProject = this.allProjects[i];
+        }
+      }
     },
     // 退出登录
     logout() {
@@ -131,8 +139,8 @@ export default {
           list,
         },
       } = response.data;
-      console.log(list);
       this.allProjects = list;
+      this.setCurrentProject();
     }).catch((error) => {
       console.log(error);
     });
