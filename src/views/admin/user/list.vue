@@ -15,12 +15,12 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label='身份证号：' style="width: 100%;">
-              <el-input v-model="userInfo.idCardNumber" placeholder="请输入内容" style="width: 100px;"></el-input>
+              <el-input v-model="userInfo.idCard" placeholder="请输入内容" style="width: 100px;"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label='手机号：' style="width: 100%;">
-              <el-input v-model="userInfo.phoneNumber" placeholder="请输入内容" style="width: 100px;"></el-input>
+              <el-input v-model="userInfo.telphone" placeholder="请输入内容" style="width: 100px;"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -38,15 +38,15 @@
       </el-row>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="handleSearchEmployee">搜索人才</el-button>
+        <el-button type="primary" @click="handleSearchUser">搜索人才</el-button>
       </el-form-item>
     </el-form>
       <el-table
-        :data="employees"
+        :data="users"
         :border='true'
         style="width: 100%;">
         <el-table-column
-          prop="idCardNumber"
+          prop="idCard"
           label="身份证号"
           align="center"
           width="200">
@@ -57,27 +57,29 @@
           label="姓名">
         </el-table-column>
         <el-table-column
-          prop="phoneNumber"
+          prop="telphone"
           align="center"
           label="手机号">
         </el-table-column>
         <el-table-column
-          prop="createdAt"
+          prop="createdTime"
+          :formatter="formatDate"
           align="center"
+          width="180"
           label="创建时间">
         </el-table-column>
         <el-table-column
           label="操作"
           align="center"
-          width="240">
+          width="200">
           <template scope="scope">
             <el-button
               size="small"
-              @click="handleEmployeSet(scope.$index, scope.row)">设置</el-button>
+              @click="handleUserSet(scope.$index, scope.row)">设置</el-button>
             <el-button
               size="small"
               type="danger"
-              @click="handleEmployeDetail(scope.$index, scope.row)">详情</el-button>
+              @click="handleUserDetail(scope.$index, scope.row)">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -87,25 +89,27 @@
   </div>
 </template>
 <script>
+  import util from '../../../common/util';
+
   export default {
     name: 'userList',
     data() {
       return {
         userInfo: {
           id: '',
-          // idCardNumber: '',
-          phoneNumber: '',
+          idCard: '',
+          telphone: '',
           name: '',
           sex: '1',
         },
-        employees: [{
+        users: [{
           id: 1,
-          idCardNumber: '15341312321323',
-          phoneNumber: '141223232',
+          idCard: '15341312321323',
+          telphone: '141223232',
           name: 'makcy',
           sex: '男',
           age: 18,
-          createdAt: '2015-1-1',
+          createdTime: 1489869359000,
         }],
         currentPage: 1,
         totalEmployeeNum: 100,
@@ -117,12 +121,16 @@
         {
           value: '1',
           label: '男',
+        },
+        {
+          value: '',
+          label: '不限',
         }],
       };
     },
     methods: {
       // 搜索
-      handleSearchEmployee() {
+      handleSearchUser() {
 
       },
       // 换页
@@ -130,12 +138,17 @@
 
       },
       // 设置
-      handleEmployeSet() {
+      handleUserSet() {
 
       },
       // 详情
-      handleEmployeDetail(index, row) {
+      handleUserDetail(index, row) {
         window.open(`#/staff/${row.id}`, 'target_blank');
+      },
+      // 格式化时间
+      formatDate(row, column) {
+        const date = new Date(parseInt(row.createdTime, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
       },
     },
   };
