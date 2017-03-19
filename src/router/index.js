@@ -12,6 +12,7 @@ import projectManagerDemandPending from '../views/projectManager/demand/pending'
 import projectManagerDemandProcessed from '../views/projectManager/demand/processed';
 import projectManagerDemandRefused from '../views/projectManager/demand/refused';
 import projectManagerDemandCompleted from '../views/projectManager/demand/completed';
+import projectManagerDemandCancled from '../views/projectManager/demand/cancled';
 
 import projectManagerStaffFullTime from '../views/projectManager/staff/fullTime';
 import projectManagerStaffPartTime from '../views/projectManager/staff/partTime';
@@ -261,6 +262,7 @@ const router = new Router({
         { path: 'processed', component: projectManagerDemandProcessed, alias: '处理中' },
         { path: 'refused', component: projectManagerDemandRefused, alias: '已驳回' },
         { path: 'completed', component: projectManagerDemandCompleted, alias: '已结束' },
+        { path: 'cancled', component: projectManagerDemandCancled, alias: '已取消' },
       ],
     },
     {

@@ -93,7 +93,7 @@
         <template scope="scope">
           <el-button
             size="small"
-            @click="handleDemanDetail(scope.$index, scope.row)">详情</el-button>
+            @click="handleDemandDetail(scope.$index, scope.row)">详情</el-button>
           <el-button
             size="small"
             @click="handleApplyDemand(scope.$index, scope.row)">发布招聘计划</el-button>
@@ -143,7 +143,7 @@
       };
     },
     methods: {
-      handleDemanDetail(index, row) {
+      handleDemandDetail(index, row) {
       },
       handleApplyDemand(index, row) {
       },

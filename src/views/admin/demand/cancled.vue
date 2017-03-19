@@ -92,7 +92,7 @@
         <template scope="scope">
           <el-button
             size="small"
-            @click="handleDemanDetail(scope.$index, scope.row)">详情</el-button>
+            @click="handleDemandDetail(scope.$index, scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -135,7 +135,7 @@
       };
     },
     methods: {
-      handleDemanDetail(index, row) {
+      handleDemandDetail(index, row) {
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;

@@ -29,13 +29,13 @@
         :show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column
-        prop="projectManager"
+        prop="managerName"
         label="项目经理"
         width="100"
         align="center">
       </el-table-column>
       <el-table-column
-        prop="recruitManager"
+        prop="recruitFrontsName"
         label="招聘前台"
         width="100"
         align="center">
