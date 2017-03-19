@@ -65,9 +65,6 @@ export default {
     // eslint-disable-next-line
     $route(to, from) {
       this.currentPath = to.path;
-      // this.$message(this.currentPath);
-      // console.log(this.currentPath);
-      // console.log(this.$route.query);
     },
   },
   methods: {
@@ -90,7 +87,7 @@ export default {
         this.$router.replace('/project_manager/profile');
         this.isLeftNav = false;
       }
-      this.$message(this.currentProject.title);
+      // this.$message(this.currentProject.title);
     },
     setCurrentProject() {
       const id = this.$route.query.id;
