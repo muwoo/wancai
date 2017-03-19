@@ -1,5 +1,5 @@
 <template>
-  <div id="projectManagerdemandProcessed">
+  <div id="projectManagerDemandCancled">
     <el-table
       :data="demands"
       :border='true'
@@ -70,6 +70,9 @@
           <el-button
             size="small"
             @click="handleDemandDetail(scope.$index, scope.row)">详情</el-button>
+          <el-button
+            size="small"
+            @click="handleDemandApplyAgain(scope.$index, scope.row)">再次申请</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,7 +85,7 @@
   import util from '../../../common/util';
 
   export default {
-    name: 'projectManagerdemandProcessed',
+    name: 'projectManagerDemandCancled',
     data() {
       return {
         loading: false,
@@ -95,6 +98,8 @@
     },
     methods: {
       handleDemandDetail(index, row) {
+      },
+      handleDemandApplyAgain(index, row) {
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;
@@ -109,7 +114,7 @@
           projectId: this.$route.query.id,
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          status: 0,
+          status: 4,
         };
         this.$http.post('/demand/listdemand', params).then((response) => {
           const {
