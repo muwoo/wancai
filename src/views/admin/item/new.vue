@@ -14,11 +14,11 @@
       <h1 class="tips">匹配负责人</h1>
       <el-form-item label="招聘前台：" class="form-item" prop="recruitManager.name">
         <span>{{ itemPublishInfo.recruitManager.name }}</span>
-        <el-button type="primary" @click="handleFindRecruitManager">查找</el-button>
+        <el-button type="primary" @click="handleFindRecruitManager" size="small">查找</el-button>
       </el-form-item>
       <el-form-item label="项目负责人：" class="form-item" prop="projectManager.name">
         <span>{{ itemPublishInfo.projectManager.name }}</span>
-        <el-button type="primary" @click="handleFindProjectManager">查找</el-button>
+        <el-button type="primary" @click="handleFindProjectManager" size="small">查找</el-button>
       </el-form-item>
       <!-- <h1 class="tips">财务设置</h1>
       <el-form-item label="利润提成（%）：" style="width: 500px;">

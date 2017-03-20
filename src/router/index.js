@@ -194,7 +194,7 @@ const router = new Router({
         { path: 'completed', component: demandCompleted, alias: '已结束' },
         { path: 'refused', component: demandRefused, alias: '已驳回' },
         { path: 'cancled', component: demandCancled, alias: '已取消' },
-        { path: 'show/:id', component: demandShow, alias: '需求详情', hidden: true },
+        { path: 'show/:id', component: demandShow, name: 'adminDemandShow', alias: '需求详情', hidden: true },
       ],
     },
     {
