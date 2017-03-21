@@ -22,11 +22,11 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="发布计划" name="second">
-        <el-form :model="planInfo" lable-width="200px" ref="planInfoForm">
+        <el-form :model="planInfo" lable-width="200px" ref="planInfoForm" class="publish">
           <el-form-item label='计划名称：' prop="name">
             <el-input v-model="planInfo.name" placeholder="请输入内容" style="width: 200px;"></el-input>
           </el-form-item>
-          <el-form-item v-for="scheme in planInfo.schemes" label='佣金方案：'prop="name">
+          <!-- <el-form-item v-for="scheme in planInfo.schemes" label='佣金方案：'prop="name">
             <el-col :span="3">
               <el-select v-model="scheme.type" placeholder="请选择">
                 <el-option
@@ -40,12 +40,42 @@
             <el-col :span="6">
                <el-input-number v-model="scheme.num" :min="1" :max="100000"></el-input-number>
             </el-col>
+          </el-form-item> -->
+          <el-form-item label='提交：' prop="name">
+            <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
-          <el-form-item>
-            <el-button type="text" @click="handleAddScheme">+添加方案</el-button>
-            <el-button v-if="planInfo.schemes.length > 1" type="text" @click="handleDelScheme">-删减方案</el-button>
+          <el-form-item label='到面：' prop="name">
+            <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
-          <el-form-item label='起始日期：'prop="name">
+          <el-form-item label='面过：' prop="name">
+            <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
+          </el-form-item>
+          <el-form-item label='满返：' prop="name">
+            <el-col :span="2" style="font-size: 20px;">满（天）</el-col>
+            <el-col :span="4"><el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
+            <el-col :span="2" style="font-size: 20px; margin-left: -10px;">返（元）</el-col>
+            <el-col :span="4"><el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
+          </el-form-item>
+          <el-form-item style="margin-left: 80px;">
+            <el-button type="text" @click="handleAddScheme">+添加满返方案</el-button>
+            <el-button v-if="planInfo.schemes.length > 1" type="text" @click="handleDelScheme">-删减满返方案</el-button>
+          </el-form-item>
+          <el-form-item label='提成方式：' prop="name">
+            <el-col :span="4">
+              <el-select v-model="planInfo.type" placeholder="请选择">
+                <el-option
+                  v-for="type in chargeType"
+                  :label="type.label"
+                  :value="type.value">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              <el-input-number v-if="planInfo.type != '3'" v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;">
+            </el-col>
+          </el-form-item>
+
+          <el-form-item label='起止日期：'prop="name">
             <el-col :span="4">
               <el-date-picker
                 v-model="planInfo.startTime"
@@ -53,7 +83,7 @@
                 placeholder="选择日期时间">
               </el-date-picker>
             </el-col>
-            <el-col :span="1" style="text-align: center;">至</el-col>
+            <el-col :span="1" style="text-align: center; margin-left: 15px;">至</el-col>
             <el-col :span="4">
               <el-date-picker
                 v-model="planInfo.endTime"
@@ -168,10 +198,12 @@
         },
         planInfo: {
           name: '',
+          num: 0,
           schemes: [{
             type: '1',
             num: 1,
           }],
+          type: '1',
         },
         defaultTab: 'first',
         plans: [{
@@ -205,6 +237,22 @@
         {
           value: '',
           label: '不限',
+        }],
+        chargeType: [{
+          value: '0',
+          label: '计薪（提成百分比）',
+        },
+        {
+          value: '1',
+          label: '计时（每小时佣金）',
+        },
+        {
+          value: '2',
+          label: '计件（每件佣金）',
+        },
+        {
+          value: '3',
+          label: '无',
         }],
       };
     },
@@ -281,6 +329,11 @@
     .info {
       .el-form-item {
         margin-left: 50px;
+      }
+    }
+    .publish {
+      .el-form-item {
+        margin-left: 25px;
       }
     }
   }
