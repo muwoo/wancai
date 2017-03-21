@@ -41,13 +41,13 @@
                <el-input-number v-model="scheme.num" :min="1" :max="100000"></el-input-number>
             </el-col>
           </el-form-item> -->
-          <el-form-item label='提交：' prop="name">
+          <el-form-item label='提交（元）：' prop="name">
             <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
-          <el-form-item label='到面：' prop="name">
+          <el-form-item label='到面（元）：' prop="name">
             <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
-          <el-form-item label='面过：' prop="name">
+          <el-form-item label='面过（元）：' prop="name">
             <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <el-form-item label='满返：' prop="name">
