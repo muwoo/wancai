@@ -164,6 +164,7 @@
         demandInfo: {
           id: '',
           projectTitle: '',
+          workType: 1,
         },
         planInfo: {
           name: '',
