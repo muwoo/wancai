@@ -71,6 +71,14 @@ export default {
         interviewList: [{
           time: '11月底前周一至周五下午1点－3点',
           address: '萧山一号仓人事部',
+        },
+        {
+          time: '11月底前周一至周五下午1点－3点',
+          address: '萧山一号仓人事部',
+        },
+        {
+          time: '11月底前周一至周五下午1点－3点',
+          address: '萧山一号仓人事部',
         }],
       }],
       loading: false,

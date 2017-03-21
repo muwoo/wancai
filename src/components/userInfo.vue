@@ -35,19 +35,21 @@
         <el-row class="unit-row">出生：{{ userInfo.birthday | formatBirthday }}</el-row>
         <el-row style="height: 40px; line-height: 20px;">
           <el-tooltip :content="userInfo.address" placement="top">
-            {{ limitAddress(userInfo.address, 20) }}
+            {{ limitContent(userInfo.address, 20) }}
           </el-tooltip>
         </el-row>
       </el-col>
       <el-col :span="5" :offset="1">
-        <el-row class="unit-row">需求：{{ limitAddress(userInfo.demandTitle, 15) }}</el-row>
-        <el-row class="unit-row">计划：{{ limitAddress(userInfo.planName, 15) }}</el-row>
+        <el-row class="unit-row"><el-tooltip :content="userInfo.demandTitle" placement="top">需求：{{ limitContent(userInfo.demandTitle, 15) }}</el-tooltip></el-row>
+        <el-row class="unit-row"><el-tooltip :content="userInfo.planName" placement="top">计划：{{ limitContent(userInfo.planName, 15) }}</el-tooltip></el-row>
         <el-row class="unit-row">经纪人：{{ userInfo.middleMan }}</el-row>
       </el-col>
       <el-col :span="6" >
-        <el-row class="scheme" v-for="interview in userInfo.interviewList">
-          <el-row class="unit-row">面试时间：{{ limitAddress(interview.time, 10) }}</el-row>
-          <el-row class="unit-row">面试地点：{{ limitAddress(interview.address, 10) }}</el-row>
+        <el-row class="scheme">
+          <div v-for="interview in userInfo.interviewList">
+            <el-row class="unit-row"><el-tooltip :content="interview.time" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
+            <el-row class="unit-row"><el-tooltip :content="interview.address" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
+          </div>
         </el-row>
       </el-col>
       <el-col class="btn-row" :span="3">
@@ -107,7 +109,7 @@
         this.currentImage = evt.target.src;
         this.BigImageVisible = true;
       },
-      limitAddress(str, len) {
+      limitContent(str, len) {
         if (str.length > len) {
           return `${str.substr(0, len)}...`;
         }
