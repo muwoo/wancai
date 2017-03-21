@@ -27,19 +27,25 @@
             <el-input v-model="planInfo.name" placeholder="请输入内容" style="width: 200px;"></el-input>
           </el-form-item>
           <el-form-item v-for="scheme in planInfo.schemes" label='佣金方案：'prop="name">
-            <el-col :span="6">
-              <el-input-number v-model="scheme.num" :min="1" :max="10"></el-input-number>
+            <el-col :span="3">
+              <el-select v-model="scheme.type" placeholder="请选择">
+                <el-option
+                  v-for="type in schemeType"
+                  :label="type.label"
+                  :value="type.value">
+                </el-option>
+              </el-select>
             </el-col>
             <el-col :span="1" style="text-align: center;">至</el-col>
             <el-col :span="6">
-               <el-input-number v-model="scheme.num" :min="1" :max="10"></el-input-number>
+               <el-input-number v-model="scheme.num" :min="1" :max="100000"></el-input-number>
             </el-col>
           </el-form-item>
           <el-form-item>
             <el-button type="text" @click="handleAddScheme">+添加方案</el-button>
             <el-button v-if="planInfo.schemes.length > 1" type="text" @click="handleDelScheme">-删减方案</el-button>
           </el-form-item>
-          <el-form-item label='截止日期：'prop="name">
+          <el-form-item label='起始日期：'prop="name">
             <el-col :span="4">
               <el-date-picker
                 v-model="planInfo.startTime"
@@ -162,7 +168,7 @@
         planInfo: {
           name: '',
           schemes: [{
-            type: 0,
+            type: '1',
             num: 1,
           }],
         },
@@ -187,6 +193,18 @@
         pageSize: 20,
         pageCount: 0,
         loading: false,
+        schemeType: [{
+          value: '0',
+          label: '月结',
+        },
+        {
+          value: '1',
+          label: '周结',
+        },
+        {
+          value: '',
+          label: '不限',
+        }],
       };
     },
     methods: {
@@ -216,11 +234,13 @@
       },
       // 添加方案
       handleAddScheme() {
-
+        this.planInfo.schemes.push({ type: '1', num: 1 });
       },
       // 删减方案
       handleDelScheme() {
-
+        if (this.planInfo.schemes.length > 1) {
+          this.planInfo.schemes.pop();
+        }
       },
       // ----格式化表格内容------
       formatStartTime(row, column) {
@@ -238,6 +258,9 @@
           return '已过期';
         }
         return '';
+      },
+      formatType(row, column) {
+        return row.status === 1 ? '全职' : '兼职';
       },
     },
     mounted() {
