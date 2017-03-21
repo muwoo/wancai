@@ -217,7 +217,7 @@
         } else if (val.name === 'third') {
           console.log('third');
         } else if (val.name === 'fourth') {
-          this.getPlans();
+          // this.getPlans();
         }
       },
       getPlans() {
