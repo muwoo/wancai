@@ -2,8 +2,8 @@
   <div id="uesrInfo">
     <el-row class="top">
       <el-col :span="4">
-        <el-checkbox v-if="selectVisible" v-model="userInfo.isSelect">申请ID：{{ userInfo.id }}</el-checkbox>
-        <span v-else style="padding-left: 5px;">申请ID：{{ userInfo.id }}</span>
+        <el-checkbox v-if="selectVisible" v-model="userInfo.isSelect">名单ID：{{ userInfo.id }}</el-checkbox>
+        <span v-else style="padding-left: 5px;">名单ID：{{ userInfo.id }}</span>
       </el-col>
       <el-col :span="13" :offset="1"><span>提交时间：{{ userInfo.createdTime | formatDate }}</span></el-col>
       <el-col :span="5" :offset="1">
@@ -19,7 +19,7 @@
           <img class="image" v-if="userInfo.idCardPositive" @click.prevent="handleClickImage" :src="userInfo.idCardPositive"/>
         </el-row>
       </el-col>
-      <el-col :span="5" :offset="1">
+      <el-col :span="4" :offset="1">
         <el-row class="unit-row">
           <el-col :span="8">
             {{ userInfo.name }}
@@ -32,32 +32,39 @@
           </el-col>
         </el-row>
         <el-row class="unit-row">{{ userInfo.idCard }}</el-row>
-        <el-row class="unit-row">{{ userInfo.birthday | formatBirthday }}</el-row>
+        <el-row class="unit-row">出生：{{ userInfo.birthday | formatBirthday }}</el-row>
         <el-row style="height: 40px; line-height: 20px;">
           <el-tooltip :content="userInfo.address" placement="top">
-            {{ limitAddress(userInfo.origin) }}
+            {{ limitAddress(userInfo.address, 20) }}
           </el-tooltip>
         </el-row>
       </el-col>
-      <el-col :span="4" :offset="1">
-        <el-row style="height: 40px; line-height: 20px; padding-top: 5px;">所在城市：{{ userInfo.cityName }}</el-row>
-        <el-row class="unit-row">职业：{{ userInfo.occupation }}</el-row>
-        <el-row class="unit-row">单位：{{ userInfo.company }}</el-row>
-        <el-row class="unit-row">手机：{{ userInfo.telphone }}</el-row>
+      <el-col :span="5" :offset="1">
+        <el-row class="unit-row">需求：{{ limitAddress(userInfo.demandTitle, 15) }}</el-row>
+        <el-row class="unit-row">计划：{{ limitAddress(userInfo.planName, 15) }}</el-row>
+        <el-row class="unit-row">经纪人：{{ userInfo.middleMan }}</el-row>
       </el-col>
-      <el-col :span="5" :offset="1" >
-        <el-row style="height: 40px; line-height: 20px; padding-top: 5px;">主要招聘渠道：{{ userInfo.recruitChannel }}</el-row>
-        <el-row class="unit-row">招聘能力：</el-row>
-        <el-row class="unit-row">全职，月招聘能力：{{ userInfo.fullTimeNumber }}</el-row>
-        <el-row class="unit-row">兼职，日招聘能力：{{ userInfo.partTimeNumber }}</el-row>
+      <el-col :span="6" >
+        <el-row class="scheme" v-for="interview in userInfo.interviewList">
+          <el-row class="unit-row">面试时间：{{ limitAddress(interview.time, 10) }}</el-row>
+          <el-row class="unit-row">面试地点：{{ limitAddress(interview.address, 10) }}</el-row>
+        </el-row>
       </el-col>
       <el-col class="btn-row" :span="3">
-        <el-button v-if="userInfo.status==1" type="success" size="large" @click.prevent="handlePass" style="width: 80px;">通 过</el-button>
-        <el-button v-if="userInfo.status==1" type="primary" size="large" @click.prevent="handleRefuse" style="width: 80px; margin-left: 0px;">不通过</el-button>
-        <el-button v-if="userInfo.status==2" type="danger" size="large" @click.prevent="handleBlackList" style="width: 80px;">拉 黑</el-button>
-        <el-button v-if="userInfo.status==4" type="primary" size="large" @click.prevent="handleWhiteList" style="width: 80px;">解 除</el-button>
+        <el-button type="primary" size="small" @click.prevent="handlePass">详 情</el-button>
+        <el-button v-if="userInfo.status==1" type="success" size="small" @click.prevent="handlePass">确认名单</el-button>
+        <el-button v-if="userInfo.status==1" type="danger" size="small" @click.prevent="handleRefuse">名单无效</el-button>
+        <el-button v-if="userInfo.status==2" type="success" size="small" @click.prevent="handleRefuse">面试通过</el-button>
+        <el-button v-if="userInfo.status==2" type="danger" size="small" @click.prevent="handleRefuse">面试不通过</el-button>
+        <el-button v-if="userInfo.status==2" type="danger" size="small" @click.prevent="handleRefuse">面试未到</el-button>
+        <el-button v-if="userInfo.status==3" type="danger" size="small" @click.prevent="handleRefuse">入职失败</el-button>
+        <el-button v-if="userInfo.status==3" type="primary" size="small" @click.prevent="handleRefuse">确认入职</el-button>
+        <el-button v-if="userInfo.status==4" type="danger" size="small" @click.prevent="handleBlackList">恢复状态</el-button>
       </el-col>
     </el-row>
+    <!-- <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
+      <img class="big-img" :src="currentImage" />
+    </el-dialog> -->
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
   </div>
 </template>
@@ -100,9 +107,9 @@
         this.currentImage = evt.target.src;
         this.BigImageVisible = true;
       },
-      limitAddress(str) {
-        if (str.length > 20) {
-          return `${str.substr(0, 20)}...`;
+      limitAddress(str, len) {
+        if (str.length > len) {
+          return `${str.substr(0, len)}...`;
         }
         return str;
       },
@@ -113,13 +120,13 @@
     computed: {
       formatStatus() {
         if (this.userInfo.status === 1) {
-          return '待审核';
+          return '待确认';
         } else if (this.userInfo.status === 2) {
-          return '审核通过';
+          return '待面试';
         } else if (this.userInfo.status === 3) {
-          return '审核未通过';
+          return '待入职';
         } else if (this.userInfo.status === 4) {
-          return '已拉黑';
+          return '失败名单';
         }
         return '审核异常';
       },
@@ -148,11 +155,11 @@
 #uesrInfo {
  width: 100%;
  height: 190px;
- background-color: #FFFFFF;
+ border:1px solid #eff2f7;
  .top {
    height: 40px;
    background-color: #eff2f7;
-   border:1px solid #FFFFFF;
+  //  border:1px solid #FFFFFF;
 
    .el-col {
      height: 100%;
@@ -182,6 +189,11 @@
    .unit-row {
      height: 30px;
      line-height: 30px;
+   }
+   .scheme {
+     height: 150px;
+    //  overflow: auto;
+     overflow-y: scroll;
    }
    .btn-row {
      display: flex;
