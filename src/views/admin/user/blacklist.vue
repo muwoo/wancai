@@ -82,9 +82,6 @@
           <template scope="scope">
             <el-button
               size="small"
-              @click="handleUserSet(scope.$index, scope.row)">设置</el-button>
-            <el-button
-              size="small"
               type="danger"
               @click="handleUserDetail(scope.$index, scope.row)">详情</el-button>
           </template>
@@ -138,10 +135,6 @@
       handleCurrentPageChange(val) {
         this.currentPage = val;
         this.getUsers();
-      },
-      // 设置
-      handleUserSet() {
-
       },
       // 详情
       handleUserDetail(index, row) {

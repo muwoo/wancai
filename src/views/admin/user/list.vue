@@ -82,7 +82,7 @@
           <template scope="scope">
             <el-button
               size="small"
-              @click="handleUserSet(scope.$index, scope.row)">设置</el-button>
+              @click="handleSetBlack(scope.$index, scope.row)">拉黑</el-button>
             <el-button
               size="small"
               type="danger"
@@ -139,8 +139,8 @@
         this.currentPage = val;
         this.getUsers();
       },
-      // 设置
-      handleUserSet() {
+      // 拉黑
+      handleSetBlack(index, row) {
 
       },
       // 详情
