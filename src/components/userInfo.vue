@@ -46,7 +46,11 @@
       </el-col>
       <el-col :span="6" >
         <el-row class="scheme">
-          <div v-for="interview in userInfo.interviewList">
+          <div v-if="workType == 1" v-for="interview in userInfo.interviewList">
+            <el-row class="unit-row"><el-tooltip :content="interview.time" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
+            <el-row class="unit-row"><el-tooltip :content="interview.address" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
+          </div>
+          <div v-if="workType == 0" v-for="interview in userInfo.interviewList">
             <el-row class="unit-row"><el-tooltip :content="interview.time" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
             <el-row class="unit-row"><el-tooltip :content="interview.address" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
           </div>
@@ -54,19 +58,17 @@
       </el-col>
       <el-col class="btn-row" :span="3">
         <el-button type="primary" size="small" @click.prevent="handlePass">详 情</el-button>
-        <el-button v-if="userInfo.status==1" type="success" size="small" @click.prevent="handlePass">确认名单</el-button>
-        <el-button v-if="userInfo.status==1" type="danger" size="small" @click.prevent="handleRefuse">名单无效</el-button>
-        <el-button v-if="userInfo.status==2" type="success" size="small" @click.prevent="handleRefuse">面试通过</el-button>
-        <el-button v-if="userInfo.status==2" type="danger" size="small" @click.prevent="handleRefuse">面试不通过</el-button>
-        <el-button v-if="userInfo.status==2" type="danger" size="small" @click.prevent="handleRefuse">面试未到</el-button>
-        <el-button v-if="userInfo.status==3" type="danger" size="small" @click.prevent="handleRefuse">入职失败</el-button>
-        <el-button v-if="userInfo.status==3" type="primary" size="small" @click.prevent="handleRefuse">确认入职</el-button>
-        <el-button v-if="userInfo.status==4" type="danger" size="small" @click.prevent="handleBlackList">恢复状态</el-button>
+        <el-button v-if="userInfo.status==1" type="success" size="small" @click.prevent="handleSetStatus">确认名单</el-button>
+        <el-button v-if="userInfo.status==1" type="danger" size="small" @click.prevent="handleSetStatus">名单无效</el-button>
+        <el-button v-if="userInfo.status==2 && workType==1" type="success" size="small" @click.prevent="handleSetStatus">面试通过</el-button>
+        <el-button v-if="userInfo.status==2 && workType==1" type="danger" size="small" @click.prevent="handleSetStatus">面试不通过</el-button>
+        <el-button v-if="userInfo.status==2 && workType==1" type="danger" size="small" @click.prevent="handleSetStatus">面试未到</el-button>
+        <el-button v-if="userInfo.status==2 && workType==0" type="danger" size="small" @click.prevent="handleSetStatus">放鸽子</el-button>
+        <el-button v-if="userInfo.status==3 && workType==1" type="danger" size="small" @click.prevent="handleSetStatus">入职失败</el-button>
+        <el-button v-if="userInfo.status==3 && workType==1" type="primary" size="small" @click.prevent="handleSetStatus">确认入职</el-button>
+        <el-button v-if="userInfo.status==4" type="danger" size="small" @click.prevent="handleSetStatus">恢复状态</el-button>
       </el-col>
     </el-row>
-    <!-- <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
-      <img class="big-img" :src="currentImage" />
-    </el-dialog> -->
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
   </div>
 </template>
@@ -88,22 +90,17 @@
         type: Boolean,
         default: true,
       },
+      workType: {
+        type: Number,
+        default: 1,
+      },
     },
     components: {
       bigImage,
     },
     methods: {
-      handlePass(evt) {
-        this.$emit('handlePass', evt);
-      },
-      handleRefuse(evt) {
-        this.$emit('handleRefuse', evt);
-      },
-      handleBlackList(evt) {
-        this.$emit('handleBlackList', evt);
-      },
-      handleWhiteList(evt) {
-        this.$emit('handleWhiteList', evt);
+      handleSetStatus(evt) {
+        this.$emit('handleSetStatus', evt);
       },
       handleClickImage(evt) {
         this.currentImage = evt.target.src;

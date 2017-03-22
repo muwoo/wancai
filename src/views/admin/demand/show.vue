@@ -1,24 +1,35 @@
 <template>
   <div id="adminDemandShow">
-    <h4>项目ID: {{demandInfo.id}}，项目名称：{{demandInfo.projectTitle}}</h4>
+    <h4>隶属，项目ID: {{demandInfo.projectId}}，项目名称：{{demandInfo.projectTitle}}</h4>
     <el-tabs v-model="defaultTab" type="card" @tab-click="handleTabClick">
       <el-tab-pane label="需求信息" name="first">
         <el-form class="info" lable-width="200px" :model="demandInfo">
           <h3 class="tips">岗位信息</h3>
-          <el-form-item label="岗位类型：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="工种：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="薪资：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="结算方式：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="需求人数：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="到岗时间：">{{ demandInfo.workType }}</el-form-item>
+          <el-form-item label="岗位名称：">{{ demandInfo.title }}</el-form-item>
+          <el-form-item label="岗位类型：">{{ demandInfo.type | formatType }}</el-form-item>
+          <el-form-item label="工种：">{{ demandInfo.workTypeName }}</el-form-item>
+          <el-form-item label="薪资：">{{ demandInfo.salary }}</el-form-item>
+          <el-form-item label="结算方式：">{{ demandInfo.settlementTypeName }}</el-form-item>
+          <el-form-item label="需求人数：">{{ demandInfo.applyNumber }}</el-form-item>
+          <el-form-item v-if="demandInfo.type == 1" label="到岗时间：">{{ demandInfo.workTime }}</el-form-item>
+          <div v-if="demandInfo.type == 1" v-for="interview in demandInfo.listDemandInterview">
+            <h1 class="tips"></h1>
+            <el-form-item label="面试时间：">{{ interview.interviewTime }}</el-form-item>
+            <el-form-item label="面试地点：">{{ interview.interviewAddress }}</el-form-item>
+          </div>
+          <div v-if="demandInfo.type == 0" v-for="schedule in demandInfo.listSchedulingInformation">
+            <h1 class="tips"></h1>
+            <el-form-item label="排班信息：">{{ schedule.startTime | formatDate }} 至 {{ schedule.endTime | formatDate }}</el-form-item>
+            <el-form-item label="班次需求人数：">{{ schedule.applyNumber }}</el-form-item>
+          </div>
           <h3 class="tips">岗位要求</h3>
-          <el-form-item label="性别：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="年龄：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="学历：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="专业：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="婚否：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="工作经验：">{{ demandInfo.workType }}</el-form-item>
-          <el-form-item label="工作要求：">{{ demandInfo.workType }}</el-form-item>
+          <el-form-item label="性别：">{{ demandInfo.sex | formatSex }}</el-form-item>
+          <el-form-item label="年龄：">{{ demandInfo.minAge }}岁 至 {{ demandInfo.maxAge }}岁</el-form-item>
+          <el-form-item label="学历：">{{ demandInfo.educationName }}</el-form-item>
+          <el-form-item label="专业：">{{ demandInfo.profession }}</el-form-item>
+          <el-form-item label="婚否：">{{ demandInfo.isMarry | formatMarry }}</el-form-item>
+          <el-form-item label="工作经验：">{{ demandInfo.workExperienceName }}</el-form-item>
+          <el-form-item label="工作要求：">{{ demandInfo.request }}</el-form-item>
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="发布计划" name="second">
@@ -76,7 +87,6 @@
               <el-input-number v-if="planInfo.type != '3'" v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;">
             </el-col>
           </el-form-item>
-
           <el-form-item label='起止日期：'prop="name">
             <el-col :span="4">
               <el-date-picker
@@ -105,7 +115,22 @@
           </el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="人员管理" name="third">人员管理</el-tab-pane>
+      <el-tab-pane label="人员管理" name="third">
+        <el-tabs v-model="first" @tab-click="handleUserTabClick">
+          <el-tab-pane label="全部" name="first">
+            <!-- <userInfo v-for="info in users" :userInfo="info"
+            @handleEdit="handleEdit(this.event, info)"
+            style="margin-top: 10px;" >
+            </userInfo> -->
+          </el-tab-pane>
+          <el-tab-pane label="待确认" name="second">待确认</el-tab-pane>
+          <el-tab-pane v-if="demandInfo.workType == 1" label="待面试" name="third">待面试</el-tab-pane>
+          <el-tab-pane v-else label="待考勤" name="third">待考勤</el-tab-pane>
+          <el-tab-pane v-if="demandInfo.workType == 1" label="待入职" name="fourth">待入职</el-tab-pane>
+          <el-tab-pane v-else label="已考勤" name="fourth">已考勤</el-tab-pane>
+          <el-tab-pane label="失败名单" name="fifth">失败名单</el-tab-pane>
+        </el-tabs>
+      </el-tab-pane>
       <el-tab-pane label="招聘计划" name="fourth">
         <el-table
          :data="plans"
@@ -188,6 +213,7 @@
 </template>
 <script>
   import util from '../../../common/util';
+  import userInfo from '../../../components/userInfo';
 
   export default {
     name: 'adminDemandShow',
@@ -196,7 +222,15 @@
         demandInfo: {
           id: '',
           projectTitle: '',
-          workType: 1,
+          type: '1',
+          workType: '',
+          applyNumber: 0,
+          isMarry: 0,
+          wrokExperience: '',
+          sex: 1,
+          request: '',
+          salary: '',
+          status: '',
         },
         planInfo: {
           name: '',
@@ -224,22 +258,18 @@
           endTime: 1489926599000,
           status: 1,
         }],
+        users: [{
+          id: 1,
+          idCard: '1231232312',
+          birthday: 1489926599000,
+          address: '杭州西湖区西城广场',
+          demandTitle: 'xxxxu需求',
+          planName: 'xxxx计划',
+        }],
         currentPage: 1,
         pageSize: 20,
         pageCount: 0,
         loading: false,
-        schemeType: [{
-          value: '0',
-          label: '月结',
-        },
-        {
-          value: '1',
-          label: '周结',
-        },
-        {
-          value: '',
-          label: '不限',
-        }],
         chargeType: [{
           value: '0',
           label: '计薪（提成百分比）',
@@ -265,15 +295,10 @@
         } else if (val.name === 'second') {
           console.log('second');
         } else if (val.name === 'third') {
-          console.log('third');
+          this.getUsers();
         } else if (val.name === 'fourth') {
           // this.getPlans();
         }
-      },
-      getPlans() {
-        this.$http.get(`/plan/common/list?pageNum=${1}&pageSize=${10}`).then((response) => {
-          console.log(response);
-        });
       },
       // 计划刷新
       handleRefush(row, column) {
@@ -292,6 +317,36 @@
         if (this.planInfo.schemes.length > 1) {
           this.planInfo.schemes.pop();
         }
+      },
+      // ------人员管理-------
+      handleUserTabClick(val) {
+        if (val.name === 'first') {
+          console.log('first');
+        } else if (val.name === 'second') {
+          console.log('second');
+        } else if (val.name === 'third') {
+          console.log('third');
+        } else if (val.name === 'fourth') {
+          // this.getPlans();
+        } else if (val.name === 'fifth') {
+          // this.getPlans();
+        }
+      },
+      // 获取数据
+      getPlans() {
+        this.$http.get(`/plan/common/list?pageNum=${1}&pageSize=${10}`).then((response) => {
+          console.log(response);
+        });
+      },
+      getUsers(userStatus = '') {
+        const params = {
+          talentStatus: userStatus,
+          pageNum: 1,
+          pageSize: 10,
+        };
+        this.$http.post('/demand/talent/list', params).then((response) => {
+          console.log(response);
+        });
       },
       // ----格式化表格内容------
       formatStartTime(row, column) {
@@ -314,11 +369,34 @@
         return row.status === 1 ? '全职' : '兼职';
       },
     },
+    filters: {
+      formatType(type) {
+        return type === 1 ? '全职' : '兼职';
+      },
+      formatSex(sex) {
+        if (sex === 1) {
+          return '男';
+        } else if (sex === 0) {
+          return '女';
+        }
+        return '不限';
+      },
+      formatMarry(isMarry) {
+        if (isMarry === 1) {
+          return '已婚';
+        } else if (isMarry === 0) {
+          return '未婚';
+        }
+        return '不限';
+      },
+      formatDate(time) {
+        const date = new Date(parseInt(time, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+      },
+    },
     mounted() {
       this.$http(`/demand/detail?id=${this.$route.params.id}`).then((response) => {
-        if (response.data.errorCode === 10000) {
-          this.demandInfo = response.data.data;
-        }
+        this.demandInfo = response.data.data;
       });
     },
   };
@@ -326,7 +404,7 @@
 <style lang="scss" scoped>
   #adminDemandShow {
     .tips {
-      border-bottom: 1px solid #e5e9f2;
+      border-bottom: 1px solid #bcc4d6;
     }
     .info {
       .el-form-item {
