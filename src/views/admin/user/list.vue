@@ -8,19 +8,19 @@
               <el-input v-model="userInfo.id" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
           </el-col> -->
-          <el-col :span="6">
+          <el-col :span="4 ">
             <el-form-item label='姓 名：' style="width: 100%;">
               <el-input v-model="userInfo.name" placeholder="请输入内容" style="width: 100px;"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label='身份证号：' style="width: 100%;">
-              <el-input v-model="userInfo.idCard" placeholder="请输入内容" style="width: 100px;"></el-input>
+              <el-input v-model="userInfo.idCard" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label='手机号：' style="width: 100%;">
-              <el-input v-model="userInfo.telphone" placeholder="请输入内容" style="width: 100px;"></el-input>
+              <el-input v-model="userInfo.phone" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -44,6 +44,7 @@
       <el-table
         :data="users"
         :border='true'
+        v-loading="loading"
         style="width: 100%;">
         <el-table-column
           prop="idCard"
@@ -57,12 +58,18 @@
           label="姓名">
         </el-table-column>
         <el-table-column
+          prop="sex"
+          :formatter="formatSex"
+          align="center"
+          label="性别">
+        </el-table-column>
+        <el-table-column
           prop="telphone"
           align="center"
           label="手机号">
         </el-table-column>
         <el-table-column
-          prop="createdTime"
+          prop="createdAt"
           :formatter="formatDate"
           align="center"
           width="180"
@@ -84,7 +91,7 @@
         </el-table-column>
       </el-table>
     <el-col :span="24"style="margin-top:10px;">
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :total="totalEmployeeNum" style="float: right;"></el-pagination>
+        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
     </el-col>
   </div>
 </template>
@@ -98,22 +105,16 @@
         userInfo: {
           id: '',
           idCard: '',
-          telphone: '',
+          phone: '',
           name: '',
-          sex: '1',
+          sex: '',
         },
-        users: [{
-          id: 1,
-          idCard: '15341312321323',
-          telphone: '141223232',
-          name: 'makcy',
-          sex: '男',
-          age: 18,
-          createdTime: 1489869359000,
-        }],
+        users: [],
         currentPage: 1,
-        totalEmployeeNum: 100,
-        defaultActiveTabName: 'first',
+        pageSize: 20,
+        pageCount: 0,
+        totalEmployeeSize: 100,
+        loading: false,
         sex: [{
           value: '0',
           label: '女',
@@ -131,11 +132,12 @@
     methods: {
       // 搜索
       handleSearchUser() {
-
+        this.getUsers();
       },
       // 换页
-      handleCurrentPageChange() {
-
+      handleCurrentPageChange(val) {
+        this.currentPage = val;
+        this.getUsers();
       },
       // 设置
       handleUserSet() {
@@ -145,11 +147,42 @@
       handleUserDetail(index, row) {
         window.open(`#/staff/${row.id}`, 'target_blank');
       },
+      getUsers() {
+        this.loading = true;
+        const params = {
+          name: this.userInfo.name,
+          idCard: this.userInfo.idCard,
+          phone: this.userInfo.phone,
+          sex: this.userInfo.sex,
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+        };
+        this.$http.post('/talent/list', params).then((response) => {
+          const {
+            data: {
+              list, pages, total, pageNum,
+            },
+          } = response.data;
+          this.totalEmployeeSize = total;
+          this.pageCount = pages;
+          this.users = list;
+          this.loading = false;
+        }).catch((err) => {
+          this.loading = false;
+          this.$message.error('获取数据失败');
+        });
+      },
       // 格式化时间
       formatDate(row, column) {
-        const date = new Date(parseInt(row.createdTime, 0));
+        const date = new Date(parseInt(row.createdAt, 0));
         return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
       },
+      formatSex(row, column) {
+        return row.sex === 1 ? '男' : '女';
+      },
+    },
+    mounted() {
+      this.getUsers();
     },
   };
 </script>
