@@ -50,7 +50,8 @@
           <el-form-item label='面过（元）：' prop="name">
             <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
-          <el-form-item label='满返：' prop="name">
+          <h1 class="tips"></h1>
+          <el-form-item label='满返：' prop="name" style="margin-top: 20px;">
             <el-col :span="2" style="font-size: 20px;">满（天）</el-col>
             <el-col :span="4"><el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
             <el-col :span="2" style="font-size: 20px; margin-left: -10px;">返（元）</el-col>
@@ -60,6 +61,7 @@
             <el-button type="text" @click="handleAddScheme">+添加满返方案</el-button>
             <el-button v-if="planInfo.schemes.length > 1" type="text" @click="handleDelScheme">-删减满返方案</el-button>
           </el-form-item>
+          <h1 class="tips"></h1>
           <el-form-item label='提成方式：' prop="name">
             <el-col :span="4">
               <el-select v-model="planInfo.type" placeholder="请选择">
