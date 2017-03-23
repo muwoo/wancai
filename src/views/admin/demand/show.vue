@@ -37,36 +37,21 @@
           <el-form-item label='计划名称：' prop="name">
             <el-input v-model="planInfo.name" placeholder="请输入内容" style="width: 200px;"></el-input>
           </el-form-item>
-          <!-- <el-form-item v-for="scheme in planInfo.schemes" label='佣金方案：'prop="name">
-            <el-col :span="3">
-              <el-select v-model="scheme.type" placeholder="请选择">
-                <el-option
-                  v-for="type in schemeType"
-                  :label="type.label"
-                  :value="type.value">
-                </el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="1" style="text-align: center;">至</el-col>
-            <el-col :span="6">
-               <el-input-number v-model="scheme.num" :min="1" :max="100000"></el-input-number>
-            </el-col>
-          </el-form-item> -->
           <el-form-item label='提交（元）：' prop="name">
-            <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
+            <el-input-number v-model="planInfo.submitPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <el-form-item label='到面（元）：' prop="name">
-            <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
+            <el-input-number v-model="planInfo.interviewAlready" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <el-form-item label='面过（元）：' prop="name">
-            <el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number>
+            <el-input-number v-model="planInfo.interviewSuccess" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <h1 class="tips"></h1>
-          <el-form-item label='满返：' prop="name" style="margin-top: 20px;">
-            <el-col :span="2" style="font-size: 20px;">满（天）</el-col>
-            <el-col :span="4"><el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
-            <el-col :span="2" style="font-size: 20px; margin-left: -10px;">返（元）</el-col>
-            <el-col :span="4"><el-input-number v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
+          <el-form-item label='满返：' v-for="scheme in planInfo.schemes" style="margin-top: 20px;">
+            <el-col :span="3" style="font-size: 20px;">满（天）</el-col>
+            <el-col :span="4"><el-input-number v-model="scheme.day" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
+            <el-col :span="3" style="font-size: 20px; margin-left: 25px;">返（元）</el-col>
+            <el-col :span="4"><el-input-number v-model="scheme.amount" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
           </el-form-item>
           <el-form-item style="margin-left: 80px;">
             <el-button type="text" @click="handleAddScheme">+添加满返方案</el-button>
@@ -74,8 +59,8 @@
           </el-form-item>
           <h1 class="tips"></h1>
           <el-form-item label='提成方式：' prop="name">
-            <el-col :span="4">
-              <el-select v-model="planInfo.type" placeholder="请选择">
+            <el-col :span="5">
+              <el-select v-model="planInfo.commissionType" placeholder="请选择">
                 <el-option
                   v-for="type in chargeType"
                   :label="type.label"
@@ -84,25 +69,15 @@
               </el-select>
             </el-col>
             <el-col :span="4" :offset="1">
-              <el-input-number v-if="planInfo.type != '3'" v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;">
+              <el-input-number v-if="planInfo.commissionType != '0'" v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;">
             </el-col>
           </el-form-item>
-          <el-form-item label='起止日期：'prop="name">
-            <el-col :span="4">
-              <el-date-picker
-                v-model="planInfo.startTime"
-                type="datetime"
-                placeholder="选择日期时间">
-              </el-date-picker>
-            </el-col>
-            <el-col :span="1" style="text-align: center; margin-left: 15px;">至</el-col>
-            <el-col :span="4">
-              <el-date-picker
-                v-model="planInfo.endTime"
-                type="datetime"
-                placeholder="选择日期时间">
-              </el-date-picker>
-            </el-col>
+          <el-form-item label='截止日期：'prop="name">
+            <el-date-picker
+              v-model="planInfo.endTime"
+              type="datetime"
+              placeholder="选择日期时间">
+            </el-date-picker>
           </el-form-item>
           <el-form-item>
             <el-button type="primary">发布普通计划</el-button>
@@ -117,7 +92,7 @@
       </el-tab-pane>
       <el-tab-pane label="人员管理" name="third">
         <el-tabs v-model="defaultUserTab" @tab-click="handleUserTabClick">
-          <el-tab-pane label="全部" name="first">
+          <el-tab-pane label="全部" name="first" v-loading="loading">
             <userInfo v-for="info in users" :userInfo="info"
             :selectVisible="false"
             @handleSetStatus="handleSetStatus()"
@@ -127,47 +102,47 @@
               <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
             </el-col> -->
           </el-tab-pane>
-          <el-tab-pane label="待确认" name="second">
-            <userInfo v-for="info in users" :userInfo="info"
+          <el-tab-pane label="待确认" name="second" v-loading="loading">
+            <!-- <userInfo v-for="info in users" :userInfo="info"
             :selectVisible="false"
             @handleSetStatus="handleSetStatus()"
             style="margin-top: 10px;" >
-            </userInfo>
+            </userInfo> -->
           </el-tab-pane>
-          <el-tab-pane v-if="demandInfo.workType == 1" label="待面试" name="third">
-            <userInfo v-for="info in users" :userInfo="info"
+          <el-tab-pane v-if="demandInfo.workType == 1" label="待面试" name="third" v-loading="loading">
+            <!-- <userInfo v-for="info in users" :userInfo="info"
             :selectVisible="false"
             @handleSetStatus="handleSetStatus()"
             style="margin-top: 10px;" >
-            </userInfo>
+            </userInfo> -->
           </el-tab-pane>
           <el-tab-pane v-else label="待考勤" name="third">
-            <userInfo v-for="info in users" :userInfo="info"
+            <!-- <userInfo v-for="info in users" :userInfo="info"
             :selectVisible="false"
             @handleSetStatus="handleSetStatus()"
             style="margin-top: 10px;" >
-            </userInfo>
+            </userInfo> -->
           </el-tab-pane>
-          <el-tab-pane v-if="demandInfo.workType == 1" label="待入职" name="fourth">
-            <userInfo v-for="info in users" :userInfo="info"
+          <el-tab-pane v-if="demandInfo.workType == 1" label="待入职" name="fourth" v-loading="loading">
+            <!-- <userInfo v-for="info in users" :userInfo="info"
             :selectVisible="false"
             @handleSetStatus="handleSetStatus()"
             style="margin-top: 10px;" >
-            </userInfo>
+            </userInfo> -->
           </el-tab-pane>
-          <el-tab-pane v-else label="已考勤" name="fourth">
-            <userInfo v-for="info in users" :userInfo="info"
+          <el-tab-pane v-else label="已考勤" name="fourth" v-loading="loading">
+            <!-- <userInfo v-for="info in users" :userInfo="info"
             :selectVisible="false"
             @handleSetStatus="handleSetStatus()"
             style="margin-top: 10px;" >
-            </userInfo>
+            </userInfo> -->
           </el-tab-pane>
-          <el-tab-pane label="失败名单" name="fifth">
-            <userInfo v-for="info in users" :userInfo="info"
+          <el-tab-pane v-if="demandInfo.workType == 1" label="已结束" name="fifth" v-loading="loading">
+            <!-- <userInfo v-for="info in users" :userInfo="info"
             :selectVisible="false"
             @handleSetStatus="handleSetStatus()"
             style="margin-top: 10px;" >
-            </userInfo>
+            </userInfo> -->
           </el-tab-pane>
         </el-tabs>
       </el-tab-pane>
@@ -274,12 +249,17 @@
         },
         planInfo: {
           name: '',
-          num: 0,
+          submitPrice: 0,
+          interviewAlready: 0,
+          interviewSuccess: 0,
           schemes: [{
-            type: '1',
-            num: 1,
+            commission_id: 5,
+            day: 0,
+            amount: 0,
           }],
-          type: '1',
+          brokerList: [],
+          endTime: '',
+          commissionType: '0',
         },
         defaultTab: 'first',
         defaultUserTab: 'first',
@@ -306,19 +286,19 @@
         totalUserSize: 0,
         loading: false,
         chargeType: [{
-          value: '0',
+          value: '6',
           label: '计薪（提成百分比）',
         },
         {
-          value: '1',
+          value: '7',
           label: '计时（每小时佣金）',
         },
         {
-          value: '2',
+          value: '8',
           label: '计件（每件佣金）',
         },
         {
-          value: '3',
+          value: '0',
           label: '无',
         }],
       };
@@ -348,7 +328,7 @@
       },
       // 添加方案
       handleAddScheme() {
-        this.planInfo.schemes.push({ type: '1', num: 1 });
+        this.planInfo.schemes.push({ commission_id: 5, amount: 0, day: 0 });
       },
       // 删减方案
       handleDelScheme() {
@@ -370,9 +350,7 @@
           this.getUsers(3);
         }
       },
-      handleSetStatus() {
 
-      },
       // 获取数据
       getPlans() {
         this.$http.get(`/plan/common/list?pageNum=${1}&pageSize=${10}`).then((response) => {
@@ -397,6 +375,16 @@
           this.pageCount = pages;
           this.users = list;
           this.loading = false;
+        });
+      },
+      publishPlan() {
+        const params = {
+
+        };
+        this.$http.post('/plan/add', params).then((response) => {
+
+        }).catch((err) => {
+
         });
       },
       // ----格式化表格内容------
