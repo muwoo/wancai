@@ -76,7 +76,7 @@ const router = new Router({
       hidden: true, //不显示在导航栏中
     },
     {
-      path: '/staff/:id',
+      path: '/user/:id',
       name: 'employe',
       component: employe,
       hidden: true,
