@@ -11,7 +11,7 @@
     <el-row class="body">
       <el-col :span="4">
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
-          <img class="image"  @click.prevent="handleClickImage" :src="projectManager.avatar"/>
+          <img class="image"  @click.prevent="handleClickImage" :src="projectManager.avatar | formatQiniuURL"/>
         </el-row>
       </el-col>
       <el-col :span="7" :offset="1" class="content-eol ">
@@ -97,6 +97,9 @@
         }
         const date = new Date(parseInt(time, 0));
         return util.formatDate.format(date, 'yyyy-MM-dd');
+      },
+      formatQiniuURL(url) {
+        return `${url}?imageView/2/w/640/h/960`;
       },
     },
   };

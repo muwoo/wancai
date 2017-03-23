@@ -15,8 +15,8 @@
     <el-row class="body">
       <el-col :span="4">
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
-          <img class="image" v-if="middleMan.idCardHand" @click.prevent="handleClickImage" :src="middleMan.idCardHand"/>
-          <img class="image" v-if="middleMan.idCardPositive" @click.prevent="handleClickImage" :src="middleMan.idCardPositive"/>
+          <img class="image" v-if="middleMan.idCardHand" @click.prevent="handleClickImage" :src="middleMan.idCardHand | formatQiniuURL"/>
+          <img class="image" v-if="middleMan.idCardPositive" @click.prevent="handleClickImage" :src="middleMan.idCardPositive | formatQiniuURL"/>
         </el-row>
       </el-col>
       <el-col :span="5" :offset="1">
@@ -143,6 +143,9 @@
         }
         const date = new Date(parseInt(time, 0));
         return util.formatDate.format(date, 'yyyy-MM-dd');
+      },
+      formatQiniuURL(url) {
+        return `${url}?imageView/2/w/640/h/960`;
       },
     },
   };
