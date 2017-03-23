@@ -141,7 +141,22 @@
       },
       // 拉黑
       handleSetBlack(index, row) {
+        this.$http.post(`/talent/updateblacklist?id=${row.id}`).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '已拉黑',
+              type: 'success',
+            });
+            this.users.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '拉黑异常',
+              type: 'success',
+            });
+          }
+        }).catch((err) => {
 
+        });
       },
       // 详情
       handleUserDetail(index, row) {
