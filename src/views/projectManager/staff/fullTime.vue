@@ -26,7 +26,7 @@
       <div class="card-panel">
         <!-- <userInfo v-for="userInfo in fullTimeStaffs" :userInfo="userInfo"
         :selectVisible="false"
-        @handlePass="handlePass(this.event, userInfo)"
+        @handleSetStatus="handleSetStatus(this.event, userInfo)"
         style="margin-top: 10px;" ></userInfo> -->
       </div>
       <el-col :span="24"style="margin-top:10px;">

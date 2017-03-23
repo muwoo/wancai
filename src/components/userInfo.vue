@@ -5,7 +5,7 @@
         <el-checkbox v-if="selectVisible" v-model="userInfo.isSelect">名单ID：{{ userInfo.id }}</el-checkbox>
         <span v-else style="padding-left: 5px;">名单ID：{{ userInfo.talent.id }}</span>
       </el-col>
-      <el-col :span="13" :offset="1"><span>提交时间：{{ userInfo.talent.createdAt | formatDate }}</span></el-col>
+      <el-col :span="13"><span>提交时间：{{ userInfo.talent.createdAt | formatDate }}</span></el-col>
       <el-col :span="5" :offset="1">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
           {{ formatStatus }}
@@ -13,12 +13,11 @@
       </el-col>
     </el-row>
     <el-row class="body">
-      <el-col :span="4">
+      <el-col :span="3">
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
           <!-- <img class="image" v-if="userInfo.talent.idCardHand" @click.prevent="handleClickImage" :src="userInfo.idCardHand"/>
           <img class="image" v-if="userInfo.talent.idCardPositive" @click.prevent="handleClickImage" :src="userInfo.idCardPositive"/> -->
-          <img class="image" src="http://wx2.sinaimg.cn/mw690/006D2KSdly1fdvp6exyyzg30a005tx6p.gif" />
-          <img class="image" src="http://wx1.sinaimg.cn/mw690/006D2KSdly1fdvusppp19j30zk0qoe81.jpg" />
+          <img class="image" @click.prevent="handleClickImage" src="http://wx2.sinaimg.cn/mw690/006D2KSdly1fdvp6exyyzg30a005tx6p.gif" />
         </el-row>
       </el-col>
       <el-col :span="4" :offset="1">
@@ -46,13 +45,13 @@
         <el-row class="unit-row"><el-tooltip :content="userInfo.planName" placement="top">计划：{{ limitContent(userInfo.planName, 15) }}</el-tooltip></el-row>
         <el-row class="unit-row">经纪人：{{ userInfo.brokerName }}</el-row>
       </el-col>
-      <el-col :span="6" >
+      <el-col :span="7" >
         <el-row class="scheme">
-          <div v-if="userInfo.type == 1" v-for="interview in userInfo.listDemandInterview">
-            <el-row class="unit-row"><el-tooltip :content="interview.interviewTime" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
-            <el-row class="unit-row"><el-tooltip :content="interview.interviewAddress" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
+          <div v-if="userInfo.type==1" v-for="interview in userInfo.listDemandInterview">
+            <el-row class="unit-row"><el-tooltip :content="interview.interviewTime" placement="top">面试时间：{{ limitContent(interview.interviewTime, 20) }}</el-tooltip></el-row>
+            <el-row class="unit-row"><el-tooltip :content="interview.interviewAddress" placement="top">面试地点：{{ limitContent(interview.interviewAddress, 20) }}</el-tooltip></el-row>
           </div>
-          <!-- <div v-if="userInfo.type == 0" v-for="interview in userInfo.interviewList">
+          <!-- <div v-if="userInfo.type==0" v-for="interview in userInfo.interviewList">
             <el-row class="unit-row"><el-tooltip :content="interview.time" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
             <el-row class="unit-row"><el-tooltip :content="interview.address" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
           </div> -->
@@ -116,13 +115,13 @@
     },
     computed: {
       formatStatus() {
-        if (this.userInfo.talentStatus === 1) {
+        if (this.userInfo.talentStatus === 0) {
           return '待确认';
-        } else if (this.userInfo.talentStatus === 2) {
+        } else if (this.userInfo.talentStatus === 1) {
           return '待面试';
-        } else if (this.userInfo.talentStatus === 3) {
+        } else if (this.userInfo.talentStatus === 2) {
           return '待入职';
-        } else if (this.userInfo.talentStatus === 4) {
+        } else if (this.userInfo.talentStatus === 3) {
           return '失败名单';
         }
         return '审核异常';
@@ -155,7 +154,8 @@
  border:1px solid #eff2f7;
  .top {
    height: 40px;
-   background-color: #eff2f7;
+  //  background-color: #eff2f7;
+   background-color: #dcdcdc;
   //  border:1px solid #FFFFFF;
 
    .el-col {
@@ -170,6 +170,7 @@
    }
  }
  .body {
+   background-color: #FFF;
    height: 150px;
    .el-col {
      height: 100%;
