@@ -83,7 +83,9 @@
             <el-button type="primary">发布普通计划</el-button>
           </el-form-item>
           <el-form-item label='定向经纪人：'prop="name">
-            <el-button type="primary" size="small">添加</el-button>
+            <!-- <span v-for="man in planInfo.brokerList">{{ man.name }}、</span> -->
+            <el-tag v-for="(man, index) in planInfo.brokerList" :closable="true" type="primary" @close="handleCloseBrokerTag(index)">{{man.name}}</el-tag>
+            <el-button type="primary" size="small" @click="handleSearchBtn">添加</el-button>
           </el-form-item>
           <el-form-item>
             <el-button type="primary">发布定向计划</el-button>
@@ -224,6 +226,36 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog title="选择经纪人" v-model="assignBroker">
+      <el-input placeholder="请输入内容" v-model="planInfo.searchContent">
+        <el-select v-model="planInfo.searchType" slot="prepend" style="width: 150px;">
+          <el-option value='1' label='ID'></el-option>
+          <el-option value='2' label='姓名'></el-option>
+          <el-option value='3' label='身份证'></el-option>
+          <el-option value='4' label='手机号'></el-option>
+        </el-select>
+        <el-button slot="append" icon="search" @click="getSearchBroker"></el-button>
+      </el-input>
+      <div class="search-table">
+        <el-table :data="planInfo.brokerSearchData" v-loading="planInfo.loading">
+          <el-table-column property="id" label="id"></el-table-column>
+          <el-table-column property="name" label="姓名"></el-table-column>
+          <el-table-column property="idCard" label="身份证" width="200"></el-table-column>
+          <el-table-column property="telphone" label="手机"  width="200"></el-table-column>
+          <el-table-column
+            label="操作">
+            <template scope="scope">
+              <el-button
+                size="small"
+                @click="handleConfirmBroker(scope.$index, scope.row)">选择</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-col :span="24" style="margin-top:10px;">
+          <el-pagination layout="prev, pager, next" @current-change="handleBrokerPage" :current-page="planInfo.currentPage" :page-count="planInfo.pageCount" style="float: right;"></el-pagination>
+        </el-col>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -260,6 +292,31 @@
           brokerList: [],
           endTime: '',
           commissionType: '0',
+          brokerSearchData: [],
+          currentPage: 1,
+          pageSize: 20,
+          pageCount: 0,
+          // {
+          //   id: 1,
+          //   name: '周潇',
+          //   idCard: '32145123123',
+          //   telphone: '12412312',
+          // },
+          // {
+          //   id: 1,
+          //   name: '张三',
+          //   idCard: '32145123123',
+          //   telphone: '12412312',
+          // },
+          // {
+          //   id: 1,
+          //   name: '李四',
+          //   idCard: '32145123123',
+          //   telphone: '12412312',
+          // }
+          searchContent: '',
+          searchType: '1',
+          loading: false,
         },
         defaultTab: 'first',
         defaultUserTab: 'first',
@@ -285,6 +342,7 @@
         pageCount: 0,
         totalUserSize: 0,
         loading: false,
+        assignBroker: false,
         chargeType: [{
           value: '6',
           label: '计薪（提成百分比）',
@@ -350,8 +408,62 @@
           this.getUsers(3);
         }
       },
-
+      // 发布计划
+      handleConfirmBroker(index, row) {
+        this.planInfo.brokerList.push({ broker_id: row.id, name: row.name });
+        this.planInfo.brokerSearchData.splice(index, 1);
+      },
+      handleSearchBtn() {
+        this.assignBroker = true;
+        this.planInfo.brokerList = [];
+        this.getSearchBroker();
+      },
+      handleCloseBrokerTag(index) {
+        this.planInfo.brokerList.splice(index, 1);
+      },
+      handleBrokerPage(val) {
+        this.planInfo.currentPage = val;
+        this.getSearchBroker();
+      },
       // 获取数据
+      getSearchBroker() {
+        let idData = '';
+        let idCardData = '';
+        let nameData = '';
+        let telphoneData = '';
+        if (this.planInfo.searchType === '1') {
+          idData = this.planInfo.searchContent;
+        } else if (this.planInfo.searchType === '2') {
+          nameData = this.planInfo.searchContent;
+        } else if (this.planInfo.searchType === '3') {
+          idCardData = this.planInfo.searchContent;
+        } else if (this.planInfo.searchType === '4') {
+          telphoneData = this.planInfo.searchContent;
+        }
+        const params = {
+          status: 2,
+          pageNum: 1,
+          pageSize: 20,
+          id: idData,
+          idCard: idCardData,
+          name: nameData,
+          telphone: telphoneData,
+        };
+        this.planInfo.loading = false;
+        this.$http.post('/broker/list', params).then((response) => {
+          const {
+            data: {
+              list, pages, total, pageNum,
+            },
+          } = response.data;
+          this.planInfo.currentPage = pageNum;
+          this.planInfo.pageCount = pages;
+          this.planInfo.brokerSearchData = list;
+          this.planInfo.loading = false;
+        }).catch((error) => {
+          this.planInfo.loading = false;
+        });
+      },
       getPlans() {
         this.$http.get(`/plan/common/list?pageNum=${1}&pageSize=${10}`).then((response) => {
           console.log(response);
@@ -364,6 +476,7 @@
           pageNum: 1,
           pageSize: 10,
         };
+        this.loading = true;
         this.$http.post('/demand/talent/list', params).then((response) => {
           const {
             data: {
