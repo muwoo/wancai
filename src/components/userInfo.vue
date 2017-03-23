@@ -1,11 +1,11 @@
 <template>
-  <div id="uesrInfo">
+  <div id="userInfo">
     <el-row class="top">
       <el-col :span="4">
         <el-checkbox v-if="selectVisible" v-model="userInfo.isSelect">名单ID：{{ userInfo.id }}</el-checkbox>
-        <span v-else style="padding-left: 5px;">名单ID：{{ userInfo.id }}</span>
+        <span v-else style="padding-left: 5px;">名单ID：{{ userInfo.talent.id }}</span>
       </el-col>
-      <el-col :span="13" :offset="1"><span>提交时间：{{ userInfo.createdTime | formatDate }}</span></el-col>
+      <el-col :span="13" :offset="1"><span>提交时间：{{ userInfo.talent.createdAt | formatDate }}</span></el-col>
       <el-col :span="5" :offset="1">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
           {{ formatStatus }}
@@ -15,58 +15,60 @@
     <el-row class="body">
       <el-col :span="4">
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
-          <img class="image" v-if="userInfo.idCardHand" @click.prevent="handleClickImage" :src="userInfo.idCardHand"/>
-          <img class="image" v-if="userInfo.idCardPositive" @click.prevent="handleClickImage" :src="userInfo.idCardPositive"/>
+          <!-- <img class="image" v-if="userInfo.talent.idCardHand" @click.prevent="handleClickImage" :src="userInfo.idCardHand"/>
+          <img class="image" v-if="userInfo.talent.idCardPositive" @click.prevent="handleClickImage" :src="userInfo.idCardPositive"/> -->
+          <img class="image" src="http://wx2.sinaimg.cn/mw690/006D2KSdly1fdvp6exyyzg30a005tx6p.gif" />
+          <img class="image" src="http://wx1.sinaimg.cn/mw690/006D2KSdly1fdvusppp19j30zk0qoe81.jpg" />
         </el-row>
       </el-col>
       <el-col :span="4" :offset="1">
         <el-row class="unit-row">
           <el-col :span="8">
-            {{ userInfo.name }}
+            {{ userInfo.talent.name }}
           </el-col>
           <el-col :span="5">
-            {{ userInfo.sex | formatSex }}
+            {{ userInfo.talent.sex | formatSex }}
           </el-col>
           <el-col :span="11">
-            {{ userInfo.nationName }}
+            {{ userInfo.talent.nation }}
           </el-col>
         </el-row>
-        <el-row class="unit-row">{{ userInfo.idCard }}</el-row>
-        <el-row class="unit-row">出生：{{ userInfo.birthday | formatBirthday }}</el-row>
+        <el-row class="unit-row">{{ userInfo.talent.idCard }}</el-row>
+        <el-row class="unit-row">出生：{{ userInfo.talent.birthday }}</el-row>
         <el-row style="height: 40px; line-height: 20px;">
-          <el-tooltip :content="userInfo.address" placement="top">
-            {{ limitContent(userInfo.address, 20) }}
+          <el-tooltip :content="userInfo.talent.address" placement="top">
+            {{ limitContent(userInfo.talent.address, 20) }}
           </el-tooltip>
         </el-row>
       </el-col>
       <el-col :span="5" :offset="1">
-        <el-row class="unit-row"><el-tooltip :content="userInfo.demandTitle" placement="top">需求：{{ limitContent(userInfo.demandTitle, 15) }}</el-tooltip></el-row>
+        <el-row class="unit-row"><el-tooltip :content="userInfo.demandName" placement="top">需求：{{ limitContent(userInfo.demandName, 15) }}</el-tooltip></el-row>
         <el-row class="unit-row"><el-tooltip :content="userInfo.planName" placement="top">计划：{{ limitContent(userInfo.planName, 15) }}</el-tooltip></el-row>
-        <el-row class="unit-row">经纪人：{{ userInfo.middleMan }}</el-row>
+        <el-row class="unit-row">经纪人：{{ userInfo.brokerName }}</el-row>
       </el-col>
       <el-col :span="6" >
         <el-row class="scheme">
-          <div v-if="workType == 1" v-for="interview in userInfo.interviewList">
+          <div v-if="userInfo.type == 1" v-for="interview in userInfo.listDemandInterview">
+            <el-row class="unit-row"><el-tooltip :content="interview.interviewTime" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
+            <el-row class="unit-row"><el-tooltip :content="interview.interviewAddress" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
+          </div>
+          <!-- <div v-if="userInfo.type == 0" v-for="interview in userInfo.interviewList">
             <el-row class="unit-row"><el-tooltip :content="interview.time" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
             <el-row class="unit-row"><el-tooltip :content="interview.address" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
-          </div>
-          <div v-if="workType == 0" v-for="interview in userInfo.interviewList">
-            <el-row class="unit-row"><el-tooltip :content="interview.time" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
-            <el-row class="unit-row"><el-tooltip :content="interview.address" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
-          </div>
+          </div> -->
         </el-row>
       </el-col>
       <el-col class="btn-row" :span="3">
         <el-button type="primary" size="small" @click.prevent="handlePass">详 情</el-button>
-        <el-button v-if="userInfo.status==1" type="success" size="small" @click.prevent="handleSetStatus">确认名单</el-button>
-        <el-button v-if="userInfo.status==1" type="danger" size="small" @click.prevent="handleSetStatus">名单无效</el-button>
-        <el-button v-if="userInfo.status==2 && workType==1" type="success" size="small" @click.prevent="handleSetStatus">面试通过</el-button>
-        <el-button v-if="userInfo.status==2 && workType==1" type="danger" size="small" @click.prevent="handleSetStatus">面试不通过</el-button>
-        <el-button v-if="userInfo.status==2 && workType==1" type="danger" size="small" @click.prevent="handleSetStatus">面试未到</el-button>
-        <el-button v-if="userInfo.status==2 && workType==0" type="danger" size="small" @click.prevent="handleSetStatus">放鸽子</el-button>
-        <el-button v-if="userInfo.status==3 && workType==1" type="danger" size="small" @click.prevent="handleSetStatus">入职失败</el-button>
-        <el-button v-if="userInfo.status==3 && workType==1" type="primary" size="small" @click.prevent="handleSetStatus">确认入职</el-button>
-        <el-button v-if="userInfo.status==4" type="danger" size="small" @click.prevent="handleSetStatus">恢复状态</el-button>
+        <el-button v-if="userInfo.talentStatus==1" type="success" size="small" @click.prevent="handleSetStatus">确认名单</el-button>
+        <el-button v-if="userInfo.talentStatus==1" type="danger" size="small" @click.prevent="handleSetStatus">名单无效</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="success" size="small" @click.prevent="handleSetStatus">面试通过</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="danger" size="small" @click.prevent="handleSetStatus">面试不通过</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="danger" size="small" @click.prevent="handleSetStatus">面试未到</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==0" type="danger" size="small" @click.prevent="handleSetStatus">放鸽子</el-button>
+        <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="danger" size="small" @click.prevent="handleSetStatus">入职失败</el-button>
+        <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="primary" size="small" @click.prevent="handleSetStatus">确认入职</el-button>
+        <el-button v-if="userInfo.talentStatus==4" type="danger" size="small" @click.prevent="handleSetStatus">恢复状态</el-button>
       </el-col>
     </el-row>
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
@@ -77,7 +79,7 @@
   import util from '../common/util';
 
   export default {
-    name: 'uesrInfo',
+    name: 'userInfo',
     data() {
       return {
         BigImageVisible: false,
@@ -89,10 +91,6 @@
       selectVisible: {
         type: Boolean,
         default: true,
-      },
-      workType: {
-        type: Number,
-        default: 1,
       },
     },
     components: {
@@ -118,13 +116,13 @@
     },
     computed: {
       formatStatus() {
-        if (this.userInfo.status === 1) {
+        if (this.userInfo.talentStatus === 1) {
           return '待确认';
-        } else if (this.userInfo.status === 2) {
+        } else if (this.userInfo.talentStatus === 2) {
           return '待面试';
-        } else if (this.userInfo.status === 3) {
+        } else if (this.userInfo.talentStatus === 3) {
           return '待入职';
-        } else if (this.userInfo.status === 4) {
+        } else if (this.userInfo.talentStatus === 4) {
           return '失败名单';
         }
         return '审核异常';
@@ -151,7 +149,7 @@
   };
 </script>
 <style lang="scss" scoped>
-#uesrInfo {
+#userInfo {
  width: 100%;
  height: 190px;
  border:1px solid #eff2f7;

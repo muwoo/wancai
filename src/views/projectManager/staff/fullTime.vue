@@ -24,10 +24,10 @@
         <el-button style="float: right" @click="PrePage">上一页</el-button>
       </el-row>
       <div class="card-panel">
-        <userInfo v-for="userInfo in fullTimeStaffs" :userInfo="userInfo"
+        <!-- <userInfo v-for="userInfo in fullTimeStaffs" :userInfo="userInfo"
         :selectVisible="false"
         @handlePass="handlePass(this.event, userInfo)"
-        style="margin-top: 10px;" ></userInfo>
+        style="margin-top: 10px;" ></userInfo> -->
       </div>
       <el-col :span="24"style="margin-top:10px;">
         <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
