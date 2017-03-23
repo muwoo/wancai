@@ -116,19 +116,59 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="人员管理" name="third">
-        <el-tabs v-model="first" @tab-click="handleUserTabClick">
+        <el-tabs v-model="defaultUserTab" @tab-click="handleUserTabClick">
           <el-tab-pane label="全部" name="first">
-            <!-- <userInfo v-for="info in users" :userInfo="info"
-            @handleEdit="handleEdit(this.event, info)"
+            <userInfo v-for="info in users" :userInfo="info"
+            :selectVisible="false"
+            @handleSetStatus="handleSetStatus()"
             style="margin-top: 10px;" >
-            </userInfo> -->
+            </userInfo>
+            <!-- <el-col :span="24" style="margin-top:10px;">
+              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col> -->
           </el-tab-pane>
-          <el-tab-pane label="待确认" name="second">待确认</el-tab-pane>
-          <el-tab-pane v-if="demandInfo.workType == 1" label="待面试" name="third">待面试</el-tab-pane>
-          <el-tab-pane v-else label="待考勤" name="third">待考勤</el-tab-pane>
-          <el-tab-pane v-if="demandInfo.workType == 1" label="待入职" name="fourth">待入职</el-tab-pane>
-          <el-tab-pane v-else label="已考勤" name="fourth">已考勤</el-tab-pane>
-          <el-tab-pane label="失败名单" name="fifth">失败名单</el-tab-pane>
+          <el-tab-pane label="待确认" name="second">
+            <userInfo v-for="info in users" :userInfo="info"
+            :selectVisible="false"
+            @handleSetStatus="handleSetStatus()"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-if="demandInfo.workType == 1" label="待面试" name="third">
+            <userInfo v-for="info in users" :userInfo="info"
+            :selectVisible="false"
+            @handleSetStatus="handleSetStatus()"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-else label="待考勤" name="third">
+            <userInfo v-for="info in users" :userInfo="info"
+            :selectVisible="false"
+            @handleSetStatus="handleSetStatus()"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-if="demandInfo.workType == 1" label="待入职" name="fourth">
+            <userInfo v-for="info in users" :userInfo="info"
+            :selectVisible="false"
+            @handleSetStatus="handleSetStatus()"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-else label="已考勤" name="fourth">
+            <userInfo v-for="info in users" :userInfo="info"
+            :selectVisible="false"
+            @handleSetStatus="handleSetStatus()"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane label="失败名单" name="fifth">
+            <userInfo v-for="info in users" :userInfo="info"
+            :selectVisible="false"
+            @handleSetStatus="handleSetStatus()"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
         </el-tabs>
       </el-tab-pane>
       <el-tab-pane label="招聘计划" name="fourth">
@@ -242,6 +282,7 @@
           type: '1',
         },
         defaultTab: 'first',
+        defaultUserTab: 'first',
         plans: [{
           id: 1,
           title: 'title_name',
@@ -258,17 +299,11 @@
           endTime: 1489926599000,
           status: 1,
         }],
-        users: [{
-          id: 1,
-          idCard: '1231232312',
-          birthday: 1489926599000,
-          address: '杭州西湖区西城广场',
-          demandTitle: 'xxxxu需求',
-          planName: 'xxxx计划',
-        }],
+        users: [],
         currentPage: 1,
         pageSize: 20,
         pageCount: 0,
+        totalUserSize: 0,
         loading: false,
         chargeType: [{
           value: '0',
@@ -287,6 +322,9 @@
           label: '无',
         }],
       };
+    },
+    components: {
+      userInfo,
     },
     methods: {
       handleTabClick(val) {
@@ -321,16 +359,19 @@
       // ------人员管理-------
       handleUserTabClick(val) {
         if (val.name === 'first') {
-          console.log('first');
+          this.getUsers();
         } else if (val.name === 'second') {
-          console.log('second');
+          this.getUsers(0);
         } else if (val.name === 'third') {
-          console.log('third');
+          this.getUsers(1);
         } else if (val.name === 'fourth') {
-          // this.getPlans();
+          this.getUsers(2);
         } else if (val.name === 'fifth') {
-          // this.getPlans();
+          this.getUsers(3);
         }
+      },
+      handleSetStatus() {
+
       },
       // 获取数据
       getPlans() {
@@ -341,11 +382,21 @@
       getUsers(userStatus = '') {
         const params = {
           talentStatus: userStatus,
+          demandId: this.demandInfo.id,
           pageNum: 1,
           pageSize: 10,
         };
         this.$http.post('/demand/talent/list', params).then((response) => {
-          console.log(response);
+          const {
+            data: {
+              list, pages, total, pageNum,
+            },
+          } = response.data;
+          this.totalProjectSize = total;
+          this.currentPage = pageNum;
+          this.pageCount = pages;
+          this.users = list;
+          this.loading = false;
         });
       },
       // ----格式化表格内容------
