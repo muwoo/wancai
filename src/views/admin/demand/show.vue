@@ -41,15 +41,18 @@
             <el-input-number v-model="planInfo.submitPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <el-form-item label='到面（元）：' prop="name">
-            <el-input-number v-model="planInfo.interviewAlready" :min="0" :max="100000" style="width: 150px;"></el-input-number>
+            <el-input-number v-model="planInfo.interviewAlreadyPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <el-form-item label='面过（元）：' prop="name">
-            <el-input-number v-model="planInfo.interviewSuccess" :min="0" :max="100000" style="width: 150px;"></el-input-number>
+            <el-input-number v-model="planInfo.interviewSuccessPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
+          </el-form-item>
+          <el-form-item label='入职（元）：' prop="name">
+            <el-input-number v-model="planInfo.workSuccessPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <h1 class="tips"></h1>
           <el-form-item label='满返：' v-for="scheme in planInfo.schemes" style="margin-top: 20px;">
             <el-col :span="3" style="font-size: 20px;">满（天）</el-col>
-            <el-col :span="4"><el-input-number v-model="scheme.day" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
+            <el-col :span="4"><el-input-number v-model="scheme.limitDay" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
             <el-col :span="3" style="font-size: 20px; margin-left: 25px;">返（元）</el-col>
             <el-col :span="4"><el-input-number v-model="scheme.amount" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
           </el-form-item>
@@ -69,7 +72,7 @@
               </el-select>
             </el-col>
             <el-col :span="4" :offset="1">
-              <el-input-number v-if="planInfo.commissionType != '0'" v-model="planInfo.num" :min="0" :max="100000" style="width: 150px;">
+              <el-input-number v-if="planInfo.commissionType != '0'" v-model="planInfo.chargePrice" :min="0" :max="100000" style="width: 150px;">
             </el-col>
           </el-form-item>
           <el-form-item label='截止日期：'prop="name">
@@ -80,7 +83,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary">发布普通计划</el-button>
+            <el-button type="primary" @click="handlePublishPlan(0)">发布普通计划</el-button>
           </el-form-item>
           <el-form-item label='定向经纪人：'prop="name">
             <!-- <span v-for="man in planInfo.brokerList">{{ man.name }}、</span> -->
@@ -88,7 +91,7 @@
             <el-button type="primary" size="small" @click="handleSearchBtn">添加</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary">发布定向计划</el-button>
+            <el-button type="primary" @click="handlePublishPlan(1)">发布定向计划</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -282,11 +285,14 @@
         planInfo: {
           name: '',
           submitPrice: 0,
-          interviewAlready: 0,
-          interviewSuccess: 0,
+          type: 1,
+          interviewAlreadyPrice: 0,
+          interviewSuccessPrice: 0,
+          workSuccessPrice: 0,
+          chargePrice: 0,
           schemes: [{
             commission_id: 5,
-            day: 0,
+            limitDay: 0,
             amount: 0,
           }],
           brokerList: [],
@@ -386,7 +392,7 @@
       },
       // 添加方案
       handleAddScheme() {
-        this.planInfo.schemes.push({ commission_id: 5, amount: 0, day: 0 });
+        this.planInfo.schemes.push({ commission_id: 5, amount: 0, limitDay: 0 });
       },
       // 删减方案
       handleDelScheme() {
@@ -424,6 +430,10 @@
       handleBrokerPage(val) {
         this.planInfo.currentPage = val;
         this.getSearchBroker();
+      },
+      handlePublishPlan(planType) {
+        this.planInfo.type = planType;
+        this.publishPlan();
       },
       // 获取数据
       getSearchBroker() {
@@ -491,11 +501,28 @@
         });
       },
       publishPlan() {
+        const allCommission = [];
+        allCommission.push({ commission_id: 1, amount: this.planInfo.submitPrice });
+        allCommission.push({ commission_id: 2, amount: this.planInfo.interviewAlreadyPrice });
+        allCommission.push({ commission_id: 3, amount: this.planInfo.interviewSuccessPrice });
+        allCommission.push({ commission_id: 4, amount: this.planInfo.workSuccessPrice });
+        for (let i = 0; i < this.planInfo.schemes.length; i += 1) {
+          allCommission.push(this.planInfo.schemes[i]);
+        }
+        if (this.planInfo.commissionType !== '0') {
+          const selectId = parseInt(this.planInfo.commissionType, 0);
+          allCommission.push({ commission_id: selectId, amount: this.planInfo.chargePrice });
+        }
+        console.log(allCommission);
         const params = {
-
+          name: this.planInfo.name,
+          demandId: this.demandInfo.id,
+          end_time: this.planInfo.endTime,
+          type: this.planInfo.type,
+          commissionList: allCommission,
         };
         this.$http.post('/plan/add', params).then((response) => {
-
+          console.log(response);
         }).catch((err) => {
 
         });
