@@ -1,90 +1,107 @@
 <template>
   <div id="employe">
     <div>
-      <el-button type="primary" v-if="!isEdit" @click="isEditDialogVisible = true">编 辑</el-button>
-      <el-button type="primary" @click="handleAddBlack">加入黑名单</el-button>
+      <!-- <el-button type="primary" v-if="isEditInfo" @click="isEditDialogVisible = true">编 辑</el-button> -->
+      <el-button type="primary" v-if="employInfo.isBlacklist == 0" @click="handleAddBlack">加入黑名单</el-button>
     </div>
     <div>
-      <img class="image" v-for="item in employInfo.idCardImages" @click.prevent="handleClickImage" :src="item"/>
+      <img class="image" @click.prevent="handleClickImage" :src="employInfo.idCardPositive"/>
+      <!-- <img class="image" v-for="item in employInfo.idCardImages" @click.prevent="handleClickImage" :src="item"/> -->
     </div>
     <div>
       <span>{{ employInfo.name }}</span>
     </div>
     <div>
-      <span>{{ employInfo.idCardNumber }}</span>
+      <span>{{ employInfo.idCard }}</span>
     </div>
     <div>
-      <span>{{ employInfo.sex }}</span>
+      <span>{{ employInfo.sex | formatSex }}</span>
       <span>{{ employInfo.nation }}</span>
     </div>
     <div>
       <span>{{ employInfo.birth }}</span>
     </div>
     <div>
-      <span>{{ employInfo.idCardAddress }}</span>
+      <span>{{ employInfo.origin }}</span>
     </div>
     <h1 class="tips"></h1>
     <div><span style="font-size: 16px; font-weight: 800;">基本信息</span></div>
     <div>
+      <span>电话：</span>
+      <span>{{ employInfo.telphone }}</span>
+    </div>
+    <div>
       <span>学历：</span>
-      <span>{{ employInfo.itemName }}</span>
+      <span>{{ employInfo.education }}</span>
     </div>
     <div>
       <span>婚姻：</span>
-      <span>{{ employInfo.itemName }}</span>
+      <span>{{ employInfo.marriage | formatMarry }}</span>
     </div>
     <div>
       <span>健康状况：</span>
-      <span>{{ employInfo.itemName }}</span>
+      <span>{{ employInfo.healthy | formatMarry }}</span>
     </div>
     <div>
       <span>常住地址：</span>
-      <span>{{ employInfo.itemName }}</span>
+      <span>{{ employInfo.address }}</span>
     </div>
     <h1 class="tips"></h1>
     <div><span style="font-size: 16px; font-weight: 800;">工作经历</span></div>
-    <div>
-      <span>工作单位：</span>
-      <span>{{ employInfo.itemName }}</span>
-    </div>
-    <div>
-      <span>职务：</span>
-      <span>{{ employInfo.itemName }}</span>
-    </div>
-    <div>
-      <span>离职原因：</span>
-      <span>{{ employInfo.itemName }}</span>
-    </div>
-    <div>
-      <span>起止日期：</span>
-      <span>{{ employInfo.itemName }}</span>
-    </div>
-    <div>
-      <span>证明人及电话：</span>
-      <span>{{ employInfo.itemName }}</span>
+    <div v-for="work in employInfo.listWorkExperience">
+      <div>
+        <span>工作单位：</span>
+        <span>{{ work.company }}</span>
+      </div>
+      <div>
+        <span>职务：</span>
+        <span>{{ work.job }}</span>
+      </div>
+      <div>
+        <span>离职原因：</span>
+        <span>{{ work.leaveReason }}</span>
+      </div>
+      <div>
+        <span>起止日期：</span>
+        <span>{{ work.startTime | formatDate }}</span>
+        <span> 至 </span>
+        <span>{{ work.endTime | formatDate }}</span>
+      </div>
+      <div>
+        <span>证明人及电话：</span>
+        <span>{{ work.witness }}</span>
+        <span v-if="work.witnessPhone"> - </span>
+        <span>{{ work.witnessPhone }}</span>
+      </div>
+      <h1 class="tips" v-if="employInfo.listWorkExperience.length > 1"></h1>
     </div>
     <h1 class="tips"></h1>
     <div><span style="font-size: 16px; font-weight: 800;">教育经历</span></div>
-    <div>
-      <span>学校或培训单位：</span>
-      <span>{{ employInfo.itemName }}</span>
-    </div>
-    <div>
-      <span>起止日期：</span>
-      <span>{{ employInfo.itemName }}</span>
-    </div>
-    <div>
-      <span>专业或课程：</span>
-      <span>{{ employInfo.itemName }}</span>
+    <div v-for="edu in employInfo.listEducationExperience">
+      <div>
+        <span>学校或培训单位：</span>
+        <span>{{ edu.school }}</span>
+      </div>
+      <div>
+        <span>起止日期：</span>
+        <span>{{ edu.startTime | formatDate }}</span>
+        <span> - </span>
+        <span>{{ edu.endTime | formatDate }}</span>
+      </div>
+      <div>
+        <span>专业或课程：</span>
+        <span>{{ edu.major }}</span>
+      </div>
+      <h1 class="tips" v-if="employInfo.listEducationExperience > 1"></h1>
     </div>
     <h1 class="tips"></h1>
     <div>
       <span>名单ID：</span>
-      <span>{{ employInfo.itemName }}</span>
+      <span>{{ employInfo.id }}</span>
     </div>
     <div>
       <span>提交时间：</span>
-      <span>{{ employInfo.itemName }}</span>
+      <span>{{ employInfo.createdAt | formatDate }}</span>
     </div>
     <el-dialog title="修改信息" v-model="isEditDialogVisible">
       <div style="height: 440px; overflow-y: scroll;">
@@ -144,27 +161,35 @@
 </template>
 <script>
   import bigImage from './bigImage';
+  import util from '../common/util';
 
   export default {
     name: 'employe',
     data() {
       return {
         employInfo: {
-          idCardImages: [
-            'http://img1.imgtn.bdimg.com/it/u=2173638125,1490913710&fm=15&gp=0.jpg',
-            'http://img3.imgtn.bdimg.com/it/u=1951674198,2294779761&fm=23&gp=0.jpg',
-          ],
+          idCardPositive: '',
           name: '赵日天',
-          idCardNumber: '314123419937129832',
-          sex: '男',
-          nation: '汉',
-          birth: '1900-1-1',
-          idCardAddress: '杭州市西湖区文三路xxx号xxx',
-          itemName: '辣鸡公司',
+          address: '',
+          origin: '',
+          createdAt: '',
+          healthy: '',
+          id: '',
+          idCard: '',
+          isBlacklist: '',
+          listEducationExperience: [],
+          listFamily: [],
+          listWorkExperience: [],
+          marriage: '',
+          nation: '',
+          sex: '',
+          telphone: '',
         },
         currentImage: '',
         BigImageVisible: false,
         isEditDialogVisible: false,
+        isEditInfo: true,
+        employInfoRules: [],
       };
     },
     components: {
@@ -190,6 +215,43 @@
       handleAddBlack() {
 
       },
+    },
+    filters: {
+      formatType(type) {
+        return type === 1 ? '全职' : '兼职';
+      },
+      formatSex(sex) {
+        if (sex === 1) {
+          return '男';
+        } else if (sex === 0) {
+          return '女';
+        }
+        return '不限';
+      },
+      formatMarry(isMarry) {
+        if (isMarry === 1) {
+          return '已婚';
+        } else if (isMarry === 0) {
+          return '未婚';
+        }
+        return '不限';
+      },
+      formatDate(time) {
+        const date = new Date(parseInt(time, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd');
+      },
+      formatHealthy(isHealthy) {
+        return isHealthy === 1 ? '健康' : '不健康';
+      },
+    },
+    mounted() {
+      const id = this.$route.params.id;
+      this.$http.get(`/talent/detail?id=${id}`).then((response) => {
+        console.log(response);
+        if (response.data.errorCode === 10000) {
+          this.employInfo = response.data.data;
+        }
+      });
     },
   };
 </script>
