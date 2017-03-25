@@ -456,7 +456,7 @@
         currentTab: '',
         currentGetUserType: '',
         currentPage: 1,
-        pageSize: 2,
+        pageSize: 10,
         pageCount: 0,
         totalUserSize: 0,
         loading: false,
@@ -496,12 +496,44 @@
         }
       },
       // 计划刷新
-      handleRefush(row, column) {
-
+      handleRefush(index, row) {
+        this.$http.get(`/plan/refreshTime?id=${row.id}`).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '刷新成功',
+              type: 'success',
+            });
+            this.getPlans();
+          } else {
+            this.$notify.error({
+              title: '刷新异常',
+              type: 'success',
+            });
+          }
+        }).catch((error) => {
+        });
       },
       // 计划提前结束
-      handleEarlyEnd(row, column) {
-
+      handleEarlyEnd(index, row) {
+        const params = {
+          id: row.id,
+          status: 0,
+        };
+        this.$http.post('/plan/updateStatus', params).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '提前结束',
+              type: 'success',
+            });
+            this.getPlans();
+          } else {
+            this.$notify.error({
+              title: '刷新异常',
+              type: 'success',
+            });
+          }
+        }).catch((error) => {
+        });
       },
       handlePlanPage(val) {
         if (this.currentTab === 'fourth') {
@@ -553,7 +585,6 @@
         this.getUsers();
       },
       handleUserPage(val) {
-        console.log(this.currentTab);
         if (this.currentTab === 'third') {
           this.currentPage = val;
           this.getUsers(this.currentGetUserType);
