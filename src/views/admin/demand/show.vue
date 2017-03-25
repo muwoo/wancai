@@ -33,7 +33,7 @@
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="发布计划" name="second">
-        <el-form :model="planInfo" lable-width="200px" ref="planInfoForm" class="publish">
+        <el-form :model="planInfo" lable-width="200px" :rules="planRules" ref="planForm" class="publish">
           <el-form-item label='计划名称：' prop="name">
             <el-input v-model="planInfo.name" placeholder="请输入内容" style="width: 200px;"></el-input>
           </el-form-item>
@@ -71,8 +71,11 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col :span="4" :offset="1">
-              <el-input-number v-if="planInfo.commissionType != '0'" v-model="planInfo.chargePrice" :min="0" :max="100000" style="width: 150px;">
+            <el-col :span="4" :offset="1" v-if="planInfo.commissionType != '0' && planInfo.commissionType != '6'">
+              <el-input-number  v-model="planInfo.chargePrice" :min="0" :max="100000" style="width: 150px;">
+            </el-col>
+            <el-col :span="4" :offset="1" v-if="planInfo.commissionType == '6'">
+              <el-input-number  v-model="planInfo.chargePrice" :min="0" :max="100" style="width: 150px;">
             </el-col>
           </el-form-item>
           <el-form-item label='截止日期：'prop="name">
@@ -86,7 +89,6 @@
             <el-button type="primary" @click="handlePublishPlan(0)">发布普通计划</el-button>
           </el-form-item>
           <el-form-item label='定向经纪人：'prop="name">
-            <!-- <span v-for="man in planInfo.brokerList">{{ man.name }}、</span> -->
             <el-tag v-for="(man, index) in planInfo.brokerList" :closable="true" type="primary" @close="handleCloseBrokerTag(index)">{{man.name}}</el-tag>
             <el-button type="primary" size="small" @click="handleSearchBtn">添加</el-button>
           </el-form-item>
@@ -502,24 +504,36 @@
       },
       publishPlan() {
         const allCommission = [];
-        allCommission.push({ commission_id: 1, amount: this.planInfo.submitPrice });
-        allCommission.push({ commission_id: 2, amount: this.planInfo.interviewAlreadyPrice });
-        allCommission.push({ commission_id: 3, amount: this.planInfo.interviewSuccessPrice });
-        allCommission.push({ commission_id: 4, amount: this.planInfo.workSuccessPrice });
+        if (this.planInfo.submitPrice !== 0) {
+          allCommission.push({ commission_id: 1, amount: this.planInfo.submitPrice });
+        }
+        if (this.planInfo.interviewAlreadyPrice !== 0) {
+          allCommission.push({ commission_id: 2, amount: this.planInfo.interviewAlreadyPrice });
+        }
+        if (this.planInfo.interviewSuccessPrice !== 0) {
+          allCommission.push({ commission_id: 3, amount: this.planInfo.interviewSuccessPrice });
+        }
+        if (this.planInfo.workSuccessPrice !== 0) {
+          allCommission.push({ commission_id: 4, amount: this.planInfo.workSuccessPrice });
+        }
         for (let i = 0; i < this.planInfo.schemes.length; i += 1) {
-          allCommission.push(this.planInfo.schemes[i]);
+          if (this.planInfo.schemes[i].amount !== 0) {
+            allCommission.push(this.planInfo.schemes[i]);
+          }
         }
         if (this.planInfo.commissionType !== '0') {
           const selectId = parseInt(this.planInfo.commissionType, 0);
-          allCommission.push({ commission_id: selectId, amount: this.planInfo.chargePrice });
+          if (this.planInfo.chargePrice !== 0) {
+            allCommission.push({ commission_id: selectId, amount: this.planInfo.chargePrice });
+          }
         }
-        console.log(allCommission);
         const params = {
           name: this.planInfo.name,
-          demandId: this.demandInfo.id,
+          demand_id: this.demandInfo.id,
           end_time: this.planInfo.endTime,
           type: this.planInfo.type,
           commissionList: allCommission,
+          brokerList: this.planInfo.brokerList,
         };
         this.$http.post('/plan/add', params).then((response) => {
           console.log(response);
