@@ -59,15 +59,17 @@
       </el-col>
       <el-col class="btn-row" :span="3">
         <el-button type="primary" size="small" @click.prevent="handleDetail">详 情</el-button>
-        <el-button v-if="userInfo.talentStatus==1" type="success" size="small" @click.prevent="handleConfirmInfo">确认名单</el-button>
-        <el-button v-if="userInfo.talentStatus==1" type="danger" size="small" @click.prevent="handleInvalidInfo">名单无效</el-button>
+        <el-button v-if="userInfo.talentStatus==0" type="success" size="small" @click.prevent="handleConfirmInfo">确认名单</el-button>
+        <el-button v-if="userInfo.talentStatus==0" type="danger" size="small" @click.prevent="handleInvalidInfo">名单无效</el-button>
         <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="success" size="small" @click.prevent="handleInterviewPass">面试通过</el-button>
         <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="danger" size="small" @click.prevent="handleInterviewRefused">面试不通过</el-button>
         <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="danger" size="small" @click.prevent="handleInterviewAbsent">面试未到</el-button>
         <el-button v-if="userInfo.talentStatus==2 && userInfo.type==0" type="danger" size="small" @click.prevent="handlePartTimeAbsent">放鸽子</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==0" type="primary" size="small" @click.prevent="handleSignIn">已考勤</el-button>
         <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="danger" size="small" @click.prevent="handleWorkFailed">入职失败</el-button>
         <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="primary" size="small" @click.prevent="handleConfirmWork">确认入职</el-button>
-        <el-button v-if="userInfo.talentStatus==4" type="danger" size="small" @click.prevent="handleRevertStatus">恢复状态</el-button>
+        <el-button v-if="userInfo.talentStatus==7 && userInfo.type==1" type="danger" size="small" @click.prevent="handleDimission">已离职</el-button>
+        <el-button v-if="userInfo.talentStatus==1&&userInfo.talentStatus==4&&userInfo.talentStatus==5&&userInfo.talentStatus==6&&userInfo.talentStatus==8&&userInfo.talentStatus==9" type="danger" size="small" @click.prevent="handleRevertStatus">恢复状态</el-button>
       </el-col>
     </el-row>
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
@@ -123,6 +125,12 @@
       handleWorkFailed(evt) {
         this.$emit('handleWorkFailed', evt);
       },
+      handleSignIn(evt) {
+        this.$emit('handleSignIn', evt);
+      },
+      handleDimission(evt) {
+        this.$emit('handleDimission', evt);
+      },
       handleRevertStatus(evt) {
         this.$emit('handleRevertStatus', evt);
       },
@@ -145,11 +153,25 @@
         if (this.userInfo.talentStatus === 0) {
           return '待确认';
         } else if (this.userInfo.talentStatus === 1) {
-          return '待面试';
+          return '名单无效';
         } else if (this.userInfo.talentStatus === 2) {
-          return '待入职';
+          return '确认名单';
         } else if (this.userInfo.talentStatus === 3) {
-          return '失败名单';
+          return '面试通过';
+        } else if (this.userInfo.talentStatus === 4) {
+          return '面试不通过';
+        } else if (this.userInfo.talentStatus === 5) {
+          return '面试未到';
+        } else if (this.userInfo.talentStatus === 6) {
+          return '入职失败';
+        } else if (this.userInfo.talentStatus === 7) {
+          return '已入职';
+        } else if (this.userInfo.talentStatus === 8) {
+          return '已离职';
+        } else if (this.userInfo.talentStatus === 9) {
+          return '放鸽子';
+        } else if (this.userInfo.talentStatus === 10) {
+          return '已考勤';
         }
         return '审核异常';
       },
