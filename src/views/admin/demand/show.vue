@@ -137,9 +137,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
           <el-tab-pane v-if="demandInfo.type == 1" label="待面试" name="third" v-loading="loading">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -158,9 +158,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
           <el-tab-pane v-else label="待考勤" name="third">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -179,9 +179,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
           <el-tab-pane v-if="demandInfo.type == 1" label="待入职" name="fourth" v-loading="loading">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -200,9 +200,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
           <el-tab-pane v-if="demandInfo.type == 1" label="入职中" name="fifth" v-loading="loading">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -221,9 +221,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
           <el-tab-pane v-else label="已考勤" name="fourth" v-loading="loading">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -242,9 +242,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
           <el-tab-pane v-if="demandInfo.type == 1" label="已结束" name="sixth" v-loading="loading">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -263,9 +263,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
           <el-tab-pane v-if="demandInfo.type == 0" label="已结束" name="fifth" v-loading="loading">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -284,9 +284,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
         </el-tabs>
       </el-tab-pane>
