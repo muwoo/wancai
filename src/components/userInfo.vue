@@ -179,6 +179,8 @@
           return '放鸽子';
         } else if (this.userInfo.talentStatus === 10) {
           return '已考勤';
+        } else if (this.userInfo.talentStatus === 12) {
+          return '取消提交';
         }
         return '审核异常';
       },
