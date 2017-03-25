@@ -294,7 +294,8 @@
         <el-table
          :data="plans"
          border
-         style="width: 100%">
+         style="width: 100%"
+         v-loading="loading">
          <el-table-column type="expand">
            <template scope="props">
              <el-form label-position="left" inline class="demo-table-expand">
@@ -314,13 +315,13 @@
             label="计划名称"
             width="150"
             align="center"
-            prop="title">
+            prop="name">
           </el-table-column>
           <el-table-column
             label="类型"
             width="100"
             align="center"
-            :formatter="formatType"
+            :formatter="formatPlanType"
             prop="type">
           </el-table-column>
           <el-table-column
@@ -328,20 +329,20 @@
             width="180"
             align="center"
             :formatter="formatStartTime"
-            prop="type">
+            prop="created_at">
           </el-table-column>
           <el-table-column
             label="截止时间"
             width="180"
             align="center"
             :formatter="formatEndTime"
-            prop="type">
+            prop="end_time">
           </el-table-column>
           <el-table-column
             label="招聘人数"
             width="100"
             align="center"
-            prop="type">
+            prop="alreadyNumber">
           </el-table-column>
           <el-table-column
             label="状态"
@@ -352,15 +353,15 @@
           </el-table-column>
           <el-table-column
             label="操作"
-            align="center"
-            width="200">
+            align="center">
             <template scope="scope">
               <el-button
-                v-if="scope.row.status === 0"
+                v-if="scope.row.status === 1"
                 size="small"
                 @click="handleRefush(scope.$index, scope.row)">刷新</el-button>
               <el-button
-                v-if="scope.row.status === 0"
+                v-if="scope.row.status === 1"
+                type="danger"
                 size="small"
                 @click="handleEarlyEnd(scope.$index, scope.row)">提前结束</el-button>
             </template>
@@ -447,22 +448,7 @@
         },
         defaultTab: 'first',
         defaultUserTab: 'first',
-        plans: [{
-          id: 1,
-          title: 'title_name',
-          type: 1,
-          startTime: 1489926599000,
-          endTime: 1489926599000,
-          status: 0,
-        },
-        {
-          id: 1,
-          title: 'title_name',
-          type: 1,
-          startTime: 1489926599000,
-          endTime: 1489926599000,
-          status: 1,
-        }],
+        plans: [],
         users: [],
         currentPage: 1,
         pageSize: 20,
@@ -494,14 +480,13 @@
     },
     methods: {
       handleTabClick(val) {
-        if (val.name === 'first') {
-          console.log('first');
-        } else if (val.name === 'second') {
-          console.log('second');
-        } else if (val.name === 'third') {
+        // if (val.name === 'first') {
+        // } else if (val.name === 'second') {
+        // } else
+        if (val.name === 'third') {
           this.getUsers();
         } else if (val.name === 'fourth') {
-          // this.getPlans();
+          this.getPlans();
         }
       },
       // 计划刷新
@@ -628,8 +613,17 @@
         });
       },
       getPlans() {
+        this.loading = true;
         this.$http.get(`/demand/plan/list?pageNum=${1}&pageSize=${10}&demandId=${this.demandInfo.id}`).then((response) => {
-          console.log(response);
+          const {
+            data: {
+              list, pages, pageNum,
+            },
+          } = response.data;
+          this.plans = list;
+          this.loading = false;
+        }).catch((err) => {
+          this.loading = false;
         });
       },
       getUsers(userStatus = '') {
@@ -776,23 +770,23 @@
       },
       // ----格式化表格内容------
       formatStartTime(row, column) {
-        const date = new Date(parseInt(row.startTime, 0));
+        const date = new Date(parseInt(row.created_at, 0));
         return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
       },
       formatEndTime(row, column) {
-        const date = new Date(parseInt(row.endTime, 0));
+        const date = new Date(parseInt(row.end_time, 0));
         return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
       },
       formatPlanStatus(row, column) {
-        if (row.status === 0) {
+        if (row.status === 1) {
           return '发布中';
-        } else if (row.status === 1) {
+        } else if (row.status === 0) {
           return '已过期';
         }
         return '';
       },
-      formatType(row, column) {
-        return row.status === 1 ? '全职' : '兼职';
+      formatPlanType(row, column) {
+        return row.type === 0 ? '普通' : '定向';
       },
     },
     filters: {
