@@ -298,9 +298,9 @@
          v-loading="loading">
          <el-table-column type="expand">
            <template scope="props">
-             <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="定向人数">
-                  <span>{{ props.row.type }}</span>
+             <el-form>
+                <el-form-item label="定向人数：">
+                  <span>{{ props.row.applyNumber }}</span>
                 </el-form-item>
               </el-form>
             </template>
@@ -367,6 +367,9 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-col :span="24" style="margin-top:10px;">
+          <el-pagination layout="prev, pager, next" @current-change="handlePlanPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+        </el-col>
       </el-tab-pane>
     </el-tabs>
     <el-dialog title="选择经纪人" v-model="assignBroker">
@@ -394,7 +397,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-col :span="24" style="margin-top:10px;">
+        <el-col :span="24" style="margin-top:10px;" v-if="plans.length > 0">
           <el-pagination layout="prev, pager, next" @current-change="handleBrokerPage" :current-page="planInfo.currentPage" :page-count="planInfo.pageCount" style="float: right;"></el-pagination>
         </el-col>
       </div>
@@ -451,7 +454,7 @@
         plans: [],
         users: [],
         currentPage: 1,
-        pageSize: 20,
+        pageSize: 10,
         pageCount: 0,
         totalUserSize: 0,
         loading: false,
@@ -496,6 +499,10 @@
       // 计划提前结束
       handleEarlyEnd(row, column) {
 
+      },
+      handlePlanPage(val) {
+        this.currentPage = val;
+        this.getPlans();
       },
       // 添加方案
       handleAddScheme() {
@@ -614,13 +621,15 @@
       },
       getPlans() {
         this.loading = true;
-        this.$http.get(`/demand/plan/list?pageNum=${1}&pageSize=${10}&demandId=${this.demandInfo.id}`).then((response) => {
+        this.$http.get(`/demand/plan/list?pageNum=${this.currentPage}&pageSize=${this.pageSize}&demandId=${this.demandInfo.id}`).then((response) => {
           const {
             data: {
               list, pages, pageNum,
             },
           } = response.data;
           this.plans = list;
+          this.currentPage = pageNum;
+          this.pageCount = pages;
           this.loading = false;
         }).catch((err) => {
           this.loading = false;
