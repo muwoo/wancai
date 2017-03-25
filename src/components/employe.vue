@@ -40,7 +40,7 @@
     </div>
     <div>
       <span>健康状况：</span>
-      <span>{{ employInfo.healthy | formatMarry }}</span>
+      <span>{{ employInfo.healthy | formatHealthy }}</span>
     </div>
     <div>
       <span>常住地址：</span>
