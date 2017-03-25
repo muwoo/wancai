@@ -51,10 +51,10 @@
             <el-row class="unit-row"><el-tooltip :content="interview.interviewTime" placement="top">面试时间：{{ limitContent(interview.interviewTime, 20) }}</el-tooltip></el-row>
             <el-row class="unit-row"><el-tooltip :content="interview.interviewAddress" placement="top">面试地点：{{ limitContent(interview.interviewAddress, 20) }}</el-tooltip></el-row>
           </div>
-          <!-- <div v-if="userInfo.type==0" v-for="interview in userInfo.interviewList">
-            <el-row class="unit-row"><el-tooltip :content="interview.time" placement="top">面试时间：{{ limitContent(interview.time, 11) }}</el-tooltip></el-row>
-            <el-row class="unit-row"><el-tooltip :content="interview.address" placement="top">面试地点：{{ limitContent(interview.address, 11) }}</el-tooltip></el-row>
-          </div> -->
+          <div v-if="userInfo.type==0" v-for="(scheme, index) in userInfo.listSchedulingInformation">
+            <el-row class="unit-row"><el-tooltip :content="limitScheme(scheme)" placement="top">班次{{ index + 1 }}：{{ limitContent(limitScheme(scheme), 36) }}</el-tooltip></el-row>
+            <!-- <el-row class="unit-row">班次{{ index + 1 }}：{{ scheme.startTime | formatDate }} - {{ scheme.endTime | formatDate }}</el-row> -->
+          </div>
         </el-row>
       </el-col>
       <el-col class="btn-row" :span="3">
@@ -138,6 +138,9 @@
         this.currentImage = evt.target.src;
         this.BigImageVisible = true;
       },
+      limitScheme(scheme) {
+        return `${this.formatDate(scheme.startTime)} - ${this.formatDate(scheme.endTime)}`;
+      },
       limitContent(str, len) {
         if (str.length > len) {
           return `${str.substr(0, len)}...`;
@@ -146,6 +149,10 @@
       },
       handleBigImageClose() {
         this.BigImageVisible = false;
+      },
+      formatDate(time) {
+        const date = new Date(parseInt(time, 0));
+        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
       },
     },
     computed: {
