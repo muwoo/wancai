@@ -299,8 +299,11 @@
          <el-table-column type="expand">
            <template scope="props">
              <el-form>
-                <el-form-item label="定向人数：">
+                <el-form-item label="需求人数：">
                   <span>{{ props.row.applyNumber }}</span>
+                </el-form-item>
+                <el-form-item label="定向经纪人：" v-if="props.row.brokerList.length > 0">
+                  <span v-for="(man, index) in props.row.brokerList">{{ index + 1}}、{{ man.brokerName }} </span>
                 </el-form-item>
               </el-form>
             </template>
