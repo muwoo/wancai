@@ -69,7 +69,7 @@
         <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="danger" size="small" @click.prevent="handleWorkFailed">入职失败</el-button>
         <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="primary" size="small" @click.prevent="handleConfirmWork">确认入职</el-button>
         <el-button v-if="userInfo.talentStatus==7 && userInfo.type==1" type="danger" size="small" @click.prevent="handleDimission">已离职</el-button>
-        <el-button v-if="userInfo.talentStatus==1&&userInfo.talentStatus==4&&userInfo.talentStatus==5&&userInfo.talentStatus==6&&userInfo.talentStatus==8&&userInfo.talentStatus==9" type="danger" size="small" @click.prevent="handleRevertStatus">恢复状态</el-button>
+        <el-button v-if="userInfo.talentStatus==1 || userInfo.talentStatus==4 || userInfo.talentStatus==5 || userInfo.talentStatus==6 || userInfo.talentStatus==8 || userInfo.talentStatus==9" type="danger" size="small" @click.prevent="handleRevertStatus">恢复状态</el-button>
       </el-col>
     </el-row>
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>

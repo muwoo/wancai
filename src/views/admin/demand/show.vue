@@ -524,6 +524,7 @@
       },
       // ------人员管理-------
       handleUserTabClick(val) {
+        this.loading = true;
         if (this.demandInfo.type === 1) {
           if (val.name === 'first') {
             this.getUsers();
@@ -708,16 +709,32 @@
         this.handleEditUserStatus(obj, 7, index, '确认入职');
       },
       handleDimission(event, obj, index) {
-        this.handleDimission(obj, 8, index, '确认离职');
+        this.handleEditUserStatus(obj, 8, index, '确认离职');
       },
       handlePartTimeAbsent(event, obj, index) {
         this.handleEditUserStatus(obj, 9, index, '放鸽子');
       },
       handleSignIn(event, obj, index) {
-        this.handleSignIn(obj, 10, index, '已考勤');
+        this.handleEditUserStatus(obj, 10, index, '已考勤');
       },
       handleRevertStatus(event, obj, index) {
         // this.handleEditUserStatus(obj, 2, index, '恢复状态');
+        this.$http.post(`/talent/restoreStatus?id=${obj.id}`).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '已恢复',
+              type: 'success',
+            });
+            this.users.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((err) => {
+
+        });
       },
       handleEditUserStatus(obj, currentStatus, index, msg) {
         const params = {
