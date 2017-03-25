@@ -213,7 +213,22 @@
       },
       // 拉黑
       handleAddBlack() {
+        this.$http.post(`/talent/updateblacklist?id=${this.employInfo.id}`).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '已拉黑',
+              type: 'success',
+            });
+            this.employInfo.isBlacklist = 1;
+          } else {
+            this.$notify.error({
+              title: '拉黑异常',
+              type: 'success',
+            });
+          }
+        }).catch((err) => {
 
+        });
       },
     },
     filters: {
