@@ -453,6 +453,7 @@
         defaultUserTab: 'first',
         plans: [],
         users: [],
+        currentTab: '',
         currentGetUserType: '',
         currentPage: 1,
         pageSize: 2,
@@ -484,6 +485,7 @@
     },
     methods: {
       handleTabClick(val) {
+        this.currentTab = val.name;
         // if (val.name === 'first') {
         // } else if (val.name === 'second') {
         // } else
@@ -502,8 +504,10 @@
 
       },
       handlePlanPage(val) {
-        this.currentPage = val;
-        this.getPlans();
+        if (this.currentTab === 'fourth') {
+          this.currentPage = val;
+          this.getPlans();
+        }
       },
       // 添加方案
       handleAddScheme() {
@@ -549,8 +553,11 @@
         this.getUsers();
       },
       handleUserPage(val) {
-        this.currentPage = val;
-        this.getUsers(this.currentGetUserType);
+        console.log(this.currentTab);
+        if (this.currentTab === 'third') {
+          this.currentPage = val;
+          this.getUsers(this.currentGetUserType);
+        }
       },
       // 发布计划
       handleConfirmBroker(index, row) {
