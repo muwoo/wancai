@@ -2,7 +2,7 @@
   <div id="adminDemandShow">
     <h4>隶属，项目ID: {{demandInfo.projectId}}，项目名称：{{demandInfo.projectTitle}}</h4>
     <el-tabs v-model="defaultTab" type="card" @tab-click="handleTabClick">
-      <el-tab-pane label="需求信息" name="first">
+      <el-tab-pane label="需求信息" name="first" v-loading="loading">
         <el-form class="info" lable-width="200px" :model="demandInfo">
           <h3 class="tips">岗位信息</h3>
           <el-form-item label="岗位名称：">{{ demandInfo.title }}</el-form-item>
@@ -588,8 +588,12 @@
       },
     },
     mounted() {
+      this.loading = true;
       this.$http(`/demand/detail?id=${this.$route.params.id}`).then((response) => {
         this.demandInfo = response.data.data;
+        this.loading = false;
+      }).catch((error) => {
+        this.loading = false;
       });
     },
   };
