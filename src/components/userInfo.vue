@@ -2,7 +2,7 @@
   <div id="userInfo">
     <el-row class="top">
       <el-col :span="4">
-        <el-checkbox v-if="selectVisible" v-model="userInfo.isSelect">名单ID：{{ userInfo.id }}</el-checkbox>
+        <el-checkbox v-if="selectVisible" v-model="userInfo.isSelect">名单ID：{{ userInfo.talent.id }}</el-checkbox>
         <span v-else style="padding-left: 5px;">名单ID：{{ userInfo.talent.id }}</span>
       </el-col>
       <el-col :span="13"><span>提交时间：{{ userInfo.talent.createdAt | formatDate }}</span></el-col>
@@ -59,14 +59,14 @@
       </el-col>
       <el-col class="btn-row" :span="3">
         <el-button type="primary" size="small" @click.prevent="handleDetail">详 情</el-button>
-        <el-button v-if="userInfo.talentStatus==1" type="success" size="small" @click.prevent="handleSetStatus">确认名单</el-button>
-        <el-button v-if="userInfo.talentStatus==1" type="danger" size="small" @click.prevent="handleSetStatus">名单无效</el-button>
-        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="success" size="small" @click.prevent="handleSetStatus">面试通过</el-button>
-        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="danger" size="small" @click.prevent="handleSetStatus">面试不通过</el-button>
-        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="danger" size="small" @click.prevent="handleSetStatus">面试未到</el-button>
-        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==0" type="danger" size="small" @click.prevent="handleSetStatus">放鸽子</el-button>
-        <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="danger" size="small" @click.prevent="handleSetStatus">入职失败</el-button>
-        <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="primary" size="small" @click.prevent="handleSetStatus">确认入职</el-button>
+        <el-button v-if="userInfo.talentStatus==1" type="success" size="small" @click.prevent="handleConfirmInfo">确认名单</el-button>
+        <el-button v-if="userInfo.talentStatus==1" type="danger" size="small" @click.prevent="handleInvalidInfo">名单无效</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="success" size="small" @click.prevent="handleInterviewPass">面试通过</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="danger" size="small" @click.prevent="handleInterviewRefused">面试不通过</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==1" type="danger" size="small" @click.prevent="handleInterviewAbsent">面试未到</el-button>
+        <el-button v-if="userInfo.talentStatus==2 && userInfo.type==0" type="danger" size="small" @click.prevent="handlePartTimeAbsent">放鸽子</el-button>
+        <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="danger" size="small" @click.prevent="handleWorkFailed">入职失败</el-button>
+        <el-button v-if="userInfo.talentStatus==3 && userInfo.type==1" type="primary" size="small" @click.prevent="handleConfirmWork">确认入职</el-button>
         <el-button v-if="userInfo.talentStatus==4" type="danger" size="small" @click.prevent="handleRevertStatus">恢复状态</el-button>
       </el-col>
     </el-row>
@@ -110,6 +110,9 @@
       },
       handleInterviewRefused(evt) {
         this.$emit('handleInterviewRefused', evt);
+      },
+      handleInterviewAbsent(evt) {
+        this.$emit('handleInterviewAbsent', evt);
       },
       handlePartTimeAbsent(evt) {
         this.$emit('handlePartTimeAbsent', evt);

@@ -102,7 +102,16 @@
           <el-tab-pane label="全部" name="first" v-loading="loading">
             <userInfo v-for="info in users" :userInfo="info"
             :selectVisible="false"
-            @handleSetStatus="handleSetStatus()"
+            @handleDetail="handleDetail"
+            @handleConfirmInfo="handleConfirmInfo"
+            @handleInvalidInfo="handleInvalidInfo"
+            @handleInterviewPass="handleInterviewPass"
+            @handleInterviewRefused="handleInterviewRefused"
+            @handleInterviewAbsent="handleInterviewAbsent"
+            @handlePartTimeAbsent="handlePartTimeAbsent"
+            @handleWorkFailed="handleWorkFailed"
+            @handleConfirmWork="handleConfirmWork"
+            @handleRevertStatus="handleRevertStatus"
             style="margin-top: 10px;" >
             </userInfo>
             <!-- <el-col :span="24" style="margin-top:10px;">
@@ -367,6 +376,7 @@
           value: '0',
           label: '无',
         }],
+        planRules: {},
       };
     },
     components: {
@@ -500,6 +510,8 @@
           this.pageCount = pages;
           this.users = list;
           this.loading = false;
+        }).catch((error) => {
+          this.loading = false;
         });
       },
       publishPlan() {
@@ -541,6 +553,18 @@
 
         });
       },
+      // ---------人员管理---------
+      handleDetail() {},
+      handleConfirmInfo() {},
+      handleInvalidInfo() {},
+      handleInterviewPass() {},
+      handleInterviewRefused() {},
+      handleInterviewAbsent() {},
+      handlePartTimeAbsent() {},
+      handleWorkFailed() {},
+      handleConfirmWork() {},
+      handleRevertStatus() {},
+
       // ----格式化表格内容------
       formatStartTime(row, column) {
         const date = new Date(parseInt(row.startTime, 0));
