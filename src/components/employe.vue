@@ -247,7 +247,6 @@
     mounted() {
       const id = this.$route.params.id;
       this.$http.get(`/talent/detail?id=${id}`).then((response) => {
-        console.log(response);
         if (response.data.errorCode === 10000) {
           this.employInfo = response.data.data;
         }
