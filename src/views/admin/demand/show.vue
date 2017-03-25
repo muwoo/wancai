@@ -50,14 +50,14 @@
             <el-input-number v-model="planInfo.workSuccessPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <h1 class="tips"></h1>
-          <el-form-item label='满返：' v-for="scheme in planInfo.schemes" style="margin-top: 20px;">
-            <el-col :span="3" style="font-size: 20px;">满（天）</el-col>
+          <el-form-item label='满返：' v-for="(scheme, index) in planInfo.schemes" style="margin-top: 20px;">
+            <el-col :span="3" style="font-size: 20px;">{{ index + 1 }}、满（天）</el-col>
             <el-col :span="4"><el-input-number v-model="scheme.limitDay" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
             <el-col :span="3" style="font-size: 20px; margin-left: 25px;">返（元）</el-col>
             <el-col :span="4"><el-input-number v-model="scheme.amount" :min="0" :max="100000" style="width: 150px;"></el-input-number></el-col>
           </el-form-item>
           <el-form-item style="margin-left: 80px;">
-            <el-button type="text" @click="handleAddScheme">+添加满返方案</el-button>
+            <el-button v-if="this.planInfo.schemes.length <= 11" type="text" @click="handleAddScheme">+添加满返方案</el-button>
             <el-button v-if="planInfo.schemes.length > 1" type="text" @click="handleDelScheme">-删减满返方案</el-button>
           </el-form-item>
           <h1 class="tips"></h1>
