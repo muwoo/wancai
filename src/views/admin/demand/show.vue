@@ -664,7 +664,11 @@
         if (this.planInfo.commissionType !== '0') {
           const selectId = parseInt(this.planInfo.commissionType, 0);
           if (this.planInfo.chargePrice !== 0) {
-            allCommission.push({ commission_id: selectId, amount: this.planInfo.chargePrice });
+            if (selectId === 6) {
+              allCommission.push({ commission_id: selectId, percentage: this.planInfo.chargePrice });
+            } else {
+              allCommission.push({ commission_id: selectId, amount: this.planInfo.chargePrice });
+            }
           }
         }
         const params = {
