@@ -116,9 +116,9 @@
             @handleRevertStatus="handleRevertStatus(this.event, info, index)"
             style="margin-top: 10px;" >
             </userInfo>
-            <!-- <el-col :span="24" style="margin-top:10px;">
-              <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-            </el-col> -->
+            <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+              <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tab-pane>
           <el-tab-pane label="待确认" name="second" v-loading="loading">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -453,8 +453,9 @@
         defaultUserTab: 'first',
         plans: [],
         users: [],
+        currentGetUserType: '',
         currentPage: 1,
-        pageSize: 10,
+        pageSize: 2,
         pageCount: 0,
         totalUserSize: 0,
         loading: false,
@@ -519,32 +520,37 @@
         this.loading = true;
         if (this.demandInfo.type === 1) {
           if (val.name === 'first') {
-            this.getUsers();
+            this.currentGetUserType = '';
           } else if (val.name === 'second') {
-            this.getUsers(0);
+            this.currentGetUserType = 0;
           } else if (val.name === 'third') {
-            this.getUsers(2);
+            this.currentGetUserType = 2;
           } else if (val.name === 'fourth') {
-            this.getUsers(3);
+            this.currentGetUserType = 3;
           } else if (val.name === 'fifth') {
-            this.getUsers(7);
+            this.currentGetUserType = 7;
           } else if (val.name === 'sixth') {
-            this.getUsers(11);
+            this.currentGetUserType = 11;
           }
         }
         if (this.demandInfo.type === 0) {
           if (val.name === 'first') {
-            this.getUsers();
+            this.currentGetUserType = '';
           } else if (val.name === 'second') {
-            this.getUsers(0);
+            this.currentGetUserType = 0;
           } else if (val.name === 'third') {
-            this.getUsers(2);
+            this.currentGetUserType = 2;
           } else if (val.name === 'fourth') {
-            this.getUsers(10);
+            this.currentGetUserType = 10;
           } else if (val.name === 'fifth') {
-            this.getUsers(11);
+            this.currentGetUserType = 11;
           }
         }
+        this.getUsers();
+      },
+      handleUserPage(val) {
+        this.currentPage = val;
+        this.getUsers(this.currentGetUserType);
       },
       // 发布计划
       handleConfirmBroker(index, row) {
@@ -635,12 +641,12 @@
           this.loading = false;
         });
       },
-      getUsers(userStatus = '') {
+      getUsers() {
         const params = {
-          talentStatus: userStatus,
+          talentStatus: this.currentGetUserType,
           demandId: this.demandInfo.id,
-          pageNum: 1,
-          pageSize: 10,
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
         };
         this.loading = true;
         this.$http.post('/demand/talent/list', params).then((response) => {
