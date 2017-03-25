@@ -155,9 +155,9 @@
         } else if (this.userInfo.talentStatus === 1) {
           return '名单无效';
         } else if (this.userInfo.talentStatus === 2) {
-          return '确认名单';
+          return '待面试';
         } else if (this.userInfo.talentStatus === 3) {
-          return '面试通过';
+          return '待入职';
         } else if (this.userInfo.talentStatus === 4) {
           return '面试不通过';
         } else if (this.userInfo.talentStatus === 5) {
@@ -165,7 +165,7 @@
         } else if (this.userInfo.talentStatus === 6) {
           return '入职失败';
         } else if (this.userInfo.talentStatus === 7) {
-          return '已入职';
+          return '入职中';
         } else if (this.userInfo.talentStatus === 8) {
           return '已离职';
         } else if (this.userInfo.talentStatus === 9) {
