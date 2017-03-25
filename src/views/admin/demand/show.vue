@@ -556,8 +556,10 @@
       },
       // 发布计划
       handleConfirmBroker(index, row) {
-        this.planInfo.brokerList.push({ broker_id: row.id, name: row.name });
-        this.planInfo.brokerSearchData.splice(index, 1);
+        if (!this.isExistInBrokerList(row)) {
+          this.planInfo.brokerList.push({ broker_id: row.id, name: row.name });
+          this.planInfo.brokerSearchData.splice(index, 1);
+        }
       },
       handleSearchBtn() {
         this.assignBroker = true;
@@ -574,6 +576,17 @@
       handlePublishPlan(planType) {
         this.planInfo.type = planType;
         this.publishPlan();
+      },
+      isExistInBrokerList(broker) {
+        const id = broker.id;
+        if (this.planInfo.brokerList.length > 0) {
+          for (let i = 0; i < this.planInfo.brokerList.length; i += 1) {
+            if (this.planInfo.brokerList[i].broker_id === id) {
+              return true;
+            }
+          }
+        }
+        return false;
       },
       // 获取数据
       getSearchBroker() {
@@ -615,7 +628,7 @@
         });
       },
       getPlans() {
-        this.$http.get(`/plan/common/list?pageNum=${1}&pageSize=${10}`).then((response) => {
+        this.$http.get(`/demand/plan/list?pageNum=${1}&pageSize=${10}&demandId=${this.demandInfo.id}`).then((response) => {
           console.log(response);
         });
       },
