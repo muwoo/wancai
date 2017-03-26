@@ -19,14 +19,16 @@
     </el-form>
     <h1 class="tips"></h1>
       <div v-loading="loading">
-        <el-checkbox v-model="isAllSelect" @change="handleAllSelect" style="margin-left: 10px;">全选</el-checkbox>
-        <el-button>批量解除</el-button>
-        <el-button style="float: right" @click="NextPage">下一页</el-button>
-        <el-button style="float: right" @click="PrePage">上一页</el-button>
+        <!-- <el-checkbox v-model="isAllSelect" @change="handleAllSelect" style="margin-left: 10px;">全选</el-checkbox>
+        <el-button>批量解除</el-button> -->
+        <el-row>
+          <el-button style="float: right; margin-left: 10px;" @click="NextPage">下一页</el-button>
+          <el-button style="float: right" @click="PrePage">上一页</el-button>
+        </el-row>
         <middleMan v-for="middleMan in middleMans" :middleMan="middleMan"
         @handleWhiteList="handleWhiteList(this.event, middleMan, index)"
         style="margin-top: 10px;" ></middleMan>
-      <el-col :span="24"style="margin-top:10px;">
+      <el-col :span="24" style="margin-top:10px;" v-if="middleMans.length > 0">
         <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
       </el-col>
     </div>
