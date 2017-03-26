@@ -283,8 +283,7 @@ export default {
         value: '4',
         label: '完工结',
       }],
-      degreeType: [
-      {
+      degreeType: [{
         value: '1',
         label: '不限',
       },
@@ -313,34 +312,34 @@ export default {
         label: '硕士及以上',
       }],
       workExperience: [
-      {
-        label: '不限',
-        value: '1',
-      }
-      {
-        label: '1年以下',
-        value: '2',
-      },
-      {
-        label: '1-3年',
-        value: '3',
-      },
-      {
-        label: '3-5年',
-        value: '4',
-      },
-      {
-        label: '6-8年',
-        value: '5',
-      },
-      {
-        label: '8-10年',
-        value: '6',
-      },
-      {
-        label: '10年以上',
-        value: '7',
-      }],
+        {
+          label: '不限',
+          value: '1',
+        },
+        {
+          label: '1年以下',
+          value: '2',
+        },
+        {
+          label: '1-3年',
+          value: '3',
+        },
+        {
+          label: '3-5年',
+          value: '4',
+        },
+        {
+          label: '6-8年',
+          value: '5',
+        },
+        {
+          label: '8-10年',
+          value: '6',
+        },
+        {
+          label: '10年以上',
+          value: '7',
+        }],
     };
   },
   methods: {
