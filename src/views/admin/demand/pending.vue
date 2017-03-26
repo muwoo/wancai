@@ -100,7 +100,7 @@
             @click="handleRefusedDemand(scope.$index, scope.row)">驳回</el-button>
           <el-button
             size="small"
-            type="danger"
+            type="primary"
             @click="handleProcessedDemand(scope.$index, scope.row)">处理</el-button>
         </template>
       </el-table-column>

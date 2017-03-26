@@ -138,7 +138,7 @@
       },
       // 详情
       handleUserDetail(index, row) {
-        window.open(`#/staff/${row.id}`, 'target_blank');
+        window.open(`#/user/${row.id}`, 'target_blank');
       },
       getUsers() {
         this.loading = true;

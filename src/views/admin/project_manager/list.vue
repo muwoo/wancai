@@ -27,11 +27,11 @@
     <div class="tips"></div>
     <div class="card-panel"
       v-loading="loading">
-      <projectManagerInfo v-for="info in infos" :projectManager="info"
+      <projectManagerInfo v-for="(info, index) in infos" :projectManager="info"
       @handleEdit="handleEdit(this.event, info)"
-      @handleDelete="handleDelete(this.event, info)"
+      @handleDelete="handleDelete(this.event, info, index)"
       style="margin-top: 10px;" ></projectManagerInfo>
-      <el-col :span="24" style="margin-top:10px;">
+      <el-col :span="24" style="margin-top:10px;" v-if="infos.length > 0">
         <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
       </el-col>
     </div>
@@ -64,8 +64,22 @@
       handleEdit(event, obj) {
         console.log(obj);
       },
-      handleDelete(event, obj) {
-        console.log(event);
+      handleDelete(event, obj, index) {
+        this.$http.post(`/manager/delete?id=${obj.id}`).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '已删除',
+              type: 'success',
+            });
+            this.infos.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((err) => {
+        });
       },
       handleSearchItem() {
         this.getProjectManagers();
