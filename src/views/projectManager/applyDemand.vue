@@ -201,12 +201,12 @@ export default {
         settlementType: '1',
         salary: '',
         applyNumber: 0,
-        education: '5',
+        education: '1',
         profession: '',
         minAge: 18,
         maxAge: 100,
         personNum: 0,
-        workExperience: '6',
+        workExperience: '1',
         request: '',
         isMarry: 2,
         sex: 2,
@@ -283,57 +283,63 @@ export default {
         value: '4',
         label: '完工结',
       }],
-      degreeType: [{
-        value: '0',
+      degreeType: [
+      {
+        value: '1',
+        label: '不限',
+      },
+      {
+        value: '2',
         label: '初中',
       },
       {
-        value: '1',
+        value: '3',
         label: '中专技校',
       },
       {
-        value: '2',
+        value: '4',
+        label: '高中',
+      },
+      {
+        value: '5',
         label: '大专',
       },
       {
-        value: '3',
+        value: '6',
         label: '本科',
       },
       {
-        value: '4',
+        value: '7',
         label: '硕士及以上',
-      },
-      {
-        value: '5',
-        label: '不限',
       }],
-      workExperience: [{
-        label: '1年以下',
-        value: '0',
-      },
+      workExperience: [
       {
-        label: '1-3年',
+        label: '不限',
         value: '1',
-      },
+      }
       {
-        label: '3-5年',
+        label: '1年以下',
         value: '2',
       },
       {
-        label: '6-8年',
+        label: '1-3年',
         value: '3',
       },
       {
-        label: '8-10年',
+        label: '3-5年',
         value: '4',
       },
       {
-        label: '10年以上',
+        label: '6-8年',
         value: '5',
       },
       {
-        label: '不限',
+        label: '8-10年',
         value: '6',
+      },
+      {
+        label: '10年以上',
+        value: '7',
       }],
     };
   },
