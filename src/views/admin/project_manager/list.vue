@@ -3,21 +3,32 @@
     <el-form :inline="true" :model="projectManagerInfo" style="margin-top: 20px;">
       <el-row>
         <el-col :span="24">
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label='身份证号：' style="width: 100%;">
               <el-input v-model="projectManagerInfo.idCard" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label='手机号码：' style="width: 100%;">
               <el-input v-model="projectManagerInfo.phoneNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item label='姓名：' style="width: 100%;">
                 <el-input v-model="projectManagerInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
-        </el-col>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label='状态：' style="width: 100%;">
+              <el-select v-model="projectManagerInfo.status" placeholder="请选择" style="width: 100px;">
+                <el-option
+                  v-for="item in projectManagerStatus"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-col>
       </el-row>
       <el-form-item>
@@ -51,6 +62,7 @@
           idCard: '',
           phoneNumber: '',
           name: '',
+          status: '0',
         },
         infos: [],
         currentPage: 1,
@@ -58,6 +70,16 @@
         pageCount: 0,
         totalProjectSize: 0,
         loading: false,
+        projectManagerStatus: [
+          {
+            label: '正常',
+            value: '0',
+          },
+          {
+            label: '已删除',
+            value: '1',
+          },
+        ],
       };
     },
     methods: {
@@ -96,6 +118,7 @@
           idCard: this.projectManagerInfo.idCard,
           phone: this.projectManagerInfo.phone,
           name: this.projectManagerInfo.name,
+          status: this.projectManagerInfo.status,
         };
         this.$http.post('/manager/list', params).then((response) => {
           const {

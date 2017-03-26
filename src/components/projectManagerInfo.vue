@@ -37,13 +37,10 @@
         <el-row class="unit-row">短号：{{ projectManager.cornet }}</el-row>
       </el-col>
       <el-col class="btn-row" :span="3" :offset="1">
-        <el-button type="primary" size="large" @click.prevent="handleEdit" style="width: 80px;">修 改</el-button>
-        <el-button type="danger" size="large" @click.prevent="handleDelete" style="width: 80px; margin-left: 0px;">删 除</el-button>
+        <el-button type="primary" size="large" @click.prevent="handleEdit" style="width: 80px;" v-if="projectManager.status==0">修 改</el-button>
+        <el-button type="danger" size="large" @click.prevent="handleDelete" style="width: 80px; margin-left: 0px;" v-if="projectManager.status==0">删 除</el-button>
       </el-col>
     </el-row>
-    <!-- <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
-      <img class="big-img" :src="currentImage" />
-    </el-dialog> -->
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
   </div>
 </template>
