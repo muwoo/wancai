@@ -147,6 +147,7 @@
         this.$router.push({ name: 'adminDemandShow', params: { id: row.id } });
       },
       handleApplyDemand(index, row) {
+        this.$router.push({ name: 'adminDemandShow', params: { id: row.id } });
       },
       handleEndDemand(index, row) {
         this.handleEditDemandStatus(row, 3, index, '已结束');

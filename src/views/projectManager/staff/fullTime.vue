@@ -192,7 +192,7 @@ export default {
         telphone: this.fullTimeStaffInfo.telphone,
         name: this.fullTimeStaffInfo.name,
         talentStatus: this.currentGetUserType,
-        type: 0,
+        type: 1,
       };
       this.loading = true;
       this.$http.post('/project/talent/list', params).then((response) => {
