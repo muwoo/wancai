@@ -80,41 +80,7 @@ export default {
   data() {
     return {
       avatar: 'http://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=gakki&step_word=&hs=0&pn=17&spn=0&di=130959536210&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=2&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=-1&cs=2004972027%2C4085640711&os=243058477%2C3081347444&simid=0%2C0&adpicid=0&lpn=0&ln=1993&fr=&fmq=1488166033679_R&fm=result&ic=0&s=undefined&se=&sme=&tab=0&width=&height=&face=undefined&ist=&jit=&cg=&bdtype=11&oriquery=&objurl=http%3A%2F%2Fi2.hdslb.com%2Fbfs%2Fface%2Ffd2f713743763aca6f42e48784dd08dffad5c83c.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bktstktst_z%26e3Bv54AzdH3Fet1j5AzdH3Fweb9cm8clAzdH3F&gsm=0&rpstart=0&rpnum=0',
-      projects: [{
-        id: 1,
-        name: '萧山一号仓',
-        projectManager: '赵日天',
-        recruitManager: '叶良辰',
-        createdAt: '2015-1-1',
-      },
-      {
-        id: 1,
-        name: '萧山一号仓',
-        projectManager: '赵日天',
-        recruitManager: '叶良辰',
-        createdAt: '2015-1-1',
-      },
-      {
-        id: 1,
-        name: '萧山一号仓',
-        projectManager: '赵日天',
-        recruitManager: '叶良辰',
-        createdAt: '2015-1-1',
-      },
-      {
-        id: 1,
-        name: '萧山一号仓',
-        projectManager: '赵日天',
-        recruitManager: '叶良辰',
-        createdAt: '2015-1-1',
-      },
-      {
-        id: 1,
-        name: '萧山一号仓',
-        projectManager: '赵日天',
-        recruitManager: '叶良辰',
-        createdAt: '2015-1-1',
-      }],
+      projects: [],
     };
   },
 };

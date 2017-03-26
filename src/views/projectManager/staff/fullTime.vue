@@ -14,25 +14,142 @@
         <el-input v-model="fullTimeStaffInfo.name" placeholder="请输入内容" style="width: 100px;"></el-input>
       </el-form-item>
       </el-form-item><el-form-item>
-        <el-button type="primary" @c`lick="handleSearchUser">搜索名单</el-button>
+        <el-button type="primary" @click="handleSearchUser">搜索名单</el-button>
       </el-form-item>
     </el-form>
     <h1 class="tips"></h1>
-    <div v-loading="loading">
-      <el-row>
+    <el-tabs v-model="defaultTabName" @tab-click="handleTabClick" v-loading="loading">
+      <el-row v-if="fullTimeStaffs.length > 0">
         <el-button style="float: right; margin-left: 10px;" @click="NextPage">下一页</el-button>
         <el-button style="float: right" @click="PrePage">上一页</el-button>
       </el-row>
-      <div class="card-panel">
-        <!-- <userInfo v-for="userInfo in fullTimeStaffs" :userInfo="userInfo"
+      <el-tab-pane label="全部" name="first">
+        <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
         :selectVisible="false"
-        @handleSetStatus="handleSetStatus(this.event, userInfo)"
-        style="margin-top: 10px;" ></userInfo> -->
-      </div>
-      <el-col :span="24"style="margin-top:10px;">
-        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-      </el-col>
-    </div>
+        @handleDetail="handleDetail(this.event, info)"
+        @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+        @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+        @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+        @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+        @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+        @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+        @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+        @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+        @handleDimission="handleDimission(this.event, info, index)"
+        @handleSignIn="handleSignIn(this.event, info, index)"
+        @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+        style="margin-top: 10px;" >
+        </userInfo>
+        <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
+          <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+        </el-col>
+      </el-tab-pane>
+      <el-tab-pane label="待确认" name="second">
+        <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
+        :selectVisible="false"
+        @handleDetail="handleDetail(this.event, info)"
+        @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+        @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+        @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+        @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+        @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+        @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+        @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+        @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+        @handleDimission="handleDimission(this.event, info, index)"
+        @handleSignIn="handleSignIn(this.event, info, index)"
+        @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+        style="margin-top: 10px;" >
+        </userInfo>
+        <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
+          <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+        </el-col>
+      </el-tab-pane>
+      <el-tab-pane label="待面试" name="third">
+        <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
+        :selectVisible="false"
+        @handleDetail="handleDetail(this.event, info)"
+        @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+        @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+        @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+        @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+        @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+        @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+        @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+        @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+        @handleDimission="handleDimission(this.event, info, index)"
+        @handleSignIn="handleSignIn(this.event, info, index)"
+        @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+        style="margin-top: 10px;" >
+        </userInfo>
+        <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
+          <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+        </el-col>
+      </el-tab-pane>
+      <el-tab-pane label="待入职" name="fourth">
+        <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
+        :selectVisible="false"
+        @handleDetail="handleDetail(this.event, info)"
+        @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+        @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+        @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+        @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+        @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+        @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+        @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+        @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+        @handleDimission="handleDimission(this.event, info, index)"
+        @handleSignIn="handleSignIn(this.event, info, index)"
+        @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+        style="margin-top: 10px;" >
+        </userInfo>
+        <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
+          <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+        </el-col>
+      </el-tab-pane>
+      <el-tab-pane label="入职中" name="fifth">
+        <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
+        :selectVisible="false"
+        @handleDetail="handleDetail(this.event, info)"
+        @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+        @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+        @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+        @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+        @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+        @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+        @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+        @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+        @handleDimission="handleDimission(this.event, info, index)"
+        @handleSignIn="handleSignIn(this.event, info, index)"
+        @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+        style="margin-top: 10px;" >
+        </userInfo>
+        <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
+          <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+        </el-col>
+      </el-tab-pane>
+      <el-tab-pane label="已结束" name="sixth">
+        <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
+        :selectVisible="false"
+        @handleDetail="handleDetail(this.event, info)"
+        @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+        @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+        @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+        @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+        @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+        @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+        @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+        @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+        @handleDimission="handleDimission(this.event, info, index)"
+        @handleSignIn="handleSignIn(this.event, info, index)"
+        @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+        style="margin-top: 10px;" >
+        </userInfo>
+        <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
+          <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+        </el-col>
+      </el-tab-pane>
+    </el-tabs>
 </template>
 
 <script>
@@ -52,107 +169,141 @@ export default {
         name: '',
         telphone: '',
       },
-      fullTimeStaffs: [{
-        id: 1,
-        name: '余日天',
-        status: 2,
-        idCard: 362529123123,
-        idCardHand: 'http://wx3.sinaimg.cn/mw690/9bd522c1gy1fdmp0izflgg208w050hdt.gif',
-        idCardPositive: 'http://wx1.sinaimg.cn/mw690/006D2KSdly1fdnk5quqn5g308c06nx6p.gif',
-        sex: 1,
-        workType: 1,
-        middleMan: '孟日天',
-        nationName: '汉',
-        createdTime: 1490086173000,
-        birthday: 1490086173000,
-        address: '西城广场59号',
-        telphone: 136848423,
-        planName: 'xxxx计划',
-        demandTitle: 'xxxx需求xxxxxxxx',
-        interviewList: [{
-          time: '11月底前周一至周五下午1点－3点',
-          address: '萧山一号仓人事部',
-        },
-        {
-          time: '11月底前周一至周五下午1点－3点',
-          address: '萧山一号仓人事部',
-        },
-        {
-          time: '11月底前周一至周五下午1点－3点',
-          address: '萧山一号仓人事部',
-        }],
-      },
-      {
-        id: 1,
-        name: '余日天',
-        status: 2,
-        idCard: 362529123123,
-        idCardHand: 'http://wx3.sinaimg.cn/mw690/9bd522c1gy1fdmp0izflgg208w050hdt.gif',
-        idCardPositive: 'http://wx1.sinaimg.cn/mw690/006D2KSdly1fdnk5quqn5g308c06nx6p.gif',
-        sex: 1,
-        workType: 0,
-        middleMan: '孟日天',
-        nationName: '汉',
-        createdTime: 1490086173000,
-        birthday: 1490086173000,
-        address: '西城广场59号',
-        telphone: 136848423,
-        planName: 'xxxx计划',
-        demandTitle: 'xxxx需求xxxxxxxx',
-        interviewList: [{
-          time: '11月底前周一至周五下午1点－3点',
-          address: '萧山一号仓人事部',
-        },
-        {
-          time: '11月底前周一至周五下午1点－3点',
-          address: '萧山一号仓人事部',
-        },
-        {
-          time: '11月底前周一至周五下午1点－3点',
-          address: '萧山一号仓人事部',
-        }],
-      }],
+      fullTimeStaffs: [],
+      defaultTabName: 'first',
       loading: false,
       isAllSelect: false,
       currentSelectArray: [],
-      pageSize: 20,
+      pageSize: 10,
       pageCount: 0,
       currentPage: 1,
-      totalMiddleManSize: 0,
+      currentGetUserType: '',
     };
   },
   methods: {
     getFullTimeStaffs() {
+      const projectId = this.$route.query.id;
       this.loading = true;
       const params = {
         pageNum: this.currentPage,
         pageSize: this.pageSize,
-        id: this.fullTimeStaffInfo.id,
+        projectId: this.$route.query.id,
         idCard: this.fullTimeStaffInfo.idCard,
         telphone: this.fullTimeStaffInfo.telphone,
         name: this.fullTimeStaffInfo.name,
-        status: 4,
+        talentStatus: this.currentGetUserType,
+        type: 0,
       };
-      // this.$http.post('/broker/list', params).then((response) => {
-      //   const {
-      //     data: {
-      //       list, pages, total, pageNum,
-      //     },
-      //   } = response.data;
-      //   this.totalMiddleManSize = total;
-      //   this.currentPage = pageNum;
-      //   this.pageCount = pages;
-      //   this.middleMans = list;
-      //   this.loading = false;
-      // }).catch((error) => {
-      //   this.loading = false;
-      // });
+      this.loading = true;
+      this.$http.post('/project/talent/list', params).then((response) => {
+        const {
+          data: {
+            list, pages, pageNum,
+          },
+        } = response.data;
+        this.currentPage = pageNum;
+        this.pageCount = pages;
+        this.fullTimeStaffs = list;
+        this.loading = false;
+      }).catch((error) => {
+        this.loading = false;
+      });
+    },
+    handleTabClick(val) {
+      this.loading = true;
+      if (val.name === 'first') {
+        this.currentGetUserType = '';
+      } else if (val.name === 'second') {
+        this.currentGetUserType = 0;
+      } else if (val.name === 'third') {
+        this.currentGetUserType = 2;
+      } else if (val.name === 'fourth') {
+        this.currentGetUserType = 3;
+      } else if (val.name === 'fifth') {
+        this.currentGetUserType = 7;
+      } else if (val.name === 'sixth') {
+        this.currentGetUserType = 11;
+      }
+      this.getFullTimeStaffs();
+    },
+    handleCurrentPageChange(val) {
+      this.currentPage = val;
+      this.getFullTimeStaffs();
+    },
+    handleDetail(event, obj) {
+      window.open(`#/user/${obj.talent.id}`, 'target_blank');
+    },
+    handleInvalidInfo(event, obj, index) {
+      this.handleEditUserStatus(obj, 1, index, '名单无效');
+    },
+    handleConfirmInfo(event, obj, index) {
+      this.handleEditUserStatus(obj, 2, index, '确认名单');
+    },
+    handleInterviewPass(event, obj, index) {
+      this.handleEditUserStatus(obj, 3, index, '面试通过');
+    },
+    handleInterviewRefused(event, obj, index) {
+      this.handleEditUserStatus(obj, 4, index, '面试不通过');
+    },
+    handleInterviewAbsent(event, obj, index) {
+      this.handleEditUserStatus(obj, 5, index, '面试未到');
+    },
+    handleWorkFailed(event, obj, index) {
+      this.handleEditUserStatus(obj, 6, index, '入职失败');
+    },
+    handleConfirmWork(event, obj, index) {
+      this.handleEditUserStatus(obj, 7, index, '确认入职');
+    },
+    handleDimission(event, obj, index) {
+      this.handleEditUserStatus(obj, 8, index, '确认离职');
+    },
+    handlePartTimeAbsent(event, obj, index) {
+      this.handleEditUserStatus(obj, 9, index, '放鸽子');
+    },
+    handleSignIn(event, obj, index) {
+      this.handleEditUserStatus(obj, 10, index, '已考勤');
+    },
+    handleRevertStatus(event, obj, index) {
+      this.$http.post(`/talent/restoreStatus?id=${obj.id}`).then((response) => {
+        if (response.data.errorCode === 10000) {
+          this.$notify({
+            title: '已恢复',
+            type: 'success',
+          });
+          this.fullTimeStaffs.splice(index, 1);
+        } else {
+          this.$notify.error({
+            title: '修改异常',
+            type: 'success',
+          });
+        }
+      }).catch((err) => {
+
+      });
+    },
+    handleEditUserStatus(obj, currentStatus, index, msg) {
+      const params = {
+        id: obj.id,
+        talentStatus: currentStatus,
+      };
+      this.$http.post('/talent/updateStatus', params).then((response) => {
+        if (response.data.errorCode === 10000) {
+          this.$notify({
+            title: msg,
+            type: 'success',
+          });
+          this.fullTimeStaffs.splice(index, 1);
+        } else {
+          this.$notify.error({
+            title: '修改异常',
+            type: 'success',
+          });
+        }
+      }).catch((error) => {
+      });
     },
     handleSearchUser() {
       this.getFullTimeStaffs();
-    },
-    handleWhiteList(event, obj, index) {
-      this.handleEditMiddleManStatus(obj, 2, index, '已解除');
     },
     handleAllSelect() {
       console.log('All Select');
@@ -169,33 +320,9 @@ export default {
         this.getFullTimeStaffs();
       }
     },
-    handleEditMiddleManStatus(obj, currentStatus, index, msg) {
-      // const params = {
-      //   id: obj.id,
-      //   status: currentStatus,
-      // };
-      // this.$http.post('/broker/updateStatus', params).then((response) => {
-      //   if (response.data.errorCode === 10000) {
-      //     this.$notify({
-      //       title: msg,
-      //       type: 'success',
-      //     });
-      //     this.middleMans.splice(index, 1);
-      //   } else {
-      //     this.$notify.error({
-      //       title: '修改异常',
-      //       type: 'success',
-      //     });
-      //   }
-      // }).catch((error) => {
-      // });
-    },
-    handleCurrentPageChange(val) {
-      this.currentPage = val;
-      this.getFullTimeStaffs();
-    },
   },
   mounted() {
+    this.getFullTimeStaffs();
   },
 };
 </script>
