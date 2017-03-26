@@ -1,6 +1,9 @@
 <template>
   <div id="adminDemandShow">
     <h4>隶属，项目ID: {{demandInfo.projectId}}，项目名称：{{demandInfo.projectTitle}}</h4>
+    <el-row>
+      <el-button type="primary" v-if="demandInfo.status!=2" size="large" style="margin-bottom: 10px;" @click="handlRefusedDemand">驳 回</el-button>
+    </el-row>
     <el-tabs v-model="defaultTab" type="card" @tab-click="handleTabClick">
       <el-tab-pane label="需求信息" name="first" v-loading="loading">
         <el-form class="info" lable-width="200px" :model="demandInfo">
@@ -487,6 +490,28 @@
       userInfo,
     },
     methods: {
+      handlRefusedDemand() {
+        const params = {
+          id: this.demandInfo.id,
+          status: 2,
+        };
+        this.$http.post('/demand/modifyStatus', params).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '已驳回',
+              type: 'success',
+            });
+            this.$router.go(0);
+            // location.reload();
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((error) => {
+        });
+      },
       handleTabClick(val) {
         this.currentTab = val.name;
         // if (val.name === 'first') {
@@ -785,7 +810,6 @@
         this.handleEditUserStatus(obj, 10, index, '已考勤');
       },
       handleRevertStatus(event, obj, index) {
-        // this.handleEditUserStatus(obj, 2, index, '恢复状态');
         this.$http.post(`/talent/restoreStatus?id=${obj.id}`).then((response) => {
           if (response.data.errorCode === 10000) {
             this.$notify({
