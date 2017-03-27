@@ -1,5 +1,5 @@
 <template>
-  <div id="adminDemandEdit">
+  <div id="adminDemandEdit" v-loading="loading">
     <el-form ref="applyDemandForm" label-width="100px">
       <h1 class="tips">需求表</h1>
       <el-form-item label="表名：" style="width: 400px;">
@@ -175,9 +175,11 @@
       </el-form-item>
     </el-form>
     <h1 class="tips"></h1>
-    <el-col :span="11" type="flex" align="center">
-      <el-button type="primary" @click="handleSubmit" :loading="publishing">提交申请</el-button>
-    </el-col>
+    <el-row>
+      <el-col :span="11" type="flex" align="center">
+        <el-button type="primary" @click="handleSubmit" :loading="publishing">确认修改</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -216,122 +218,123 @@
           }],
         },
         publishing: false,
+        loading: true,
         staffType: [{
-          value: '1',
+          value: 1,
           label: '快递员',
         },
         {
-          value: '2',
+          value: 2,
           label: '物流专员',
         },
         {
-          value: '3',
+          value: 3,
           label: '分拣员',
         },
         {
-          value: '4',
+          value: 4,
           label: '装卸／搬运工',
         },
         {
-          value: '5',
+          value: 5,
           label: '单证员',
         },
         {
-          value: '6',
+          value: 6,
           label: '调度员',
         },
         {
-          value: '7',
+          value: 7,
           label: '物料管理',
         },
         {
-          value: '8',
+          value: 8,
           label: '国际货运',
         },
         {
-          value: '9',
+          value: 9,
           label: '仓库管理员',
         },
         {
-          value: '10',
+          value: 10,
           label: '司机',
         },
         {
-          value: '11',
+          value: 11,
           label: '仓库主管',
         }],
         moneyClearType: [{
-          value: '1',
+          value: 1,
           label: '日结',
         },
         {
-          value: '2',
+          value: 2,
           label: '周结',
         },
         {
-          value: '3',
+          value: 3,
           label: '月结',
         },
         {
-          value: '4',
+          value: 4,
           label: '完工结',
         }],
         degreeType: [{
-          value: '1',
+          value: 1,
           label: '不限',
         },
         {
-          value: '2',
+          value: 2,
           label: '初中',
         },
         {
-          value: '3',
+          value: 3,
           label: '中专技校',
         },
         {
-          value: '4',
+          value: 4,
           label: '高中',
         },
         {
-          value: '5',
+          value: 5,
           label: '大专',
         },
         {
-          value: '6',
+          value: 6,
           label: '本科',
         },
         {
-          value: '7',
+          value: 7,
           label: '硕士及以上',
         }],
         workExperience: [
           {
             label: '不限',
-            value: '1',
+            value: 1,
           },
           {
             label: '1年以下',
-            value: '2',
+            value: 2,
           },
           {
             label: '1-3年',
-            value: '3',
+            value: 3,
           },
           {
             label: '3-5年',
-            value: '4',
+            value: 4,
           },
           {
             label: '6-8年',
-            value: '5',
+            value: 5,
           },
           {
             label: '8-10年',
-            value: '6',
+            value: 6,
           },
           {
             label: '10年以上',
-            value: '7',
+            value: 7,
           }],
       };
     },
@@ -353,11 +356,13 @@
         }
       },
       handleSubmit() {
+        const demandId = this.$route.params.id;
         this.$refs.applyDemandForm.validate((valid) => {
           if (valid) {
             this.publishing = false;
             const params = {
-              projectId: this.$route.query.id,
+              // projectId: this.$route.query.id,
+              id: demandId,
               title: this.demandInfo.title,
               type: this.demandInfo.type,
               job: this.demandInfo.job,
@@ -378,11 +383,21 @@
               listDemandInterview: this.demandInfo.listDemandInterview,
               listSchedulingInformation: this.demandInfo.listSchedulingInformation,
             };
-            console.log(params);
-            this.$http.post('/demand/add', params).then((response) => {
-              console.log(response);
+            this.$http.post('/demand/modify', params).then((response) => {
+              const { error, errorCode } = response.data;
+              if (errorCode === 10000) {
+                this.$notify({
+                  title: '修改成功',
+                  type: 'success',
+                });
+              } else {
+                this.$notify.error({
+                  title: '修改异常',
+                  type: 'success',
+                });
+              }
             }).catch((error) => {
-              console.log(error);
+              this.publish = false;
             });
           }
           return false;
@@ -393,6 +408,15 @@
       formatScheduleDate(date) {
         return new Date(date);
       },
+    },
+    mounted() {
+      this.loading = true;
+      this.$http(`/demand/detail?id=${this.$route.params.id}`).then((response) => {
+        this.demandInfo = response.data.data;
+        this.loading = false;
+      }).catch((error) => {
+        this.loading = false;
+      });
     },
   };
 </script>
