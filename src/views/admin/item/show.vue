@@ -1,5 +1,5 @@
 <template>
-  <div id="itemShow" v-loading="loading">
+  <div id="itemShow">
       <h4>项目ID: {{itemInfo.id}}，项目名称：{{itemInfo.title}}</h4>
       <el-tabs v-model="defaultTab" type="card" @tab-click="handleTabClick">
         <el-tab-pane label="项目信息" name="first">
@@ -15,12 +15,11 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="招聘需求管理" name="second">
-          <el-tabs v-model="defaultDemandTab" @tab-click="handleDemandTabClick">
+          <el-tabs v-model="defaultDemandTab" @tab-click="handleDemandTabClick" v-loading="loading">
             <el-tab-pane label="待审核" name="first">
               <el-table
                 :data="demands"
                 :border='true'
-                v-loading="loading"
                 style="width: 100%;">
                 <el-table-column
                   prop="id"
@@ -98,15 +97,11 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <el-col :span="24"style="margin-top:10px;">
-                <el-pagination v-if="demands.length > 0" layout="prev, pager, next" @current-change="handleDemandPageChange" :current-page="currentDemandPage" :page-count="demandPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
-            <el-tab-pane label="处理中" name="second">
+            <el-tab-pane label="处理中" name="second" v-loading="loading">
               <el-table
                 :data="demands"
                 :border='true'
-                v-loading="loading"
                 style="width: 100%;">
                 <el-table-column
                   prop="id"
@@ -183,15 +178,11 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <el-col :span="24"style="margin-top:10px;">
-                <el-pagination v-if="demands.length > 0" layout="prev, pager, next" @current-change="handleDemandPageChange" :current-page="currentDemandPage" :page-count="demandPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
             <el-tab-pane label="已驳回" name="third">
               <el-table
                 :data="demands"
                 :border='true'
-                v-loading="loading"
                 style="width: 100%;">
                 <el-table-column
                   prop="id"
@@ -261,15 +252,11 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <el-col :span="24"style="margin-top:10px;">
-                <el-pagination v-if="demands.length > 0" layout="prev, pager, next" @current-change="handleDemandPageChange" :current-page="currentDemandPage" :page-count="demandPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
             <el-tab-pane label="已结束" name="fourth">
               <el-table
                 :data="demands"
                 :border='true'
-                v-loading="loading"
                 style="width: 100%;">
                 <el-table-column
                   prop="id"
@@ -339,18 +326,18 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <el-col :span="24"style="margin-top:10px;">
-                <el-pagination v-if="demands.length > 0" layout="prev, pager, next" @current-change="handleDemandPageChange" :current-page="currentDemandPage" :page-count="demandPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
+            <el-col :span="24"style="margin-top:10px;">
+              <el-pagination v-if="demands.length > 0" layout="prev, pager, next" @current-change="handleDemandPageChange" :current-page="currentDemandPage" :page-count="demandPageCount" style="float: right;"></el-pagination>
+            </el-col>
           </el-tabs>
         </el-tab-pane>
         <el-tab-pane label="全职管理" name="third">
-          <el-tabs v-model="defaultDemandTab" @tab-click="handleUserTabClick">
-            <el-row v-if="fullTimeStaffs.length > 0">
-              <el-button style="float: right; margin-left: 10px;" @click="NextPage">下一页</el-button>
-              <el-button style="float: right" @click="PrePage">上一页</el-button>
-            </el-row>
+          <el-tabs v-model="defaultDemandTab" @tab-click="handleUserTabClick" v-loading="loading">
+          <el-row v-if="fullTimeStaffs.length > 0">
+            <el-button style="float: right; margin-left: 10px;" @click="NextPage">下一页</el-button>
+            <el-button style="float: right" @click="PrePage">上一页</el-button>
+          </el-row>
             <el-tab-pane label="全部" name="first">
               <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
               :selectVisible="false"
@@ -368,9 +355,6 @@
               @handleRevertStatus="handleRevertStatus(this.event, info, index)"
               style="margin-top: 10px;" >
               </userInfo>
-              <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
-                <el-pagination layout="prev, pager, next" @current-change="handleFullTimeStaffPageChange" :current-page="currentFullTimeStaffPage" :page-count="fullTimeStaffPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
             <el-tab-pane label="待确认" name="second">
               <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
@@ -389,9 +373,6 @@
               @handleRevertStatus="handleRevertStatus(this.event, info, index)"
               style="margin-top: 10px;" >
               </userInfo>
-              <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
-                <el-pagination layout="prev, pager, next" @current-change="handleFullTimeStaffPageChange" :current-page="currentFullTimeStaffPage" :page-count="fullTimeStaffPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
             <el-tab-pane label="待面试" name="third">
               <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
@@ -410,9 +391,6 @@
               @handleRevertStatus="handleRevertStatus(this.event, info, index)"
               style="margin-top: 10px;" >
               </userInfo>
-              <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
-                <el-pagination layout="prev, pager, next" @current-change="handleFullTimeStaffPageChange" :current-page="currentFullTimeStaffPage" :page-count="fullTimeStaffPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
             <el-tab-pane label="待入职" name="fourth">
               <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
@@ -431,9 +409,6 @@
               @handleRevertStatus="handleRevertStatus(this.event, info, index)"
               style="margin-top: 10px;" >
               </userInfo>
-              <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
-                <el-pagination layout="prev, pager, next" @current-change="handleFullTimeStaffPageChange" :current-page="currentFullTimeStaffPage" :page-count="fullTimeStaffPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
             <el-tab-pane label="入职中" name="fifth">
               <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
@@ -452,9 +427,6 @@
               @handleRevertStatus="handleRevertStatus(this.event, info, index)"
               style="margin-top: 10px;" >
               </userInfo>
-              <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
-                <el-pagination layout="prev, pager, next" @current-change="handleFullTimeStaffPageChange" :current-page="currentFullTimeStaffPage" :page-count="fullTimeStaffPageCount" style="float: right;"></el-pagination>
-              </el-col>
             </el-tab-pane>
             <el-tab-pane label="已结束" name="sixth">
               <userInfo v-for="(info, index) in fullTimeStaffs" :userInfo="info"
@@ -473,10 +445,11 @@
               @handleRevertStatus="handleRevertStatus(this.event, info, index)"
               style="margin-top: 10px;" >
               </userInfo>
-              <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
-                <el-pagination layout="prev, pager, next" @current-change="handleFullTimeStaffPageChange" :current-page="currentFullTimeStaffPage" :page-count="fullTimeStaffPageCount" style="float: right;"></el-pagination>
-              </el-col>
+            </el-tab-pane>
           </el-tabs>
+          <el-col :span="24"style="margin-top:10px;" v-if="fullTimeStaffs.length > 0">
+            <el-pagination layout="prev, pager, next" @current-change="handleFullTimeStaffPageChange" :current-page="currentFullTimeStaffPage" :page-count="fullTimeStaffPageCount" style="float: right;"></el-pagination>
+          </el-col>
         </el-tab-pane>
         <el-tab-pane label="兼职管理" name="fourth">兼职管理</el-tab-pane>
         <el-tab-pane label="考情管理" name="fifth">考情管理</el-tab-pane>
@@ -509,13 +482,14 @@
         loading: false,
         currentDemandPage: 1,
         demandPageCount: 0,
+        currentDemandStatus: 0,
         currentUserType: 1,
         currentUserStatus: 0,
         currentFullTimeStaffPage: 1,
         fullTimeStaffPageCount: 0,
         currentPartTimeStaffPage: 1,
         partTimeStaffPageCount: 0,
-        pageSize: 10,
+        pageSize: 2,
       };
     },
     methods: {
@@ -523,7 +497,8 @@
       handleTabClick(val) {
         this.currentTab = val.name;
         if (this.currentTab === 'second') {
-          this.getDemands(0);
+          this.currentDemandStatus = 0;
+          this.getDemands();
         } else if (this.currentTab === 'third') {
           this.currentUserType = 1;
           this.currentUserStatus = 0;
@@ -534,19 +509,22 @@
           this.getUsers();
         }
       },
+      // 需求 Tab 切换
       handleDemandTabClick(val) {
         if (val.name === 'first') {
-          this.getDemands(0);
+          this.currentDemandStatus = 0;
         } else if (val.name === 'second') {
-          this.getDemands(1);
+          this.currentDemandStatus = 1;
         } else if (val.name === 'third') {
-          this.getDemands(2);
+          this.currentDemandStatus = 2;
         } else if (val.name === 'fourth') {
-          this.getDemands(3);
+          this.currentDemandStatus = 3;
         } else if (val.name === 'fifth') {
-          this.getDemands(4);
+          this.currentDemandStatus = 4;
         }
+        this.getDemands();
       },
+      // 用户 Tab 切换
       handleUserTabClick(val) {
         if (val.name === 'first') {
           this.currentUserStatus = '';
@@ -567,13 +545,11 @@
         if (this.currentUserType === 1) {
           if (this.fullTimeStaffPageCount > this.currentFullTimeStaffPage) {
             this.currentFullTimeStaffPage += 1;
-            this.getUsers();
           }
         }
         if (this.currentUserType === 0) {
           if (this.partTimeStaffPageCount > this.currentPartTimeStaffPage) {
             this.currentPartTimeStaffPage += 1;
-            this.getUsers();
           }
         }
       },
@@ -582,25 +558,26 @@
           if (this.currentFullTimeStaffPage !== 1 &&
             this.fullTimeStaffPageCount >= this.currentFullTimeStaffPage) {
             this.currentFullTimeStaffPage -= 1;
-            this.getUsers();
           }
         }
         if (this.currentUserType === 0) {
           if (this.currentPartTimeStaffPage !== 1 &&
             this.partTimeStaffPageCount >= this.currentPartTimeStaffPage) {
             this.currentPartTimeStaffPage -= 1;
-            this.getUsers();
           }
         }
       },
       handleDemandPageChange(val) {
         this.currentDemandPage = val;
+        this.getDemands();
       },
       handleFullTimeStaffPageChange(val) {
         this.currentFullTimeStaffPage = val;
+        this.getUsers();
       },
       handlePartTimeStaffPageChange(val) {
         this.currentPartTimeStaffPage = val;
+        this.getUsers();
       },
       handleDemandDetail(index, row) {
         this.$router.push({ name: 'adminDemandShow', params: { id: row.id } });
@@ -711,13 +688,13 @@
         });
       },
       // 数据获取
-      getDemands(Demandstatus) {
+      getDemands() {
         this.loading = true;
         const params = {
-          pageNum: this.currentPage,
+          pageNum: this.currentDemandPage,
           pageSize: this.pageSize,
           projectId: this.$route.params.id,
-          status: Demandstatus,
+          status: this.currentDemandStatus,
         };
         this.$http.post('/demand/list', params).then((response) => {
           const {
