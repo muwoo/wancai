@@ -186,6 +186,7 @@
           pageNum: this.currentPage,
           pageSize: this.pageSize,
           status: 1,
+          id: this.demandInfo.id,
           name: this.demandInfo.name,
           type: this.demandInfo.type,
           telphone: this.demandInfo.telphone,
