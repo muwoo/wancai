@@ -233,6 +233,18 @@
     },
     mounted() {
       this.getProjectManager();
+      this.$http.get('/qiniu/token').then((response) => {
+        const {
+          data: {
+            fileName, upToken,
+          },
+        } = response.data;
+        this.upload_form = {
+          key: fileName,
+          token: upToken,
+        };
+      }).catch((error) => {
+      });
     },
   };
 </script>
