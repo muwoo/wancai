@@ -34,7 +34,7 @@
         <el-row class="unit-row">{{ middleMan.idCard }}</el-row>
         <el-row class="unit-row">{{ middleMan.birthday | formatBirthday }}</el-row>
         <el-row style="height: 40px; line-height: 20px;">
-          <el-tooltip :content="middleMan.address" placement="top">
+          <el-tooltip :content="middleMan.origin" placement="top">
             {{ limitAddress(middleMan.origin) }}
           </el-tooltip>
         </el-row>
