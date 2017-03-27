@@ -194,7 +194,6 @@ export default {
         talentStatus: this.currentGetUserType,
         type: 1,
       };
-      this.loading = true;
       this.$http.post('/project/talent/list', params).then((response) => {
         const {
           data: {
