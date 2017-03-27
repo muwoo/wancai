@@ -57,7 +57,7 @@
             @click="handleSetProjectManager(scope.$index, scope.row)">设置</el-button>
           <el-button
             size="small"
-            @click="handleProjectManager(scope.$index, scope.row)">详情</el-button>
+            @click="handleProjectManagerDetail(scope.$index, scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -91,7 +91,7 @@
       handleSetProjectManager(index, row) {
         this.$router.push({ name: 'adminItemEdit', params: { id: row.id } });
       },
-      handleProjectManager(index, row) {
+      handleProjectManagerDetail(index, row) {
         this.$router.push({ name: 'adminItemShow', params: { id: row.id } });
       },
       handleSearchItem() {
