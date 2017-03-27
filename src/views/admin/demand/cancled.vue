@@ -154,7 +154,6 @@
           name: this.demandInfo.name,
           type: this.demandInfo.type,
           telphone: this.demandInfo.telphone,
-          id: this.demandInfo.id,
           idCard: this.demandInfo.idCard,
           title: this.demandInfo.title,
         };
