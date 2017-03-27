@@ -514,7 +514,8 @@
         });
       },
       handleEditDemand() {
-        window.open(`#/demand/edit/${this.demandInfo.id}`, 'target_blank');
+        // window.open(`#/demand/edit/${this.demandInfo.id}`, 'target_blank');
+        this.$router.push({ name: 'adminDemandEdit', params: { id: this.demandInfo.id } });
       },
       handleTabClick(val) {
         this.currentTab = val.name;
