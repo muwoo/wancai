@@ -41,6 +41,7 @@ import demandShow from '../views/admin/demand/show';
 
 import projectManagerList from '../views/admin/project_manager/list';
 import projectManagerNew from '../views/admin/project_manager/new';
+import projectManagerEdit from '../views/admin/project_manager/edit';
 
 import businessBlackList from '../views/admin/business/blacklist';
 import businessList from '../views/admin/business/list';
@@ -127,6 +128,7 @@ const router = new Router({
       children: [
         { path: 'list', component: projectManagerList, alias: '项目经理管理' },
         { path: 'new', component: projectManagerNew, alias: '添加项目经理' },
+        { path: 'edit/:id', component: projectManagerEdit, name: 'adminProjectManagerEdit', hidden: true, alias: '修改项目经理' },
       ],
     },
     {

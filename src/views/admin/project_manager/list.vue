@@ -84,7 +84,7 @@
     },
     methods: {
       handleEdit(event, obj) {
-        console.log(obj);
+        this.$router.push({ name: 'adminProjectManagerEdit', params: { id: obj.id } });
       },
       handleDelete(event, obj, index) {
         this.$http.post(`/manager/delete?id=${obj.id}`).then((response) => {
