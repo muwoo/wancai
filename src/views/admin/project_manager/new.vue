@@ -3,7 +3,7 @@
     <el-form :model="projectManagerInfo" label-width="240px" :rules="projectManagerInfoRules" ref="projectManagerInfoForm">
       <el-form-item label="上传头像：" prop="avatar">
         <el-upload
-          class="avatar-uploader/"
+          class="avatar-uploader"
           action="//upload.qiniu.com/"
           :show-file-list='false'
           :on-success="handleAvatarScucess"
@@ -252,6 +252,9 @@ export default {
     width: 178px;
     height: 178px;
     display: block;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #20a0ff;
   }
 }
 </style>
