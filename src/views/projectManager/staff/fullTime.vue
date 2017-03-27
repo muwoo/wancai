@@ -174,7 +174,7 @@ export default {
       loading: false,
       isAllSelect: false,
       currentSelectArray: [],
-      pageSize: 2,
+      pageSize: 10,
       pageCount: 0,
       currentPage: 1,
       currentGetUserType: '',

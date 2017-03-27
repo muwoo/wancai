@@ -590,7 +590,7 @@
         fullTimeStaffPageCount: 0,
         currentPartTimeStaffPage: 1,
         partTimeStaffPageCount: 0,
-        pageSize: 2,
+        pageSize: 10,
       };
     },
     methods: {
