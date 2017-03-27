@@ -180,7 +180,7 @@ const router = new Router({
         { path: 'publish', component: itemNew, alias: '新建项目' },
         { path: 'list', component: itemList, alias: '项目管理' },
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
-        { path: 'show/:id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
+        { path: ':id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
       ],
     },
     {
@@ -196,7 +196,7 @@ const router = new Router({
         { path: 'completed', component: demandCompleted, alias: '已结束' },
         { path: 'refused', component: demandRefused, alias: '已驳回' },
         { path: 'cancled', component: demandCancled, alias: '已取消' },
-        { path: 'show/:id', component: demandShow, name: 'adminDemandShow', alias: '需求详情', hidden: true },
+        { path: ':id', component: demandShow, name: 'adminDemandShow', alias: '需求详情', hidden: true },
       ],
     },
     {
