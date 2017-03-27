@@ -333,7 +333,7 @@
           </el-tabs>
         </el-tab-pane>
         <el-tab-pane label="全职管理" name="third">
-          <el-tabs v-model="defaultDemandTab" @tab-click="handleUserTabClick" v-loading="loading">
+          <el-tabs v-model="defaultDemandTab" @tab-click="handleFullTimeTab" v-loading="loading">
           <el-row v-if="fullTimeStaffs.length > 0">
             <el-button style="float: right; margin-left: 10px;" @click="NextPage">下一页</el-button>
             <el-button style="float: right" @click="PrePage">上一页</el-button>
@@ -451,7 +451,107 @@
             <el-pagination layout="prev, pager, next" @current-change="handleFullTimeStaffPageChange" :current-page="currentFullTimeStaffPage" :page-count="fullTimeStaffPageCount" style="float: right;"></el-pagination>
           </el-col>
         </el-tab-pane>
-        <el-tab-pane label="兼职管理" name="fourth">兼职管理</el-tab-pane>
+        <el-tab-pane label="兼职管理" name="fourth">
+          <el-tabs v-model="defaultDemandTab" @tab-click="handlePartTimeTab" v-loading="loading">
+          <el-row v-if="partTimeStaffs.length > 0">
+            <el-button style="float: right; margin-left: 10px;" @click="NextPage">下一页</el-button>
+            <el-button style="float: right" @click="PrePage">上一页</el-button>
+          </el-row>
+            <el-tab-pane label="全部" name="first">
+              <userInfo v-for="(info, index) in partTimeStaffs" :userInfo="info"
+              :selectVisible="false"
+              @handleDetail="handleDetail(this.event, info)"
+              @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+              @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+              @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+              @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+              @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+              @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+              @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+              @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+              @handleDimission="handleDimission(this.event, info, index)"
+              @handleSignIn="handleSignIn(this.event, info, index)"
+              @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+              style="margin-top: 10px;" >
+              </userInfo>
+            </el-tab-pane>
+            <el-tab-pane label="待确认" name="second">
+              <userInfo v-for="(info, index) in partTimeStaffs" :userInfo="info"
+              :selectVisible="false"
+              @handleDetail="handleDetail(this.event, info)"
+              @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+              @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+              @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+              @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+              @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+              @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+              @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+              @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+              @handleDimission="handleDimission(this.event, info, index)"
+              @handleSignIn="handleSignIn(this.event, info, index)"
+              @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+              style="margin-top: 10px;" >
+              </userInfo>
+            </el-tab-pane>
+            <el-tab-pane label="待考勤" name="third">
+              <userInfo v-for="(info, index) in partTimeStaffs" :userInfo="info"
+              :selectVisible="false"
+              @handleDetail="handleDetail(this.event, info)"
+              @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+              @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+              @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+              @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+              @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+              @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+              @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+              @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+              @handleDimission="handleDimission(this.event, info, index)"
+              @handleSignIn="handleSignIn(this.event, info, index)"
+              @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+              style="margin-top: 10px;" >
+              </userInfo>
+            </el-tab-pane>
+            <el-tab-pane label="已考勤" name="fourth">
+              <userInfo v-for="(info, index) in partTimeStaffs" :userInfo="info"
+              :selectVisible="false"
+              @handleDetail="handleDetail(this.event, info)"
+              @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+              @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+              @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+              @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+              @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+              @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+              @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+              @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+              @handleDimission="handleDimission(this.event, info, index)"
+              @handleSignIn="handleSignIn(this.event, info, index)"
+              @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+              style="margin-top: 10px;" >
+              </userInfo>
+            </el-tab-pane>
+            <el-tab-pane label="已结束" name="fifth">
+              <userInfo v-for="(info, index) in partTimeStaffs" :userInfo="info"
+              :selectVisible="false"
+              @handleDetail="handleDetail(this.event, info)"
+              @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+              @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+              @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+              @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+              @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+              @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+              @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+              @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+              @handleDimission="handleDimission(this.event, info, index)"
+              @handleSignIn="handleSignIn(this.event, info, index)"
+              @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+              style="margin-top: 10px;" >
+              </userInfo>
+            </el-tab-pane>
+          </el-tabs>
+          <el-col :span="24"style="margin-top:10px;" v-if="partTimeStaffs.length > 0">
+            <el-pagination layout="prev, pager, next" @current-change="handlePartTimeStaffPageChange" :current-page="currentPartTimeStaffPage" :page-count="partTimeStaffPageCount" style="float: right;"></el-pagination>
+          </el-col>
+        </el-tab-pane>
         <el-tab-pane label="考情管理" name="fifth">考情管理</el-tab-pane>
         <el-tab-pane label="全职工资管理" name="sixth">全职工资管理</el-tab-pane>
         <el-tab-pane label="兼职工资管理" name="seventh">兼职工资管理</el-tab-pane>
@@ -476,6 +576,7 @@
         },
         demands: [],
         fullTimeStaffs: [],
+        partTimeStaffs: [],
         currentTab: 'first',
         defaultTab: 'first',
         defaultDemandTab: 'first',
@@ -501,11 +602,11 @@
           this.getDemands();
         } else if (this.currentTab === 'third') {
           this.currentUserType = 1;
-          this.currentUserStatus = 0;
+          this.currentUserStatus = '';
           this.getUsers();
-        } else if (this.currentTab === 'third') {
+        } else if (this.currentTab === 'fourth') {
           this.currentUserType = 0;
-          this.currentUserStatus = 0;
+          this.currentUserStatus = '';
           this.getUsers();
         }
       },
@@ -525,7 +626,7 @@
         this.getDemands();
       },
       // 用户 Tab 切换
-      handleUserTabClick(val) {
+      handleFullTimeTab(val) {
         if (val.name === 'first') {
           this.currentUserStatus = '';
         } else if (val.name === 'second') {
@@ -537,6 +638,20 @@
         } else if (val.name === 'fifth') {
           this.currentUserStatus = 7;
         } else if (val.name === 'sixth') {
+          this.currentUserStatus = 11;
+        }
+        this.getUsers();
+      },
+      handlePartTimeTab(val) {
+        if (val.name === 'first') {
+          this.currentUserStatus = '';
+        } else if (val.name === 'second') {
+          this.currentUserStatus = 0;
+        } else if (val.name === 'third') {
+          this.currentUserStatus = 2;
+        } else if (val.name === 'fourth') {
+          this.currentUserStatus = 10;
+        } else if (val.name === 'fifth') {
           this.currentUserStatus = 11;
         }
         this.getUsers();
@@ -655,7 +770,12 @@
               title: '已恢复',
               type: 'success',
             });
-            this.fullTimeStaffs.splice(index, 1);
+            if (this.currentUserType === 1) {
+              this.fullTimeStaffs.splice(index, 1);
+            }
+            if (this.currentUserType === 0) {
+              this.partTimeStaffs.splice(index, 1);
+            }
           } else {
             this.$notify.error({
               title: '修改异常',
@@ -677,7 +797,12 @@
               title: msg,
               type: 'success',
             });
-            this.fullTimeStaffs.splice(index, 1);
+            if (this.currentUserType === 1) {
+              this.fullTimeStaffs.splice(index, 1);
+            }
+            if (this.currentUserType === 0) {
+              this.partTimeStaffs.splice(index, 1);
+            }
           } else {
             this.$notify.error({
               title: '修改异常',
@@ -741,9 +866,16 @@
               list, pages, pageNum,
             },
           } = response.data;
-          this.currentFullTimeStaffPage = pageNum;
-          this.fullTimeStaffPageCount = pages;
-          this.fullTimeStaffs = list;
+          if (this.currentUserType === 0) {
+            this.currentPartTimeStaffPage = pageNum;
+            this.partTimeStaffPageCount = pages;
+            this.partTimeStaffs = list;
+          }
+          if (this.currentUserType === 1) {
+            this.currentFullTimeStaffPage = pageNum;
+            this.fullTimeStaffPageCount = pages;
+            this.fullTimeStaffs = list;
+          }
           this.loading = false;
         }).catch((error) => {
           this.loading = false;
