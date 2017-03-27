@@ -114,7 +114,7 @@
           projectId: this.$route.query.id,
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          status: 0,
+          status: 2,
         };
         this.$http.post('/demand/listdemand', params).then((response) => {
           const {

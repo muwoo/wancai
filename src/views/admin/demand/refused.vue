@@ -150,7 +150,7 @@
         const params = {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
-          status: 2,
+          status: 3,
           id: this.demandInfo.id,
           name: this.demandInfo.name,
           type: this.demandInfo.type,
