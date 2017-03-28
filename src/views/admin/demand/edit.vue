@@ -5,12 +5,12 @@
       <el-form-item label="表名：" style="width: 400px;">
         <el-input v-model="demandInfo.title" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <el-form-item label="类型：">
+      <!-- <el-form-item label="类型：">
         <el-radio-group v-model="demandInfo.type">
           <el-radio :label="0">兼职</el-radio>
           <el-radio :label="1">全职</el-radio>
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="岗位：" style="width: 300px;">
         <el-input v-model="demandInfo.job" placeholder="请输入内容"></el-input>
       </el-form-item>
@@ -390,6 +390,7 @@
                   title: '修改成功',
                   type: 'success',
                 });
+                this.$router.push({ name: 'adminDemandShow', params: { id: this.$route.params.id } });
               } else {
                 this.$notify.error({
                   title: '修改异常',
