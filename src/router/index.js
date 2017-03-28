@@ -82,6 +82,10 @@ const router = new Router({
       name: 'employe',
       component: employe,
       hidden: true,
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/login',
@@ -104,6 +108,10 @@ const router = new Router({
         { path: '', redirect: 'profile', component: adminProfile, hidden: true },
         { path: 'profile', component: adminProfile, isHeader: true, alias: '个人中心' },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/middleman',
@@ -118,6 +126,10 @@ const router = new Router({
         { path: 'refused', component: middleManRefused, alias: '审核不通过' },
         { path: 'blacklist', component: middleManBlackList, alias: '黑名单' },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/project_manager',
@@ -131,6 +143,10 @@ const router = new Router({
         { path: 'new', component: projectManagerNew, alias: '添加项目经理' },
         { path: 'edit/:id', component: projectManagerEdit, name: 'adminProjectManagerEdit', hidden: true, alias: '修改项目经理' },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/business',
@@ -143,6 +159,10 @@ const router = new Router({
         { path: 'list', component: businessList, alias: '商家管理' },
         { path: 'blacklist', component: businessBlackList, alias: '黑名单' },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/administrator',
@@ -157,6 +177,10 @@ const router = new Router({
         { path: 'role_list', component: administratorRoleList, alias: '角色管理' },
         { path: 'role_new', component: administratorNewRole, alias: '新建角色' },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/user',
@@ -169,6 +193,10 @@ const router = new Router({
         { path: 'list', component: userList, alias: '人才库管理' },
         { path: 'blacklist', component: userBlackList, alias: '黑名单' },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/item',
@@ -183,6 +211,10 @@ const router = new Router({
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
         { path: ':id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/demand',
@@ -200,6 +232,10 @@ const router = new Router({
         { path: ':id', component: demandShow, name: 'adminDemandShow', alias: '需求详情', hidden: true },
         { path: 'edit/:id', component: demandEdit, name: 'adminDemandEdit', alias: '需求修改', hidden: true },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/income',
@@ -212,6 +248,10 @@ const router = new Router({
         { path: 'middleman', component: incomeMiddleMan, alias: '经纪人收入' },
         { path: 'project_manager', component: incomeProjectManager, alias: '项目经理收入' },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/content',
@@ -226,6 +266,10 @@ const router = new Router({
         { path: 'rule', component: contentRule, alias: '规则管理' },
         { path: 'protocol', component: contentProtocol, alias: '协议与文章管理' },
       ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/admin/profile',
@@ -235,6 +279,10 @@ const router = new Router({
       isAdmin: true,
       iconCls: 'el-icon-menu',
       alias: '个人中心',
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
     },
     {
       path: '/project_manager/login',
@@ -257,6 +305,10 @@ const router = new Router({
         { path: 'profile', component: projectManagerProfile, hidden: true },
         { path: 'applyDemand', component: projectmanagerApplyDemand, hidden: true },
       ],
+      meta: {
+        requireAuth: true,
+        isProjectManager: true,
+      },
     },
     {
       path: '/project_manager/demand',
@@ -272,6 +324,10 @@ const router = new Router({
         { path: 'completed', component: projectManagerDemandCompleted, alias: '已结束' },
         { path: 'cancled', component: projectManagerDemandCancled, alias: '已取消' },
       ],
+      meta: {
+        requireAuth: true,
+        isProjectManager: true,
+      },
     },
     {
       path: '/project_manager/sftaff',
@@ -284,6 +340,10 @@ const router = new Router({
         { path: 'full_time', component: projectManagerStaffFullTime, alias: '全职人员管理' },
         { path: 'part_time', component: projectManagerStaffPartTime, alias: '兼职人员管理' },
       ],
+      meta: {
+        requireAuth: true,
+        isProjectManager: true,
+      },
     },
     {
       path: '/project_manager/item',
@@ -295,6 +355,10 @@ const router = new Router({
       children: [
         { path: 'dashboard', component: projectManagerItemDashboard, alias: '项目看板' },
       ],
+      meta: {
+        requireAuth: true,
+        isProjectManager: true,
+      },
     },
     {
       path: '*',
@@ -302,6 +366,33 @@ const router = new Router({
       hidden: true,
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(r => r.meta.requireAuth)) {
+    const adminUser = JSON.parse(sessionStorage.getItem('admin'));
+    const projectManagerUser = JSON.parse(sessionStorage.getItem('project_manager'));
+
+    if (to.matched.some(r => r.meta.isAdmin)) {
+      if (adminUser) {
+        next();
+      } else {
+        next({
+          name: 'adminLogin',
+        });
+      }
+    } else if (to.matched.some(r => r.meta.isProjectManager)) {
+      if (projectManagerUser) {
+        next();
+      } else {
+        next({
+          name: 'projectManagerLogin',
+        });
+      }
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
