@@ -60,12 +60,14 @@ export default {
           }).then((response) => {
             // eslint-disable-next-line
             this.logining = false;
-            this.$message({
-              message: '登录成功',
-              type: 'success',
-            });
-            sessionStorage.setItem('admin', JSON.stringify(response.data));
-            this.$router.replace({ path: '/admin' });
+            if (response.data.errorCode === 10000) {
+              this.$message({
+                message: '登录成功',
+                type: 'success',
+              });
+              sessionStorage.setItem('admin', JSON.stringify(response.data));
+              this.$router.replace({ path: '/admin' });
+            }
           }).catch((error) => {
             this.$message.error('登录异常');
             console.log(error);
