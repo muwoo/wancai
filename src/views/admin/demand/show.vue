@@ -380,7 +380,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-col :span="24" style="margin-top:10px;" v-if="plans.length > 0">
+        <el-col :span="24" style="margin-top:10px;" v-if="planInfo.brokerSearchData.length > 0">
           <el-pagination layout="prev, pager, next" @current-change="handleBrokerPage" :current-page="planInfo.currentPage" :page-count="planInfo.pageCount" style="float: right;"></el-pagination>
         </el-col>
       </div>
@@ -651,8 +651,8 @@
         }
         const params = {
           status: 2,
-          pageNum: 1,
-          pageSize: 20,
+          pageNum: this.planInfo.currentPage,
+          pageSize: this.planInfo.pageSize,
           id: idData,
           idCard: idCardData,
           name: nameData,
