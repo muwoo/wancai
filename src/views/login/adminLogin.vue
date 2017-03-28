@@ -65,13 +65,16 @@ export default {
                 message: '登录成功',
                 type: 'success',
               });
-              sessionStorage.setItem('admin', JSON.stringify(response.data));
+              sessionStorage.setItem('admin', JSON.stringify(response.data.data));
               this.$router.replace({ path: '/admin' });
+            } else {
+              this.$message.error('账号或密码错误');
             }
-          }).catch((error) => {
-            this.$message.error('登录异常');
-            console.log(error);
           });
+          // .catch((error) => {
+          //   this.$message.error('登录异常');
+          //   console.log(error);
+          // });
         }
         return false;
       });

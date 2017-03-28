@@ -40,9 +40,6 @@
         <el-button type="primary" size="large" @click.prevent="handleSetPassword">修改密码</el-button>
       </el-col>
     </el-row>
-    <!-- <el-dialog v-model="BigImageVisible" @close="handleBigImageClose">
-      <img class="big-img" :src="currentImage" />
-    </el-dialog> -->
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
   </div>
 </template>
@@ -105,9 +102,9 @@
       },
     },
     mounted() {
-      const admin = JSON.parse(sessionStorage.getItem('admin')).data;
+      const admin = JSON.parse(sessionStorage.getItem('admin'));
       if (admin) {
-        this.currentUser.name = admin.name || '';
+        this.currentUser.name = admin.name.toString() || '';
       }
     },
   };
@@ -179,10 +176,6 @@
         margin-top: 10px;
       }
     }
-   //  .el-dialog {
-   //    width: 500px;
-   //    height: 300px;
-   //  }
     .big-img {
       width: 500px;
       height: 300px;

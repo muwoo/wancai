@@ -50,11 +50,7 @@ export default {
     // eslint-disable-next-line
     $route(to, from) {
       this.currentPath = to.path;
-      // console.log(this.currentPath);
-      // console.log(this.currentPath);
-      // console.log(this.$route.query);
     },
-
   },
   methods: {
     // 退出登录
@@ -72,7 +68,7 @@ export default {
   },
   mounted() {
     this.currentPath = this.$route.path;
-    const admin = JSON.parse(sessionStorage.getItem('admin')).data;
+    const admin = JSON.parse(sessionStorage.getItem('admin'));
     if (admin) {
       this.currentUser.name = admin.name || '';
     }
