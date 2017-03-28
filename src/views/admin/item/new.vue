@@ -127,17 +127,18 @@
         <el-button type="primary" @click="editTeamOfGroupVisible = false">确 定</el-button>
       </div>
     </el-dialog> -->
-    <el-dialog title="选择负责人" v-model="findRecruitManager">
+    <el-dialog title="选择招聘前台" v-model="findRecruitManager">
       <el-input placeholder="请输入内容" v-model="searchContent">
         <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width: 150px;">
-          <el-option label="餐厅名" value="1"></el-option>
-          <el-option label="订单号" value="2"></el-option>
-          <el-option label="用户电话" value="3"></el-option>
+          <el-option value='1' label='ID'></el-option>
+          <el-option value='2' label='姓名'></el-option>
+          <el-option value='3' label='身份证'></el-option>
+          <el-option value='4' label='手机号'></el-option>
         </el-select>
-        <el-button slot="append" icon="search" @click="handleSearch"></el-button>
+        <el-button slot="append" icon="search" @click="getSearchRecruit"></el-button>
       </el-input>
       <div class="search-table">
-        <el-table :data="RecruitManagerSearchData">
+        <el-table :data="searchData">
           <el-table-column property="id" label="id"></el-table-column>
           <el-table-column property="name" label="姓名"></el-table-column>
           <el-table-column property="idCardNumber" label="身份证" width="200"></el-table-column>
@@ -153,21 +154,22 @@
         </el-table>
       </div>
     </el-dialog>
-    <el-dialog title="选择负责人" v-model="findProjectManager">
+    <el-dialog title="选择项目负责人" v-model="findProjectManager">
       <el-input placeholder="请输入内容" v-model="searchContent">
         <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width: 150px;">
-          <el-option label="餐厅名" value="1"></el-option>
-          <el-option label="订单号" value="2"></el-option>
-          <el-option label="用户电话" value="3"></el-option>
+          <el-option value='1' label='ID'></el-option>
+          <el-option value='2' label='姓名'></el-option>
+          <el-option value='3' label='身份证'></el-option>
+          <el-option value='4' label='手机号'></el-option>
         </el-select>
-        <el-button slot="append" icon="search" @click="handleSearch"></el-button>
+        <el-button slot="append" icon="search" @click="getSearchProject"></el-button>
       </el-input>
       <div class="search-table">
-        <el-table :data="ProjectManagerSearchData">
+        <el-table :data="searchData" v-loading="loading">
           <el-table-column property="id" label="id"></el-table-column>
           <el-table-column property="name" label="姓名"></el-table-column>
-          <el-table-column property="idCardNumber" label="身份证" width="200"></el-table-column>
-          <el-table-column property="phoneNumber" label="手机" width="200"></el-table-column>
+          <el-table-column property="idCard" label="身份证" width="200"></el-table-column>
+          <el-table-column property="telphone" label="手机"  width="200"></el-table-column>
           <el-table-column
             label="操作">
             <template scope="scope">
@@ -177,6 +179,9 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-col :span="24" style="margin-top:10px;">
+          <el-pagination layout="prev, pager, next" @current-change="handlePageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+        </el-col>
       </div>
     </el-dialog>
   </div>
@@ -214,25 +219,18 @@ export default {
         getOrderPrice: 0,
         giveOrderPrice: 0,
       },
-      RecruitManagerSearchData: [{
-        id: 1,
-        name: '李四',
-        idCardNumber: 123211233341232213,
-        phoneNumber: 183549123,
-      }],
-      ProjectManagerSearchData: [{
-        id: 1,
-        name: '张三',
-        idCardNumber: 384123413123123123,
-        phoneNumber: 183549123,
-      }],
+      currentPage: 1,
+      pageSize: 20,
+      pageCount: 0,
+      loading: false,
+      searchData: [],
       isProfitRateEdit: false,
       editTeamOfGroupVisible: false,
       publishing: false,
       findRecruitManager: false,
       findProjectManager: false,
       searchContent: '',
-      searchType: '',
+      searchType: '1',
       itemPublishRules: {
         itemName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' },
@@ -304,14 +302,61 @@ export default {
         return false;
       });
     },
+    handlePageChange(val) {
+      if (this.findProjectManager) {
+        this.currentPage = val;
+        this.getSearchProject();
+      }
+    },
     handleFindProjectManager() {
       this.findProjectManager = true;
+      this.searchData = [];
+      this.getSearchProject();
     },
     handleFindRecruitManager() {
       this.findRecruitManager = true;
+      this.searchData = [];
     },
-    handleSearch() {
+    getSearchRecruit() {
       this.$message('search content');
+    },
+    getSearchProject() {
+      let idData = '';
+      let idCardData = '';
+      let nameData = '';
+      let telphoneData = '';
+      if (this.searchType === '1') {
+        idData = this.searchContent;
+      } else if (this.searchType === '2') {
+        nameData = this.searchContent;
+      } else if (this.searchType === '3') {
+        idCardData = this.searchContent;
+      } else if (this.searchType === '4') {
+        telphoneData = this.searchContent;
+      }
+      const params = {
+        status: 0,
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        id: idData,
+        idCard: idCardData,
+        name: nameData,
+        telphone: telphoneData,
+      };
+      this.loading = true;
+      this.$http.post('/manager/list', params).then((response) => {
+        const {
+          data: {
+            list, pages, total, pageNum,
+          },
+        } = response.data;
+        this.currentPage = pageNum;
+        this.pageCount = pages;
+        this.searchData = list;
+        this.loading = false;
+      }).catch((error) => {
+        this.loading = false;
+      });
     },
     handleConfirmProjectManager(index, row) {
       this.itemPublishInfo.projectManager = row;
