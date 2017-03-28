@@ -7,21 +7,10 @@
 <script>
 import Vue from 'vue';
 import Element from 'element-ui';
-import axios from 'axios';
 import 'element-ui/lib/theme-default/index.css';
+import router from './router';
 
 Vue.use(Element);
-const axiosInstance = axios.create({
-  baseURL: 'http://192.168.31.253:9090',
-  // baseURL: 'http://127.0.0.1:3000/',
-  headers: {
-    // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true,
-});
-
-Vue.prototype.$http = axiosInstance;
 
 export default {
   name: 'app',
