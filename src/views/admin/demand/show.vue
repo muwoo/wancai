@@ -658,7 +658,7 @@
           name: nameData,
           telphone: telphoneData,
         };
-        this.planInfo.loading = false;
+        this.planInfo.loading = true;
         this.$http.post('/broker/list', params).then((response) => {
           const {
             data: {
