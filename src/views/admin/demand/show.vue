@@ -439,7 +439,7 @@
         currentTab: '',
         currentGetUserType: '',
         currentPage: 1,
-        pageSize: 2,
+        pageSize: 10,
         pageCount: 0,
         totalUserSize: 0,
         loading: false,
