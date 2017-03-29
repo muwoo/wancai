@@ -22,9 +22,9 @@
     <el-col :span="24" class="panel-center">
       <aside>
         <div class="recruit-btn">
-          <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+招聘需求申请表</el-button>
+          <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+ 招聘需求申请表</el-button>
         </div>
-        <el-menu :default-active="currentPath" class="el-menu-vertical-demo" router>
+        <el-menu :default-active="currentPath" :unique-opened='true' class="el-menu-vertical-demo" router>
           <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && item.isProjectManager">
             <el-submenu :index="index+''" v-if="!item.leaf">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
@@ -50,7 +50,6 @@ export default {
     return {
       currentPath: '',
       allProjects: [],
-      // currentProject: { id: '', title: '请选择项目' },
       currentProject: { id: '', title: '请选择项目' },
       currentUser: {
         name: '',
