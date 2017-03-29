@@ -25,7 +25,7 @@
           <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+招聘需求申请表</el-button>
         </div>
         <el-menu :default-active="currentPath" class="el-menu-vertical-demo" router>
-          <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && !item.isAdmin">
+          <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && item.isProjectManager">
             <el-submenu :index="index+''" v-if="!item.leaf">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
               <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path + '?id=' + currentProject.id">{{child.alias}}</el-menu-item>
@@ -102,7 +102,7 @@ export default {
       const that = this;
       this.$confirm('确认退出吗?', '提示', {
       }).then(() => {
-        sessionStorage.removeItem('projectManager');
+        sessionStorage.removeItem('project_manager');
         that.$router.replace('/project_manager/login');
       }).catch(() => {
 
@@ -123,9 +123,7 @@ export default {
       this.isLeftNav = false;
     }
     const projectManager = JSON.parse(sessionStorage.getItem('project_manager'));
-    if (projectManager.data) {
-      this.currentUser.name = projectManager.data.name || '';
-    }
+    this.currentUser.name = projectManager.data.name || '';
 
     this.$http.post('/project/currentList', {
       pageNum: 1,
