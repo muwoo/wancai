@@ -10,13 +10,17 @@
       <el-form-item label="权限">
         <el-tree
           :data="authItems"
-          :props="props"
-          :load="loadNode"
-          lazy
           show-checkbox
-          @check-change="handleCheckChange"
+          node-key="id"
+          :props="defaultProps"
+          :default-checked-keys="[1, 2, 3]"
+          :default-expanded-keys="[1, 2, 3]"
+          ref="tree"
           style="width: 250px;">
         </el-tree>
+      </el-form-item>
+      <el-form-item label=''>
+        <el-button type="primary" @click="handleSubmit">确认新建</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -33,21 +37,50 @@ export default {
         auth: '',
       },
       authItems: [{
-        name: '经纪人管理',
+        id: 1,
+        label: '经纪人',
+        children: [{
+          id: 4,
+          label: '待审核',
+        },
+        {
+          id: 9,
+          label: '已拉黑',
+        }],
       },
       {
-        name: '管理员管理',
+        id: 2,
+        label: '项目管理',
+        children: [{
+          id: 5,
+          label: '新建项目',
+        },
+        {
+          id: 6,
+          label: '项目列表',
+        }],
+      },
+      {
+        id: 3,
+        label: '项目经理管理',
+        children: [{
+          id: 7,
+          label: '新建项目经理',
+        },
+        {
+          id: 8,
+          label: '项目经理列表',
+        }],
       }],
-      props: {
-        label: 'name',
-        children: 'zones',
+      defaultProps: {
+        label: 'label',
+        children: 'children',
       },
     };
   },
   methods: {
-    handleCheckChange() {
-    },
-    loadNode(node, resolve) {
+    handleSubmit() {
+      console.log(this.$refs.tree.getCheckedKeys());
     },
   },
 };
