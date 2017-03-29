@@ -12,16 +12,29 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   response => {
-    // console.log(router.currentRoute);
     switch (response.data.errorCode) {
       case 10001:
-        router.replace({ name: 'adminLogin' });
+        sessionStorage.removeItem('admin');
+        sessionStorage.removeItem('project_manager');
+        if (router.currentRoute.matched.some(r => r.meta.isAdmin)) {
+          router.replace({ name: 'adminLogin' });
+        } else if (router.currentRoute.matched.some(r => r.meta.isProjectManager)){
+          router.replace({ name: 'projectManagerLogin' });
+        }
         break;
     }
     return response;
   },
   error => {
-    console.log(error);
+    if (error.toString() === 'Error: Network Error') {
+      sessionStorage.removeItem('admin');
+      sessionStorage.removeItem('project_manager');
+      if (router.currentRoute.matched.some(r => r.meta.isAdmin)) {
+        router.replace({ name: 'adminLogin' });
+      } else if (router.currentRoute.matched.some(r => r.meta.isProjectManager)){
+        router.replace({ name: 'projectManagerLogin' });
+      }
+    }
     return Promise.reject(error);
   }
 );
