@@ -385,12 +385,22 @@ export default {
             listDemandInterview: this.demandInfo.listDemandInterview,
             listSchedulingInformation: this.demandInfo.listSchedulingInformation,
           };
-          console.log(params);
           this.$http.post('/demand/add', params).then((response) => {
-            console.log(response);
+            if (response.data.errorCode === 10000) {
+              this.$notify({
+                title: '发布成功',
+                type: 'success',
+              });
+            } else {
+              this.$notify.error({
+                title: '发布异常',
+                type: 'success',
+              });
+            }
           }).catch((error) => {
             console.log(error);
           });
+          this.$router.push({ path: 'demand/pending', query: { id: this.$route.query.id } });
         }
         return false;
       });
