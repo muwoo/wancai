@@ -66,7 +66,8 @@
         <el-table-column
           prop="telphone"
           align="center"
-          label="手机号">
+          label="手机号"
+          width="200">
         </el-table-column>
         <el-table-column
           prop="createdAt"
