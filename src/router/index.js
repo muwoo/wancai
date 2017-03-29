@@ -317,6 +317,7 @@ const router = new Router({
       iconCls: 'el-icon-message',
       alias: '需求管理',
       isAdmin: false,
+      isProjectManager: true,
       children: [
         { path: 'pending', component: projectManagerDemandPending, alias: '待审核' },
         { path: 'processed', component: projectManagerDemandProcessed, alias: '处理中' },
@@ -336,6 +337,7 @@ const router = new Router({
       iconCls: 'el-icon-message',
       alias: '人员管理',
       isAdmin: false,
+      isProjectManager: true,
       children: [
         { path: 'full_time', component: projectManagerStaffFullTime, alias: '全职人员管理' },
         { path: 'part_time', component: projectManagerStaffPartTime, alias: '兼职人员管理' },
@@ -352,6 +354,7 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '项目管理',
       isAdmin: false,
+      isProjectManager: true,
       children: [
         { path: 'dashboard', component: projectManagerItemDashboard, alias: '项目看板' },
       ],
