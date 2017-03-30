@@ -1,9 +1,13 @@
 <template>
   <div id="contentSchool">
-    <v-editor
-    :input-content="inputContent"
-    v-model="outputContent"></v-editor>
-    <el-button @click="submit">提交</el-button>
+    <el-row>
+      <v-editor
+      :input-content="inputContent"
+      v-model="outputContent"></v-editor>
+    </el-row>
+    <el-row>
+      <el-button type="primary" size="large" @click="submit" style="margin-top: 20px;">提 交</el-button>
+    </el-row>
   </div>
 </template>
 <script>
@@ -13,9 +17,7 @@ export default {
   name: 'contentSchool',
   data() {
     return {
-      // input content to editor
-      inputContent: 'base on wangeditor',
-      // output content from editor
+      inputContent: '',
       outputContent: '',
       // uploadUrl: '//upload.qiniu.com/',
     };

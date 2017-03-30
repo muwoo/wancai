@@ -15,7 +15,7 @@ export default {
     createEditor() {
       const self = this;
       const editor = new WangEditor('editor');
-      editor.config.menus = ['source', '|', 'eraser', 'bold', 'underline', 'italic', 'strikethrough', 'forecolor', 'bgcolor', '|', 'quote', 'fontfamily', 'fontsize', 'head', 'unorderlist', 'orderlist', 'alignleft', 'aligncenter', 'alignright',
+      editor.config.menus = ['eraser', 'bold', 'underline', 'italic', 'strikethrough', 'forecolor', 'bgcolor', '|', 'quote', 'fontfamily', 'fontsize', 'head', 'unorderlist', 'orderlist', 'alignleft', 'aligncenter', 'alignright',
         '|', 'link', 'unlink', 'table', 'img', 'video', 'insertcode', '|', 'undo', 'redo', 'fullscreen',
       ];
       // editor.config.uploadImgUrl = this.uploadUrl;
