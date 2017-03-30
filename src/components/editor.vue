@@ -26,7 +26,6 @@ export default {
           editor.config.menus = ['source', '|', 'eraser', 'bold', 'underline', 'italic', 'strikethrough', 'forecolor', 'bgcolor', '|', 'quote', 'fontfamily', 'fontsize', 'head', 'unorderlist', 'orderlist', 'alignleft', 'aligncenter', 'alignright',
             '|', 'link', 'unlink', 'table', 'img', 'video', 'insertcode', '|', 'undo', 'redo', 'fullscreen',
           ];
-          editor.config.withCredentials = false;
           editor.config.uploadImgUrl = '//upload.qiniu.com/';
           editor.config.uploadParams = {
             token: upToken,
