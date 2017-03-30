@@ -13,10 +13,11 @@
           show-checkbox
           node-key="id"
           :props="defaultProps"
-          :default-checked-keys="[1, 2, 3]"
-          :default-expanded-keys="[1, 2, 3]"
+          :default-checked-keys="defualtCheckedKeys"
+          :default-expanded-keys="defaultExpandedKeys"
           ref="tree"
-          style="width: 250px;">
+          style="width: 400px;"
+          v-loading="loading">
         </el-tree>
       </el-form-item>
       <el-form-item label=''>
@@ -36,52 +37,47 @@ export default {
         comment: '',
         auth: '',
       },
-      authItems: [{
-        id: 1,
-        label: '经纪人',
-        children: [{
-          id: 4,
-          label: '待审核',
-        },
-        {
-          id: 9,
-          label: '已拉黑',
-        }],
-      },
-      {
-        id: 2,
-        label: '项目管理',
-        children: [{
-          id: 5,
-          label: '新建项目',
-        },
-        {
-          id: 6,
-          label: '项目列表',
-        }],
-      },
-      {
-        id: 3,
-        label: '项目经理管理',
-        children: [{
-          id: 7,
-          label: '新建项目经理',
-        },
-        {
-          id: 8,
-          label: '项目经理列表',
-        }],
-      }],
+      authItems: [],
       defaultProps: {
-        label: 'label',
+        label: 'permission',
         children: 'children',
       },
+      defualtCheckedKeys: [],
+      defaultExpandedKeys: [],
+      loading: false,
     };
   },
   methods: {
     handleSubmit() {
       console.log(this.$refs.tree.getCheckedKeys());
     },
+    getParentKeys(array) {
+      this.defaultExpandedKeys = [];
+      for (let i = 0; i < array.length; i += 1) {
+        const id = array[i].id;
+        if (id !== '') {
+          this.defaultExpandedKeys.push(id);
+        }
+      }
+      this.defualtCheckedKeys = this.defaultExpandedKeys;
+    },
+  },
+  mounted() {
+    this.loading = true;
+    this.$http.get('/admin/permissions/list').then((response) => {
+      if (response.data.errorCode === 10000) {
+        this.authItems = response.data.data;
+        this.getParentKeys(this.authItems);
+      } else {
+        this.$notify.error({
+          title: '获取权限列表异常',
+          type: 'success',
+        });
+      }
+      this.loading = false;
+    }).catch((err) => {
+      this.loading = false;
+    });
   },
 };
 </script>
