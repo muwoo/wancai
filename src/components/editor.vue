@@ -27,7 +27,7 @@ export default {
             '|', 'link', 'unlink', 'table', 'img', 'video', 'insertcode', '|', 'undo', 'redo', 'fullscreen',
           ];
           editor.config.withCredentials = false;
-          editor.config.uploadImgUrl = '/upload.qiniu.com/';
+          editor.config.uploadImgUrl = '//upload.qiniu.com/';
           editor.config.uploadParams = {
             token: upToken,
             key: Math.random().toString(36).substring(4, 33),
