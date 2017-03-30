@@ -5,8 +5,6 @@
     <el-row>
       <v-editor
       :input-content="inputContent"
-      :upload-url="uploadUrl"
-      :uploadParams="upload_form"
       v-model="outputContent"></v-editor>
     </el-row>
     <el-row>
@@ -21,10 +19,8 @@ export default {
   name: 'contentSchool',
   data() {
     return {
-      inputContent: '',
+      inputContent: 'base content',
       outputContent: '',
-      uploadUrl: '//upload.qiniu.com/',
-      upload_form: {},
     };
   },
   methods: {
@@ -34,20 +30,6 @@ export default {
   },
   components: {
     'v-editor': Editor,
-  },
-  mounted() {
-    this.$http.get('/qiniu/token').then((response) => {
-      const {
-        data: {
-          fileName, upToken,
-        },
-      } = response.data;
-      this.upload_form = {
-        key: fileName,
-        token: upToken,
-      };
-    }).catch((error) => {
-    });
   },
 };
 </script>
