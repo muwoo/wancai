@@ -26,6 +26,8 @@ import contentNotice from '../views/admin/content/notice';
 import contentProtocol from '../views/admin/content/protocol';
 import contentRule from '../views/admin/content/rule';
 import contentSchool from '../views/admin/content/school';
+import contentAdd from '../views/admin/content/add';
+import contentEdit from '../views/admin/content/edit';
 
 import middleManBlackList from '../views/admin/middleman/blacklist';
 import middleManPending from '../views/admin/middleman/pending';
@@ -265,6 +267,8 @@ const router = new Router({
         { path: 'school', component: contentSchool, alias: '学堂管理' },
         { path: 'rule', component: contentRule, alias: '规则管理' },
         { path: 'protocol', component: contentProtocol, alias: '协议与文章管理' },
+        { path: 'add', component: contentAdd, alias: '新增内容' },
+        { path: 'edit/:id', component: contentEdit, alias: '修改内容', hidden: true },
       ],
       meta: {
         requireAuth: true,
