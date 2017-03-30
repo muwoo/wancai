@@ -5,44 +5,26 @@
 import WangEditor from 'wangeditor';
 /* eslint-disable */
 export default {
-  props: ['inputContent'],
+  props: ['inputContent', 'uploadUrl'],
   data() {
     return {
       content: '',
-      token: '',
     };
   },
   methods: {
     createEditor() {
       const self = this;
       const editor = new WangEditor('editor');
-      this.$http.get('/qiniu/token').then((response) => {
-        const {
-          data: {
-            fileName, upToken,
-          },
-        } = response.data;
-        if (response.data.errorCode === 10000) {
-          editor.config.menus = ['source', '|', 'eraser', 'bold', 'underline', 'italic', 'strikethrough', 'forecolor', 'bgcolor', '|', 'quote', 'fontfamily', 'fontsize', 'head', 'unorderlist', 'orderlist', 'alignleft', 'aligncenter', 'alignright',
-            '|', 'link', 'unlink', 'table', 'img', 'video', 'insertcode', '|', 'undo', 'redo', 'fullscreen',
-          ];
-          editor.config.uploadImgUrl = '//upload.qiniu.com/';
-          editor.config.uploadParams = {
-            token: upToken,
-            key: Math.random().toString(36).substring(4, 33),
-          };
-          editor.onchange = function () {
-            self.formatContent(this.$txt.html());
-          };
-          editor.create();
-        } else {
-          this.$notify.error({
-            title: '编辑器初始化失败',
-            type: 'success',
-          });
-        }
-      }).catch((error) => {
-      });
+      editor.config.menus = ['source', '|', 'eraser', 'bold', 'underline', 'italic', 'strikethrough', 'forecolor', 'bgcolor', '|', 'quote', 'fontfamily', 'fontsize', 'head', 'unorderlist', 'orderlist', 'alignleft', 'aligncenter', 'alignright',
+        '|', 'link', 'unlink', 'table', 'img', 'video', 'insertcode', '|', 'undo', 'redo', 'fullscreen',
+      ];
+      // editor.config.uploadImgUrl = this.uploadUrl;
+      // editor.config.withCredentials = false;
+      // editor.config.uploadHeaders = { "X-Requested-With": "XMLHttpRequest" };
+      editor.onchange = function () {
+        self.formatContent(this.$txt.html());
+      };
+      editor.create();
     },
     formatContent(content) {
         // handle
