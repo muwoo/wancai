@@ -103,9 +103,7 @@
     },
     mounted() {
       const admin = JSON.parse(sessionStorage.getItem('admin'));
-      if (admin) {
-        this.currentUser.name = admin.name.toString() || '';
-      }
+      this.currentUser.name = admin.username || '';
     },
   };
 </script>

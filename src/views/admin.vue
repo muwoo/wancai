@@ -69,7 +69,7 @@ export default {
   mounted() {
     this.currentPath = this.$route.path;
     const admin = JSON.parse(sessionStorage.getItem('admin'));
-    this.currentUser.name = admin.name || '';
+    this.currentUser.name = admin.username || '';
   },
 };
 </script>
