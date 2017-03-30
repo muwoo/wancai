@@ -24,11 +24,11 @@
         <div class="recruit-btn">
           <el-button type="primary" size="large" @click.prevent="handleApplyDemand" >+ 招聘需求申请表</el-button>
         </div>
-        <el-menu :default-active="currentPath" :unique-opened='true' class="el-menu-vertical-demo" router>
+        <el-menu :default-active="currentPath" :unique-opened='true' class="el-menu-vertical-demo" @select="handleSelect">
           <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && item.isProjectManager">
             <el-submenu :index="index+''" v-if="!item.leaf">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
-              <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path + '?id=' + currentProject.id">{{child.alias}}</el-menu-item>
+              <el-menu-item v-for="child in item.children" v-if="!child.hidden" :index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
             </el-submenu>
           </template>
         </el-menu>
@@ -67,8 +67,9 @@ export default {
     },
   },
   methods: {
-    handleSelect() {
-      // console.log(this.$router.options.routes);
+    handleSelect(key, keyPath) {
+      const queryId = this.currentProject.id;
+      this.$router.replace(`${key}?id=${queryId}`);
     },
     handleApplyDemand() {
       this.$router.replace(`/project_manager/applyDemand?id=${this.currentProject.id}`);
@@ -122,7 +123,7 @@ export default {
       this.isLeftNav = false;
     }
     const projectManager = JSON.parse(sessionStorage.getItem('project_manager'));
-    this.currentUser.name = projectManager.data.name || '';
+    this.currentUser.name = projectManager.data.username || '';
 
     this.$http.post('/project/currentList', {
       pageNum: 1,
