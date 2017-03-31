@@ -69,7 +69,11 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       const queryId = this.currentProject.id;
-      this.$router.replace(`${key}?id=${queryId}`);
+      if (queryId) {
+        this.$router.replace(`${key}?id=${queryId}`);
+      } else {
+        this.$router.replace('/project_manager/profile');
+      }
     },
     handleApplyDemand() {
       this.$router.replace(`/project_manager/applyDemand?id=${this.currentProject.id}`);
