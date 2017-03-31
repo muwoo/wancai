@@ -8,14 +8,15 @@
           style="width: 100%;">
           <el-table-column
             prop="createdAt"
+            :formatter='formatCreatedDate'
             label="创建时间">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="roleName"
             label="角色名称">
           </el-table-column>
           <el-table-column
-            prop="comment"
+            prop="description"
             label="备注">
           </el-table-column>
           <el-table-column
@@ -38,24 +39,47 @@
 </template>
 
 <script>
+import util from '../../../common/util';
+
 export default {
   name: 'administratorRoleList',
   data() {
     return {
-      roles: [{
-        name: '超级管理员',
-        createdAt: '2015-1-1',
-        comment: '傻逼专用分组',
-      }],
+      roles: [],
     };
   },
   methods: {
     handleSetLimit(index, row) {
-
+      this.$router.push({ name: 'adminRoleEdit', params: { id: row.id } });
     },
     handleDelete(index, row) {
-
+      const params = {
+        id: row.id,
+      };
+      this.$http.post('/admin/role/delete', params).then((response) => {
+        if (response.data.errorCode === 10000) {
+          this.$notify({
+            title: '删除成功',
+            type: 'success',
+          });
+          this.getRoleList();
+        }
+      });
     },
+    formatCreatedDate(row, column) {
+      const date = new Date(parseInt(row.createdAt, 0));
+      return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+    },
+    getRoleList() {
+      this.$http.get('/admin/role/list').then((response) => {
+        if (response.data.errorCode === 10000) {
+          this.roles = response.data.data;
+        }
+      });
+    },
+  },
+  mounted() {
+    this.getRoleList();
   },
 };
 </script>

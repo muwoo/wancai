@@ -7,9 +7,15 @@
 <script>
 import Vue from 'vue';
 import Element from 'element-ui';
+import AMap from 'vue-amap';
 import 'element-ui/lib/theme-default/index.css';
 import router from './router';
 
+Vue.use(AMap);
+AMap.initAMapApiLoader({
+  key: '6bcd28bf614c37b23cbe45d3a74096ba',
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+});
 Vue.use(Element);
 
 export default {
