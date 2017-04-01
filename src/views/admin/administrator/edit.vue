@@ -1,19 +1,19 @@
 <template>
   <div id="administratorRoleEdit">
     <el-form :model="roleInfo" label-width="240px" ref="roleForm">
-      <el-form-item label="角色名称">
+      <el-form-item label="角色名称：">
         <el-input v-model="roleInfo.name" placeholder="请输入内容" style="width: 240px;"></el-input>
       </el-form-item>
-      <el-form-item label="备注">
-        <el-input v-model="roleInfo.comment" placeholder="请输入内容" style="width: 340px;"></el-input>
+      <el-form-item label="备注：">
+        <el-input v-model="roleInfo.description" placeholder="请输入内容" style="width: 340px;"></el-input>
       </el-form-item>
-      <el-form-item label="权限">
+      <el-form-item label="权限：">
         <el-tree
           :data="authItems"
           show-checkbox
           node-key="id"
           :props="defaultProps"
-          :default-checked-keys="defualtCheckedKeys"
+          :default-checked-keys="defaultCheckedKeys"
           :default-expanded-keys="defaultExpandedKeys"
           ref="tree"
           style="width: 400px;"
@@ -21,7 +21,7 @@
         </el-tree>
       </el-form-item>
       <el-form-item label=''>
-        <el-button type="primary" @click="handleSubmit">确认新建</el-button>
+        <el-button type="primary" @click="handleSubmit">确认修改</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -34,22 +34,33 @@ export default {
     return {
       roleInfo: {
         name: '',
-        comment: '',
-        auth: '',
+        description: '',
+        auths: '',
       },
       authItems: [],
       defaultProps: {
         label: 'permission',
         children: 'children',
       },
-      defualtCheckedKeys: [],
+      defaultCheckedKeys: [],
       defaultExpandedKeys: [],
       loading: false,
     };
   },
   methods: {
     handleSubmit() {
-      console.log(this.$refs.tree.getCheckedKeys());
+      console.log(this.getFinalCheckKeys());
+      const params = {
+        id: this.$route.params.id,
+        roleName: this.roleInfo.name,
+        description: this.roleInfo.description,
+        arr: this.getFinalCheckKeys(),
+      };
+      this.$http.post('/admin/role/modify', params).then((response) => {
+        console.log(response);
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     getParentKeys(array) {
       this.defaultExpandedKeys = [];
@@ -59,10 +70,43 @@ export default {
           this.defaultExpandedKeys.push(id);
         }
       }
-      this.defualtCheckedKeys = this.defaultExpandedKeys;
+    },
+    getFinalCheckKeys(array) {
+      // eslint-disable-next-line
+      const childArray = this.$refs.tree.getCheckedNodes().map((node) => {
+        return node.id;
+      });
+      // eslint-disable-next-line
+      const parentArray = this.$refs.tree.getCheckedNodes().map((node) => {
+        return node.parentId;
+      });
+
+      const finalArray = childArray.concat(parentArray);
+      const uniqFinalArray = Array.from(new Set(finalArray));
+      // eslint-disable-next-line
+      return uniqFinalArray.filter((arr) => {
+        return arr !== 0;
+      });
+    },
+    setCheckedKeys(array) {
+      this.defaultCheckedKeys = [];
+      for (let i = 0; i < array.length; i += 1) {
+        for (let j = 0; j < array[i].children.length; j += 1) {
+          this.defaultCheckedKeys.push(array[i].children[j].id);
+        }
+      }
+    },
+    getArray(array) {
+      const newArray = [];
+      for (let i = 0; i < array.length; i += 1) {
+        const id = array[i];
+        newArray.push(id);
+      }
+      return newArray;
     },
   },
   mounted() {
+    const that = this;
     this.loading = true;
     this.$http.get('/admin/permissions/list').then((response) => {
       if (response.data.errorCode === 10000) {
@@ -78,11 +122,19 @@ export default {
     }).catch((err) => {
       this.loading = false;
     });
+    this.$http.get(`/admin/role/detail?id=${this.$route.params.id}`).then((res) => {
+      if (res.data.errorCode === 10000) {
+        this.roleInfo.description = res.data.data.description;
+        this.roleInfo.name = res.data.data.roleName;
+        this.roleInfo.auths = res.data.data.permissionList;
+        this.setCheckedKeys(this.roleInfo.auths);
+      }
+    });
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  #administratorNewRole {
+  #administratorRoleEdit {
   }
 </style>
