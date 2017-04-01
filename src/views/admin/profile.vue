@@ -17,7 +17,7 @@
       <el-col :span="7" :offset="1" class="content-eol ">
         <el-row class="unit-row">
           <el-col :span="8">
-            {{ currentUser.name }}
+            {{ currentUser.username }}
           </el-col>
           <el-col :span="3">
             {{ currentUser.sex | formatSex }}
@@ -25,15 +25,13 @@
         </el-row>
         <el-row class="unit-row">{{ currentUser.idCard }}</el-row>
         <el-row class="unit-row">生日：{{ currentUser.birthday | formatBirthday }}</el-row>
-        <!-- <el-row class="unit-row"></el-row>
-        <el-row class="unit-row"></el-row> -->
       </el-col>
       <el-col :span="7" :offset="1" class="content-eol">
         <el-row class="unit-row">手机号码：{{ currentUser.phone }}</el-row>
         <el-row class="unit-row">邮箱：{{ currentUser.eMail }}</el-row>
         <el-row class="unit-row">QQ：{{ currentUser.qq }}</el-row>
         <el-row class="unit-row">微信号：{{ currentUser.weChat }}</el-row>
-        <el-row class="unit-row">电话：{{ currentUser.telphone }}</el-row>
+        <el-row class="unit-row">电话：{{ currentUser.telephone }}</el-row>
         <el-row class="unit-row">短号：{{ currentUser.cornet }}</el-row>
       </el-col>
       <el-col class="btn-row" :span="4">
@@ -55,18 +53,18 @@
         BigImageVisible: false,
         currentImage: '',
         currentUser: {
-          name: '赵日天',
-          createdAt: 1489678919000,
+          username: '',
+          createdAt: '',
           avatar: '',
           sex: 1,
-          idCard: '1235123123',
-          birthday: 1489678919000,
-          phone: '139123123',
-          eMail: '123214@qq.com',
-          qq: '1235',
-          weChat: 'libra',
-          telphone: '123',
-          cornet: '321',
+          idCard: '',
+          birthday: '',
+          phone: '',
+          eMail: '',
+          qq: '',
+          weChat: '',
+          telephone: '',
+          cornet: '',
         },
       };
     },
@@ -103,7 +101,16 @@
     },
     mounted() {
       const admin = JSON.parse(sessionStorage.getItem('admin'));
-      this.currentUser.name = admin.username || '';
+      this.$http.get(`admin/user/detail?id=${admin.id}`).then((res) => {
+        if (res.data.errorCode === 10000) {
+          this.currentUser = res.data.data;
+        } else {
+          this.$notify.error({
+            title: '获取个人信息异常',
+            type: 'success',
+          });
+        }
+      });
     },
   };
 </script>

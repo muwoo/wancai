@@ -42,9 +42,9 @@
     <div class="tips"></div>
     <div class="card-panel"
       v-loading="loading">
-      <administratorInfo v-for="info in infos" :administrator="info"
+      <administratorInfo v-for="(info, index) in infos" :administrator="info"
       @handleEdit="handleEdit(this.event, info)"
-      @handleDelete="handleDelete(this.event, info)"
+      @handleDelete="handleDelete(this.event, info, index)"
       style="margin-top: 10px;" ></administratorInfo>
     </div>
     <el-col :span="24" style="margin-top:10px;">
@@ -80,8 +80,22 @@
       handleEdit(event, obj) {
         this.$router.push({ name: 'administratorRoleEditAdmin', params: { id: obj.id } });
       },
-      handleDelete(event, obj) {
-        console.log(event);
+      handleDelete(event, obj, index) {
+        this.$http.post(`/admin/delete?id=${obj.id}`).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '已删除',
+              type: 'success',
+            });
+            this.infos.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((err) => {
+        });
       },
       handleSearchItem() {
         this.getAdministrators();
