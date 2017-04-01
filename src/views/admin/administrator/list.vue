@@ -45,11 +45,11 @@
       <administratorInfo v-for="info in infos" :administrator="info"
       @handleEdit="handleEdit(this.event, info)"
       @handleDelete="handleDelete(this.event, info)"
-      style="margin-top: 10px;" ></adminInfo>
-      <el-col :span="24" style="margin-top:10px;">
-        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
-      </el-col>
+      style="margin-top: 10px;" ></administratorInfo>
     </div>
+    <el-col :span="24" style="margin-top:10px;">
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+    </el-col>
   </div>
 </template>
 <script>
