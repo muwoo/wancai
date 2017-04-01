@@ -57,6 +57,7 @@ import administratorNew from '../views/admin/administrator/new';
 import administratorNewRole from '../views/admin/administrator/new_role';
 import administratorRoleList from '../views/admin/administrator/role_list';
 import administratorRoleEdit from '../views/admin/administrator/edit';
+import administratorRoleEditAdmin from '../views/admin/administrator/editAdmin';
 
 import itemList from '../views/admin/item/list';
 import itemNew from '../views/admin/item/new';
@@ -183,6 +184,7 @@ const router = new Router({
         { path: 'role_list', component: administratorRoleList, alias: '角色管理', name: 'administratorRoleList', id: 15 },
         { path: 'role_new', component: administratorNewRole, alias: '新建角色', id: 16 },
         { path: 'edit/:id', component: administratorRoleEdit, alias: '编辑角色', name: 'adminRoleEdit', hidden: true },
+        { path: 'edit_admin/:id', component: administratorRoleEditAdmin, alias: '编辑管理员', name: 'administratorRoleEditAdmin', hidden: true },
       ],
       meta: {
         requireAuth: true,

@@ -131,8 +131,6 @@
     methods: {
       handleAvatarScucess(response, file) {
         const key = response.key;
-        // const name = file.name;
-        // const img = `${this.bucketHost}/${encodeURI(key)}`;
         const img = `http://${this.bucketHost}/${key}`;
         this.projectManagerInfo.avatar = img;
       },

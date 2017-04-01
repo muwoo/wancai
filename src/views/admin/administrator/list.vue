@@ -78,7 +78,7 @@
     },
     methods: {
       handleEdit(event, obj) {
-        console.log(obj);
+        this.$router.push({ name: 'administratorRoleEditAdmin', params: { id: obj.id } });
       },
       handleDelete(event, obj) {
         console.log(event);
