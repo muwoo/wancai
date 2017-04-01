@@ -39,6 +39,23 @@
       </el-col>
     </el-row>
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
+    <el-dialog title="修改密码" v-model="modifyPasswordVisible">
+      <el-form :model="passwordForm">
+        <el-form-item label="原密码" :label-width="formLabelWidth">
+          <el-input v-model="passwordForm.oldPassword" auto-complete="off" style="width: 250px;"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" :label-width="formLabelWidth">
+          <el-input type="password" v-model="passwordForm.newPassword" auto-complete="off" style="width: 250px;"></el-input>
+        </el-form-item>
+        <el-form-item label="再次输入新密码" :label-width="formLabelWidth">
+          <el-input type="password" v-model="passwordForm.confirmPassword" auto-complete="off" style="width: 250px;"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="modifyPasswordVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitNewPassword">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -51,6 +68,8 @@
     data() {
       return {
         BigImageVisible: false,
+        modifyPasswordVisible: false,
+        formLabelWidth: '120px',
         currentImage: '',
         currentUser: {
           username: '',
@@ -66,6 +85,11 @@
           telephone: '',
           cornet: '',
         },
+        passwordForm: {
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: '',
+        },
       };
     },
     components: {
@@ -77,10 +101,42 @@
         this.BigImageVisible = true;
       },
       handleSetPassword() {
-
+        this.modifyPasswordVisible = true;
       },
       handleBigImageClose() {
         this.BigImageVisible = false;
+      },
+      submitNewPassword() {
+        this.modifyPasswordVisible = false;
+        const params = {
+          password: this.passwordForm.oldPassword,
+          newPassword: this.passwordForm.newPassword,
+        };
+        this.$http.post('/user/updatePassword', params).then((res) => {
+          if (res.data.errorCode === 10000) {
+            this.$notify({
+              title: '修改成功',
+              type: 'success',
+            });
+            this.logout();
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        });
+      },
+      logout() {
+        const that = this;
+        this.$confirm('确认退出吗?', '提示', {
+
+        }).then(() => {
+          sessionStorage.removeItem('admin');
+          that.$router.replace('/admin/login');
+        }).catch(() => {
+
+        });
       },
     },
     filters: {
