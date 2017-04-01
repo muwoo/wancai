@@ -17,9 +17,9 @@
         <el-menu :default-active="currentPath" :unique-opened='true' theme="dark" router>
           <template v-for="(item, index) in $router.options.routes" v-if="!item.hidden && item.isAdmin">
             <el-menu-item v-if="!item.hidden && item.isSingleMenu":index="item.path"><i :class="item.iconCls"></i>{{item.alias}}</el-menu-item>
-            <el-submenu :index="index+''" v-if="!item.leaf && !item.isSingleMenu">
+            <el-submenu :index="index+''" v-if="!item.leaf && !item.isSingleMenu && verifyPermission(item)">
               <template slot="title"><i :class="item.iconCls"></i>{{item.alias}}</template>
-              <el-menu-item v-for="child in item.children" v-if="!child.hidden":index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
+              <el-menu-item v-for="child in item.children" v-if="!child.hidden && verifyPermission(child)":index="item.path + '/' + child.path">{{child.alias}}</el-menu-item>
             </el-submenu>
           </template>
         </el-menu>
@@ -39,6 +39,7 @@ export default {
   data() {
     return {
       currentPath: '',
+      auths: [],
       currentUser: {
         name: '',
       },
@@ -53,6 +54,20 @@ export default {
     },
   },
   methods: {
+    // 权限验证
+    verifyPermission(item) {
+      const id = item.id;
+      if (id) {
+        // eslint-disable-next-line
+        const arrIndex = this.auths.findIndex((el, index, arr) => {
+          return el === id;
+        });
+        if (arrIndex !== -1) {
+          return true;
+        }
+      }
+      return false;
+    },
     // 退出登录
     logout() {
       const that = this;
@@ -67,9 +82,16 @@ export default {
     },
   },
   mounted() {
+    const that = this;
     this.currentPath = this.$route.path;
     const admin = JSON.parse(sessionStorage.getItem('admin'));
     this.currentUser.name = admin.username || '';
+    this.$http.get('/user/permissions/list').then((res) => {
+      if (res.data.errorCode === 10000) {
+        this.auths = res.data.data;
+      }
+    });
+    // console.log(this.auths);
   },
 };
 </script>
