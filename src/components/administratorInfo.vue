@@ -2,7 +2,8 @@
   <div id="administratorInfo">
     <el-row class="top">
       <el-col :span="4">ID：{{ administrator.id }}</el-col>
-      <el-col :span="8" :offset="12">
+      <el-col :span="2">{{ administrator.roleName }}</el-col>
+      <el-col :span="8" :offset="10">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
           创建时间：{{ administrator.createdAt | formatDate }}
         </el-row>
