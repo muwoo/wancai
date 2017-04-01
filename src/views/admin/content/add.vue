@@ -32,31 +32,52 @@ export default {
   data() {
     return {
       contentInfo: {
+        title: '',
         inputContent: '',
         outputContent: '',
-        type: 0,
+        type: 1,
       },
       contentTypes: [{
-        value: 0,
+        value: 1,
         label: '公告',
       },
       {
-        value: 1,
+        value: 2,
         label: '学堂',
       },
       {
-        value: 2,
+        value: 3,
         label: '规则',
       },
       {
-        value: 3,
+        value: 4,
         label: '协议与文章',
       }],
     };
   },
   methods: {
     submit() {
-      console.log(this.outputContent);
+      const params = {
+        title: this.contentInfo.title,
+        type: this.contentInfo.type,
+        content: this.cookHtml(this.contentInfo.outputContent),
+      };
+      this.$http.post('/news/add', params).then((response) => {
+        if (response.data.errorCode === 10000) {
+          this.$notify({
+            title: '新建成功',
+            type: 'success',
+          });
+        } else {
+          this.$notify.error({
+            title: '新建失败',
+            type: 'success',
+          });
+        }
+      });
+    },
+    cookHtml(bodyContent) {
+      return `<!DOCTYPE html><head><meta charset="UTF-8"><title>${this.contentInfo.title}</title></head><body>${this.contentInfo.outputContent}</body></html>`;
     },
   },
   components: {
