@@ -17,7 +17,7 @@
       <el-col :span="7" :offset="1" class="content-eol">
         <el-row class="unit-row">
           <el-col :span="8">
-            {{ administrator.name }}
+            {{ administrator.username }}
           </el-col>
           <el-col :span="3">
             {{ administrator.sex | formatSex }}
@@ -31,7 +31,7 @@
         <el-row class="unit-row">邮箱：{{ administrator.eMail }}</el-row>
         <el-row class="unit-row">QQ：{{ administrator.qq }}</el-row>
         <el-row class="unit-row">微信号：{{ administrator.weChat }}</el-row>
-        <el-row class="unit-row">电话：{{ administrator.telphone }}</el-row>
+        <el-row class="unit-row">电话：{{ administrator.phone }}</el-row>
         <el-row class="unit-row">短号：{{ administrator.cornet }}</el-row>
       </el-col>
       <el-col class="btn-row" :span="3" :offset="1">

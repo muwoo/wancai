@@ -17,17 +17,32 @@
             <el-form-item label='姓名：' style="width: 100%;">
                 <el-input v-model="adminInfo.name" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
+          </el-col>
         </el-col>
+        <el-col :span="24">
+          <el-col :span="8">
+            <el-form-item label='选择角色：' prop="role" style="width: 500px;">
+              <el-select v-model="adminInfo.roleId" placeholder="请选择">
+                <el-option
+                  v-for="item in adminInfo.roles"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item>
+              <el-button type="primary" @click="handleSearchItem">搜索管理员</el-button>
+            </el-form-item>
+          </el-col>
         </el-col>
       </el-row>
-      <el-form-item>
-        <el-button type="primary" @click="handleSearchItem">搜索名单</el-button>
-      </el-form-item>
     </el-form>
     <div class="tips"></div>
     <div class="card-panel"
       v-loading="loading">
-      <administratorInfo v-for="info in infos" :projectManager="info"
+      <administratorInfo v-for="info in infos" :administrator="info"
       @handleEdit="handleEdit(this.event, info)"
       @handleDelete="handleDelete(this.event, info)"
       style="margin-top: 10px;" ></adminInfo>
@@ -51,12 +66,13 @@
           idCard: '',
           phoneNumber: '',
           name: '',
+          roleId: 0,
+          roles: [{ value: 0, label: '不限' }],
         },
         infos: [],
         currentPage: 1,
-        pageSize: 20,
+        pageSize: 10,
         pageCount: 0,
-        totalProjectSize: 100,
         loading: false,
       };
     },
@@ -68,40 +84,55 @@
         console.log(event);
       },
       handleSearchItem() {
-        this.getProjectManagers();
+        this.getAdministrators();
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;
-        this.getProjectManagers();
+        this.getAdministrators();
       },
-      getProjectManagers() {
+      getAdministrators() {
         this.loading = true;
+        const roleType = this.adminInfo.roleId === 0 ? '' : this.adminInfo.roleId;
         const params = {
           pageNum: this.currentPage,
           pageSize: this.pageSize,
           idCard: this.adminInfo.idCard,
           phone: this.adminInfo.phone,
           name: this.adminInfo.name,
+          rolesId: roleType,
         };
         // console.log(params);
-        this.$http.post('/manager/list', params).then((response) => {
+        this.$http.post('/admin/user/list', params).then((response) => {
           const {
             data: {
-              list, pages, total, pageNum,
+              list, pages, pageNum,
             },
           } = response.data;
-          this.totalProjectSize = total;
           this.currentPage = pageNum;
           this.pageCount = pages;
           this.infos = list;
           this.loading = false;
+          console.log(this.infos);
         }).catch((error) => {
           console.log(error);
           this.loading = false;
         });
       },
+      cookRoles(allRoles) {
+        for (let i = 0; i < allRoles.length; i += 1) {
+          const tmp = allRoles[i];
+          this.adminInfo.roles.push({ value: tmp.id, label: tmp.roleName });
+        }
+      },
     },
     mounted() {
+      this.getAdministrators();
+      this.$http.get('/admin/role/list').then((response) => {
+        if (response.data.errorCode === 10000) {
+          const roles = response.data.data;
+          this.cookRoles(roles);
+        }
+      });
     },
   };
 </script>
