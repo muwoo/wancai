@@ -124,15 +124,16 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '经纪人',
       children: [
-        { path: 'pending', component: middleManPending, alias: '待审核' },
-        { path: 'success', component: middleManSuccess, alias: '审核通过' },
-        { path: 'refused', component: middleManRefused, alias: '审核不通过' },
-        { path: 'blacklist', component: middleManBlackList, alias: '黑名单' },
+        { path: 'pending', component: middleManPending, alias: '待审核', id: 2 },
+        { path: 'success', component: middleManSuccess, alias: '审核通过', id: 3 },
+        { path: 'refused', component: middleManRefused, alias: '审核不通过', id: 4 },
+        { path: 'blacklist', component: middleManBlackList, alias: '黑名单', id: 5 },
       ],
       meta: {
         requireAuth: true,
         isAdmin: true,
       },
+      id: 1,
     },
     {
       path: '/admin/project_manager',
@@ -142,14 +143,15 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '项目经理',
       children: [
-        { path: 'list', component: projectManagerList, alias: '项目经理管理' },
-        { path: 'new', component: projectManagerNew, alias: '添加项目经理' },
+        { path: 'list', component: projectManagerList, alias: '项目经理管理', id: 7 },
+        { path: 'new', component: projectManagerNew, alias: '添加项目经理', id: 8 },
         { path: 'edit/:id', component: projectManagerEdit, name: 'adminProjectManagerEdit', hidden: true, alias: '修改项目经理' },
       ],
       meta: {
         requireAuth: true,
         isAdmin: true,
       },
+      id: 6,
     },
     {
       path: '/admin/business',
@@ -159,13 +161,14 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '商家',
       children: [
-        { path: 'list', component: businessList, alias: '商家管理' },
-        { path: 'blacklist', component: businessBlackList, alias: '黑名单' },
+        { path: 'list', component: businessList, alias: '商家管理', id: 10 },
+        { path: 'blacklist', component: businessBlackList, alias: '黑名单', id: 11 },
       ],
       meta: {
         requireAuth: true,
         isAdmin: true,
       },
+      id: 9,
     },
     {
       path: '/admin/administrator',
@@ -175,16 +178,17 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '管理员',
       children: [
-        { path: 'list', component: administratorList, alias: '管理员管理' },
-        { path: 'new', component: administratorNew, alias: '新建管理员' },
-        { path: 'role_list', component: administratorRoleList, alias: '角色管理', name: 'administratorRoleList' },
-        { path: 'role_new', component: administratorNewRole, alias: '新建角色' },
+        { path: 'list', component: administratorList, alias: '管理员管理', id: 13 },
+        { path: 'new', component: administratorNew, alias: '新建管理员', id: 14 },
+        { path: 'role_list', component: administratorRoleList, alias: '角色管理', name: 'administratorRoleList', id: 15 },
+        { path: 'role_new', component: administratorNewRole, alias: '新建角色', id: 16 },
         { path: 'edit/:id', component: administratorRoleEdit, alias: '编辑角色', name: 'adminRoleEdit', hidden: true },
       ],
       meta: {
         requireAuth: true,
         isAdmin: true,
       },
+      id: 12,
     },
     {
       path: '/admin/user',
@@ -194,13 +198,14 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '人才库',
       children: [
-        { path: 'list', component: userList, alias: '人才库管理' },
-        { path: 'blacklist', component: userBlackList, alias: '黑名单' },
+        { path: 'list', component: userList, alias: '人才库管理', id: 18 },
+        { path: 'blacklist', component: userBlackList, alias: '黑名单', id: 19 },
       ],
       meta: {
         requireAuth: true,
         isAdmin: true,
       },
+      id: 17,
     },
     {
       path: '/admin/item',
@@ -210,8 +215,8 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '项目管理',
       children: [
-        { path: 'publish', component: itemNew, alias: '新建项目' },
-        { path: 'list', component: itemList, alias: '项目管理' },
+        { path: 'publish', component: itemNew, alias: '新建项目', id: 21 },
+        { path: 'list', component: itemList, alias: '项目管理', id: 22 },
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
         { path: ':id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
       ],
@@ -219,6 +224,7 @@ const router = new Router({
         requireAuth: true,
         isAdmin: true,
       },
+      id: 20,
     },
     {
       path: '/admin/demand',
@@ -228,11 +234,11 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '需求管理',
       children: [
-        { path: 'pending', component: demandPending, alias: '待处理' },
-        { path: 'processed', component: demandProcessed, alias: '处理中' },
-        { path: 'completed', component: demandCompleted, alias: '已结束' },
-        { path: 'refused', component: demandRefused, alias: '已驳回' },
-        { path: 'cancled', component: demandCancled, alias: '已取消' },
+        { path: 'pending', component: demandPending, alias: '待处理', id: 24 },
+        { path: 'processed', component: demandProcessed, alias: '处理中', id: 25 },
+        { path: 'completed', component: demandCompleted, alias: '已结束', id: 26 },
+        { path: 'refused', component: demandRefused, alias: '已驳回', id: 27 },
+        { path: 'cancled', component: demandCancled, alias: '已取消', id: 47 },
         { path: ':id', component: demandShow, name: 'adminDemandShow', alias: '需求详情', hidden: true },
         { path: 'edit/:id', component: demandEdit, name: 'adminDemandEdit', alias: '需求修改', hidden: true },
       ],
@@ -240,6 +246,7 @@ const router = new Router({
         requireAuth: true,
         isAdmin: true,
       },
+      id: 23,
     },
     {
       path: '/admin/income',
@@ -249,13 +256,14 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '收入发放',
       children: [
-        { path: 'middleman', component: incomeMiddleMan, alias: '经纪人收入' },
-        { path: 'project_manager', component: incomeProjectManager, alias: '项目经理收入' },
+        { path: 'middleman', component: incomeMiddleMan, alias: '经纪人收入', id: 29 },
+        { path: 'project_manager', component: incomeProjectManager, alias: '项目经理收入', id: 30 },
       ],
       meta: {
         requireAuth: true,
         isAdmin: true,
       },
+      id: 28,
     },
     {
       path: '/admin/content',
@@ -265,17 +273,18 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '内容管理',
       children: [
-        { path: 'notice', component: contentNotice, alias: '公告管理' },
-        { path: 'school', component: contentSchool, alias: '学堂管理' },
-        { path: 'rule', component: contentRule, alias: '规则管理' },
-        { path: 'protocol', component: contentProtocol, alias: '协议与文章管理' },
-        { path: 'add', component: contentAdd, alias: '新增内容' },
+        { path: 'notice', component: contentNotice, alias: '公告管理', id: 42 },
+        { path: 'school', component: contentSchool, alias: '学堂管理', id: 43 },
+        { path: 'rule', component: contentRule, alias: '规则管理', id: 44 },
+        { path: 'protocol', component: contentProtocol, alias: '协议与文章管理', id: 45 },
+        { path: 'add', component: contentAdd, alias: '新增内容', id: 46 },
         { path: 'edit/:id', component: contentEdit, alias: '修改内容', hidden: true },
       ],
       meta: {
         requireAuth: true,
         isAdmin: true,
       },
+      id: 41,
     },
     {
       path: '/admin/profile',
