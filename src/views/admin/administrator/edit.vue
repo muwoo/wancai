@@ -49,7 +49,6 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log(this.getFinalCheckKeys());
       const params = {
         id: this.$route.params.id,
         roleName: this.roleInfo.name,
@@ -57,7 +56,13 @@ export default {
         arr: this.getFinalCheckKeys(),
       };
       this.$http.post('/admin/role/modify', params).then((response) => {
-        console.log(response);
+        if (response.data.errorCode === 10000) {
+          this.$notify({
+            title: '修改成功',
+            type: 'success',
+          });
+          this.getCurrentPermissions();
+        }
       }).catch((error) => {
         console.log(error);
       });
@@ -104,10 +109,26 @@ export default {
       }
       return newArray;
     },
+    getCurrentPermissions() {
+      this.$http.get(`/admin/role/detail?id=${this.$route.params.id}`).then((res) => {
+        if (res.data.errorCode === 10000) {
+          this.roleInfo.description = res.data.data.description;
+          this.roleInfo.name = res.data.data.roleName;
+          this.roleInfo.auths = res.data.data.permissionList;
+          this.setCheckedKeys(this.roleInfo.auths);
+        } else {
+          this.$notify.error({
+            title: '获取权限异常',
+            type: 'success',
+          });
+        }
+      });
+    },
   },
   mounted() {
     const that = this;
     this.loading = true;
+    this.getCurrentPermissions();
     this.$http.get('/admin/permissions/list').then((response) => {
       if (response.data.errorCode === 10000) {
         this.authItems = response.data.data;
@@ -121,14 +142,6 @@ export default {
       this.loading = false;
     }).catch((err) => {
       this.loading = false;
-    });
-    this.$http.get(`/admin/role/detail?id=${this.$route.params.id}`).then((res) => {
-      if (res.data.errorCode === 10000) {
-        this.roleInfo.description = res.data.data.description;
-        this.roleInfo.name = res.data.data.roleName;
-        this.roleInfo.auths = res.data.data.permissionList;
-        this.setCheckedKeys(this.roleInfo.auths);
-      }
     });
   },
 };
