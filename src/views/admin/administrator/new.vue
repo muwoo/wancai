@@ -38,7 +38,7 @@
           <el-radio :label='0'>女</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="生日：" prop="birhday" >
+      <el-form-item label="生日：" prop="birthday" >
         <el-date-picker
           v-model="administratorInfo.birthday"
           type="date"
@@ -90,23 +90,16 @@ export default {
         cornet: '',
         birthday: '',
         password: '',
-        role: 0,
+        role: 1,
       },
-      roles: [{
-        value: 0,
-        label: '一类管理员',
-      },
-      {
-        value: 1,
-        label: '二类管理员',
-      }],
+      roles: [],
       upload_form: {},
       publishing: false,
       bucketHost: 'olk6mtom3.bkt.clouddn.com',
       administratorInfoRules: {
-        role: [
-          { required: true, message: '请选择角色', trigger: 'blur' },
-        ],
+        // role: [
+        //   { required: true, message: '请选择角色', trigger: 'blur' },
+        // ],
         avatar: [
           { required: true, message: '请上传头像', trigger: 'blur' },
         ],
@@ -123,9 +116,9 @@ export default {
 //        sex: [
 //          { required: true, message: '请选择性别', trigger: 'blur' },
 //        ],
-        birthday: [
-          { required: true, message: '请选择出生年月', trigger: 'blur' },
-        ],
+        // birthday: [
+        //   { required: true, message: '请选择出生年月', trigger: 'blur' },
+        // ],
         eMail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
         ],
@@ -184,13 +177,19 @@ export default {
         callback();
       }
     },
+    cookRoles(allRoles) {
+      for (let i = 0; i < allRoles.length; i += 1) {
+        const tmp = allRoles[i];
+        this.roles.push({ value: tmp.id, label: tmp.roleName });
+      }
+    },
     handleSubmit() {
       this.$refs.administratorInfoForm.validate((valid) => {
         if (valid) {
           this.publishing = true;
-          this.$http.post('/manager/add', {
+          this.$http.post('/admin/add', {
+            rolesId: this.administratorInfo.role,
             avatar: this.administratorInfo.avatar,
-            // avatar: 'http://wx2.sinaimg.cn/mw690/62decd96ly1fdj0twby3fg20do07fu0z.gif',
             name: this.administratorInfo.name,
             phone: this.administratorInfo.phone,
             idCard: this.administratorInfo.idCard,
@@ -202,14 +201,20 @@ export default {
             telphone: this.administratorInfo.telphone,
             cornet: this.administratorInfo.cornet,
             password: this.administratorInfo.password,
+            status: 1,
           }).then((response) => {
             const { error, errorCode } = response.data;
             if (errorCode === 10000) {
-              this.$message({
-                message: '新建成功',
+              this.$notify({
+                title: '新建成功',
                 type: 'success',
               });
               this.$router.push('list');
+            } else {
+              this.$notify.error({
+                title: '新建失败',
+                type: 'success',
+              });
             }
             this.publishing = false;
           }).catch((error) => {
@@ -241,6 +246,12 @@ export default {
         token: upToken,
       };
     }).catch((error) => {
+    });
+    this.$http.get('/admin/role/list').then((response) => {
+      if (response.data.errorCode === 10000) {
+        const roles = response.data.data;
+        this.cookRoles(roles);
+      }
     });
   },
 };
