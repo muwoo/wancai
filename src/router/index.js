@@ -5,6 +5,8 @@ import adminLogin from '../views/login/adminLogin';
 import index from '../views/index';
 import admin from '../views/admin';
 import projectManager from '../views/projectManager';
+import adminPasswordFind from '../views/admin/password_find';
+import managerPasswordFind from '../views/projectManager/password_find';
 
 import projectmanagerApplyDemand from '../views/projectManager/applyDemand';
 import projectManagerProfile from '../views/projectManager/profile';
@@ -99,7 +101,8 @@ const router = new Router({
     },
     {
       path: '/admin/password_find',
-      name: 'admin_password_find',
+      name: 'adminPasswordFind',
+      component: adminPasswordFind,
       hidden: true,
     },
     {
@@ -309,7 +312,8 @@ const router = new Router({
     },
     {
       path: '/project_manager/password_find',
-      name: 'project_manager_password_find',
+      name: 'managerPasswordFind',
+      component: managerPasswordFind,
       hidden: true,
     },
     {
