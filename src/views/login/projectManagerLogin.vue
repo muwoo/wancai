@@ -15,7 +15,7 @@
           <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
         </el-form-item>
         <div class="passwordFind">
-          <router-link :to="{ name: 'project_manager_password_find'}" >忘记密码</router-link>
+          <router-link :to="{ name: 'managerPasswordFind'}" >忘记密码</router-link>
         </div>
         <el-button type="success" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
       </el-form>
