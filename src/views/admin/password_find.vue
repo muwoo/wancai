@@ -8,7 +8,7 @@
     <el-col :span="14"  class="panel-ads">
     </el-col>
     <el-col :span="10"  class="panel-login" >
-      <el-form v-if="isConfirm" :label-position='labelPosition' :model="verifyForm" :rules="verifyFormRules" ref="verifyForm" label-width="100px">
+      <el-form :label-position='labelPosition' :model="verifyForm" :rules="verifyFormRules" ref="verifyForm" label-width="100px">
         <h3 class="loginTitle"></h3>
         <el-form-item label="身份证号：" prop="idCard">
           <el-input type="text" v-model="verifyForm.idCard" auto-complete="off" placeholder="请输入身份证号"></el-input>
@@ -38,8 +38,6 @@ export default {
   data() {
     return {
       confirming: false,
-      isConfirm: true,
-      isModify: false,
       labelPosition: 'left',
       verifyForm: {
         idCard: '',
@@ -55,10 +53,10 @@ export default {
           { required: true, message: '请输入手机号', trigger: 'blur' },
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { validator: this.validatePass, trigger: 'blur' },
         ],
         checkPass: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
+          { validator: this.validateCheckPass, trigger: 'blur' },
         ],
       },
     };
@@ -77,8 +75,6 @@ export default {
             if (res.data.errorCode === 10000) {
               this.$message('修改通过');
               this.confirming = false;
-              this.isConfirm = false;
-              this.isModify = true;
             } else {
               this.$message.error(res.data.moreInfo);
               this.confirming = false;
@@ -88,12 +84,25 @@ export default {
         return false;
       });
     },
-  },
-  mounted() {
-    const projectManager = sessionStorage.getItem('project_manager');
-    if (projectManager) {
-      this.$router.push('');
-    }
+    validatePass(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.verifyForm.checkPass !== '') {
+          this.$refs.verifyForm.validateField('checkPass');
+        }
+        callback();
+      }
+    },
+    validateCheckPass(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.verifyForm.password) {
+        callback(new Error('两次输入密码不一致！'));
+      } else {
+        callback();
+      }
+    },
   },
 };
 </script>
