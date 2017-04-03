@@ -75,6 +75,7 @@ export default {
             if (res.data.errorCode === 10000) {
               this.$message('修改通过');
               this.confirming = false;
+              this.$router.replace({ name: 'adminLogin' });
             } else {
               this.$message.error(res.data.moreInfo);
               this.confirming = false;

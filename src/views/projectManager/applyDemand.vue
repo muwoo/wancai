@@ -58,16 +58,35 @@
       <el-form-item label="到岗时间：" style="width: 400px;">
         <el-input v-model="demandInfo.workTime" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <el-form-item v-for="interview in demandInfo.listDemandInterview" label="面试时间：">
+      <el-form-item v-for="(interview, index) in demandInfo.listDemandInterview" label="面试时间：">
         <el-col :span="9">
           <el-input v-model="interview.interviewTime" placeholder="请输入内容"></el-input>
         </el-col>
         <el-col :span="3" style="text-align: right;">面试地点：</el-col>
-        <el-col :span="12">
-          <el-input v-model="interview.interviewAddress" placeholder="请输入内容"></el-input>
+        <el-col :span="6">
+          <el-input v-model="interview.interviewAddress" placeholder="请在地图上进行选择"></el-input>
+        </el-col>
+        <el-col :span="3" :offset="1">
+          <el-button @click="handleShowMap(this.event, index)">地图</el-button>
         </el-col>
       </el-form-item>
-      <el-form-item>
+      <div v-if="isMapShow">
+        <el-input v-model="mapConfig.keyword" placeholder="搜索地点，并进行选择" style="width: 440px; margin-bottom: 5px;"></el-input>
+        <baidu-map class="map-container"
+        :scroll-wheel-zoom="true"
+        :center="mapConfig.center"
+        :zoom="mapConfig.zoom">
+          <bm-view class="bm-view">
+          </bm-view>
+          <bm-local-search
+            :keyword="mapConfig.keyword"
+            :auto-viewport="true"
+            :location="mapConfig.location"
+            @infohtmlset="infohtmlset">
+          </bm-local-search>
+        </baidu-map>
+      </div>
+      <el-form-item v-if="!isMapShow">
         <el-button type="text" @click="handleAddInterview">+添加面试安排</el-button>
         <el-button v-if="demandInfo.listDemandInterview.length > 1" type="text" @click="handleDelInterview">-删减面试安排</el-button>
       </el-form-item>
@@ -222,7 +241,15 @@ export default {
           applyNumber: 0,
         }],
       },
+      mapConfig: {
+        location: '',
+        keyword: '',
+        center: { lng: 121.59996, lat: 31.197646 },
+        zoom: 12,
+      },
+      currentMapIndex: 0,
       publishing: false,
+      isMapShow: false,
       staffType: [{
         value: 1,
         label: '快递员',
@@ -405,6 +432,16 @@ export default {
         return false;
       });
     },
+    handleShowMap(event, index) {
+      this.isMapShow = !this.isMapShow;
+      this.currentMapIndex = index;
+    },
+    infohtmlset(poi) {
+      this.demandInfo.listDemandInterview[this.currentMapIndex].interviewAddress = `${poi.city}${poi.address}${poi.title}`;
+      this.demandInfo.listDemandInterview[this.currentMapIndex].latitude = poi.point.lat;
+      this.demandInfo.listDemandInterview[this.currentMapIndex].longitude = poi.point.lng;
+      this.isMapShow = false;
+    },
   },
   filters: {
     formatScheduleDate(date) {
@@ -432,6 +469,12 @@ export default {
   }
   .tips {
     border-bottom: 1px solid #e5e9f2;
+  }
+  .map-container {
+    .bm-view {
+      width: 100%;
+      height: 400px;
+    }
   }
 }
 </style>
