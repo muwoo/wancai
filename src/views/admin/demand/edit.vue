@@ -209,6 +209,7 @@
     name: 'adminDemandEdit',
     data() {
       return {
+        loading: false,
         demandInfo: {
           type: 0,
           title: '',
