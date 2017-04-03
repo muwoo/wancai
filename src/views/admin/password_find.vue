@@ -28,13 +28,8 @@
   </el-row>
 </template>
 <script>
-import logo from '../../components/logo';
-
 export default {
   name: 'adminPasswordFind',
-  components: {
-    logo,
-  },
   data() {
     return {
       confirming: false,
