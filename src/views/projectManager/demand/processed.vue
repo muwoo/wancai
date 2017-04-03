@@ -95,6 +95,7 @@
     },
     methods: {
       handleDemandDetail(index, row) {
+        this.$router.push({ name: 'projectManagerDemandShow', params: { id: row.id }, query: { id: this.$route.query.id } });
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;
