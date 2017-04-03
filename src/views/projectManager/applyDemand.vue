@@ -412,7 +412,7 @@ export default {
             listDemandInterview: this.demandInfo.listDemandInterview,
             listSchedulingInformation: this.demandInfo.listSchedulingInformation,
           };
-          this.$http.post('/demand/add', params).then((response) => {
+          this.$http.post(`${this.$managerURL}/demand/add`, params).then((response) => {
             if (response.data.errorCode === 10000) {
               this.$notify({
                 title: '发布成功',

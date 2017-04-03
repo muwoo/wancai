@@ -109,7 +109,6 @@ export default {
         sessionStorage.removeItem('project_manager');
         that.$router.replace('/project_manager/login');
       }).catch(() => {
-
       });
     },
   },
@@ -129,7 +128,7 @@ export default {
     const projectManager = JSON.parse(sessionStorage.getItem('project_manager'));
     this.currentUser.name = projectManager.data.username || '';
 
-    this.$http.post('/project/currentList', {
+    this.$http.post(`${this.$managerURL}/project/currentList`, {
       pageNum: 1,
       pageSize: 50,
     }).then((response) => {

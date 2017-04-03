@@ -56,7 +56,7 @@ export default {
           params.append('u', this.loginForm.account);
           params.append('p', this.loginForm.password);
 
-          this.$http.post('/login', params, {
+          this.$http.post(`${this.$managerURL}/login`, params, {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
               // 'Content-Type': 'application/json',

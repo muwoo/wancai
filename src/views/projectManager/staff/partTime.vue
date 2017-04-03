@@ -174,7 +174,7 @@ export default {
         type: 0,
       };
       this.loading = true;
-      this.$http.post('/project/talent/list', params).then((response) => {
+      this.$http.post(`${this.$managerURL}/project/talent/list`, params).then((response) => {
         const {
           data: {
             list, pages, pageNum,
@@ -241,7 +241,7 @@ export default {
       this.handleEditUserStatus(obj, 10, index, '已考勤');
     },
     handleRevertStatus(event, obj, index) {
-      this.$http.post(`/talent/restoreStatus?id=${obj.id}`).then((response) => {
+      this.$http.post(`${this.$managerURL}/talent/restoreStatus?id=${obj.id}`).then((response) => {
         if (response.data.errorCode === 10000) {
           this.$notify({
             title: '已恢复',
@@ -263,7 +263,7 @@ export default {
         id: obj.id,
         talentStatus: currentStatus,
       };
-      this.$http.post('/talent/updateStatus', params).then((response) => {
+      this.$http.post(`${this.$managerURL}/talent/updateStatus`, params).then((response) => {
         if (response.data.errorCode === 10000) {
           this.$notify({
             title: msg,
