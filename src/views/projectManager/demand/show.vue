@@ -412,7 +412,7 @@
         }
       },
       handleDetail(event, obj) {
-        window.open(`#/user/${obj.talent.id}`, 'target_blank');
+        window.open(`#/project_user/${obj.talent.id}`, 'target_blank');
       },
       handleInvalidInfo(event, obj, index) {
         this.handleEditUserStatus(obj, 1, index, '名单无效');

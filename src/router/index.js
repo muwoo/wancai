@@ -24,6 +24,7 @@ import projectManagerStaffPartTime from '../views/projectManager/staff/partTime'
 import projectManagerItemDashboard from '../views/projectManager/item/dashboard';
 
 import employe from '../components/employe';
+import projectEmploye from '../components/projectEmploye';
 import adminProfile from '../views/admin/profile';
 
 import contentNotice from '../views/admin/content/notice';
@@ -93,6 +94,16 @@ const router = new Router({
       meta: {
         requireAuth: true,
         isAdmin: true,
+      },
+    },
+    {
+      path: '/project_user/:id',
+      name: 'projectEmploye',
+      component: projectEmploye,
+      hidden: true,
+      meta: {
+        requireAuth: true,
+        isProjectManager: true,
       },
     },
     {
