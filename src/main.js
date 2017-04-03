@@ -7,6 +7,7 @@ import store from './store';
 import axiosInstance from './http';
 
 Vue.prototype.$http = axiosInstance;
+Vue.prototype.$managerURL = 'http://120.77.253.107:9092/manager';
 /* eslint-disable no-new */
 new Vue({
   router,
