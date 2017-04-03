@@ -515,7 +515,7 @@
             this.getPlans();
           } else {
             this.$notify.error({
-              title: '刷新异常',
+              title: `${response.data.moreInfo}`,
               type: 'success',
             });
           }
@@ -537,7 +537,7 @@
             this.getPlans();
           } else {
             this.$notify.error({
-              title: '刷新异常',
+              title: '结束异常',
               type: 'success',
             });
           }
