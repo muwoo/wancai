@@ -2,7 +2,8 @@ import axios from 'axios';
 import router from './router';
 /* eslint-disable */
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.31.253:9090',
+  // baseURL: 'http://192.168.31.253:9090',
+  baseURL: 'http://120.77.253.107:9093/bos',
   headers: {
     // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     'Content-Type': 'application/json',
