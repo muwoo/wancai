@@ -15,6 +15,8 @@ import projectManagerDemandProcessed from '../views/projectManager/demand/proces
 import projectManagerDemandRefused from '../views/projectManager/demand/refused';
 import projectManagerDemandCompleted from '../views/projectManager/demand/completed';
 import projectManagerDemandCancled from '../views/projectManager/demand/cancled';
+import projectManagerDemandEdit from '../views/projectManager/demand/edit';
+import projectManagerDemandShow from '../views/projectManager/demand/show';
 
 import projectManagerStaffFullTime from '../views/projectManager/staff/fullTime';
 import projectManagerStaffPartTime from '../views/projectManager/staff/partTime';
@@ -345,6 +347,8 @@ const router = new Router({
         { path: 'refused', component: projectManagerDemandRefused, alias: '已驳回' },
         { path: 'completed', component: projectManagerDemandCompleted, alias: '已结束' },
         { path: 'cancled', component: projectManagerDemandCancled, alias: '已取消' },
+        { path: 'edit/:id', component: projectManagerDemandEdit, alias: '编辑', name: 'projectManagerDemandEdit', hidden: true },
+        { path: 'show/:id', component: projectManagerDemandShow, alias: '详情', name: 'projectManagerDemandShow', hidden: true },
       ],
       meta: {
         requireAuth: true,

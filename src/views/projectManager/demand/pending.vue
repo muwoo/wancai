@@ -101,9 +101,10 @@
     },
     methods: {
       handleDemandDetail(index, row) {
+        this.$router.push({ name: 'projectManagerDemandEdit', params: { id: row.id }, query: { id: this.$route.query.id } });
       },
       handleDemandSet(index, row) {
-
+        this.$router.push({ name: 'projectManagerDemandShow', params: { id: row.id } });
       },
       handleDemandCancled(index, row) {
 
