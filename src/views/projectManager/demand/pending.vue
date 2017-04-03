@@ -79,7 +79,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-col :span="24"style="margin-top:10px;">
+    <el-col :span="24"style="margin-top:10px;" v-if="demands.length > 0">
       <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
     </el-col>
   </div>
@@ -123,7 +123,7 @@
           pageSize: this.pageSize,
           status: 0,
         };
-        this.$http.post('/demand/listdemand', params).then((response) => {
+        this.$http.post(`${this.$managerURL}/demand/listdemand`, params).then((response) => {
           const {
             data: {
               list, pages, total, pageNum,
