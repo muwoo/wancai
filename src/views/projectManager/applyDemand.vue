@@ -7,7 +7,7 @@
       <el-step title="招聘经纪人提交求职者名单"></el-step>
     </el-steps>
     <!-- 需求表表单 -->
-    <el-form ref="demandInfoForm" :rules="demandInfoRules" label-width="100px">
+    <el-form :model="demandInfo" ref="demandInfoForm" :rules="demandInfoRules" label-width="100px">
       <h1 class="tips">需求表</h1>
       <el-form-item prop="title" label="表名：" style="width: 400px;">
         <el-input v-model="demandInfo.title" placeholder="请输入内容"></el-input>
@@ -430,49 +430,71 @@ export default {
       }
     },
     handleSubmit() {
-      this.$refs.applyDemandForm.validate((valid) => {
-        if (valid) {
-          this.publishing = false;
-          const params = {
-            projectId: this.$route.query.id,
-            title: this.demandInfo.title,
-            type: this.demandInfo.type,
-            job: this.demandInfo.job,
-            applyReason: this.demandInfo.applyReason,
-            workType: this.demandInfo.workType,
-            settlementType: this.demandInfo.settlementType,
-            salary: this.demandInfo.salary,
-            applyNumber: this.demandInfo.applyNumber,
-            education: this.demandInfo.education,
-            profession: this.demandInfo.profession,
-            workExperience: this.demandInfo.workExperience,
-            request: this.demandInfo.request,
-            sex: this.demandInfo.sex,
-            maxAge: this.demandInfo.maxAge,
-            minAge: this.demandInfo.minAge,
-            workTime: this.demandInfo.workTime,
-            isMarry: this.demandInfo.isMarry,
-            listDemandInterview: this.demandInfo.listDemandInterview,
-            listSchedulingInformation: this.demandInfo.listSchedulingInformation,
-          };
-          this.$http.post(`${this.$managerURL}/demand/add`, params).then((response) => {
-            if (response.data.errorCode === 10000) {
-              this.$notify({
-                title: '发布成功',
-                type: 'success',
-              });
-            } else {
-              this.$notify.error({
-                title: '发布异常',
-                type: 'success',
-              });
+      this.$refs.demandInfoForm.validate((demandValid) => {
+        if (demandValid) {
+          this.$refs.requirementForm.validate((reqValid) => {
+            if (reqValid) {
+              if (this.demandInfo.type === 1) {
+                this.$refs.fullTimeForm.validate((fullValid) => {
+                  if (fullValid) {
+                    this.handlePublish();
+                  }
+                  return false;
+                });
+              } else if (this.demandInfo.type === 0) {
+                this.$refs.partTimeForm.validate((partValid) => {
+                  if (partValid) {
+                    this.handlePublish();
+                  }
+                  return false;
+                });
+              }
             }
-          }).catch((error) => {
-            console.log(error);
+            return false;
           });
-          this.$router.push({ path: 'demand/pending', query: { id: this.$route.query.id } });
         }
         return false;
+      });
+    },
+    handlePublish() {
+      this.publishing = false;
+      const params = {
+        projectId: this.$route.query.id,
+        title: this.demandInfo.title,
+        type: this.demandInfo.type,
+        job: this.demandInfo.job,
+        applyReason: this.demandInfo.applyReason,
+        workType: this.demandInfo.workType,
+        settlementType: this.demandInfo.settlementType,
+        salary: this.demandInfo.salary,
+        applyNumber: this.demandInfo.applyNumber,
+        education: this.demandInfo.education,
+        profession: this.demandInfo.profession,
+        workExperience: this.demandInfo.workExperience,
+        request: this.demandInfo.request,
+        sex: this.demandInfo.sex,
+        maxAge: this.demandInfo.maxAge,
+        minAge: this.demandInfo.minAge,
+        workTime: this.demandInfo.workTime,
+        isMarry: this.demandInfo.isMarry,
+        listDemandInterview: this.demandInfo.listDemandInterview,
+        listSchedulingInformation: this.demandInfo.listSchedulingInformation,
+      };
+      this.$http.post(`${this.$managerURL}/demand/add`, params).then((response) => {
+        if (response.data.errorCode === 10000) {
+          this.$notify({
+            title: '发布成功',
+            type: 'success',
+          });
+          this.$router.push({ path: 'demand/pending', query: { id: this.$route.query.id } });
+        } else {
+          this.$notify.error({
+            title: '发布异常',
+            type: 'success',
+          });
+        }
+      }).catch((error) => {
+        console.log(error);
       });
     },
     handleShowMap(event, index) {
