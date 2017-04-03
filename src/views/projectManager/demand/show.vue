@@ -121,7 +121,175 @@
           <el-pagination layout="prev, pager, next" @current-change="handlePlanPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
         </el-col>
       </el-tab-pane>
-      <el-tab-pane label="人员管理" name="third">人员管理</el-tab-pane>
+      <el-tab-pane label="人员管理" name="third">
+        <el-tabs v-model="defaultUserTab" @tab-click="handleUserTabClick">
+          <el-tab-pane label="全部" name="first" v-loading="loading">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane label="待确认" name="second" v-loading="loading">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-if="demandInfo.type == 1" label="待面试" name="third" v-loading="loading">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-else label="待考勤" name="third">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-if="demandInfo.type == 1" label="待入职" name="fourth" v-loading="loading">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-if="demandInfo.type == 1" label="入职中" name="fifth" v-loading="loading">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-else label="已考勤" name="fourth" v-loading="loading">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-if="demandInfo.type == 1" label="已结束" name="sixth" v-loading="loading">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-tab-pane v-if="demandInfo.type == 0" label="已结束" name="fifth" v-loading="loading">
+            <userInfo v-for="(info, index) in users" :userInfo="info"
+            :selectVisible="false"
+            @handleDetail="handleDetail(this.event, info)"
+            @handleConfirmInfo="handleConfirmInfo(this.event, info, index)"
+            @handleInvalidInfo="handleInvalidInfo(this.event, info, index)"
+            @handleInterviewPass="handleInterviewPass(this.event, info, index)"
+            @handleInterviewRefused="handleInterviewRefused(this.event, info, index)"
+            @handleInterviewAbsent="handleInterviewAbsent(this.event, info, index)"
+            @handlePartTimeAbsent="handlePartTimeAbsent(this.event, info, index)"
+            @handleWorkFailed="handleWorkFailed(this.event, info, index)"
+            @handleConfirmWork="handleConfirmWork(this.event, info, index)"
+            @handleDimission="handleDimission(this.event, info, index)"
+            @handleSignIn="handleSignIn(this.event, info, index)"
+            @handleRevertStatus="handleRevertStatus(this.event, info, index)"
+            style="margin-top: 10px;" >
+            </userInfo>
+          </el-tab-pane>
+          <el-col :span="24" style="margin-top:10px;" v-if="users.length > 0">
+            <el-pagination layout="prev, pager, next" @current-change="handleUserPage" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+          </el-col>
+        </el-tabs>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -130,15 +298,21 @@
   import userInfo from '../../../components/userInfo';
 
   export default {
-    name: 'contenprojectManagerDemandShowtProtocol',
+    name: 'projectManagerDemandShowt',
+    components: {
+      userInfo,
+    },
     data() {
       return {
         defaultTabName: 'first',
+        defaultUserTab: 'first',
         plans: [],
+        users: [],
         loading: false,
         currentPage: 1,
         pageSize: 10,
         pageCount: 0,
+        currentGetUserType: '',
         demandInfo: {
           id: '',
           projectTitle: '',
@@ -197,6 +371,118 @@
           this.getPlans();
         }
       },
+      // ------人员管理-------
+      handleUserTabClick(val) {
+        this.loading = true;
+        this.currentPage = 1;
+        if (this.demandInfo.type === 1) {
+          if (val.name === 'first') {
+            this.currentGetUserType = '';
+          } else if (val.name === 'second') {
+            this.currentGetUserType = 0;
+          } else if (val.name === 'third') {
+            this.currentGetUserType = 2;
+          } else if (val.name === 'fourth') {
+            this.currentGetUserType = 3;
+          } else if (val.name === 'fifth') {
+            this.currentGetUserType = 7;
+          } else if (val.name === 'sixth') {
+            this.currentGetUserType = 11;
+          }
+        }
+        if (this.demandInfo.type === 0) {
+          if (val.name === 'first') {
+            this.currentGetUserType = '';
+          } else if (val.name === 'second') {
+            this.currentGetUserType = 0;
+          } else if (val.name === 'third') {
+            this.currentGetUserType = 2;
+          } else if (val.name === 'fourth') {
+            this.currentGetUserType = 10;
+          } else if (val.name === 'fifth') {
+            this.currentGetUserType = 11;
+          }
+        }
+        this.getUsers();
+      },
+      handleUserPage(val) {
+        if (this.currentTab === 'third') {
+          this.currentPage = val;
+          this.getUsers(this.currentGetUserType);
+        }
+      },
+      handleDetail(event, obj) {
+        window.open(`#/user/${obj.talent.id}`, 'target_blank');
+      },
+      handleInvalidInfo(event, obj, index) {
+        this.handleEditUserStatus(obj, 1, index, '名单无效');
+      },
+      handleConfirmInfo(event, obj, index) {
+        this.handleEditUserStatus(obj, 2, index, '确认名单');
+      },
+      handleInterviewPass(event, obj, index) {
+        this.handleEditUserStatus(obj, 3, index, '面试通过');
+      },
+      handleInterviewRefused(event, obj, index) {
+        this.handleEditUserStatus(obj, 4, index, '面试不通过');
+      },
+      handleInterviewAbsent(event, obj, index) {
+        this.handleEditUserStatus(obj, 5, index, '面试未到');
+      },
+      handleWorkFailed(event, obj, index) {
+        this.handleEditUserStatus(obj, 6, index, '入职失败');
+      },
+      handleConfirmWork(event, obj, index) {
+        this.handleEditUserStatus(obj, 7, index, '确认入职');
+      },
+      handleDimission(event, obj, index) {
+        this.handleEditUserStatus(obj, 8, index, '确认离职');
+      },
+      handlePartTimeAbsent(event, obj, index) {
+        this.handleEditUserStatus(obj, 9, index, '放鸽子');
+      },
+      handleSignIn(event, obj, index) {
+        this.handleEditUserStatus(obj, 10, index, '已考勤');
+      },
+      handleRevertStatus(event, obj, index) {
+        this.$http.post(`${this.$managerURL}/talent/restoreStatus?id=${obj.id}`).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '已恢复',
+              type: 'success',
+            });
+            this.users.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((err) => {
+
+        });
+      },
+      handleEditUserStatus(obj, currentStatus, index, msg) {
+        const params = {
+          id: obj.id,
+          talentStatus: currentStatus,
+        };
+        this.$http.post(`${this.$managerURL}/talent/updateStatus`, params).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: msg,
+              type: 'success',
+            });
+            this.users.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((error) => {
+        });
+      },
       // 计划刷新
       handleRefush(index, row) {
         this.$http.get(`${this.$managerURL}/plan/refreshTime?id=${row.id}`).then((response) => {
@@ -254,6 +540,26 @@
         });
       },
       getUsers() {
+        const params = {
+          talentStatus: this.currentGetUserType,
+          demandId: this.demandInfo.id,
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+        };
+        this.loading = true;
+        this.$http.post(`${this.$managerURL}/demand/talent/list`, params).then((response) => {
+          const {
+            data: {
+              list, pages, pageNum,
+            },
+          } = response.data;
+          this.currentPage = pageNum;
+          this.pageCount = pages;
+          this.users = list;
+          this.loading = false;
+        }).catch((error) => {
+          this.loading = false;
+        });
       },
       formatStartTime(row, column) {
         const date = new Date(parseInt(row.created_at, 0));

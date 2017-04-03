@@ -700,10 +700,9 @@
         this.$http.post('/demand/talent/list', params).then((response) => {
           const {
             data: {
-              list, pages, total, pageNum,
+              list, pages, pageNum,
             },
           } = response.data;
-          this.totalProjectSize = total;
           this.currentPage = pageNum;
           this.pageCount = pages;
           this.users = list;
