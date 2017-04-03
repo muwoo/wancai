@@ -200,7 +200,7 @@
     </el-form>
     <h1 class="tips"></h1>
     <el-col :span="11" type="flex" align="center">
-      <el-button type="primary" @click="handleSubmit" :loading="publishing">提交申请</el-button>
+      <el-button type="primary" @click="handleSubmit" :loading="publishing">确认修改</el-button>
     </el-col>
   </div>
 </template>
@@ -475,16 +475,16 @@
           listDemandInterview: this.demandInfo.listDemandInterview,
           listSchedulingInformation: this.demandInfo.listSchedulingInformation,
         };
-        this.$http.post(`${this.$managerURL}/demand/add`, params).then((response) => {
+        this.$http.post('/demand/modify', params).then((response) => {
           if (response.data.errorCode === 10000) {
             this.$notify({
-              title: '发布成功',
+              title: '修改成功',
               type: 'success',
             });
-            this.$router.push({ path: 'demand/pending', query: { id: this.$route.query.id } });
+            this.$router.push({ name: 'adminDemandShow', params: { id: this.$route.params.id } });
           } else {
             this.$notify.error({
-              title: '发布异常',
+              title: '修改异常',
               type: 'success',
             });
           }
