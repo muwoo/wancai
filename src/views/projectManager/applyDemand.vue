@@ -6,21 +6,22 @@
       <el-step title="招聘前台发布招聘计划"></el-step>
       <el-step title="招聘经纪人提交求职者名单"></el-step>
     </el-steps>
-    <el-form ref="applyDemandForm" label-width="100px">
+    <!-- 需求表表单 -->
+    <el-form ref="demandInfoForm" :rules="demandInfoRules" label-width="100px">
       <h1 class="tips">需求表</h1>
-      <el-form-item label="表名：" style="width: 400px;">
+      <el-form-item prop="title" label="表名：" style="width: 400px;">
         <el-input v-model="demandInfo.title" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <el-form-item label="类型：">
+      <el-form-item prop="type" label="类型：">
         <el-radio-group v-model="demandInfo.type">
           <el-radio :label="0">兼职</el-radio>
           <el-radio :label="1">全职</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="岗位：" style="width: 300px;">
+      <el-form-item prop="job" label="岗位：" style="width: 300px;">
         <el-input v-model="demandInfo.job" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <el-form-item label="申请原因：">
+      <el-form-item prop="applyReason" label="申请原因：">
         <el-radio-group v-model="demandInfo.applyReason">
           <el-radio :label="0">离职补缺</el-radio>
           <el-radio :label="1">新增职位</el-radio>
@@ -30,7 +31,8 @@
       </el-form-item>
     </el-form>
     <h1 class="tips">岗位信息</h1>
-    <el-form v-if="demandInfo.type === 1" refs="applyDemandForm" :model="demandInfo" label-width="100px">
+    <!-- 全职表单 -->
+    <el-form v-if="demandInfo.type === 1" refs="fullTimeForm" :rules="fullTimeRules" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.workType" placeholder="请选择">
          <el-option
@@ -40,10 +42,10 @@
          </el-option>
        </el-select>
       </el-form-item>
-      <el-form-item label="薪资：" style="width: 400px;">
+      <el-form-item prop="salary" label="薪资：" style="width: 400px;">
         <el-input v-model="demandInfo.salary" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <el-form-item label="结算方式：" style="width: 400px;">
+      <el-form-item prop="settlementType" label="结算方式：" style="width: 400px;">
         <el-select v-model="demandInfo.settlementType" placeholder="请选择">
           <el-option
             v-for="item in moneyClearType"
@@ -52,10 +54,10 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="需求人数：" style="width: 400px;">
+      <el-form-item prop="applyNumber" label="需求人数：" style="width: 400px;">
          <el-input-number v-model="demandInfo.applyNumber" :min="0" :max="10000"></el-input-number>
       </el-form-item>
-      <el-form-item label="到岗时间：" style="width: 400px;">
+      <el-form-item prop="workTime" label="到岗时间：" style="width: 400px;">
         <el-input v-model="demandInfo.workTime" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item v-for="(interview, index) in demandInfo.listDemandInterview" label="面试时间：">
@@ -67,7 +69,8 @@
           <el-input v-model="interview.interviewAddress" placeholder="请在地图上进行选择"></el-input>
         </el-col>
         <el-col :span="3" :offset="1">
-          <el-button @click="handleShowMap(this.event, index)">地图</el-button>
+          <el-button v-if="!isMapShow" @click="handleShowMap(this.event, index)">展开地图</el-button>
+          <el-button v-if="isMapShow" @click="handleShowMap(this.event, index)">收起地图</el-button>
         </el-col>
       </el-form-item>
       <div v-if="isMapShow">
@@ -91,7 +94,8 @@
         <el-button v-if="demandInfo.listDemandInterview.length > 1" type="text" @click="handleDelInterview">-删减面试安排</el-button>
       </el-form-item>
     </el-form>
-    <el-form v-if="demandInfo.type === 0" ref="applyDemandForm" :model="demandInfo" label-width="100px">
+    <!-- 兼职表单 -->
+    <el-form v-if="demandInfo.type === 0" ref="partTimeForm" :rules="partTimeRules" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.workType" placeholder="请选择">
          <el-option
@@ -101,7 +105,7 @@
          </el-option>
        </el-select>
       </el-form-item>
-      <el-form-item label="薪资：" style="width: 400px;">
+      <el-form-item prop="salary" label="薪资：" style="width: 400px;">
         <el-input v-model="demandInfo.salary" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="结算方式：" style="width: 400px;">
@@ -140,7 +144,8 @@
       </el-form-item>
     </el-form>
     <h1 class="tips">岗位要求</h1>
-    <el-form ref="applyDemandForm" :model="demandInfo" label-width="100px">
+    <!-- 岗位要求表单 -->
+    <el-form ref="requirementForm" :rules="requirementRules" :model="demandInfo" label-width="100px">
       <el-form-item label="性别：">
         <el-radio-group v-model="demandInfo.sex">
           <el-radio :label="2">不限</el-radio>
@@ -170,7 +175,7 @@
            </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="专业：" style="width: 400px;">
+      <el-form-item prop="profession" label="专业：" style="width: 400px;">
         <el-input v-model="demandInfo.profession" placeholder="请输入内容"></el-input>
       </el-form-item>
       <el-form-item label="婚否：">
@@ -189,7 +194,7 @@
            </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="要求内容：">
+      <el-form-item prop="request" label="要求内容：">
         <el-input
           type="textarea"
           autosize
@@ -367,6 +372,44 @@ export default {
           label: '10年以上',
           value: 7,
         }],
+      demandInfoRules: {
+        title: [
+          { required: true, message: '请输入需求表名', trigger: 'blur' },
+        ],
+        job: [
+          { required: true, message: '请输入岗位内容', trigger: 'blur' },
+        ],
+        // type: [
+        //   { required: true, message: '请选择岗位类型', trigger: 'blur' },
+        // ],
+        // applyReason: [
+        //   { required: true, message: '请选择申请原因', trigger: 'blur' },
+        // ],
+      },
+      partTimeRules: {
+        salary: [
+          { required: true, message: '请输入薪水', trigger: 'blur' },
+        ],
+      },
+      fullTimeRules: {
+        salary: [
+          { required: true, message: '请输入薪水', trigger: 'blur' },
+        ],
+        applyNumber: [
+          { required: true, message: '请输入需求人数', trigger: 'blur' },
+        ],
+        workTime: [
+          { required: true, message: '请输入到岗时间', trigger: 'blur' },
+        ],
+      },
+      requirementRules: {
+        profession: [
+          { required: true, message: '请输入专业名称', trigger: 'blur' },
+        ],
+        request: [
+          { required: true, message: '请输入要求内容', trigger: 'blur' },
+        ],
+      },
     };
   },
   methods: {
