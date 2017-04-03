@@ -752,6 +752,11 @@
         this.$http.post('/plan/add', params).then((response) => {
           if (response.data.errorCode === 10000) {
             this.$message('发布成功');
+          } else {
+            this.$notify.error({
+              title: `${response.data.moreInfo}`,
+              type: 'success',
+            });
           }
         }).catch((err) => {
 
