@@ -477,7 +477,7 @@ export default {
       this.$http.post(`${this.$managerURL}/demand/add`, params).then((response) => {
         if (response.data.errorCode === 10000) {
           this.$notify({
-            title: '再次发布发布成功',
+            title: '再次发布成功',
             type: 'success',
           });
           this.$router.push({ path: 'demand/pending', query: { id: this.$route.query.id } });
