@@ -5,7 +5,7 @@
       <el-button type="primary" v-if="employInfo.isBlacklist == 0" @click="handleAddBlack">加入黑名单</el-button>
     </div>
     <div>
-      <img class="image" @click.prevent="handleClickImage" :src="employInfo.idCardPositive"/>
+      <img class="image" @click.prevent="handleClickImage" :src="employInfo.idCardPositive | formatQiniuURL"/>
       <!-- <img class="image" v-for="item in employInfo.idCardImages" @click.prevent="handleClickImage" :src="item"/> -->
     </div>
     <div>
@@ -257,6 +257,9 @@
       },
       formatHealthy(isHealthy) {
         return isHealthy === 1 ? '健康' : '不健康';
+      },
+      formatQiniuURL(url) {
+        return `${url}?imageView/2/w/640/h/960`;
       },
     },
     mounted() {
