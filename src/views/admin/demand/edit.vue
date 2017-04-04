@@ -6,12 +6,6 @@
       <el-form-item prop="title" label="表名：" style="width: 400px;">
         <el-input v-model="demandInfo.title" placeholder="请输入内容"></el-input>
       </el-form-item>
-      <!-- <el-form-item prop="type" label="类型：">
-        <el-radio-group v-model="demandInfo.type">
-          <el-radio :label="0">兼职</el-radio>
-          <el-radio :label="1">全职</el-radio>
-        </el-radio-group>
-      </el-form-item> -->
       <el-form-item prop="job" label="岗位：" style="width: 300px;">
         <el-input v-model="demandInfo.job" placeholder="请输入内容"></el-input>
       </el-form-item>
@@ -26,7 +20,7 @@
     </el-form>
     <h1 class="tips">岗位信息</h1>
     <!-- 全职表单 -->
-    <el-form v-if="demandInfo.type === 1" refs="fullTimeForm" :rules="fullTimeRules" :model="demandInfo" label-width="100px">
+    <el-form v-if="demandInfo.type === 1" ref="fullTimeForm" :rules="fullTimeRules" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.workType" placeholder="请选择">
          <el-option
@@ -200,7 +194,7 @@
     </el-form>
     <h1 class="tips"></h1>
     <el-col :span="11" type="flex" align="center">
-      <el-button type="primary" @click="handleSubmit" :loading="publishing">确认修改</el-button>
+      <el-button type="primary" @click="handleEdit" :loading="publishing">确认修改</el-button>
     </el-col>
   </div>
 </template>
@@ -431,14 +425,14 @@
                 if (this.demandInfo.type === 1) {
                   this.$refs.fullTimeForm.validate((fullValid) => {
                     if (fullValid) {
-                      this.handlePublish();
+                      this.handleEdit();
                     }
                     return false;
                   });
                 } else if (this.demandInfo.type === 0) {
                   this.$refs.partTimeForm.validate((partValid) => {
                     if (partValid) {
-                      this.handlePublish();
+                      this.handleEdit();
                     }
                     return false;
                   });
@@ -450,7 +444,7 @@
           return false;
         });
       },
-      handlePublish() {
+      handleEdit() {
         const demandId = this.$route.params.id;
         this.publishing = false;
         const params = {
@@ -538,6 +532,12 @@
   }
   .tips {
     border-bottom: 1px solid #e5e9f2;
+  }
+  .map-container {
+    .bm-view {
+      width: 100%;
+      height: 400px;
+    }
   }
 }
 </style>

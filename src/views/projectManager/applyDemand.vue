@@ -32,7 +32,7 @@
     </el-form>
     <h1 class="tips">岗位信息</h1>
     <!-- 全职表单 -->
-    <el-form v-if="demandInfo.type === 1" refs="fullTimeForm" :rules="fullTimeRules" :model="demandInfo" label-width="100px">
+    <el-form v-if="demandInfo.type === 1" ref="fullTimeForm" :rules="fullTimeRules" :model="demandInfo" label-width="100px">
       <el-form-item label="工种：" style="width: 400px;">
         <el-select v-model="demandInfo.workType" placeholder="请选择">
          <el-option
