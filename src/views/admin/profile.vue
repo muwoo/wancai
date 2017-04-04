@@ -40,14 +40,14 @@
     </el-row>
     <bigImage v-model="BigImageVisible" :image="currentImage" :visible="BigImageVisible" @handleWrapperClick="handleBigImageClose"></bigImage>
     <el-dialog title="修改密码" v-model="modifyPasswordVisible">
-      <el-form :model="passwordForm">
-        <el-form-item label="原密码" :label-width="formLabelWidth">
+      <el-form :model="passwordForm" :rules="passwordRules" ref="passwordForm">
+        <el-form-item prop="oldPassword" label="原密码" :label-width="formLabelWidth">
           <el-input v-model="passwordForm.oldPassword" auto-complete="off" style="width: 250px;"></el-input>
         </el-form-item>
-        <el-form-item label="新密码" :label-width="formLabelWidth">
+        <el-form-item prop="newPassword" label="新密码" :label-width="formLabelWidth">
           <el-input type="password" v-model="passwordForm.newPassword" auto-complete="off" style="width: 250px;"></el-input>
         </el-form-item>
-        <el-form-item label="再次输入新密码" :label-width="formLabelWidth">
+        <el-form-item prop="confirmPassword" label="再次输入新密码" :label-width="formLabelWidth">
           <el-input type="password" v-model="passwordForm.confirmPassword" auto-complete="off" style="width: 250px;"></el-input>
         </el-form-item>
       </el-form>
@@ -90,12 +90,42 @@
           newPassword: '',
           confirmPassword: '',
         },
+        passwordRules: {
+          oldPassword: [
+            { required: true, message: '请输入原密码', trigger: 'blur' },
+          ],
+          newPassword: [
+            { validator: this.validatePass, trigger: 'blur' },
+          ],
+          confirmPassword: [
+            { validator: this.validateCheckPass, trigger: 'blur' },
+          ],
+        },
       };
     },
     components: {
       bigImage,
     },
     methods: {
+      validatePass(rule, value, callback) {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.passwordForm.confirmPassword !== '') {
+            this.$refs.passwordForm.validateField('confirmPassword');
+          }
+          callback();
+        }
+      },
+      validateCheckPass(rule, value, callback) {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.passwordForm.newPassword) {
+          callback(new Error('两次输入密码不一致！'));
+        } else {
+          callback();
+        }
+      },
       handleClickImage(evt) {
         this.currentImage = evt.target.src;
         this.BigImageVisible = true;
@@ -107,24 +137,30 @@
         this.BigImageVisible = false;
       },
       submitNewPassword() {
-        this.modifyPasswordVisible = false;
-        const params = {
-          password: this.passwordForm.oldPassword,
-          newPassword: this.passwordForm.newPassword,
-        };
-        this.$http.post('/user/updatePassword', params).then((res) => {
-          if (res.data.errorCode === 10000) {
-            this.$notify({
-              title: '修改成功',
-              type: 'success',
-            });
-            this.logout();
-          } else {
-            this.$notify.error({
-              title: '修改异常',
-              type: 'success',
+        this.$refs.passwordForm.validate((valid) => {
+          if (valid) {
+            this.modifyPasswordVisible = false;
+            const params = {
+              password: this.passwordForm.oldPassword,
+              newPassword: this.passwordForm.newPassword,
+            };
+            this.$http.post('/user/updatePassword', params).then((res) => {
+              if (res.data.errorCode === 10000) {
+                this.$notify({
+                  title: '修改成功',
+                  type: 'success',
+                });
+                sessionStorage.removeItem('admin');
+                this.$router.replace('/admin/login');
+              } else {
+                this.$notify.error({
+                  title: `${res.data.moreInfo}`,
+                  type: 'success',
+                });
+              }
             });
           }
+          return false;
         });
       },
       logout() {
