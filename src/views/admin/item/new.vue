@@ -308,8 +308,8 @@ export default {
         if (valid) {
           this.publishing = true;
           this.$http.post('/project/add', {
-            managerId: 1,
-            recruitFronts: 1,
+            managerId: this.itemPublishInfo.projectManager.id,
+            recruitFronts: this.itemPublishInfo.recruitManager.id,
             title: this.itemPublishInfo.itemName,
             address: this.itemPublishInfo.address,
             introduction: this.itemPublishInfo.introduction,
