@@ -205,7 +205,7 @@ export default {
             // password: this.administratorInfo.password,
             status: 1,
           }).then((response) => {
-            const { error, errorCode } = response.data;
+            const { error, errorCode, moreInfo } = response.data;
             if (errorCode === 10000) {
               this.$notify({
                 title: '修改成功',
@@ -214,7 +214,7 @@ export default {
               this.$router.replace('/admin/administrator/list');
             } else {
               this.$notify.error({
-                title: '修改失败',
+                title: `${moreInfo}`,
                 type: 'success',
               });
             }
