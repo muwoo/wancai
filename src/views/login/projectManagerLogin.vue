@@ -64,10 +64,18 @@ export default {
           }).then((response) => {
             // eslint-disable-next-line
             this.logining = false;
-            this.$message({
-              message: '登录成功',
-              type: 'success',
-            });
+            if (response.data.errorCode === 10000) {
+              this.$message({
+                message: '登录成功',
+                type: 'success',
+              });
+            } else {
+              this.$notify.error({
+                // title: `${response.data.moreInfo}`,
+                title: '账号或密码错误',
+                type: 'success',
+              });
+            }
             sessionStorage.setItem('project_manager', JSON.stringify(response.data));
             this.$router.replace({ path: '/project_manager' });
           }).catch((error) => {
