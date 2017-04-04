@@ -69,11 +69,11 @@ export default {
             phone: this.verifyForm.phone,
             newPassword: this.verifyForm.password,
           };
-          this.$http.post('/user/forgetPassword', params).then((res) => {
+          this.$http.post(`${this.$managerURL}/user/forgetPassword`, params).then((res) => {
             if (res.data.errorCode === 10000) {
               this.$message('修改通过');
               this.confirming = false;
-              this.$router.replace({ name: 'adminLogin' });
+              this.$router.replace({ name: 'projectManagerLogin' });
             } else {
               this.$message.error(res.data.moreInfo);
               this.confirming = false;
