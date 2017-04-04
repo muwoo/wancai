@@ -6,14 +6,32 @@
         <el-input v-model="itemPublishInfo.itemName" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
       <el-form-item label="项目地址：" class="form-item" prop="address">
-        <el-input v-model="itemPublishInfo.address" placeholder="请输入内容" style="width: 400px;"></el-input>
+        <el-input v-model="itemPublishInfo.address" placeholder="请在地图上进行选择" style="width: 400px;"></el-input>
+        <el-button v-if="!isMapShow" type='primary' @click="handleShowMap">展开地图</el-button>
+        <el-button v-if="isMapShow" type='primary' @click="handleShowMap">收起地图</el-button>
       </el-form-item>
+      <div v-if="isMapShow">
+        <el-input v-model="mapConfig.keyword" placeholder="搜索地点，并进行选择" style="width: 440px; margin-bottom: 5px;"></el-input>
+        <baidu-map class="map-container"
+        :scroll-wheel-zoom="true"
+        :center="mapConfig.center"
+        :zoom="mapConfig.zoom">
+          <bm-view class="bm-view">
+          </bm-view>
+          <bm-local-search
+            :keyword="mapConfig.keyword"
+            :auto-viewport="true"
+            :location="mapConfig.location"
+            @infohtmlset="infohtmlset">
+          </bm-local-search>
+        </baidu-map>
+      </div>
       <el-form-item label="项目介绍：" class="form-item" prop="introduction">
         <el-input type="textarea" :rows="2" v-model="itemPublishInfo.introduction" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
       <h1 class="tips">匹配负责人</h1>
       <el-form-item label="招聘前台：" class="form-item" prop="recruitManager.name">
-        <span>{{ itemPublishInfo.recruitManager.name }}</span>
+        <span>{{ itemPublishInfo.recruitManager.username }}</span>
         <el-button type="primary" @click="handleFindRecruitManager" size="small">查找</el-button>
       </el-form-item>
       <el-form-item label="项目负责人：" class="form-item" prop="projectManager.name">
@@ -140,9 +158,9 @@
       <div class="search-table">
         <el-table :data="searchData">
           <el-table-column property="id" label="id"></el-table-column>
-          <el-table-column property="name" label="姓名"></el-table-column>
-          <el-table-column property="idCardNumber" label="身份证" width="200"></el-table-column>
-          <el-table-column property="phoneNumber" label="手机"  width="200"></el-table-column>
+          <el-table-column property="username" label="姓名"></el-table-column>
+          <el-table-column property="idCard" label="身份证" width="200"></el-table-column>
+          <el-table-column property="phone" label="手机"  width="200"></el-table-column>
           <el-table-column
             label="操作">
             <template scope="scope">
@@ -195,6 +213,8 @@ export default {
       itemPublishInfo: {
         itemName: '',
         address: '',
+        latitude: 30.2419557,
+        longitude: 120.1273834,
         introduction: '',
         recruitManager: '',
         projectManager: '',
@@ -219,6 +239,12 @@ export default {
         getOrderPrice: 0,
         giveOrderPrice: 0,
       },
+      mapConfig: {
+        location: '',
+        keyword: '',
+        center: { lng: 120.1273834, lat: 30.2419557 },
+        zoom: 12,
+      },
       currentPage: 1,
       pageSize: 20,
       pageCount: 0,
@@ -231,6 +257,7 @@ export default {
       findProjectManager: false,
       searchContent: '',
       searchType: '1',
+      isMapShow: false,
       itemPublishRules: {
         itemName: [
           { required: true, message: '请输入项目名称', trigger: 'blur' },
@@ -267,6 +294,15 @@ export default {
     //   console.log(index);
     //   console.log(row);
     // },
+    infohtmlset(poi) {
+      this.itemPublishInfo.address = `${poi.city}${poi.address}${poi.title}`;
+      this.itemPublishInfo.latitude = poi.point.lat;
+      this.itemPublishInfo.longitude = poi.point.lng;
+      this.isMapShow = false;
+    },
+    handleShowMap() {
+      this.isMapShow = !this.isMapShow;
+    },
     handleSubmit() {
       this.$refs.itemPublishForm.validate((valid) => {
         if (valid) {
@@ -277,6 +313,8 @@ export default {
             title: this.itemPublishInfo.itemName,
             address: this.itemPublishInfo.address,
             introduction: this.itemPublishInfo.introduction,
+            longitude: this.itemPublishInfo.longitude,
+            latitude: this.itemPublishInfo.latitude,
           }, {
             headers: {
               'Content-Type': 'application/json',
@@ -285,13 +323,18 @@ export default {
             console.log(response);
             // eslint-disable-next-line
             console.log(response.data);
-            const { error, errorCode } = response.data;
+            const { error, errorCode, moreInfo } = response.data;
             if (errorCode === 10000) {
               this.$message({
                 message: '新建成功',
                 type: 'success',
               });
               this.$router.push('list');
+            } else {
+              this.$notify.error({
+                title: `${moreInfo}`,
+                type: 'success',
+              });
             }
             this.publishing = false;
           }).catch((error) => {
@@ -307,6 +350,10 @@ export default {
         this.currentPage = val;
         this.getSearchProject();
       }
+      if (this.findRecruitManager) {
+        this.currentPage = val;
+        this.getSearchRecruit();
+      }
     },
     handleFindProjectManager() {
       this.findProjectManager = true;
@@ -316,11 +363,49 @@ export default {
     handleFindRecruitManager() {
       this.findRecruitManager = true;
       this.searchData = [];
+      this.getSearchRecruit();
     },
     getSearchRecruit() {
-      this.$message('search content');
+      this.searchData = [];
+      let idData = '';
+      let idCardData = '';
+      let nameData = '';
+      let telphoneData = '';
+      if (this.searchType === '1') {
+        idData = this.searchContent;
+      } else if (this.searchType === '2') {
+        nameData = this.searchContent;
+      } else if (this.searchType === '3') {
+        idCardData = this.searchContent;
+      } else if (this.searchType === '4') {
+        telphoneData = this.searchContent;
+      }
+      const params = {
+        rolesId: 4,
+        pageNum: this.currentPage,
+        pageSize: this.pageSize,
+        id: idData,
+        idCard: idCardData,
+        name: nameData,
+        phone: telphoneData,
+      };
+      this.loading = true;
+      this.$http.post('/admin/user/list', params).then((response) => {
+        const {
+          data: {
+            list, pages, total, pageNum,
+          },
+        } = response.data;
+        this.currentPage = pageNum;
+        this.pageCount = pages;
+        this.searchData = list;
+        this.loading = false;
+      }).catch((error) => {
+        this.loading = false;
+      });
     },
     getSearchProject() {
+      this.searchData = [];
       let idData = '';
       let idCardData = '';
       let nameData = '';
@@ -383,6 +468,12 @@ export default {
     margin-top: 30px;
     height: 340px;
     overflow-y: scroll;
+  }
+  .map-container {
+    .bm-view {
+      width: 100%;
+      height: 400px;
+    }
   }
 }
 </style>
