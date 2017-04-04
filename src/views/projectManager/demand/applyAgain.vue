@@ -202,9 +202,9 @@
     <el-col :span="11" type="flex" align="center">
       <el-button type="primary" @click="handleSubmit" :loading="publishing">确定再次申请</el-button>
     </el-col>
+    <div style="height: 200px; width: 100%;"></div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'managerDemandApplyAgain',
