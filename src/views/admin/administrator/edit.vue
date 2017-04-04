@@ -62,6 +62,11 @@ export default {
             type: 'success',
           });
           this.getCurrentPermissions();
+        } else {
+          this.$notify.error({
+            title: `${response.data.moreInfo}`,
+            type: 'success',
+          });
         }
       }).catch((error) => {
         console.log(error);

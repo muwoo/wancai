@@ -182,7 +182,7 @@
               // cornet: this.projectManagerInfo.cornet,
               // password: this.projectManagerInfo.password,
             }).then((response) => {
-              const { error, errorCode } = response.data;
+              const { error, errorCode, moreInfo } = response.data;
               if (errorCode === 10000) {
                 this.$notify({
                   title: '修改成功',
@@ -190,7 +190,7 @@
                 });
               } else {
                 this.$notify.error({
-                  title: '修改异常',
+                  title: `${moreInfo}`,
                   type: 'success',
                 });
               }

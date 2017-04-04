@@ -479,7 +479,7 @@
             this.$router.push({ name: 'adminDemandShow', params: { id: this.$route.params.id } });
           } else {
             this.$notify.error({
-              title: '修改异常',
+              title: `${response.data.moreInfo}`,
               type: 'success',
             });
           }
