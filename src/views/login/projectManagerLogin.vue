@@ -72,7 +72,7 @@ export default {
             this.$router.replace({ path: '/project_manager' });
           }).catch((error) => {
             this.$message.error('登录异常');
-            console.log(error);
+            this.logining = false;
           });
         }
         return false;
