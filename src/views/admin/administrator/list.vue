@@ -10,7 +10,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label='手机号码：' style="width: 100%;">
-              <el-input v-model="adminInfo.phoneNumber" placeholder="请输入内容" style="width: 150px;"></el-input>
+              <el-input v-model="adminInfo.phone" placeholder="请输入内容" style="width: 150px;"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -64,7 +64,7 @@
       return {
         adminInfo: {
           idCard: '',
-          phoneNumber: '',
+          phone: '',
           name: '',
           roleId: 0,
           roles: [{ value: 0, label: '不限' }],
