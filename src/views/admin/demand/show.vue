@@ -41,16 +41,16 @@
           <el-form-item label='计划名称：' prop="name">
             <el-input v-model="planInfo.name" placeholder="请输入内容" style="width: 200px;"></el-input>
           </el-form-item>
-          <el-form-item label='提交（元）：' prop="name">
+          <el-form-item label='提交（元）：'>
             <el-input-number v-model="planInfo.submitPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
-          <el-form-item label='到面（元）：' prop="name">
+          <el-form-item label='到面（元）：'>
             <el-input-number v-model="planInfo.interviewAlreadyPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
-          <el-form-item label='面过（元）：' prop="name">
+          <el-form-item label='面过（元）：'>
             <el-input-number v-model="planInfo.interviewSuccessPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
-          <el-form-item label='入职（元）：' prop="name">
+          <el-form-item label='入职（元）：'>
             <el-input-number v-model="planInfo.workSuccessPrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
           </el-form-item>
           <h1 class="tips"></h1>
@@ -65,7 +65,7 @@
             <el-button v-if="planInfo.schemes.length > 1" type="text" @click="handleDelScheme">-删减满返方案</el-button>
           </el-form-item>
           <h1 class="tips"></h1>
-          <el-form-item label='提成方式：' prop="name">
+          <el-form-item label='提成方式：'>
             <el-col :span="5">
               <el-select v-model="planInfo.commissionType" placeholder="请选择">
                 <el-option
@@ -82,7 +82,7 @@
               <el-input-number  v-model="planInfo.chargePrice" :min="0" :max="100" style="width: 150px;">
             </el-col>
           </el-form-item>
-          <el-form-item label='截止日期：'prop="name">
+          <el-form-item label='截止日期：'>
             <el-date-picker
               v-model="planInfo.endTime"
               type="datetime"
@@ -92,7 +92,7 @@
           <el-form-item>
             <el-button type="primary" @click="handlePublishPlan(0)">发布普通计划</el-button>
           </el-form-item>
-          <el-form-item label='定向经纪人：'prop="name">
+          <el-form-item label='定向经纪人：'>
             <el-tag v-for="(man, index) in planInfo.brokerList" :closable="true" type="primary" @close="handleCloseBrokerTag(index)">{{man.name}}</el-tag>
             <el-button type="primary" size="small" @click="handleSearchBtn">添加</el-button>
           </el-form-item>
@@ -460,7 +460,11 @@
           value: '0',
           label: '无',
         }],
-        planRules: {},
+        planRules: {
+          name: [
+            { required: true, message: '请输入计划名称', trigger: 'blur' },
+          ],
+        },
       };
     },
     components: {
@@ -748,17 +752,21 @@
           commissionList: allCommission,
           brokerList: this.planInfo.brokerList,
         };
-        this.$http.post('/plan/add', params).then((response) => {
-          if (response.data.errorCode === 10000) {
-            this.$message('发布成功');
-          } else {
-            this.$notify.error({
-              title: `${response.data.moreInfo}`,
-              type: 'success',
+        this.$refs.planForm.validate((valid) => {
+          if (valid) {
+            this.$http.post('/plan/add', params).then((response) => {
+              if (response.data.errorCode === 10000) {
+                this.$message('发布成功');
+              } else {
+                this.$notify.error({
+                  title: `${response.data.moreInfo}`,
+                  type: 'success',
+                });
+              }
+            }).catch((err) => {
             });
           }
-        }).catch((err) => {
-
+          return false;
         });
       },
       // ---------人员管理---------
