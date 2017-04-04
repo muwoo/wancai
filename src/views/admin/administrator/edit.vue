@@ -133,11 +133,11 @@ export default {
   mounted() {
     const that = this;
     this.loading = true;
-    this.getCurrentPermissions();
     this.$http.get('/admin/permissions/list').then((response) => {
       if (response.data.errorCode === 10000) {
         this.authItems = response.data.data;
         this.getParentKeys(this.authItems);
+        this.getCurrentPermissions();
       } else {
         this.$notify.error({
           title: '获取权限列表异常',
