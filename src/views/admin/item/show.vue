@@ -9,8 +9,8 @@
             <el-form-item label="项目地址：">{{ itemInfo.address }}</el-form-item>
             <el-form-item label="项目介绍：">{{ itemInfo.introduction }}</el-form-item>
             <h3 class="tips">匹配负责人</h3>
-            <el-form-item label="招聘前台：">{{ }}</el-form-item>
-            <el-form-item label="项目经理：">{{ }}</el-form-item>
+            <el-form-item label="招聘前台：">{{ itemInfo.recruitFrontsName }}</el-form-item>
+            <el-form-item label="项目经理：">{{ itemInfo.managerName }}</el-form-item>
             <h3 class="tips">财务设置</h3>
           </el-form>
         </el-tab-pane>
