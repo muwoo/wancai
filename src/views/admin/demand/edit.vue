@@ -196,6 +196,7 @@
     <el-col :span="11" type="flex" align="center">
       <el-button type="primary" @click="handleEdit" :loading="publishing">确认修改</el-button>
     </el-col>
+    <div style="height: 200px; width: 100%;"></div>
   </div>
 </template>
 <script>
