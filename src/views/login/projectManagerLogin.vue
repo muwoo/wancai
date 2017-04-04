@@ -63,7 +63,6 @@ export default {
             },
           }).then((response) => {
             // eslint-disable-next-line
-            this.logining = false;
             if (response.data.errorCode === 10000) {
               this.$message({
                 message: '登录成功',
@@ -72,12 +71,9 @@ export default {
               sessionStorage.setItem('project_manager', JSON.stringify(response.data));
               this.$router.replace({ path: '/project_manager' });
             } else {
-              this.$notify.error({
-                // title: `${response.data.moreInfo}`,
-                title: '账号或密码错误',
-                type: 'success',
-              });
+              this.$message.error('账号或密码错误');
             }
+            this.logining = false;
           }).catch((error) => {
             this.$message.error('登录异常');
             this.logining = false;
