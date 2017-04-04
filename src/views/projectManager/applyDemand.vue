@@ -396,9 +396,9 @@ export default {
         salary: [
           { required: true, message: '请输入薪水', trigger: 'blur' },
         ],
-        applyNumber: [
-          { required: true, message: '请输入需求人数', trigger: 'blur' },
-        ],
+        // applyNumber: [
+        //   { required: true, message: '请输入需求人数', trigger: 'blur' },
+        // ],
         workTime: [
           { required: true, message: '请输入到岗时间', trigger: 'blur' },
         ],
