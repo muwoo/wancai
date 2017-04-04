@@ -169,7 +169,7 @@
           <el-table-column property="id" label="id"></el-table-column>
           <el-table-column property="name" label="姓名"></el-table-column>
           <el-table-column property="idCard" label="身份证" width="200"></el-table-column>
-          <el-table-column property="telphone" label="手机"  width="200"></el-table-column>
+          <el-table-column property="phone" label="手机"  width="200"></el-table-column>
           <el-table-column
             label="操作">
             <template scope="scope">
@@ -341,7 +341,7 @@ export default {
         id: idData,
         idCard: idCardData,
         name: nameData,
-        telphone: telphoneData,
+        phone: telphoneData,
       };
       this.loading = true;
       this.$http.post('/manager/list', params).then((response) => {
