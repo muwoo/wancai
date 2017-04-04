@@ -527,7 +527,7 @@ export default {
         this.demandInfo.workType = originDemandInfo.workType;
         this.demandInfo.salary = originDemandInfo.salary;
         this.demandInfo.settlementType = originDemandInfo.settlementType;
-        this.demandInfo.listSchedulingInformation = originDemandInfo.listSchedulingInformation.foreach(x => delete x.id);
+        this.demandInfo.listSchedulingInformation = originDemandInfo.listSchedulingInformation;
       } else if (originDemandInfo.type === 1) {
         this.demandInfo.workType = originDemandInfo.workType;
         this.demandInfo.salary = originDemandInfo.salary;
