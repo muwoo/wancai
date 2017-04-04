@@ -69,6 +69,7 @@ export default {
               this.$router.replace({ path: '/admin' });
             } else {
               this.$message.error('账号或密码错误');
+              this.logining = false;
             }
           });
           // .catch((error) => {
