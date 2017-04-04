@@ -2,7 +2,8 @@
   <div id="adminProfile">
     <el-row class="top">
       <el-col :span="4" class="title">个人中心</el-col>
-      <el-col :span="8" :offset="12">
+      <el-col :span="4" :offset="1" class="title">角色：{{ currentUser.roleName }}</el-col>
+      <el-col :span="8" :offset="7">
         <el-row type="flex" justify="end" style="padding-right: 20px;">
           创建时间：{{ currentUser.createdAt | formatDate }}
         </el-row>
