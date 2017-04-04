@@ -86,14 +86,15 @@ export default {
       projects: [],
     };
   },
-  // mounted() {
-  //   this.$http.get(`${this.$managerURL}`).then((res) => {
-  //     if (res.data.errorCode === 10000) {
-  //       this.currentManager = res.data.data;
-  //     }
-  //   }).catch((err) => {
-  //   });
-  // },
+  mounted() {
+    const projectManager = JSON.parse(sessionStorage.getItem('project_manager')).data;
+    this.$http.get(`${this.$managerURL}/user/detail?id=${projectManager.id}`).then((res) => {
+      if (res.data.errorCode === 10000) {
+        this.currentManager = res.data.data;
+      }
+    }).catch((err) => {
+    });
+  },
 };
 </script>
 
