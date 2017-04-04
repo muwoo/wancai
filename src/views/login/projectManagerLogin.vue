@@ -69,6 +69,8 @@ export default {
                 message: '登录成功',
                 type: 'success',
               });
+              sessionStorage.setItem('project_manager', JSON.stringify(response.data));
+              this.$router.replace({ path: '/project_manager' });
             } else {
               this.$notify.error({
                 // title: `${response.data.moreInfo}`,
@@ -76,8 +78,6 @@ export default {
                 type: 'success',
               });
             }
-            sessionStorage.setItem('project_manager', JSON.stringify(response.data));
-            this.$router.replace({ path: '/project_manager' });
           }).catch((error) => {
             this.$message.error('登录异常');
             this.logining = false;
