@@ -107,7 +107,28 @@
         this.$router.push({ name: 'projectManagerDemandEdit', params: { id: row.id }, query: { id: this.$route.query.id } });
       },
       handleDemandCancled(index, row) {
-
+        this.handleEditDemandStatus(row, 4, index, '已取消');
+      },
+      handleEditDemandStatus(obj, currentStatus, index, msg) {
+        const params = {
+          id: obj.id,
+          status: currentStatus,
+        };
+        this.$http.post(`${this.$managerURL}/demand/modifyStatus`, params).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: msg,
+              type: 'success',
+            });
+            this.demands.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '取消异常',
+              type: 'success',
+            });
+          }
+        }).catch((error) => {
+        });
       },
       handleCurrentPageChange(val) {
         this.currentPage = val;
