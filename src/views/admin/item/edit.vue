@@ -3,7 +3,7 @@
     <el-form :model="itemPublishInfo" :rules="itemPublishRules" ref="itemPublishForm">
       <h1 class="tips">基本信息</h1>
       <el-form-item label="项目名称：" class="form-item" prop="itemName">
-        <el-input v-model="itemPublishInfo.itemName" placeholder="请输入内容" style="width: 400px;"></el-input>
+        <el-input v-model="itemPublishInfo.title" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
       <el-form-item label="项目地址：" class="form-item" prop="address">
         <el-input v-model="itemPublishInfo.address" placeholder="请在地图上进行选择" style="width: 400px;"></el-input>
@@ -212,7 +212,7 @@ export default {
     return {
       itemPublishInfo: {
         id: '',
-        itemName: '',
+        title: '',
         address: '',
         latitude: 30.2419557,
         longitude: 120.1273834,
@@ -313,7 +313,7 @@ export default {
             id: this.itemPublishInfo.id,
             managerId: this.itemPublishInfo.projectManager.id,
             recruitFronts: this.itemPublishInfo.recruitManager.id,
-            title: this.itemPublishInfo.itemName,
+            title: this.itemPublishInfo.title,
             address: this.itemPublishInfo.address,
             introduction: this.itemPublishInfo.introduction,
             longitude: this.itemPublishInfo.longitude,
