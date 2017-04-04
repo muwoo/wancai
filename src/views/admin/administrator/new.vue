@@ -54,8 +54,8 @@
       <el-form-item label='微信号：' prop="weChat">
         <el-input v-model="administratorInfo.weChat" placeholder="请输入内容" style="width: 240px;"></el-input>
       </el-form-item>
-      <el-form-item label='固定电话：' prop="telphone">
-        <el-input v-model="administratorInfo.telphone" placeholder="请输入内容" style="width: 240px;"></el-input>
+      <el-form-item label='固定电话：' prop="telephone">
+        <el-input v-model="administratorInfo.telephone" placeholder="请输入内容" style="width: 240px;"></el-input>
       </el-form-item>
       <el-form-item label='虚拟短号：' prop="cornet">
         <el-input v-model="administratorInfo.cornet" placeholder="请输入内容" style="width: 240px;"></el-input>
@@ -86,7 +86,7 @@ export default {
         eMail: '',
         qq: '',
         weChat: '',
-        telphone: '',
+        telephone: '',
         cornet: '',
         birthday: '',
         password: '',
@@ -128,7 +128,7 @@ export default {
         qq: [
           { required: true, message: '请输入QQ号', trigger: 'blur' },
         ],
-        telphone: [
+        telephone: [
           { required: true, message: '请输入固定电话', trigger: 'blur' },
         ],
         cornet: [
@@ -198,7 +198,7 @@ export default {
             eMail: this.administratorInfo.eMail,
             qq: this.administratorInfo.qq,
             weChat: this.administratorInfo.weChat,
-            telphone: this.administratorInfo.telphone,
+            telephone: this.administratorInfo.telephone,
             cornet: this.administratorInfo.cornet,
             password: this.administratorInfo.password,
             status: 1,
