@@ -2,7 +2,8 @@
   <div id="adminDemandShow">
     <h4>隶属，项目ID: {{demandInfo.projectId}}，项目名称：{{demandInfo.projectTitle}}</h4>
     <el-row>
-      <el-button type="primary" size="large" v-if="demandInfo.status==0"  style="margin-bottom: 10px;" @click="handlRefusedDemand">驳 回</el-button>
+      <el-button type="primary" size="large" v-if="demandInfo.status==0"  style="margin-bottom: 10px;" @click="handleRefusedDemand">驳 回</el-button>
+      <el-button type="primary" size="large" v-if="demandInfo.status==1"  style="margin-bottom: 10px;" @click="handleCompletedDemand">结 束</el-button>
       <el-button type="primary" size="large" style="margin-bottom: 10px;" @click="handleEditDemand">修 改</el-button>
     </el-row>
     <el-tabs v-model="defaultTab" type="card" @tab-click="handleTabClick">
@@ -471,7 +472,7 @@
       userInfo,
     },
     methods: {
-      handlRefusedDemand() {
+      handleRefusedDemand() {
         const params = {
           id: this.demandInfo.id,
           status: 2,
@@ -483,6 +484,29 @@
               type: 'success',
             });
             this.$router.go(0);
+            // location.reload();
+          } else {
+            this.$notify.error({
+              title: '修改异常',
+              type: 'success',
+            });
+          }
+        }).catch((error) => {
+        });
+      },
+      handleCompletedDemand() {
+        const params = {
+          id: this.demandInfo.id,
+          status: 3,
+        };
+        this.$http.post('/demand/modifyStatus', params).then((response) => {
+          if (response.data.errorCode === 10000) {
+            // this.$router.go(0);
+            this.demandInfo.status = 3;
+            this.$notify({
+              title: '已结束',
+              type: 'success',
+            });
             // location.reload();
           } else {
             this.$notify.error({
