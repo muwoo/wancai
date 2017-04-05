@@ -7,7 +7,7 @@
     </el-col>
     <el-col :span="10"  class="panel-login" >
       <el-form :model="loginForm" :rules="loginRules" ref="loginForm">
-        <h3 class="loginTitle">登录</h3>
+        <h3 class="loginTitle">登 录</h3>
         <el-form-item prop="account">
           <el-input type="text" v-model="loginForm.account" auto-complete="off" placeholder="请输入注册手机号"></el-input>
         </el-form-item>
@@ -17,7 +17,7 @@
         <div class="passwordFind">
           <router-link :to="{ name: 'managerPasswordFind'}" >忘记密码</router-link>
         </div>
-        <el-button type="success" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
+        <el-button type="success" @click.native.prevent="handleSubmit" :loading="logining">登 录</el-button>
       </el-form>
     </el-col>
   </el-row>
