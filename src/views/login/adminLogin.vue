@@ -71,11 +71,10 @@ export default {
               this.$message.error('账号或密码错误');
               this.logining = false;
             }
+          }) .catch((error) => {
+            this.$message.error('登录异常');
+            this.logining = false;
           });
-          // .catch((error) => {
-          //   this.$message.error('登录异常');
-          //   console.log(error);
-          // });
         }
         return false;
       });
