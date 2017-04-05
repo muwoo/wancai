@@ -132,12 +132,12 @@
       formatCreatedDate(row, column) {
         // const date = new Date(parseInt(row.createdTime, 0) * 1000);
         const date = new Date(parseInt(row.createdAt, 0));
-        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+        return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
       },
       formatUpdatedDate(row, column) {
         // const date = new Date(parseInt(row.createdTime, 0) * 1000);
         const date = new Date(parseInt(row.updatedAt, 0));
-        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+        return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
       },
       formatType(row, column) {
         return row.type === 1 ? '全职' : '兼职';

@@ -191,7 +191,7 @@
       // 格式化时间
       formatDate(row, column) {
         const date = new Date(parseInt(row.createdAt, 0));
-        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+        return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
       },
       formatSex(row, column) {
         return row.sex === 1 ? '男' : '女';

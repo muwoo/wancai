@@ -129,7 +129,7 @@
       formatDate(row, column) {
         // const date = new Date(parseInt(row.createdTime, 0) * 1000);
         const date = new Date(parseInt(row.createdTime, 0));
-        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+        return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
       },
     },
     mounted() {

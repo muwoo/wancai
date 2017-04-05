@@ -869,11 +869,11 @@
       // ----格式化表格内容------
       formatStartTime(row, column) {
         const date = new Date(parseInt(row.created_at, 0));
-        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+        return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
       },
       formatEndTime(row, column) {
         const date = new Date(parseInt(row.end_time, 0));
-        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+        return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
       },
       formatPlanStatus(row, column) {
         if (row.status === 1) {

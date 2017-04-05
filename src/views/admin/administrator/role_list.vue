@@ -68,7 +68,7 @@ export default {
     },
     formatCreatedDate(row, column) {
       const date = new Date(parseInt(row.createdAt, 0));
-      return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+      return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
     },
     getRoleList() {
       this.$http.get('/admin/role/list').then((response) => {
