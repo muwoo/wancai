@@ -42,6 +42,27 @@ export default {
         }
       });
     },
+    formatUtc: function(date, pattern) {
+      pattern = pattern || DEFAULT_PATTERN;
+      return pattern.replace(SIGN_REGEXP, function($0) {
+        switch ($0.charAt(0)) {
+          case 'y':
+            return padding(date.getUTCFullYear(), $0.length);
+          case 'M':
+            return padding(date.getUTCMonth() + 1, $0.length);
+          case 'd':
+            return padding(date.getUTCDate(), $0.length);
+          case 'w':
+            return date.getDay() + 1;
+          case 'h':
+            return padding(date.getUTCHours(), $0.length);
+          case 'm':
+            return padding(date.getUTCMinutes(), $0.length);
+          case 's':
+            return padding(date.getUTCSeconds(), $0.length);
+        }
+      });
+    },
     parse: function(dateString, pattern) {
       var matchs1 = pattern.match(SIGN_REGEXP);
       var matchs2 = dateString.match(/(\d)+/g);
