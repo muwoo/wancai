@@ -91,7 +91,6 @@ export default {
         this.auths = res.data.data;
       }
     });
-    // console.log(this.auths);
   },
 };
 </script>

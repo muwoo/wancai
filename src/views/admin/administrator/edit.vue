@@ -61,7 +61,7 @@ export default {
             title: '修改成功',
             type: 'success',
           });
-          this.getCurrentPermissions();
+          // this.getCurrentPermissions();
         } else {
           this.$notify.error({
             title: `${response.data.moreInfo}`,
@@ -137,7 +137,6 @@ export default {
       if (response.data.errorCode === 10000) {
         this.authItems = response.data.data;
         this.getParentKeys(this.authItems);
-        this.getCurrentPermissions();
       } else {
         this.$notify.error({
           title: '获取权限列表异常',
@@ -148,6 +147,7 @@ export default {
     }).catch((err) => {
       this.loading = false;
     });
+    this.getCurrentPermissions();
   },
 };
 </script>
