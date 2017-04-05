@@ -235,7 +235,7 @@ const router = new Router({
       alias: '项目管理',
       children: [
         { path: 'publish', component: itemNew, alias: '新建项目', id: 21 },
-        { path: 'list', component: itemList, alias: '项目管理', id: 22 },
+        { path: 'list', component: itemList, alias: '项目管理', name: 'adminItemList', id: 22 },
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
         { path: ':id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
       ],

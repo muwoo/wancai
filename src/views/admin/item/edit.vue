@@ -2,7 +2,7 @@
   <div id="itemEdit">
     <el-form :model="itemPublishInfo" :rules="itemPublishRules" ref="itemPublishForm">
       <h1 class="tips">基本信息</h1>
-      <el-form-item label="项目名称：" class="form-item" prop="itemName">
+      <el-form-item label="项目名称：" class="form-item" prop="title">
         <el-input v-model="itemPublishInfo.title" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
       <el-form-item label="项目地址：" class="form-item" prop="address">
@@ -260,7 +260,7 @@ export default {
       searchType: '1',
       isMapShow: false,
       itemPublishRules: {
-        itemName: [
+        title: [
           { required: true, message: '请输入项目名称', trigger: 'blur' },
         ],
         address: [
@@ -329,10 +329,10 @@ export default {
             const { error, errorCode, moreInfo } = response.data;
             if (errorCode === 10000) {
               this.$message({
-                message: '新建成功',
+                message: '修改成功',
                 type: 'success',
               });
-              this.$router.push('list');
+              this.$router.push({ name: 'adminItemList' });
             } else {
               this.$notify.error({
                 title: `${moreInfo}`,
@@ -463,13 +463,15 @@ export default {
         if (response.data.errorCode === 10000) {
           const {
             data: {
-              title, address, introduction,
+              title, address, introduction, projectManager, recruitManager,
             },
           } = response.data;
           // console.log(data);
           this.itemPublishInfo.title = title;
           this.itemPublishInfo.address = address;
           this.itemPublishInfo.introduction = introduction;
+          this.itemPublishInfo.projectManager = projectManager;
+          this.itemPublishInfo.recruitManager = recruitManager;
         } else {
           // 获取数据异常，跳回list界面
         }
