@@ -480,7 +480,7 @@ export default {
             title: '再次发布成功',
             type: 'success',
           });
-          this.$router.push({ path: 'demand/pending', query: { id: this.$route.query.id } });
+          this.$router.replace({ path: '/project_manager/demand/pending', query: { id: this.$route.query.id } });
         } else {
           this.$notify.error({
             title: '发布异常',
