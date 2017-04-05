@@ -82,7 +82,7 @@
     filters: {
       formatDate(time) {
         const date = new Date(parseInt(time, 0));
-        return util.formatDate.format(date, 'yyyy-MM-dd hh:mm');
+        return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
       },
       formatSex(sex) {
         return sex === 1 ? '男' : '女';
