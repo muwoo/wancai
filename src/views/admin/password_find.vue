@@ -14,7 +14,7 @@
           <el-input type="text" v-model="verifyForm.idCard" auto-complete="off" placeholder="请输入身份证号"></el-input>
         </el-form-item>
         <el-form-item label="手机号：" prop="phone">
-          <el-input type="password" v-model="verifyForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
+          <el-input v-model="verifyForm.phone" auto-complete="off" placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item label="新密码：" prop="password">
           <el-input type="password" v-model="verifyForm.password" auto-complete="off" placeholder="请输入新密码"></el-input>
