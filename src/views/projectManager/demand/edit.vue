@@ -453,6 +453,7 @@
       handlePublish() {
         const demandId = this.$route.params.id;
         this.publishing = false;
+        this.dealUtcToLocal();
         const params = {
           id: demandId,
           projectId: this.$route.query.id,
@@ -503,6 +504,39 @@
         this.demandInfo.listDemandInterview[this.currentMapIndex].longitude = poi.point.lng;
         this.isMapShow = false;
       },
+      dealUtcToLocal() {
+        // const list = this.demandInfo.listSchedulingInformation;
+        // eslint-disable-next-line
+        for (let i = 0; i < this.demandInfo.listSchedulingInformation.length; i += 1) {
+          // eslint-disable-next-line
+          if (typeof this.demandInfo.listSchedulingInformation[i].startTime !== 'number') {
+            // eslint-disable-next-line
+            this.demandInfo.listSchedulingInformation[i].startTime = Date.parse(this.demandInfo.listSchedulingInformation[i].startTime) + (8 * 3600 * 1000);
+          } else {
+            // eslint-disable-next-line
+            this.demandInfo.listSchedulingInformation[i].startTime = this.demandInfo.listSchedulingInformation[i].startTime + (8 * 3600 * 1000);
+          }
+          // eslint-disable-next-line
+          if (typeof this.demandInfo.listSchedulingInformation[i].endTime !== 'number') {
+            // eslint-disable-next-line
+            this.demandInfo.listSchedulingInformation[i].endTime = Date.parse(this.demandInfo.listSchedulingInformation[i].endTime) + (8 * 3600 * 1000);
+          } else {
+            // eslint-disable-next-line
+            this.demandInfo.listSchedulingInformation[i].endTime = this.demandInfo.listSchedulingInformation[i].endTime + (8 * 3600 * 1000);
+          }
+        }
+      },
+      dealLocalToUtc() {
+        if (this.demandInfo.type === 0) {
+          // eslint-disable-next-line
+          for (let i = 0; i < this.demandInfo.listSchedulingInformation.length; i += 1) {
+            // eslint-disable-next-line
+            this.demandInfo.listSchedulingInformation[i].startTime = this.demandInfo.listSchedulingInformation[i].startTime - (8 * 3600 * 1000);
+            // eslint-disable-next-line
+            this.demandInfo.listSchedulingInformation[i].endTime = this.demandInfo.listSchedulingInformation[i].endTime - (8 * 3600 * 1000);
+          }
+        }
+      },
     },
     filters: {
       formatScheduleDate(date) {
@@ -513,6 +547,7 @@
       this.loading = true;
       this.$http(`${this.$managerURL}/demand/detail?id=${this.$route.params.id}`).then((response) => {
         this.demandInfo = response.data.data;
+        this.dealLocalToUtc();
         this.loading = false;
       }).catch((error) => {
         this.loading = false;

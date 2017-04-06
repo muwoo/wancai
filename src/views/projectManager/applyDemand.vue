@@ -459,7 +459,7 @@ export default {
     },
     handlePublish() {
       this.publishing = false;
-      this.dealSchemeUtcTime();
+      this.dealUtcToLocal();
       const params = {
         projectId: this.$route.query.id,
         title: this.demandInfo.title,
@@ -509,7 +509,7 @@ export default {
       this.demandInfo.listDemandInterview[this.currentMapIndex].longitude = poi.point.lng;
       this.isMapShow = false;
     },
-    dealSchemeUtcTime() {
+    dealUtcToLocal() {
       const list = this.demandInfo.listSchedulingInformation;
       for (let i = 0; i < list.length; i += 1) {
         list[i].startTime = Date.parse(list[i].startTime) + (8 * 3600 * 1000);
