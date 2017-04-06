@@ -83,8 +83,11 @@
           <template scope="scope">
             <el-button
               size="small"
-              type="danger"
               @click="handleUserDetail(scope.$index, scope.row)">详情</el-button>
+            <el-button
+              size="small"
+              type="danger"
+              @click="handleUserWhite(scope.$index, scope.row)">解除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -140,6 +143,24 @@
       // 详情
       handleUserDetail(index, row) {
         window.open(`#/user/${row.id}`, 'target_blank');
+      },
+      // 解除拉黑
+      handleUserWhite(index, row) {
+        this.$http.post(`/talent/removeblacklist?id=${row.id}`).then((response) => {
+          if (response.data.errorCode === 10000) {
+            this.$notify({
+              title: '已解除',
+              type: 'success',
+            });
+            this.users.splice(index, 1);
+          } else {
+            this.$notify.error({
+              title: '解除异常',
+              type: 'success',
+            });
+          }
+        }).catch((err) => {
+        });
       },
       getUsers() {
         this.loading = true;
