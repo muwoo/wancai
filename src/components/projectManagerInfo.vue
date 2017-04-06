@@ -16,12 +16,8 @@
       </el-col>
       <el-col :span="7" :offset="1" class="content-eol ">
         <el-row class="unit-row">
-          <el-col :span="8">
-            {{ projectManager.name }}
-          </el-col>
-          <el-col :span="3">
-            {{ projectManager.sex | formatSex }}
-          </el-col>
+          {{ projectManager.name }}
+          {{ projectManager.sex | formatSex }}
         </el-row>
         <el-row class="unit-row">{{ projectManager.idCard }}</el-row>
         <el-row class="unit-row">生日：{{ projectManager.birthday | formatBirthday }}</el-row>

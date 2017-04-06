@@ -17,7 +17,7 @@
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
           <!-- <img class="image" v-if="userInfo.talent.idCardHand" @click.prevent="handleClickImage" :src="userInfo.idCardHand"/>
           <img class="image" v-if="userInfo.talent.idCardPositive" @click.prevent="handleClickImage" :src="userInfo.idCardPositive"/> -->
-          <img class="image" @click.prevent="handleClickImage" src="http://wx2.sinaimg.cn/mw690/006D2KSdly1fdvp6exyyzg30a005tx6p.gif" />
+          <img class="image" @click.prevent="handleClickImage" src="userInfo.talent.avatar" />
         </el-row>
       </el-col>
       <el-col :span="4" :offset="1">

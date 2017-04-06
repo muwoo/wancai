@@ -17,12 +17,8 @@
       </el-col>
       <el-col :span="7" :offset="1" class="content-eol ">
         <el-row class="unit-row">
-          <el-col :span="8">
-            {{ currentUser.username }}
-          </el-col>
-          <el-col :span="3">
-            {{ currentUser.sex | formatSex }}
-          </el-col>
+          {{ currentUser.username }}
+          {{ currentUser.sex | formatSex }}
         </el-row>
         <el-row class="unit-row">{{ currentUser.idCard }}</el-row>
         <el-row class="unit-row">生日：{{ currentUser.birthday | formatBirthday }}</el-row>
@@ -257,6 +253,7 @@
       height: 15px;
       line-height: 15px;
       margin-top: 5px;
+      width: auto;
     }
     .content-eol {
       display: flex;

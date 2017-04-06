@@ -17,12 +17,8 @@
       </el-col>
       <el-col :span="7" :offset="1" class="content-eol">
         <el-row class="unit-row">
-          <el-col :span="8">
-            {{ administrator.username }}
-          </el-col>
-          <el-col :span="3">
-            {{ administrator.sex | formatSex }}
-          </el-col>
+          {{ administrator.username }}
+          {{ administrator.sex | formatSex }}
         </el-row>
         <el-row class="unit-row">{{ administrator.idCard }}</el-row>
         <el-row class="unit-row">生日：{{ administrator.birthday | formatBirthday }}</el-row>
