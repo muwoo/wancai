@@ -61,7 +61,7 @@ export default {
             title: '修改成功',
             type: 'success',
           });
-          // this.getCurrentPermissions();
+          this.getCurrentPermissions();
         } else {
           this.$notify.error({
             title: `${response.data.moreInfo}`,
@@ -121,6 +121,7 @@ export default {
           this.roleInfo.name = res.data.data.roleName;
           this.roleInfo.auths = res.data.data.permissionList;
           this.setCheckedKeys(this.roleInfo.auths);
+          this.getPermissionList();
         } else {
           this.$notify.error({
             title: '获取权限异常',
@@ -129,24 +130,25 @@ export default {
         }
       });
     },
+    getPermissionList() {
+      this.loading = true;
+      this.$http.get('/admin/permissions/list').then((response) => {
+        if (response.data.errorCode === 10000) {
+          this.authItems = response.data.data;
+          this.getParentKeys(this.authItems);
+        } else {
+          this.$notify.error({
+            title: '获取权限列表异常',
+            type: 'success',
+          });
+        }
+        this.loading = false;
+      }).catch((err) => {
+        this.loading = false;
+      });
+    },
   },
   mounted() {
-    const that = this;
-    this.loading = true;
-    this.$http.get('/admin/permissions/list').then((response) => {
-      if (response.data.errorCode === 10000) {
-        this.authItems = response.data.data;
-        this.getParentKeys(this.authItems);
-      } else {
-        this.$notify.error({
-          title: '获取权限列表异常',
-          type: 'success',
-        });
-      }
-      this.loading = false;
-    }).catch((err) => {
-      this.loading = false;
-    });
     this.getCurrentPermissions();
   },
 };
