@@ -37,7 +37,7 @@
           <el-form-item label="工作要求：">{{ demandInfo.request }}</el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="发布计划" name="second">
+      <el-tab-pane v-if="demandInfo.status!=0 && demandInfo.status != 3 && demandInfo.status!=4 && demandInfo.status!=2" label="发布计划" name="second">
         <el-form :model="planInfo" lable-width="200px" :rules="planRules" ref="planForm" class="publish">
           <el-form-item label='计划名称：' prop="name">
             <el-input v-model="planInfo.name" placeholder="请输入内容" style="width: 200px;"></el-input>
@@ -102,7 +102,7 @@
           </el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="人员管理" name="third">
+      <el-tab-pane v-if="demandInfo.status!=0 && demandInfo.status!=4 && demandInfo.status!=2" label="人员管理" name="third">
         <el-tabs v-model="defaultUserTab" @tab-click="handleUserTabClick">
           <el-tab-pane label="全部" name="first" v-loading="loading">
             <userInfo v-for="(info, index) in users" :userInfo="info"
@@ -271,7 +271,7 @@
           </el-col>
         </el-tabs>
       </el-tab-pane>
-      <el-tab-pane label="招聘计划" name="fourth">
+      <el-tab-pane v-if="demandInfo.status!=0 && demandInfo.status!=4 && demandInfo.status!=2" label="招聘计划" name="fourth">
         <el-table
          :data="plans"
          border
