@@ -511,7 +511,7 @@
     },
     mounted() {
       this.loading = true;
-      this.$http(`/demand/detail?id=${this.$route.params.id}`).then((response) => {
+      this.$http(`${this.$managerURL}/demand/detail?id=${this.$route.params.id}`).then((response) => {
         this.demandInfo = response.data.data;
         this.loading = false;
       }).catch((error) => {

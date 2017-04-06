@@ -416,6 +416,7 @@ export default {
   methods: {
     handleAddSchedule() {
       this.demandInfo.listSchedulingInformation.push({ startTime: '', endTime: '', applyNumber: 0 });
+      this.dealSchemeUtcTime(this.demandInfo.listSchedulingInformation);
     },
     handleDelSchedule() {
       if (this.demandInfo.listSchedulingInformation.length > 1) {
@@ -459,6 +460,7 @@ export default {
     },
     handlePublish() {
       this.publishing = false;
+      this.dealSchemeUtcTime();
       const params = {
         projectId: this.$route.query.id,
         title: this.demandInfo.title,
@@ -507,6 +509,13 @@ export default {
       this.demandInfo.listDemandInterview[this.currentMapIndex].latitude = poi.point.lat;
       this.demandInfo.listDemandInterview[this.currentMapIndex].longitude = poi.point.lng;
       this.isMapShow = false;
+    },
+    dealSchemeUtcTime() {
+      const list = this.demandInfo.listSchedulingInformation;
+      for (let i = 0; i < list.length; i += 1) {
+        list[i].startTime = Date.parse(list[i].startTime) + (8 * 3600 * 1000);
+        list[i].endTime = Date.parse(list[i].endTime) + (8 * 3600 * 1000);
+      }
     },
   },
   filters: {
