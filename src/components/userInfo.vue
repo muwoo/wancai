@@ -15,9 +15,7 @@
     <el-row class="body">
       <el-col :span="3">
         <el-row class="image-col" type="flex" justify="space-around" align="middle">
-          <!-- <img class="image" v-if="userInfo.talent.idCardHand" @click.prevent="handleClickImage" :src="userInfo.idCardHand"/>
-          <img class="image" v-if="userInfo.talent.idCardPositive" @click.prevent="handleClickImage" :src="userInfo.idCardPositive"/> -->
-          <img class="image" @click.prevent="handleClickImage" src="userInfo.talent.avatar" />
+          <img class="image" @click.prevent="handleClickImage" :src="userInfo.talent.idCardPositive | formatQiniuURL" />
         </el-row>
       </el-col>
       <el-col :span="4" :offset="1">
@@ -41,7 +39,7 @@
         </el-row>
       </el-col>
       <el-col :span="5" :offset="1">
-        <el-row class="unit-row"><el-tooltip :content="userInfo.demandName" placement="top">需求：{{ limitContent(userInfo.demandName, 15) }}</el-tooltip></el-row>
+        <el-row class="unit-row"><el-tooltip :content="userInfo.demandName" placement="top">需求：{{ limitContent(userInfo.demandName, 10) }}</el-tooltip></el-row>
         <el-row class="unit-row"><el-tooltip :content="userInfo.planName" placement="top">计划：{{ limitContent(userInfo.planName, 15) }}</el-tooltip></el-row>
         <el-row class="unit-row">经纪人：{{ userInfo.brokerName }}</el-row>
       </el-col>
@@ -201,6 +199,9 @@
         }
         const date = new Date(parseInt(time, 0));
         return util.formatDate.format(date, 'yyyy-MM-dd');
+      },
+      formatQiniuURL(url) {
+        return `${url}?imageView/2/w/640/h/960`;
       },
     },
   };
