@@ -416,7 +416,6 @@ export default {
   methods: {
     handleAddSchedule() {
       this.demandInfo.listSchedulingInformation.push({ startTime: '', endTime: '', applyNumber: 0 });
-      this.dealSchemeUtcTime(this.demandInfo.listSchedulingInformation);
     },
     handleDelSchedule() {
       if (this.demandInfo.listSchedulingInformation.length > 1) {
