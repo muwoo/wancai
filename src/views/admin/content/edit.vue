@@ -53,6 +53,11 @@ export default {
         value: 4,
         label: '协议与文章',
       }],
+      contentInfoRules: {
+        title: [
+          { required: true, message: '请输入标题', trigger: 'blur' },
+        ],
+      },
     };
   },
   methods: {

@@ -53,6 +53,11 @@ export default {
         value: 4,
         label: '协议与文章',
       }],
+      contentInfoRules: {
+        title: [
+          { required: true, message: '请输入标题', trigger: 'blur' },
+        ],
+      },
     };
   },
   methods: {
@@ -62,19 +67,20 @@ export default {
         type: this.contentInfo.type,
         content: this.contentInfo.outputContent,
       };
-      this.$http.post('/news/add', params).then((response) => {
-        if (response.data.errorCode === 10000) {
-          this.$notify({
-            title: '新建成功',
-            type: 'success',
-          });
-        } else {
-          this.$notify.error({
-            title: '新建失败',
-            type: 'success',
-          });
-        }
-      });
+      console.log(this.contentInfo.outputContent);
+      // this.$http.post('/news/add', params).then((response) => {
+      //   if (response.data.errorCode === 10000) {
+      //     this.$notify({
+      //       title: '新建成功',
+      //       type: 'success',
+      //     });
+      //   } else {
+      //     this.$notify.error({
+      //       title: '新建失败',
+      //       type: 'success',
+      //     });
+      //   }
+      // });
     },
     cookHtml(bodyContent) {
       return `<!DOCTYPE html><head><meta charset="UTF-8"><title>${this.contentInfo.title}</title></head><body>${this.contentInfo.outputContent}</body></html>`;
