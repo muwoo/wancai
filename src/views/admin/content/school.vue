@@ -10,6 +10,7 @@
       </el-table-column>
       <el-table-column
         prop="createdAt"
+        :formatter="formatDate"
         label="创建时间">
       </el-table-column>
       <el-table-column
@@ -26,19 +27,28 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-col v-if="schools.length > 0" :span="24"style="margin-top:10px;">
+        <el-pagination layout="prev, pager, next" @current-change="handleCurrentPageChange" :current-page="currentPage" :page-count="pageCount" style="float: right;"></el-pagination>
+    </el-col>
   </div>
 </template>
 <script>
+import util from '../../../common/util';
+
 export default {
   name: 'contentSchool',
   data() {
     return {
       schools: [],
+      currentPage: 1,
+      pageSize: 20,
+      pageCount: 0,
+      loading: false,
     };
   },
   methods: {
     handleModify(index, row) {
-
+      this.$router.push({ name: 'contentEdit', params: { id: row.id } });
     },
     handleDelete(index, row) {
       // this.$http.post().then((res) => {
@@ -55,18 +65,38 @@ export default {
       //   }
       // });
     },
+    handleCurrentPageChange(val) {
+      this.currentPage = val;
+      this.getContent();
+    },
+    formatDate(row, column) {
+      const date = new Date(parseInt(row.createdAt, 0));
+      return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
+    },
+    getContent() {
+      this.loading = true;
+      this.$http.get(`/news/list?type=${2}&pageNum=${this.currentPage}&pageSize=${this.pageSize}`).then((res) => {
+        if (res.data.errorCode === 10000) {
+          const {
+            data: {
+              list, pages, pageNum,
+            },
+          } = res.data;
+          this.loading = false;
+          this.schools = list;
+          this.pageCount = pages;
+        } else {
+          this.$notify.error({
+            title: '数据异常',
+            type: 'success',
+          });
+          this.loading = false;
+        }
+      });
+    },
   },
   mounted() {
-    // this.$http.get().then((res) => {
-    //   if (res.data.errorCode === 10000) {
-    //     console.log(res);
-    //   } else {
-    //     this.$notify.error({
-    //       title: '数据异常',
-    //       type: 'success',
-    //     });
-    //   }
-    // });
+    this.getContent();
   },
 };
 </script>
