@@ -160,6 +160,9 @@
         } else if (this.userInfo.talentStatus === 1) {
           return '名单无效';
         } else if (this.userInfo.talentStatus === 2) {
+          if (this.userInfo.type === 0) {
+            return '待考勤';
+          }
           return '待面试';
         } else if (this.userInfo.talentStatus === 3) {
           return '待入职';
