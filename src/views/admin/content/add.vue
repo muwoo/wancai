@@ -60,7 +60,7 @@ export default {
       const params = {
         title: this.contentInfo.title,
         type: this.contentInfo.type,
-        content: this.cookHtml(this.contentInfo.outputContent),
+        content: this.contentInfo.outputContent,
       };
       this.$http.post('/news/add', params).then((response) => {
         if (response.data.errorCode === 10000) {
