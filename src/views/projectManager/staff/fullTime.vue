@@ -150,6 +150,7 @@
         </el-col>
       </el-tab-pane>
     </el-tabs>
+  </div>
 </template>
 
 <script>

@@ -77,10 +77,10 @@
               </el-select>
             </el-col>
             <el-col :span="4" :offset="1" v-if="planInfo.commissionType != '0' && planInfo.commissionType != '6'">
-              <el-input-number  v-model="planInfo.chargePrice" :min="0" :max="100000" style="width: 150px;">
+              <el-input-number  v-model="planInfo.chargePrice" :min="0" :max="100000" style="width: 150px;"></el-input-number>
             </el-col>
             <el-col :span="4" :offset="1" v-if="planInfo.commissionType == '6'">
-              <el-input-number  v-model="planInfo.chargePrice" :min="0" :max="100" style="width: 150px;">
+              <el-input-number  v-model="planInfo.chargePrice" :min="0" :max="100" style="width: 150px;"></el-input-number>
             </el-col>
           </el-form-item>
           <el-form-item label='截止日期：'>
