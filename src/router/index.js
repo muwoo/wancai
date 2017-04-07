@@ -297,7 +297,7 @@ const router = new Router({
         { path: 'rule', component: contentRule, alias: '规则管理', id: 44 },
         { path: 'protocol', component: contentProtocol, alias: '协议与文章管理', id: 45 },
         { path: 'add', component: contentAdd, alias: '新增内容', id: 46 },
-        { path: 'edit/:id', component: contentEdit, alias: '修改内容', hidden: true },
+        { path: 'edit/:id', component: contentEdit, name: 'contentEdit', alias: '修改内容', hidden: true },
       ],
       meta: {
         requireAuth: true,
