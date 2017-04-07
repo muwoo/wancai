@@ -67,20 +67,24 @@ export default {
         type: this.contentInfo.type,
         content: this.contentInfo.outputContent,
       };
-      console.log(this.contentInfo.outputContent);
-      // this.$http.post('/news/add', params).then((response) => {
-      //   if (response.data.errorCode === 10000) {
-      //     this.$notify({
-      //       title: '新建成功',
-      //       type: 'success',
-      //     });
-      //   } else {
-      //     this.$notify.error({
-      //       title: '新建失败',
-      //       type: 'success',
-      //     });
-      //   }
-      // });
+      this.$refs.contentInfoForm.validate((valid) => {
+        if (valid) {
+          this.$http.post('/news/add', params).then((response) => {
+            if (response.data.errorCode === 10000) {
+              this.$notify({
+                title: '新建成功',
+                type: 'success',
+              });
+            } else {
+              this.$notify.error({
+                title: '新建失败',
+                type: 'success',
+              });
+            }
+          });
+        }
+        return false;
+      });
     },
     cookHtml(bodyContent) {
       return `<!DOCTYPE html><head><meta charset="UTF-8"><title>${this.contentInfo.title}</title></head><body>${this.contentInfo.outputContent}</body></html>`;
