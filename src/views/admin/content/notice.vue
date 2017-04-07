@@ -24,6 +24,10 @@
             size="small"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button
+            size="small"
+            type="danger"
+            @click="handleDetail(scope.$index, scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,6 +68,9 @@ export default {
       //     });
       //   }
       // });
+    },
+    handleDetail(index, row) {
+      window.open(row.url, 'target_blank');
     },
     handleCurrentPageChange(val) {
       this.currentPage = val;
