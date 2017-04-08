@@ -88,8 +88,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        align="center"
-        width="400">
+        align="center">
         <template scope="scope">
           <el-button
             size="small"
