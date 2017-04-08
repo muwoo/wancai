@@ -26,6 +26,7 @@
           <el-button style="float: right" @click="PrePage">上一页</el-button>
         </el-row>
         <middleMan v-for="middleMan in middleMans" :middleMan="middleMan"
+        :selectVisible="false"
         @handleWhiteList="handleWhiteList(this.event, middleMan, index)"
         style="margin-top: 10px;" ></middleMan>
       <el-col :span="24" style="margin-top:10px;" v-if="middleMans.length > 0">
