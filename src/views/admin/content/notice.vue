@@ -55,19 +55,20 @@ export default {
       this.$router.push({ name: 'contentEdit', params: { id: row.id } });
     },
     handleDelete(index, row) {
-      // this.$http.post().then((res) => {
-      //   if (res.data.errorCode === 10000) {
-      //     this.$notify({
-      //       title: '删除成功',
-      //       type: 'success',
-      //     });
-      //   } else {
-      //     this.$notify.error({
-      //       title: '删除异常',
-      //       type: 'success',
-      //     });
-      //   }
-      // });
+      this.$http.post(`/news/delete?id=${row.id}`).then((res) => {
+        if (res.data.errorCode === 10000) {
+          this.$notify({
+            title: '删除成功',
+            type: 'success',
+          });
+          this.notices.splice(index, 1);
+        } else {
+          this.$notify.error({
+            title: '删除异常',
+            type: 'success',
+          });
+        }
+      });
     },
     handleDetail(index, row) {
       window.open(row.url, 'target_blank');
