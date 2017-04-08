@@ -90,7 +90,24 @@ export default {
     'v-editor': Editor,
   },
   mounted() {
-
+    this.$http.post(`/news/detail?id=${this.$route.params.id}`).then((res) => {
+      if (res.data.errorCode === 10000) {
+        const {
+          data: {
+            content, title, type,
+          },
+        } = res.data;
+        this.contentInfo.type = type;
+        this.contentInfo.title = title;
+        this.contentInfo.inputContent = content;
+        this.contentInfo.outputContent = content;
+      } else {
+        this.$notify.error({
+          title: '获取数据异常',
+          type: 'success',
+        });
+      }
+    });
   },
 };
 </script>
