@@ -184,13 +184,18 @@ export default {
             cornet: this.projectManagerInfo.cornet,
             password: this.projectManagerInfo.password,
           }).then((response) => {
-            const { error, errorCode } = response.data;
+            const { error, errorCode, moreInfo } = response.data;
             if (errorCode === 10000) {
               this.$message({
                 message: '新建成功',
                 type: 'success',
               });
               this.$router.push('list');
+            } else {
+              this.$notify.error({
+                title: moreInfo,
+                type: 'success',
+              });
             }
             this.publishing = false;
           }).catch((error) => {
