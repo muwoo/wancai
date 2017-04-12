@@ -21,6 +21,8 @@ import managerDemandApplyAgain from '../views/projectManager/demand/applyAgain';
 
 import projectManagerStaffFullTime from '../views/projectManager/staff/fullTime';
 import projectManagerStaffPartTime from '../views/projectManager/staff/partTime';
+import managerUserShow from '../views/projectManager/staff/show';
+import managerUserEdit from '../views/projectManager/staff/edit';
 
 import projectManagerItemDashboard from '../views/projectManager/item/dashboard';
 
@@ -57,6 +59,8 @@ import businessList from '../views/admin/business/list';
 
 import userList from '../views/admin/user/list';
 import userBlackList from '../views/admin/user/blacklist';
+import adminUserShow from '../views/admin/user/show';
+import adminUserEdit from '../views/admin/user/edit';
 
 import administratorList from '../views/admin/administrator/list';
 import administratorNew from '../views/admin/administrator/new';
@@ -87,26 +91,26 @@ const router = new Router({
       component: index,
       hidden: true, //不显示在导航栏中
     },
-    {
-      path: '/user/:id',
-      name: 'employe',
-      component: employe,
-      hidden: true,
-      meta: {
-        requireAuth: true,
-        isAdmin: true,
-      },
-    },
-    {
-      path: '/project_user/:id',
-      name: 'projectEmploye',
-      component: projectEmploye,
-      hidden: true,
-      meta: {
-        requireAuth: true,
-        isProjectManager: true,
-      },
-    },
+    // {
+    //   path: '/user/:id',
+    //   name: 'employe',
+    //   component: employe,
+    //   hidden: true,
+    //   meta: {
+    //     requireAuth: true,
+    //     isAdmin: true,
+    //   },
+    // },
+    // {
+    //   path: '/project_user/:id',
+    //   name: 'projectEmploye',
+    //   component: projectEmploye,
+    //   hidden: true,
+    //   meta: {
+    //     requireAuth: true,
+    //     isProjectManager: true,
+    //   },
+    // },
     {
       path: '/admin/login',
       name: 'adminLogin',
@@ -219,6 +223,8 @@ const router = new Router({
       children: [
         { path: 'list', component: userList, alias: '人才库管理', id: 18 },
         { path: 'blacklist', component: userBlackList, alias: '黑名单', id: 19 },
+        { path: 'show/:id', component: adminUserShow, name: 'adminUserShow', alias: '人才展示', hidden: true },
+        { path: 'edit/:id', component: adminUserEdit, name: 'adminUserEdit', alias: '人才修改', hidden: true },
       ],
       meta: {
         requireAuth: true,
@@ -379,6 +385,8 @@ const router = new Router({
       children: [
         { path: 'full_time', component: projectManagerStaffFullTime, alias: '全职人员管理' },
         { path: 'part_time', component: projectManagerStaffPartTime, alias: '兼职人员管理' },
+        { path: 'show/:id', component: managerUserShow, name: 'managerUserShow', alias: '人员信息展示', hidden: true },
+        { path: 'edit/:id', component: managerUserEdit, name: 'managerUserEdit', alias: '人员信息修改', hidden: true },
       ],
       meta: {
         requireAuth: true,
