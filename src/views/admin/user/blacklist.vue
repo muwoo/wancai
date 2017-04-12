@@ -142,7 +142,8 @@
       },
       // 详情
       handleUserDetail(index, row) {
-        window.open(`#/user/${row.id}`, 'target_blank');
+        // window.open(`#/user/${row.id}`, 'target_blank');
+        this.$router.push({ name: 'adminUserShow', params: { id: row.id } });
       },
       // 解除拉黑
       handleUserWhite(index, row) {

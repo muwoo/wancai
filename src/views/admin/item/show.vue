@@ -731,7 +731,8 @@
         });
       },
       handleDetail(event, obj) {
-        window.open(`#/user/${obj.talent.id}`, 'target_blank');
+        // window.open(`#/user/${obj.talent.id}`, 'target_blank');
+        this.$router.push({ name: 'adminUserShow', params: { id: obj.talent.id } });
       },
       handleInvalidInfo(event, obj, index) {
         this.handleEditUserStatus(obj, 1, index, '名单无效');
