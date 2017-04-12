@@ -21,7 +21,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
 // $header_grey: #EFF2F7;
 #app {
   position: absolute;

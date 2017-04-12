@@ -89,15 +89,15 @@
       <el-table-column
         label="操作"
         align="center">
-        <template scope="scope">
-          <el-button
+        <template scope="scope" >
+          <el-button id="admin_button"
             size="small"
             @click="handleDemandDetail(scope.$index, scope.row)">详情</el-button>
-          <el-button
+          <el-button id="admin_button"
             size="small"
             type="danger"
             @click="handleRefusedDemand(scope.$index, scope.row)">驳回</el-button>
-          <el-button
+          <el-button id="admin_button"
             size="small"
             type="primary"
             @click="handleProcessedDemand(scope.$index, scope.row)">处理</el-button>
@@ -196,7 +196,10 @@
         this.$http.post('/demand/list', params).then((response) => {
           const {
             data: {
-              list, pages, total, pageNum,
+              list, 
+              pages, 
+              total, 
+              pageNum,
             },
           } = response.data;
           this.totalProjectSize = total;
@@ -232,4 +235,7 @@
   };
 </script>
 <style lang="scss" scoped>
+ 		#admin_button{
+ 			float: left;
+ 		}
 </style>

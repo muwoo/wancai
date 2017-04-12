@@ -24,7 +24,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label='性 别：' style="width: 100%;">
+            <el-form-item label='性 别' style="width: 100%;">
               <el-select v-model="userInfo.sex" placeholder="请选择" style="width: 100px;">
                 <el-option
                   v-for="item in sex"
@@ -202,5 +202,5 @@
     },
   };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" scope>
 </style>

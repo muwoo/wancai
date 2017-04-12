@@ -14,3 +14,6 @@
     name: 'index',
   };
 </script>
+<style lang="scss" scope>
+
+</style>

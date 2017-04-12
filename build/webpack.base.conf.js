@@ -1,4 +1,4 @@
-var path = require('path')
+var path = require('path');
 var config = require('../config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
@@ -34,22 +34,22 @@ module.exports = {
   },
   module: {
     preLoaders: [
-      {
-        test: /\.vue$/,
-        loader: 'eslint',
-        include: [
-          path.join(projectRoot, 'src')
-        ],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.js$/,
-        loader: 'eslint',
-        include: [
-          path.join(projectRoot, 'src')
-        ],
-        exclude: /node_modules/
-      }
+      // {
+      //   test: /\.vue$/,
+      //   loader: 'eslint',
+      //   include: [
+      //     path.join(projectRoot, 'src')
+      //   ],
+      //   exclude: /node_modules/
+      // },
+      // {
+      //   test: /\.js$/,
+      //   loader: 'eslint',
+      //   include: [
+      //     path.join(projectRoot, 'src')
+      //   ],
+      //   exclude: /node_modules/
+      // }
     ],
     loaders: [
       {
@@ -86,9 +86,9 @@ module.exports = {
       }
     ]
   },
-  eslint: {
-    formatter: require('eslint-friendly-formatter')
-  },
+  // eslint: {
+  //   formatter: require('eslint-friendly-formatter')
+  // },
   vue: {
     loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
     postcss: [
