@@ -214,6 +214,7 @@
       // 拉黑
       handleAddBlack() {
         this.$http.post(`/talent/updateblacklist?id=${this.employInfo.id}`).then((response) => {
+        	console.log(response);
           if (response.data.errorCode === 10000) {
             this.$notify({
               title: '已拉黑',
@@ -282,7 +283,7 @@
     left: 0px;
     overflow-y: scroll;
     margin: 10px;
-    border: 2px solid #20a0ff;
+    
 
     display: flex;
     flex-direction: column;

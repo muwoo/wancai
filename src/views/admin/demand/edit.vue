@@ -449,7 +449,7 @@
         const demandId = this.$route.params.id;
         this.publishing = false;
         this.dealUtcToLocal();
-        const params = {
+        const params = {       
           id: demandId,
           projectId: this.$route.query.id,
           title: this.demandInfo.title,

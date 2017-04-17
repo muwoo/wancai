@@ -114,7 +114,6 @@
         currentPage: 1,
         pageSize: 20,
         pageCount: 0,
-        totalEmployeeSize: 100,
         loading: false,
         sex: [{
           value: '0',
@@ -180,7 +179,6 @@
               list, pages, total, pageNum,
             },
           } = response.data;
-          this.totalEmployeeSize = total;
           this.pageCount = pages;
           this.users = list;
           this.loading = false;
@@ -204,4 +202,5 @@
   };
 </script>
 <style lang="scss" scope>
+
 </style>

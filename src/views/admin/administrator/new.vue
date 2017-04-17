@@ -113,12 +113,6 @@ export default {
           { required: true, message: '请输入身份证', trigger: 'blur' },
           { max: 18, message: '身份证最多18位', trigger: 'blur' },
         ],
-//        sex: [
-//          { required: true, message: '请选择性别', trigger: 'blur' },
-//        ],
-        // birthday: [
-        //   { required: true, message: '请选择出生年月', trigger: 'blur' },
-        // ],
         eMail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
         ],

@@ -70,6 +70,7 @@ import administratorRoleEdit from '../views/admin/administrator/edit';
 import administratorRoleEditAdmin from '../views/admin/administrator/editAdmin';
 
 import itemList from '../views/admin/item/list';
+import itemGroups from '../views/admin/item/groups';
 import itemNew from '../views/admin/item/new';
 import itemEdit from '../views/admin/item/edit';
 import itemShow from '../views/admin/item/show';
@@ -243,7 +244,8 @@ const router = new Router({
         { path: 'publish', component: itemNew, alias: '新建项目', id: 21 },
         { path: 'list', component: itemList, alias: '项目管理', name: 'adminItemList', id: 22 },
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
-        { path: ':id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
+        { path: 'show:id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
+        { path: 'groups/:id', component: itemGroups, name: 'adminItemGroups',alias: '添加班组',hidden: true},
       ],
       meta: {
         requireAuth: true,
@@ -265,7 +267,7 @@ const router = new Router({
         { path: 'refused', component: demandRefused, alias: '已驳回', id: 27 },
         { path: 'cancled', component: demandCancled, alias: '已取消', id: 47 },
         { path: ':id', component: demandShow, name: 'adminDemandShow', alias: '需求详情', hidden: true },
-        { path: 'edit/:id', component: demandEdit, name: 'adminDemandEdit', alias: '需求修改', hidden: true },
+        { path: 'edit/:id', component: demandEdit, alias: '需求修改', hidden: true },
       ],
       meta: {
         requireAuth: true,
