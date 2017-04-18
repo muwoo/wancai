@@ -26,14 +26,14 @@
 						<el-input-number v-model="num3" :min="1" :max="100"></el-input-number>
 					</div>
 					<h3 class="tips">班组管理</h3>
-<!---------班组管理------------>
+					<!---------班组管理------------>
 					<div class="fullGroups">
 						<div>
 							全职班组管理
 						</div>
-						
-							<el-button id="addGroups" type="primary" @click="dialogVisible">添加班组</el-button>
-						
+
+						<el-button id="addGroups" type="primary" @click="dialogVisible">添加班组</el-button>
+
 					</div>
 					<el-table class="deaital" :data="tableData8" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 						<el-table-column align="center" prop="quarters" label="一级岗位" width="120">
@@ -59,16 +59,16 @@
 						<el-table-column align="center" prop="foodcompensate" label="餐补" width="160">
 						</el-table-column>
 						<el-table-column align="center" prop="provide" label="操作" width="160">
-						</el-table-column>				
+						</el-table-column>
 					</el-table>
-					
-					<div class="fullGroups" >
+
+					<div class="fullGroups">
 						<div>
 							兼职班组管理
-						</div>		
-					
+						</div>
+
 						<el-button id="addGroups" type="primary" @click="dialogVisible">添加班组</el-button>
-						
+
 					</div>
 					<el-table class="deaital" :data="tableData9" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 						<el-table-column align="center" prop="quarters" label="一级岗位" width="120">
@@ -300,7 +300,7 @@
 					<el-button class="search_button" type="primary">查询记录</el-button>
 				</div>
 				<el-tabs v-model="activeName" @tab-click="handleClick">
-<!--------全部---------->
+					<!--------全部---------->
 					<el-tab-pane label="全部" name="first">
 						<el-button type="primary">批量删除</el-button>
 						<el-button type="primary">批量清算</el-button>
@@ -312,8 +312,7 @@
 							</el-table-column>
 							<el-table-column align="center" prop="idCard" label="身份证号" width="200">
 							</el-table-column>
-							
-							
+
 							<el-table-column align="center" prop="quarters" label="一级岗位" width="120">
 							</el-table-column>
 							<el-table-column align="center" prop="quarters2" label="二级岗位" width="120">
@@ -338,7 +337,7 @@
 							</el-table-column>
 						</el-table>
 					</el-tab-pane>
-<!--------未清算---------->
+					<!--------未清算---------->
 					<el-tab-pane label="未清算" name="second">
 						<el-button type="primary">批量删除</el-button>
 						<el-button type="primary">批量清算</el-button>
@@ -373,7 +372,7 @@
 							</el-table-column>
 						</el-table>
 					</el-tab-pane>
-<!--------清算---------->					
+					<!--------清算---------->
 					<el-tab-pane label="清算" name="third">
 						<el-button type="primary">批量删除</el-button>
 						<el-button type="primary">批量清算</el-button>
@@ -411,12 +410,11 @@
 				</el-tabs>
 
 			</el-tab-pane>
-			
-			
-<!--//全职工资管理-->
+
+			<!--//全职工资管理-->
 			<el-tab-pane label="全职工资管理" name="sixth">
 				<el-tabs v-model="activeName" @tab-click="handleClick">
-<!--全职未发放------->					
+					<!--全职未发放------->
 					<el-tab-pane label="全职未发放" name="first">
 						<div class="fullprovide">
 							<el-select id="gangwei" v-model="value4" clearable placeholder="一级岗位">
@@ -441,7 +439,7 @@
 							<el-table-column align="center" prop="idCard" label="身份证号" width="200">
 							</el-table-column>
 							<el-table-column align="center" label="月份" width="120">
-							  <template scope="scope">{{ scope.row.date }}</template>
+								<template scope="scope">{{ scope.row.date }}</template>
 							</el-table-column>
 							</el-table-column>
 							<el-table-column align="center" prop="quarters" label="一级岗位" width="120">
@@ -450,7 +448,7 @@
 							</el-table-column>
 							<el-table-column align="center" prop="employ" label="试用天数" width="120">
 							</el-table-column>
-							
+
 							<el-table-column align="center" prop="banday" label="上班天数" width="120">
 							</el-table-column>
 							<el-table-column align="center" prop="overtime" label="超时" width="120">
@@ -459,9 +457,9 @@
 							</el-table-column>
 							<el-table-column align="center" prop="alltime" label="全勤" width="120">
 							</el-table-column>
-							
+
 							<el-table-column align="center" prop="allowance" label="等级津贴" width="120">
-							</el-table-column>							
+							</el-table-column>
 							<el-table-column align="center" prop="changewance" label="管理津贴" width="120">
 							</el-table-column>
 							<el-table-column align="center" prop="foodcompensate" label="餐补" width="120">
@@ -489,8 +487,7 @@
 						</el-table>
 
 					</el-tab-pane>
-					
-					
+
 					<el-tab-pane label="全职已发放" name="second">
 						<div class="fullprovide">
 							<el-select id="gangwei" v-model="value4" clearable placeholder="一级岗位">
@@ -515,7 +512,7 @@
 							<el-table-column align="center" prop="idCard" label="身份证号" width="200">
 							</el-table-column>
 							<el-table-column align="center" label="月份" width="120">
-							  <template scope="scope">{{ scope.row.date }}</template>
+								<template scope="scope">{{ scope.row.date }}</template>
 							</el-table-column>
 							</el-table-column>
 							<el-table-column align="center" prop="quarters" label="一级岗位" width="120">
@@ -524,7 +521,7 @@
 							</el-table-column>
 							<el-table-column align="center" prop="employ" label="试用天数" width="120">
 							</el-table-column>
-							
+
 							<el-table-column align="center" prop="banday" label="上班天数" width="120">
 							</el-table-column>
 							<el-table-column align="center" prop="overtime" label="超时" width="120">
@@ -533,9 +530,9 @@
 							</el-table-column>
 							<el-table-column align="center" prop="alltime" label="全勤" width="120">
 							</el-table-column>
-							
+
 							<el-table-column align="center" prop="allowance" label="等级津贴" width="120">
-							</el-table-column>							
+							</el-table-column>
 							<el-table-column align="center" prop="changewance" label="管理津贴" width="120">
 							</el-table-column>
 							<el-table-column align="center" prop="foodcompensate" label="餐补" width="120">
@@ -564,10 +561,10 @@
 					</el-tab-pane>
 				</el-tabs>
 			</el-tab-pane>
-<!--兼职工资管理-->
+			<!--兼职工资管理-->
 			<el-tab-pane label="兼职工资管理" name="seventh">
 				<el-tabs v-model="activeName" @tab-click="handleClick">
-<!------兼职未发放------->
+					<!------兼职未发放------->
 					<el-tab-pane label="兼职未发放" name="first">
 						<div class="fullprovide">
 							<el-select id="gangwei" v-model="value4" clearable placeholder="一级岗位">
@@ -599,7 +596,7 @@
 							</el-table-column>
 							<el-table-column align="center" prop="quarters2" label="二级岗位" width="120">
 							</el-table-column>
-							
+
 							<el-table-column align="center" prop="workhousers" label="工时" width="120">
 							</el-table-column>
 							<el-table-column align="center" prop="piecework" label="件数" width="120">
@@ -623,7 +620,7 @@
 						</el-table>
 
 					</el-tab-pane>
-<!----------兼职已发放-------------->
+					<!----------兼职已发放-------------->
 					<el-tab-pane label="兼职已发放" name="second">
 						<div class="fullprovide">
 							<el-select id="gangwei" v-model="value4" clearable placeholder="一级岗位">
@@ -655,7 +652,7 @@
 							</el-table-column>
 							<el-table-column align="center" prop="quarters2" label="二级岗位" width="120">
 							</el-table-column>
-							
+
 							<el-table-column align="center" prop="workhousers" label="工时" width="120">
 							</el-table-column>
 							<el-table-column align="center" prop="piecework" label="件数" width="120">
@@ -692,7 +689,7 @@
 				</div>
 
 				<!--Echarts图表展示月支出或收入--->
-				<div id="payEcharts">
+				<div id="payCircle" v-show="chartshow">
 
 				</div>
 				<el-table class="deaital" :data="tableData7" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -719,7 +716,7 @@
 <script>
 	import util from '../../../common/util';
 	import userInfo from '../../../components/userInfo';
-
+	import echarts from '../../../common/echarts';
 	export default {
 		name: 'itemShow',
 		components: {
@@ -727,54 +724,56 @@
 		},
 		data() {
 			return {
+				chartshow: true,
+				payCircle: null,
 				num1: 1,
 				num2: 1,
 				num3: 1,
 				tableData0: [{
 					name: '剑哥哥 ',
-					idCard: "640222199005261913",					
+					idCard: "640222199005261913",
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
 					date: "2017-01-02",
-					onbantime:"9:00",
-					upbantime:"18:00",
+					onbantime: "9:00",
+					upbantime: "18:00",
 					//工时
-					workhousers:"4",
+					workhousers: "4",
 					//件数
-					piecework:"56",	
-					holidayhousers:"12",
+					piecework: "56",
+					holidayhousers: "12",
 					status: "未清算",
 					provide: "修改 删除"
 				}],
 				tableData1: [{
 					name: '剑哥哥 ',
-					idCard: "640222199005261913",					
+					idCard: "640222199005261913",
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
 					date: "2017-01-02",
-					onbantime:"9:00",
-					upbantime:"18:00",
+					onbantime: "9:00",
+					upbantime: "18:00",
 					//工时
-					workhousers:"4",
+					workhousers: "4",
 					//件数
-					piecework:"56",	
-					holidayhousers:"12",
+					piecework: "56",
+					holidayhousers: "12",
 					status: "未清算",
 					provide: "修改 删除"
 				}],
 				tableData2: [{
 					name: '剑哥哥 ',
-					idCard: "640222199005261913",					
+					idCard: "640222199005261913",
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
 					date: "2017-01-02",
-					onbantime:"9:00",
-					upbantime:"18:00",
+					onbantime: "9:00",
+					upbantime: "18:00",
 					//工时
-					workhousers:"4",
+					workhousers: "4",
 					//件数
-					piecework:"56",	
-					holidayhousers:"12",
+					piecework: "56",
+					holidayhousers: "12",
 					status: "清算",
 					provide: "修改 删除"
 				}],
@@ -784,32 +783,32 @@
 					date: "17年6月",
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
-					employ:"7",
-					banday:"9",
-					overtime:"4",
+					employ: "7",
+					banday: "9",
+					overtime: "4",
 					//计件
-					piecework:"56",
-					alltime:"300",
+					piecework: "56",
+					alltime: "300",
 					//等级津贴
-					allowance:"300",
+					allowance: "300",
 					//管理津贴
-					changewance:"500",
+					changewance: "500",
 					//餐补
-					foodcompensate:"400",
+					foodcompensate: "400",
 					//奖励
-					reward:"添加",
+					reward: "添加",
 					//处罚
-					administrative:"添加",
-					mouthsalary:"3500",
-					hotdaycost:"100",
+					administrative: "添加",
+					mouthsalary: "3500",
+					hotdaycost: "100",
 					//扣款
-					withhold:"添加",
+					withhold: "添加",
 					//扣社保
-					koushebao:"00",
+					koushebao: "00",
 					//个人税
 					selfshui: "00",
 					//实发金额
-					realitymoney:"5000",
+					realitymoney: "5000",
 					status: "已发放",
 					provide: "发放"
 				}],
@@ -819,32 +818,32 @@
 					date: "17年6月",
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
-					employ:"7",
-					banday:"9",
-					overtime:"4",
+					employ: "7",
+					banday: "9",
+					overtime: "4",
 					//计件
-					piecework:"56",
-					alltime:"300",
+					piecework: "56",
+					alltime: "300",
 					//等级津贴
-					allowance:"300",
+					allowance: "300",
 					//管理津贴
-					changewance:"500",
+					changewance: "500",
 					//餐补
-					foodcompensate:"400",
+					foodcompensate: "400",
 					//奖励
-					reward:"添加",
+					reward: "添加",
 					//处罚
-					administrative:"添加",
-					mouthsalary:"3500",
-					hotdaycost:"100",
+					administrative: "添加",
+					mouthsalary: "3500",
+					hotdaycost: "100",
 					//扣款
-					withhold:"添加",
+					withhold: "添加",
 					//扣社保
-					koushebao:"00",
+					koushebao: "00",
 					//个人税
 					selfshui: "00",
 					//实发金额
-					realitymoney:"5000",
+					realitymoney: "5000",
 					status: "未发放",
 					provide: "发放"
 				}],
@@ -855,20 +854,20 @@
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
 					//工时
-					workhousers:"4",
+					workhousers: "4",
 					//计件
-					piecework:"56",
+					piecework: "56",
 					//奖励
-					reward:"添加",
+					reward: "添加",
 					//处罚
-					administrative:"添加",
+					administrative: "添加",
 					//餐补
-					foodcompensate:"400",					
-					mouthsalary:"3500",
+					foodcompensate: "400",
+					mouthsalary: "3500",
 					//扣款
-					withhold:"添加",					
+					withhold: "添加",
 					//实发金额
-					realitymoney:"5000",
+					realitymoney: "5000",
 					status: "未发放",
 					provide: "发放"
 				}],
@@ -879,60 +878,61 @@
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
 					//工时
-					workhousers:"4",
+					workhousers: "4",
 					//计件
-					piecework:"56",
+					piecework: "56",
 					//奖励
-					reward:"添加",
+					reward: "添加",
 					//处罚
-					administrative:"添加",
+					administrative: "添加",
 					//餐补
-					foodcompensate:"400",					
-					mouthsalary:"3500",
+					foodcompensate: "400",
+					mouthsalary: "3500",
 					//扣款
-					withhold:"添加",					
+					withhold: "添加",
 					//实发金额
-					realitymoney:"5000",
+					realitymoney: "5000",
 					status: "已发放",
 					provide: "发放"
 				}],
 				tableData7: [{
-					date: "17年6月",	
-					styles:"增加奖励",
-					mouthsalary:"3500",
-					provideren: "紫漠大仙"
-				},
-				{
-					date: "17年6月",	
-					styles:"增加奖励",
-					mouthsalary:"3500",
-					provideren: "紫漠大仙"
-				}],
+						date: "17年6月",
+						styles: "增加奖励",
+						mouthsalary: "3500",
+						provideren: "紫漠大仙"
+					},
+					{
+						date: "17年6月",
+						styles: "增加奖励",
+						mouthsalary: "3500",
+						provideren: "紫漠大仙"
+					}
+				],
 				tableData8: [{
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
-					incometype:"计时",
-					acceptprice:"40",
-					unclinchprice:"30",
-					daysalary:"100",
+					incometype: "计时",
+					acceptprice: "40",
+					unclinchprice: "30",
+					daysalary: "100",
 					//请假单价
-					holidayunivalent:"10",
+					holidayunivalent: "10",
 					//超时单价
-					overtimeunivalent:"8",
-					jijianprice:"4",
-					quanqinreward:"80",
+					overtimeunivalent: "8",
+					jijianprice: "4",
+					quanqinreward: "80",
 					//餐补
-					foodcompensate:"80",					
+					foodcompensate: "80",
 					provide: "修改 操作"
 				}],
 				tableData9: [{
 					quarters: "下沙一号仓",
 					quarters2: "分拣员",
-					incometype:"计件",
-					acceptprice:"40",
-					unclinchprice:"30",
-					hourssalary:"100",
-					jiansalary:"80",
+					incometype: "计件",
+					acceptprice: "40",
+					unclinchprice: "30",
+					hourssalary: "100",
+					jiansalary: "80",
 					provide: "修改 删除"
 				}],
 				multipleSelection: [],
@@ -980,13 +980,18 @@
 
 		},
 		methods: {
+
 			dialogVisible() {
 				const params = {
-					
+
 				}
-        		this.$router.push({ name: 'itemGroups', params: { id: this.$route.params.id }});
-        		console.log(this.$route.params.id);
-      		},
+				this.$router.push({
+					name: 'adminItemGroups',
+					params: {
+						id: this.$route.params.id
+					}
+				});
+			},
 			handleChange(value) {
 				console.log(value);
 			},
@@ -1326,7 +1331,74 @@
 				}
 				return '';
 			},
+			apps() {
+				if(this.chartshow == true) {
+					this.chartshow == false;
+					var _this = this;
+					this.payCircle = echarts.init(document.getElementById('payCircle'));
+					this.payCircle.setOption({
+						tooltip: {
+							trigger: 'item',
+							formatter: "{a} <br/>{b}: {c} ({d}%)"
+						},
+						legend: {
+							orient: 'vertical',
+							x: 'left',
+							//						data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+						},
+						series: [{
+							name: '数据来源',
+							type: 'pie',
+							radius: ['50%', '70%'],
+							avoidLabelOverlap: false,
+							label: {
+								normal: {
+									show: false,
+									position: 'center'
+								},
+								emphasis: {
+									show: true,
+									textStyle: {
+										fontSize: '20',
+										fontWeight: 'bold'
+									}
+								}
+							},
+							labelLine: {
+								normal: {
+									show: true
+								}
+							},
+							data: [{
+									value: 335,
+									name: '公司收入分成'
+								},
+								{
+									value: 310,
+									name: '缴税'
+								},
+								{
+									value: 234,
+									name: '兼职工资发放'
+								},
+								{
+									value: 135,
+									name: '招聘佣金支出'
+								},
+								{
+									value: 1548,
+									name: '全职工资支出'
+								}
+							]
+						}]
+					});
+				}else{
+					this.chartshow == true;
+				}
+			}
+
 		},
+
 		mounted() {
 			this.loading = true;
 			this.$http(`/project/detail?id=${this.$route.params.id}`).then((response) => {
@@ -1348,16 +1420,11 @@
 			height: 60px;
 			margin-right: 30px;
 		}
-		#payEcharts {
+		#payCircle {
 			width: 800px;
-			height: 300px;
+			height: 400px;
 			padding: 50px 0 50px 0;
 			background: green;
-		}
-		#search_find {
-			width: 160px;
-			height: 36px;
-			margin-right: 30px;
 		}
 		#gangwei {
 			margin-right: 30px;

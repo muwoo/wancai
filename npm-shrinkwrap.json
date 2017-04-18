@@ -1368,6 +1368,11 @@
       "resolved": "https://registry.npm.taobao.org/ecc-jsbn/download/ecc-jsbn-0.1.1.tgz",
       "optional": true
     },
+    "echarts": {
+      "version": "3.5.3",
+      "from": "echarts@>=3.5.3 <4.0.0",
+      "resolved": "https://registry.npmjs.org/echarts/-/echarts-3.5.3.tgz"
+    },
     "editorconfig": {
       "version": "0.13.2",
       "from": "editorconfig@>=0.13.2 <0.14.0",
@@ -5542,6 +5547,11 @@
           "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-3.0.0.tgz"
         }
       }
+    },
+    "zrender": {
+      "version": "3.4.3",
+      "from": "zrender@>=3.4.3 <4.0.0",
+      "resolved": "https://registry.npmjs.org/zrender/-/zrender-3.4.3.tgz"
     }
   }
 }

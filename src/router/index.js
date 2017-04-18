@@ -244,7 +244,7 @@ const router = new Router({
         { path: 'publish', component: itemNew, alias: '新建项目', id: 21 },
         { path: 'list', component: itemList, alias: '项目管理', name: 'adminItemList', id: 22 },
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
-        { path: 'show:id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
+        { path: 'show/:id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
         { path: 'groups/:id', component: itemGroups, name: 'adminItemGroups',alias: '添加班组',hidden: true},
       ],
       meta: {

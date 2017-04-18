@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "echarts": "^3.5.3",
     "element-ui": "^1.1.6",
     "node-sass": "https://registry.npmjs.org/node-sass/-/node-sass-4.5.2.tgz",
     "sass-loader": "https://registry.npmjs.org/sass-loader/-/sass-loader-4.1.1.tgz",
