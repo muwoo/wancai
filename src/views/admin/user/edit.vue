@@ -6,14 +6,15 @@
 			</el-col>
 		</el-row>
 		<div id="change_container">
-			<div class="container">
+			<div class="container"> 
 				<div class="baohan">
 					<div class="baohan_left">
 						<img class="image" :src="editPeop.idCardPositive">
 					</div>
 					<div class="baohan_right">
-						<span class="mar_30">
-							{{ editPeop.name }}
+						<span class="mar_30" prop="name">
+							姓名：
+							<el-input class="minzu"  v-model="editPeop.name" placeholder="请输入姓名"></el-input>
 						</span>
 						<span>
 							{{ editPeop.idCard }}
@@ -26,20 +27,22 @@
 
 							 <input type="radio" name="1" />女
 						</span>
-						<span> 
+						<span prop="nation"> 
 							名族：
 							<el-input class="minzu"  v-model="editPeop.nation" placeholder="请输入民族"></el-input>
 						</span>
 
 						<span>
-							{{ editPeop.birthday }}
+							生日：
+							<el-input class="minzu"  v-model="editPeop.birthday" placeholder="出生日期"></el-input>
 						</span>
 						<span>
-							{{ editPeop.address }}
+							地址：
+							<el-input class="minzu"  v-model="editPeop.address" placeholder="地址"></el-input>
 						</span>
 					</div>
 				</div>
-				<div id="rulesBack"  :rules="editRules" refs="editFollowing">
+				<div id="rulesBack">
 					<el-row>
 						<el-col :span="24">
 							<div class="grid-content bg-purple-dark scend">基本信息:</div>
@@ -71,53 +74,59 @@
 							<div class="grid-content bg-purple-dark third">主要家庭成员（必填一项）:</div>
 						</el-col>
 					</el-row>
-					<el-input placeholder="姓名:" class="boedeyell" v-model="editPeop.listFamilyMembers[0].relativesName">
+				<div id="creatExpress"  v-for="item in editPeop.listFamilyMembers">
+					<el-input placeholder="姓名:" class="boedeyell" v-model="item.relativesName">
 
 					</el-input>
-					<el-input placeholder="关系:" class="boedeyell" v-model="editPeop.listFamilyMembers[0].relationship">
+					<el-input placeholder="关系:" class="boedeyell" v-model="item.relationship">
 
 					</el-input>
-					<el-input placeholder="联系方式:" class="boedeyell" v-model="editPeop.listFamilyMembers[0].relativesPhone">
+					<el-input placeholder="联系方式:" class="boedeyell" v-model="item.relativesPhone">
 
 					</el-input>
-			
+					<div id="fengeline">
+						------------------------------------------------------------------------------------------------------------------------------------
+					</div>
+				</div>
 					<el-row>
 						<el-col :span="24">
 							<div class="grid-content bg-purple-dark third">工作经历（选填）:</div>
 						</el-col>
 					</el-row>
-				<div id="creatExpress">
-					<el-input placeholder="工作单位:" class="boedeyell" v-model="editPeop.listWorkExperience[0].company">
+				<div id="creatExpress"  v-for="item in editPeop.listWorkExperience">
+					<el-input placeholder="工作单位:" class="boedeyell" v-model="item.company">
 
 					</el-input>
-					<el-input placeholder="职务:" class="boedeyell" v-model="editPeop.listWorkExperience[0].job">
+					<el-input placeholder="职务:" class="boedeyell" v-model="item.job">
 
 					</el-input>
-					<el-input placeholder="离职原因:" class="boedeyell" v-model="editPeop.listWorkExperience[0].leaveReason">
+					<el-input placeholder="离职原因:" class="boedeyell" v-model="item.leaveReason">
 
 					</el-input>
 					<div class="block">
-						<el-date-picker v-model="value2" class="boedeyell" align="right" type="date" placeholder="入职日期" :picker-options="pickerOptions1">
+						<el-date-picker v-model="item.startTime" class="boedeyell" align="right" type="date" placeholder="入职日期" :picker-options="pickerOptions1">
 							
 						</el-date-picker>
 					</div>
 					<div class="block">
-						<el-date-picker class="boedeyell" v-model="value1" type="date" placeholder="离职日期" :picker-options="pickerOptions0">
+						<el-date-picker class="boedeyell" v-model="item.endTime" type="date" placeholder="离职日期" :picker-options="pickerOptions0">
 						</el-date-picker>
 					</div>
-					<el-input placeholder="证明人:" class="boedeyell" v-model="input2">
+					<el-input placeholder="证明人:" class="boedeyell" v-model="item.witness">
 
 					</el-input>
-					<el-input id="boedeyell" placeholder="证明人电话:" class="boedeyell" v-model="input2">
+					<el-input id="boedeyell" placeholder="证明人电话:" class="boedeyell" v-model="item.witnessPhone">
 
 					</el-input>
+					<div id="fengeline">
+						------------------------------------------------------------------------------------------------------------------------------------
+					</div>
 				</div>
 					<el-row>
 						<el-col :span="24">
-							<div class="grid-content bg-purple four el-icon-plus" @click="addExpression">&nbsp;&nbsp;&nbsp;添加一条工作经历</div>
+							<div class="grid-content bg-purple four el-icon-plus"  @click="addExpression">&nbsp;&nbsp;&nbsp;添加一条工作经历</div>
 						</el-col>
 					</el-row>
-				
 				
 				
 				
@@ -126,26 +135,31 @@
 							<div class="grid-content bg-purple-dark five">教育经历（选填）:</div>
 						</el-col>
 					</el-row>
-					<el-input placeholder="学校名称或培训单位:" class="boedeyell" v-model="input2">
-
-					</el-input>
-					<div class="block">
-						<el-date-picker v-model="value2" class="boedeyell" align="right" type="date" placeholder="开始日期" :picker-options="pickerOptions1">
-						</el-date-picker>
+					<div id="creatExpress" v-for="item in editPeop.listEducationExperience">
+						<el-input placeholder="学校名称或培训单位:" class="boedeyell" v-model="item.school">
+	
+						</el-input>
+						<div class="block">
+							<el-date-picker v-model="item.startTime" class="boedeyell" align="right" type="date" placeholder="开始日期" :picker-options="pickerOptions1">
+							</el-date-picker>
+						</div>
+						<div class="block">
+							<el-date-picker class="boedeyell" v-model="item.endTime" type="date" placeholder="结束日期" :picker-options="pickerOptions0">
+							</el-date-picker>
+						</div>
+						<el-input placeholder="专业或课程:" class="boedeyell" v-model="item.major">
+							
+						</el-input>
+						<div id="fengeline">
+						------------------------------------------------------------------------------------------------------------------------------------
+						</div>
 					</div>
-					<div class="block">
-						<el-date-picker class="boedeyell" v-model="value1" type="date" placeholder="离职日期" :picker-options="pickerOptions0">
-						</el-date-picker>
-					</div>
-					<el-input placeholder="专业或课程:" class="boedeyell" v-model="input2">
-						
-					</el-input>
 					<el-row>
 						<el-col :span="24">
 							<div class="grid-content bg-purple four el-icon-plus" @click="education">&nbsp;&nbsp;&nbsp;添加一条教育经历</div>
 						</el-col>
 					</el-row>
-					<el-input placeholder="联系方式:" class="boedeyell" v-model="input2">
+					<el-input placeholder="联系方式:" class="boedeyell" v-model="editPeop.telphone">
 
 					</el-input>
 					<div class="butt_last">
@@ -161,62 +175,7 @@
 		name: 'adminUserEdit',
 		data() {
 			return {
-				editRules: {
-					educational: [{
-						required: true,
-						message: '请输入学历',
-						trigger: 'blur'
-					}, ],
-					married: [{
-						required: true,
-						message: '请输入婚否',
-						trigger: 'blur'
-					}, ],
-					idCard: [{
-							required: true,
-							message: '请输入身份证',
-							trigger: 'blur'
-						},
-						{
-							max: 18,
-							message: '身份证最多18位',
-							trigger: 'blur'
-						},
-					],
-					eMail: [{
-						required: true,
-						message: '请输入邮箱',
-						trigger: 'blur'
-					}, ],
-					weChat: [{
-						required: true,
-						message: '请输入微信号',
-						trigger: 'blur'
-					}, ],
-					qq: [{
-						required: true,
-						message: '请输入QQ号',
-						trigger: 'blur'
-					}, ],
-					telephone: [{
-						required: true,
-						message: '请输入固定电话',
-						trigger: 'blur'
-					}, ],
-					cornet: [{
-						required: true,
-						message: '请输入虚拟短号',
-						trigger: 'blur'
-					}, ],
-					password: [{
-						validator: this.validatePass,
-						trigger: 'blur'
-					}, ],
-					checkPass: [{
-						validator: this.validateCheckPass,
-						trigger: 'blur'
-					}, ]
-				},
+				isShow:false,
 				editPeop: {
 					idCardPositive: "",
 					idCard: "",
@@ -289,45 +248,38 @@
 							picker.$emit('pick', date);
 						}
 					}]
-				},
-				value1: '',
-				value2: "",
+				}
 			};
 		},
 
 		methods: {
-			education() {
-				console.log("教育经历");
+			education() {			
+				this.editPeop.listEducationExperience.push({
+						endTime: "",
+						major: "",
+						school: "",
+						talentId: "",
+						startTime: "",
+						id: ""
+				});		
 			},
 			addExpression() {
-				
-				
-//				let creatDom = document.getElementById("creatExpress")
-//					var html = document.createElement("html");
-//					html.innerHTML =  "<el-input placeholder=\"工作单位:\" class=\"boedeyell\" v-model=\"input2\" prop=\"eMail\">"
-//									+ "</el-input>"
-//									+ "<el-input placeholder=\"职务:\" class=\"boedeyell\" v-model=\"input2\">"
-//					
-//									+"</el-input>"
-//									+"<el-input placeholder=\"离职原因:\" class=\"boedeyell\" v-model=\"input2\">"
-//					
-//									+"</el-input>"
-//									+"<div class=\"block\">"
-//										+"<el-date-picker v-model=\"value2\" class=\"boedeyell\" align=\"right\" type=\"date\" placeholder=\"入职日期\" :picker-options=\"pickerOptions1\">"
-//										+"</el-date-picker>"
-//									+"</div>"
-//									+"<div class=\"block\">"
-//										+"<el-date-picker class=\"boedeyell\" v-model=\"value1\" type=\"date\" placeholder=\"离职日期\" :picker-options=\"pickerOptions0\">"
-//										+"</el-date-picker>"
-//									+"</div>"
-//									+"<el-input placeholder=\"证明人:\" class=\"boedeyell\" v-model=\"input2\">"
-//					
-//									+"</el-input>"
-//									+"<el-input id=\"boedeyell\" placeholder=\"证明人电话:\" class=\"boedeyell\" v-model=\"input2\">"
-//					
-//									+"</el-input>";
-//			creatDom.appendTo("html");
-					
+				this.isShow = true;
+				this.editPeop.listWorkExperience.push({
+						company: "",
+						endTime: "",
+						id: 1,
+						job: "",
+						leaveReason: "",
+						startTime: "",
+						talentId: "",
+						witness: "",
+						witnessPhone: ""
+				});
+			},
+			clearthisexpress(){
+				this.isShow = false;
+//				this.editPeop.listWorkExperience = isShow;
 			},
 			handleIconClick(ev) {
 				console.log(ev);
@@ -342,7 +294,7 @@
 						errorCode,
 						moreInfo,
 					} = response.data;
-					if(errorCode == 10000) {
+					if(errorCode == 11001) {
 						this.$notify({
 							title: '修改成功',
 							type: 'success',
@@ -404,10 +356,15 @@
 				min-height: 36px;
 			}
 		}
+		#fengeline{
+			width: 100%;
+			height: 20px;
+			margin-bottom: 20px;
+			color: darkgray;			
+		}
 		#creatExpress{
 			width: 100%;
 			height: 100%;
-			background: yellow;
 		}
 		#change_container {
 			width: 100%;
@@ -415,7 +372,6 @@
 			#createxpress {
 				width: 100%;
 				height: 100%;
-				background: green;
 			}
 			.container {
 				width: 800px;

@@ -29,6 +29,7 @@
       <el-form-item label="项目介绍：" class="form-item" prop="introduction">
         <el-input type="textarea" :rows="2" v-model="itemPublishInfo.introduction" placeholder="请输入内容" style="width: 400px;"></el-input>
       </el-form-item>
+<!-----匹配负责人------->
       <h1 class="tips">匹配负责人</h1>
       <el-form-item label="招聘前台：" class="form-item" prop="recruitManager.name">
         <span>{{ itemPublishInfo.recruitManager.username }}</span>
@@ -327,7 +328,7 @@ export default {
             // eslint-disable-next-line
             console.log(response.data);
             const { error, errorCode, moreInfo } = response.data;
-            if (errorCode === 10000) {
+            if (errorCode === 11001) {
               this.$message({
                 message: '修改成功',
                 type: 'success',

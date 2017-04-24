@@ -1,12 +1,12 @@
 <template>
-	<div id="itemGroups">
+	<div id="partGroups">
 		<div class="container">
 			<!--------添加一级班组弹出窗------->
 
 			<el-dialog id="find_out" v-model="dialogFormVisible">
 				<el-form :model="form">
 					<el-form-item label="一级班组：" :label-width="formLabelWidth">
-						<el-input class="center_input" v-model="input" auto-complete="on" placeholder="请输入班组名称"></el-input>
+						<el-input class="center_input" v-model="addgroup" auto-complete="on" placeholder="请输入班组名称"></el-input>
 						<span class="addbanzu" @click="inaddgroups">
 							添加
 						</span>
@@ -21,7 +21,7 @@
 						<el-table-column align="center" prop="provide" label="操作" width="200">
 							<template scope="scope">
 								<el-button size="small" type="primary" @click="choiceRow(scope.$index, scope.row)">选择</el-button>
-								<el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button>								
+								<el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -31,13 +31,12 @@
 				<div class="banzu">
 					<div>
 						一级班组：
-					</div>				
+					</div>
 					<el-input v-model="input" class="widthdian" placeholder="选择一级班组">
 					</el-input>
 					<div class="center_add" @click="showlisttable">
 						添加一级班组
 					</div>
-					<el-button size="small" type="primary" @click="showBothlist">选择</el-button>
 				</div>
 				<div class="banzu">
 					<div>
@@ -153,14 +152,14 @@
 <script>
 	import util from '../../../common/util';
 	export default {
-		name: "itemGroups",
+		name: "partGroups",
 		data() {
 			return {
 				choicegroup: [{
-					name:""
+					name: ""
 				}],
-				choice:true,
-				input:"",
+				choice: true,
+				input: "",
 				num1: "1",
 				num2: "1",
 				dialogFormVisible: false,
@@ -181,19 +180,8 @@
 						status: "0"
 					}]
 				},
-				banzugroups:{
-					managerId:11111,
-					recruitFronts:222222,
-					title:"岗位名称",
-				    address:"杭州市西湖区",
-				    introduction:"对对对",
-				    userId:1,
-				    longitude:120.1273834,
-				    latitude:30.2419557,
-				    profitCommission:20,
-				    companyDivided:20,
-				    riskIncentive:20,
-				    partTimeTeam: [{
+				banzugroups: {
+					partTimeTeam: [{
 						fristJobId: 1,
 						fristJobName: "一级班组",
 						secondJob: "二级班组",
@@ -216,35 +204,35 @@
 							condition: 40
 						}]
 					}],
-				    fullTimeTeam:[{
-				    	fristJobId:"",
-				    	fristJobName:"",
-				    	secondJob:"",
-				    	incomeType:"",
-				    	type:"",
-				    	receiveOrderAmount:"",
-				    	sendOrderAmount:"",
-				    	salary:"",
-				    	leaveAmount:"",
-				    	overtimeAmount:"",
-				    	fullTimeBonus:"",
-				    	fullTimeDays:"",
-				    	mealSupplement:"",
-				    	checkDayTime:"",
-				    	conditionList:[{
-				    		amount:"",
-				    		condition:""
-				    		},{
-				    		amount:"",
-				    		condition:""
-				    		},{
-				    		amount:"",
-				    		condition:""
-				    		},{
-				    		amount:"",
-				    		condition:""
-				    	}]
-				    }]
+					fullTimeTeam: [{
+						fristJobId: 1,
+						fristJobName: "一级班组",
+						secondJob: "二级班组",
+						incomeType: 1,
+						type: 1,
+						receiveOrderAmount: 10,
+						sendOrderAmount: 5,
+						salary: 10,
+						leaveAmount: 10,
+						overtimeAmount: 20,
+						fullTimeBonus: 100,
+						fullTimeDays: 30,
+						mealSupplement: 20,
+						checkDayTime: 8,
+						conditionList: [{
+							amount: 10,
+							condition: 10
+						}, {
+							amount: 20,
+							condition: 20
+						}, {
+							amount: 30,
+							condition: 30
+						}, {
+							amount: 40,
+							condition: 40
+						}]
+					}]
 				},
 				form: {
 					name: '',
@@ -260,87 +248,22 @@
 			};
 		},
 		methods: {
-			showBothlist(){
-				const params = {
-					title:this.banzugroups.title,
-				    address:this.banzugroups.address,
-				    introduction:this.banzugroups.introduction,
-				    userId:this.banzugroups.userId,
-//				    longitude:this.banzugroups.longitude,
-//				    latitude:this.banzugroups.latitude,
-//				    profitCommission:this.banzugroups.profitCommission,
-//				    companyDivided:this.banzugroups.companyDivided,
-//				    riskIncentive:this.banzugroups.riskIncentive,
-					recruitFronts: this.banzugroups.recruitFronts,
-					managerId: this.banzugroups.managerId,
-					
-					fristJobId:this.banzugroups.fullTimeTeam.fristJobId,
-				    fristJobName:this.banzugroups.fullTimeTeam.fristJobName,
-				    secondJob:this.banzugroups.fullTimeTeam.secondJob,
-				    incomeType:this.banzugroups.fullTimeTeam.incomeType,
-				    type:this.banzugroups.fullTimeTeam.type,
-				    receiveOrderAmount:this.banzugroups.fullTimeTeam.receiveOrderAmount,
-				    sendOrderAmount:this.banzugroups.fullTimeTeam.sendOrderAmount,
-				    salary:this.banzugroups.fullTimeTeam.salary,
-				    leaveAmount:this.banzugroups.fullTimeTeam.leaveAmount,
-				    overtimeAmount:this.banzugroups.fullTimeTeam.overtimeAmount,
-				    fullTimeBonus:this.banzugroups.fullTimeTeam.fullTimeBonus,
-				    fullTimeDays:this.banzugroups.fullTimeTeam.fullTimeDays,
-				    mealSupplement:this.banzugroups.fullTimeTeam.mealSupplement,
-				    checkDayTime:this.banzugroups.fullTimeTeam.checkDayTime,
-				}
-				this.$http.post('/project/add', params).then((response) => {					
-					if(response.data.errorCode === 10000) {						
-						const {
-							introduction,
-							address,
-							title,
-							fullTimeTeam,
-							userId,
-							managerId,
-							recruitFronts,
-						} = response.data;
-						this.banzugroups.fullTimeTeam = response.data;
-						this.banzugroups.managerId = managerId,
-						this.banzugroups.recruitFronts = recruitFronts,
-						this.banzugroups.userId = userId,
-						this.banzugroups.introduction = introduction,
-						this.banzugroups.address = address,
-						this.banzugroups.title = title,
-						
-						this.listshow();
-						this.$notify({
-							title: '展示成功',
-							type: 'success',
-						});
-						console.log(response.data);
-					} else {
-						console.log(response.data);
-						this.$notify.error({
-							title: '添加异常',
-							type: 'success',
-						});
-					}
-				}).catch((error) => {
-					console.log(error);
-				});
-			},
-			showlisttable(){
+			showlisttable() {
 				this.dialogFormVisible = true;
 				this.listshow();
 			},
 			//内部添加班组
 			inaddgroups() {
-//				this.listshow();
+				//				this.listshow();
 				const params = {
 					projectId: this.addgroup.projectId,
 					name: this.addgroup.name
 				}
-				this.$http.post('/project/job/add', params).then((response) => {
-					
+				this.$http.post('/project/add', params).then((response) => {
+
 					if(response.data.errorCode === 10000) {
 						const {
-							
+
 						} = response.data;
 						this.listshow();
 						this.$notify({
@@ -348,7 +271,6 @@
 							type: 'success',
 						});
 					} else {
-						console.log(response.data);
 						this.$notify.error({
 							title: '添加异常',
 							type: 'success',
@@ -359,13 +281,12 @@
 				});
 			},
 			//选择添加自定义班组
-			choiceRow(index, row){
+			choiceRow(index, row) {
 				const params = {
 					id: row.id
 				};
 				this.choicegroup = this.listproject.data.name;
-					
-			
+
 				console.log(choicegroup);
 			},
 			deleteRow(index, row) {
@@ -375,7 +296,7 @@
 				this.$http.post('/project/job/delete', params).then((response) => {
 					if(response.data.errorCode === 10000) {
 						const {
-					
+
 						} = response.data;
 						this.listproject.data.splice(index, 1);
 						this.$notify.error({
@@ -394,7 +315,7 @@
 			},
 			listshow() {
 				const params = {
-					id: this.listproject.data[0].id,					
+					id: this.listproject.data[0].id,
 					fullTimeCount: this.listproject.data[0].fullTimeCount,
 					partimeCount: this.listproject.data[0].partTimeCount,
 					projectId: this.listproject.data[0].projectId,
@@ -402,13 +323,13 @@
 					status: this.listproject.data[0].status
 				}
 				this.$http.post('/project/job/list', params).then((response) => {
-			if(response.data.errorCode === 10000) {
-				this.listproject.data = response.data.data
-//						this.$notify({
-//							title: "添加成功",
-//							type: 'success',
-//						});
-						}else{		
+					if(response.data.errorCode === 10000) {
+						this.listproject.data = response.data.data
+						//						this.$notify({
+						//							title: "添加成功",
+						//							type: 'success',
+						//						});
+					} else {
 						this.$notify.error({
 							title: '添加异常',
 							type: 'success',
@@ -418,10 +339,7 @@
 					console.log(error);
 				});
 			},
-			
-			
-			
-			
+
 			//添加班组
 			addBtn() {
 				this.$router.push({
@@ -452,7 +370,7 @@
 </script>
 
 <style lang="scss" scoped>
-	#itemGroups {
+	#partGroups {
 		width: 100%;
 		height: 100%;
 		.deaital {

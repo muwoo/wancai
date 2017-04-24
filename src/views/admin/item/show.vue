@@ -25,8 +25,9 @@
 						<span>风险激励金比例：</span>
 						<el-input-number v-model="num3" :min="1" :max="100"></el-input-number>
 					</div>
-					<h3 class="tips">班组管理</h3>
-					<!---------班组管理------------>
+					
+<!---------班组管理------------>
+					<h3 class="tips">班组管理</h3>					
 					<div class="fullGroups">
 						<div>
 							全职班组管理
@@ -281,7 +282,7 @@
 			</el-tab-pane>
 			<el-tab-pane label="考情管理" name="fifth">
 				<div class="block">
-					<span class="wrapper">
+				 	<span class="wrapper">
 					    <el-button type="primary">添加考勤记录</el-button>
 					    <el-button type="primary">导入</el-button>
 					    <el-button type="primary">清算</el-button>
@@ -296,7 +297,7 @@
 					<div>
 						身份证号：
 						<el-input class="idCard_input" v-model="input" placeholder="请输入内容"></el-input>
-					</div>
+					</div> 
 					<el-button class="search_button" type="primary">查询记录</el-button>
 				</div>
 				<el-tabs v-model="activeName" @tab-click="handleClick">
@@ -689,26 +690,46 @@
 				</div>
 
 				<!--Echarts图表展示月支出或收入--->
-				<div id="payCircle" v-show="chartshow">
-
+				<div id="payCircle">
+					<div id="chartone"></div>
+					<div id="charttwo"></div>
+					<div id="chartthree"></div>
+				</div>
+				<div id="chartdeaital">
+					<div>
+						项目利润：
+						<span>1000万元</span>&nbsp;&nbsp;&nbsp;					
+						同比增长：
+						<span>80%↑</span>						
+					</div>
+					<div>
+						项目收入：
+						<span>1000万元</span>&nbsp;&nbsp;&nbsp;						
+						同比增长：
+						<span>80%↑</span>		
+					</div>
+					<div>
+						项目支出：
+						<span>1000万元</span>&nbsp;&nbsp;&nbsp;						
+						同比增长：
+						<span>80%↑</span>		
+					</div>
 				</div>
 				<el-table class="deaital" :data="tableData7" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 					<el-table-column type="selection" width="55">
 					</el-table-column>
-					<el-table-column align="center" label="时间" width="120" height="60">
+					<el-table-column align="center" label="时间" width="220" height="60">
 						<template scope="scope">{{ scope.row.date }}</template>
 					</el-table-column>
-					<el-table-column align="center" prop="styles" label="类型" width="120">
+					<el-table-column align="center" prop="styles" label="类型" width="220">
 					</el-table-column>
-					<el-table-column align="center" prop="mouthsalary" label="金额" width="120">
+					<el-table-column align="center" prop="mouthsalary" label="金额" width="220">
 					</el-table-column>
-
-					<el-table-column align="center" prop="provideren" label="操作人" width="160">
+					<el-table-column align="center" prop="provideren" label="操作人" width="220">
 					</el-table-column>
 				</el-table>
 			</el-tab-pane>
-		</el-tabs>
-
+	</el-tabs>
 		</el-tab-pane>
 		</el-tabs>
 	</div>
@@ -724,8 +745,9 @@
 		},
 		data() {
 			return {
-				chartshow: true,
-				payCircle: null,
+				chartone: null,
+				charttwo: null,
+				chartthree: null,
 				num1: 1,
 				num2: 1,
 				num3: 1,
@@ -996,6 +1018,7 @@
 				console.log(value);
 			},
 			handleSelectionChange(val) {
+				
 				this.multipleSelection = val;
 			},
 			handleClick(tab, event) {
@@ -1332,83 +1355,191 @@
 				return '';
 			},
 			apps() {
-				if(this.chartshow == true) {
-					this.chartshow == false;
-					var _this = this;
-					this.payCircle = echarts.init(document.getElementById('payCircle'));
-					this.payCircle.setOption({
-						tooltip: {
-							trigger: 'item',
-							formatter: "{a} <br/>{b}: {c} ({d}%)"
-						},
-						legend: {
-							orient: 'vertical',
-							x: 'left',
-							//						data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
-						},
-						series: [{
-							name: '数据来源',
-							type: 'pie',
-							radius: ['50%', '70%'],
-							avoidLabelOverlap: false,
-							label: {
-								normal: {
-									show: false,
-									position: 'center'
-								},
-								emphasis: {
-									show: true,
-									textStyle: {
-										fontSize: '20',
-										fontWeight: 'bold'
-									}
-								}
+				this.chartone = echarts.init(document.getElementById('chartone'));
+				this.charttwo = echarts.init(document.getElementById('charttwo'));
+				this.chartthree = echarts.init(document.getElementById('chartthree'));
+				this.chartone.setOption({
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b}: {c} ({d}%)"
+					},
+					legend: {
+						orient: 'vertical',
+						x: 'left',
+						//data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+					},
+					series: [{
+						name: '数据来源',
+						type: 'pie',
+						radius: ['50%', '70%'],
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								show: false,
+								position: 'center'
 							},
-							labelLine: {
-								normal: {
-									show: true
+							emphasis: {
+								show: true,
+								textStyle: {
+									fontSize: '20',
+									fontWeight: 'bold'
 								}
+							}
+						},
+						labelLine: {
+							normal: {
+								show: true
+							}
+						},
+						data: [{
+								value: 335,
+								name: '公司收入分成'
 							},
-							data: [{
-									value: 335,
-									name: '公司收入分成'
-								},
-								{
-									value: 310,
-									name: '缴税'
-								},
-								{
-									value: 234,
-									name: '兼职工资发放'
-								},
-								{
-									value: 135,
-									name: '招聘佣金支出'
-								},
-								{
-									value: 1548,
-									name: '全职工资支出'
+							{
+								value: 310,
+								name: '缴税'
+							},
+							{
+								value: 234,
+								name: '兼职工资发放'
+							},
+							{
+								value: 135,
+								name: '招聘佣金支出'
+							},
+							{
+								value: 1548,
+								name: '全职工资支出'
+							}
+						]
+					}]
+				});
+				this.charttwo.setOption({
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b}: {c} ({d}%)"
+					},
+					legend: {
+						orient: 'vertical',
+						x: 'left',
+//						data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+					},
+					series: [{
+						name: '数据来源',
+						type: 'pie',
+						radius: ['50%', '70%'],
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								show: false,
+								position: 'center'
+							},
+							emphasis: {
+								show: true,
+								textStyle: {
+									fontSize: '20',
+									fontWeight: 'bold'
 								}
-							]
-						}]
-					});
-				}else{
-					this.chartshow == true;
-				}
-			}
-
+							}
+						},
+						labelLine: {
+							normal: {
+								show: true
+							}
+						},
+						data: [{
+								value: 335,
+								name: '公司收入分成'
+							},
+							{
+								value: 310,
+								name: '缴税'
+							},
+							{
+								value: 234,
+								name: '兼职工资发放'
+							},
+							{
+								value: 135,
+								name: '招聘佣金支出'
+							},
+							{
+								value: 1548,
+								name: '全职工资支出'
+							}
+						]
+					}]
+				});
+				this.chartthree.setOption({
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b}: {c} ({d}%)"
+					},
+					legend: {
+						orient: 'vertical',
+						x: 'left',
+						//data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+					},
+					series: [{
+						name: '数据来源',
+						type: 'pie',
+						radius: ['50%', '70%'],
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								show: false,
+								position: 'center'
+							},
+							emphasis: {
+								show: true,
+								textStyle: {
+									fontSize: '20',
+									fontWeight: 'bold'
+								}
+							}
+						},
+						labelLine: {
+							normal: {
+								show: true
+							}
+						},
+						data: [{
+								value: 335,
+								name: '公司收入分成'
+							},
+							{
+								value: 310,
+								name: '缴税'
+							},
+							{
+								value: 234,
+								name: '兼职工资发放'
+							},
+							{
+								value: 135,
+								name: '招聘佣金支出'
+							},
+							{
+								value: 1548,
+								name: '全职工资支出'
+							}
+						]
+					}]
+				});
+			}			
 		},
 
 		mounted() {
 			this.loading = true;
 			this.$http(`/project/detail?id=${this.$route.params.id}`).then((response) => {
-				this.itemInfo = response.data.data;
-				this.loading = false;
-			}).catch((error) => {
-				this.loading = false;
-			});
-		},
-	};
+					this.itemInfo = response.data.data;
+					this.apps();
+					this.loading = false;
+				}).catch((error) => {
+					this.loading = false;
+				});
+			},
+		};
 </script>
 <style lang="scss" scoped>
 	#itemShow {
@@ -1421,10 +1552,51 @@
 			margin-right: 30px;
 		}
 		#payCircle {
-			width: 800px;
-			height: 400px;
-			padding: 50px 0 50px 0;
-			background: green;
+			width: 900px;
+			height: 300px;
+			/*padding: 0 0 50px 0;*/
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			#chartone{
+				width: 300px;
+				height: 300px;
+			} 
+			#charttwo{
+				width: 300px;
+				height: 300px;
+			}
+			#chartthree{
+				width: 300px;
+				height: 300px;
+			}			
+		}
+		#chartdeaital{
+			width: 900px;
+			height: 60px;
+			padding-bottom: 30px;
+			
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			div{
+				margin-left: 16px;
+				width: 400px;
+				height: 60px;
+				text-align: center;
+				font-size: 12px;
+				span:nth-of-type(2){
+					width: 100%;
+					height: 40px;
+					color: orangered;
+				}
+			}
+			div:nth-of-type(2){
+				margin-left: 2px;
+			}
+			div:nth-of-type(3){
+				margin-left: 10px;
+			}
 		}
 		#gangwei {
 			margin-right: 30px;
@@ -1479,6 +1651,10 @@
 			padding-bottom: 10px;
 			display: flex;
 			justify-content: flex-start;
+		}
+		#search_find{
+			/*width: 100px;*/
+			height: 38px;
 		}
 		.worker_change {
 			width: 100%;

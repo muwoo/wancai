@@ -71,6 +71,7 @@ import administratorRoleEditAdmin from '../views/admin/administrator/editAdmin';
 
 import itemList from '../views/admin/item/list';
 import itemGroups from '../views/admin/item/groups';
+import partGroups from '../views/admin/item/partgroups';
 import itemNew from '../views/admin/item/new';
 import itemEdit from '../views/admin/item/edit';
 import itemShow from '../views/admin/item/show';
@@ -241,11 +242,12 @@ const router = new Router({
       iconCls: 'el-icon-menu',
       alias: '项目管理',
       children: [
-        { path: 'publish', component: itemNew, alias: '新建项目', id: 21 },
+        { path: 'new', component: itemNew, alias: '新建项目',name: 'adminItemNew', id: 21 },
         { path: 'list', component: itemList, alias: '项目管理', name: 'adminItemList', id: 22 },
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
         { path: 'show/:id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
-        { path: 'groups/:id', component: itemGroups, name: 'adminItemGroups',alias: '添加班组',hidden: true},
+        { path: 'groups/new', component: itemGroups, name: 'adminItemGroups',alias: '添加班组',hidden: true},
+        { path: 'partgroups/new', component: partGroups, name: 'adminItempartGroups',alias: '添加班组',hidden: true},
       ],
       meta: {
         requireAuth: true,
