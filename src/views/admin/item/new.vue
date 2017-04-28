@@ -2,8 +2,8 @@
 	<div id="itemNew">
 		<el-form :model="itemPublishInfo" :rules="itemPublishRules" ref="itemPublishForm">
 			<h1 class="tips">基本信息</h1>
-			<el-form-item label="项目名称：" class="form-item" prop="itemName">
-				<el-input v-model="itemPublishInfo.itemName" placeholder="请输入内容" style="width: 400px;"></el-input>
+			<el-form-item label="项目名称：" class="form-item" prop="title">
+				<el-input v-model="itemPublishInfo.title" placeholder="请输入内容" style="width: 400px;"></el-input>
 			</el-form-item>
 			<el-form-item label="项目地址：" class="form-item" prop="address">
 				<el-input v-model="itemPublishInfo.address" placeholder="请在地图上进行选择" style="width: 400px;"></el-input>
@@ -34,19 +34,19 @@
 			<h1 class="tips">财务设置</h1>
 			<el-form-item label="利润提成（%）：" style="width: 500px;">
 				<template v-if="isProfitRateEdit">
-					<el-input v-model="itemPublishInfo.profitRate" type="number" style="width: 100px;"></el-input>
+					<el-input v-model="itemPublishInfo.profitCommission" type="number" style="width: 100px;"></el-input>
 					<el-button type="primary" @click.prevent="handleEditProfitRate">确认</el-button>
 				</template>
 				<template v-else>
-					<span>{{ itemPublishInfo.profitRate }}</span>
+					<span>{{ itemPublishInfo.profitCommission }}</span>
 					<el-button type="primary" @click.prevent="handleEditProfitRate">修改</el-button>
 				</template>
 			</el-form-item>
 			<el-form-item label="公司分成比例（%）：" style="width: 500px;">
-				<el-input-number v-model="itemPublishInfo.shareRate" :min="0" :max="100"></el-input-number>
+				<el-input-number v-model="itemPublishInfo.companyDivided" :min="0" :max="100"></el-input-number>
 			</el-form-item>
 			<el-form-item label="风险激励金总额（元）：" style="width: 500px;">
-				<el-input-number v-model="itemPublishInfo.riskIncentives" :min="0" :max="999999"></el-input-number>
+				<el-input-number v-model="itemPublishInfo.riskIncentive" :min="0" :max="999999"></el-input-number>
 			</el-form-item>
 			<el-form-item label="月缴纳比例（%）：" style="width: 500px;">
 				<el-input-number v-model="itemPublishInfo.monthPaymentRate" :min="0" :max="100"></el-input-number>
@@ -59,30 +59,32 @@
 					</div>
 					<el-button id="addGroups" @click="dialogVisible">添加班组</el-button>
 				</div>
-				<el-table class="deaital" :data="tableData8" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-					<el-table-column align="center" prop="quarters" label="一级岗位" width="120">
+				<el-table class="deaital" :data="itemPublishInfo.fullTimeTeam" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+					<el-table-column align="center" prop="fristJobName" label="一级岗位" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="quarters2" label="二级岗位" width="120">
+					<el-table-column align="center" prop="secondJob" label="二级岗位" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="incometype" label="收入模式" width="120">
+					<el-table-column align="center" prop="incomeType" label="收入模式" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="acceptprice" label="接单价" width="200">
+					<el-table-column align="center" prop="receiveOrderAmount" label="接单价" width="200">
 					</el-table-column>
-					<el-table-column align="center" prop="unclinchprice" label="放单价" width="120">
+					<el-table-column align="center" prop="sendOrderAmount" label="放单价" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="daysalary" label="日工资" width="120">
+					<el-table-column align="center" prop="salary" label="日工资" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="holidayunivalent" label="请假单价" width="120">
+					<el-table-column align="center" prop="overtimeAmount" label="超时单价" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="overtimeunivalent" label="超时单价" width="120">
+					<el-table-column align="center" prop="leaveAmount" label="请假单价" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="jijianprice" label="计件单价" width="120">
+					<!--<el-table-column align="center" prop="conditionList" label="计件工资" width="120">
+					</el-table-column>	-->
+					<el-table-column align="center" prop="checkDayTime" label="核定日工资" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="quanqinreward" label="全勤奖" width="120">
+					<el-table-column align="center" prop="fullTimeBonus" label="全勤奖" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="foodcompensate" label="餐补" width="160">
+					<el-table-column align="center" prop="mealSupplement" label="餐补" width="160">
 					</el-table-column>
-					<el-table-column align="center" prop="provide" label="操作" width="160">
+					<el-table-column align="center" label="操作" width="160">
 						<template scope="scope">
 							<el-button size="small" type="primary" @click="changeItem(scope.$index, scope.row)">修改</el-button>
 							<el-button size="small" type="danger" @click="deleteBtn(scope.$index, scope.row)">删除</el-button>
@@ -98,32 +100,34 @@
 					<el-button id="addGroups" @click="partGroupssetting">添加班组</el-button>
 
 				</div>
-				<el-table class="deaital" :data="tableData9" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-					<el-table-column align="center" prop="quarters" label="一级岗位" width="120">
+				<el-table class="deaital" :data="itemPublishInfo.partTimeTeam" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+					<el-table-column align="center" prop="fristJobName" label="一级岗位" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="quarters2" label="二级岗位" width="120">
+					<el-table-column align="center" prop="secondJob" label="二级岗位" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="incometype" label="收入模式" width="120">
+					<el-table-column align="center" prop="incomeType" label="收入模式" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="acceptprice" label="接单价" width="200">
+					<el-table-column align="center" prop="receiveOrderAmount" label="接单价" width="200">
 					</el-table-column>
-					<el-table-column align="center" prop="unclinchprice" label="放单价" width="120">
+					<el-table-column align="center" prop="sendOrderAmount" label="放单价" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="hourssalary" label="计时工资" width="120">
+					<el-table-column align="center" prop="salary" label="计时工资" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="jiansalary" label="计件工资" width="120">
-					</el-table-column>
-					<el-table-column align="center" prop="provide" label="操作" width="200">
+					<!--<el-table-column align="center" property="conditionList" label="计件工资" width="120">
+					</el-table-column>-->
+					<el-table-column align="center" label="操作" width="200">
 						<template scope="scope">
-							<el-button size="small" type="primary" @click="changeItem(scope.$index, scope.row)">修改</el-button>
-							<el-button size="small" type="danger" @click="deleteBtn(scope.$index, scope.row)">删除</el-button>
+							<el-button size="small" type="primary" @click="changeItempartGroups(scope.$index, scope.row)">修改</el-button>
+							<el-button size="small" type="danger" @click="partdeletebtn(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
 			</template>
 			<h1 class="tips"></h1>
 			<el-form-item style="width: 500px;">
-				<el-button type="primary" @click.native.prevent="handleSubmit" :loading="publishing">确认新建</el-button>
+				<template scope="scope">
+					<el-button type="primary" @click.native.prevent="handleSubmit" :loading="publishing">确认新建</el-button>
+				</template>
 			</el-form-item>
 		</el-form>
 
@@ -182,49 +186,82 @@
 </template>
 
 <script>
+	import { newProject } from '../../../store/data';
 	export default {
 		name: 'itemNew',
 		data() {
 			return {
-				tableData8: [{
-					quarters: "下沙一号仓",
-					quarters2: "分拣员",
-					incometype: "计时",
-					acceptprice: "40",
-					unclinchprice: "30",
-					daysalary: "100",
-					//请假单价
-					holidayunivalent: "10",
-					//超时单价
-					overtimeunivalent: "8",
-					jijianprice: "4",
-					quanqinreward: "80",
-					//餐补
-					foodcompensate: "80",
-					provide: "修改 操作"
-				}],
-				tableData9: [{
-					quarters: "下沙一号仓",
-					quarters2: "分拣员",
-					incometype: "计件",
-					acceptprice: "40",
-					unclinchprice: "30",
-					hourssalary: "100",
-					jiansalary: "80",
-					provide: ""
-				}],
 				itemPublishInfo: {
-					itemName: '',
+					managerId:'',
+					recruitFronts:'',
+					title:"",
+				    userId:1,
+				    profitCommission:'',
+				    companyDivided:'',
+				    riskIncentive: '',
 					address: '',
 					latitude: 30.2419557,
 					longitude: 120.1273834,
 					introduction: '',
 					recruitManager: '',
-					projectManager: '',
-					profitRate: 100,
-					shareRate: 0,
-					riskIncentives: 0,
-					monthPaymentRate: 0,
+					projectManager: '',					
+					monthPaymentRate: "",
+					partTimeTeam: [{
+						fristJobId: 1,
+						fristJobName: "",
+						secondJob: "",
+						incomeType: 1,
+						type: 0,
+						receiveOrderAmount: "",
+						sendOrderAmount: "",
+						salary: "",
+						conditionList: [{
+							amount: '',
+							numberCondition: ''
+						}, {
+							amount: '',
+							numberCondition: ''
+						}, {
+							amount: '',
+							numberCondition: ''
+						}, {
+							amount: '',
+							numberCondition:''
+						}]
+					}],
+					fullTimeTeam:[{
+				    	fristJobId:1,
+				    	fristJobName:"",
+				    	secondJob:"",
+				    	incomeType:1,
+				    	type:1,
+				    	receiveOrderAmount:"",
+				    	sendOrderAmount:"",
+				    	salary:"",
+				    	leaveAmount:"",
+				    	overtimeAmount:"",
+				    	fullTimeBonus:"",
+				    	fullTimeDays:"",
+				    	mealSupplement:"",
+				    	//核定日工资
+				    	checkDayTime:'',
+				    	conditionList:[{
+				    		amount: '',
+							numberCondition: ''
+						}, {
+							amount: '',
+							numberCondition: ''
+						}, {
+							amount: '',
+							numberCondition: ''
+						}, {
+							amount: '',
+							numberCondition: ''
+						}]
+				    }],
+				    conditionList:{
+				    	amount:10
+				    },
 					teamOfGroupData: [{
 						oneLevelJob: '接单员',
 						twoLevelJob: '分拣员',
@@ -234,6 +271,7 @@
 						lastEditTimeAt: new Date(parseInt(Date.now(), 10)).toLocaleString().replace(/:\d{1,2}$/, ' '),
 					}],
 				},
+				
 				editTeamOfGroupForm: {
 					id: 0,
 					oneLevelJob: '',
@@ -265,7 +303,7 @@
 				searchType: '1',
 				isMapShow: false,
 				itemPublishRules: {
-					itemName: [{
+					title: [{
 						required: true,
 						message: '请输入项目名称',
 						trigger: 'blur'
@@ -284,6 +322,23 @@
 			};
 		},
 		methods: {
+			//删除全职班组
+			deleteBtn(index, row){
+				newProject.removeFullTime(row.firstJobId)
+			},
+			//删除兼职班组
+			partdeletebtn(index, row){
+				newProject.removePartTime(row.firstJobId)
+				this.itemPublishInfo.partTimeTeam.splice(index, 1);
+			},
+			changeItempartGroups(){
+				this.$router.push({
+					name: 'adminItempartGroups',
+					params: {
+						id: this.$route.params.id
+					}
+				});
+			},
 			dialogVisible() {
 				this.$router.push({
 					name: 'adminItemGroups',
@@ -300,6 +355,7 @@
 					}
 				});
 			},
+			//全职班组修改按钮
 			changeItem(index,row){
 				this.$router.push({
 					name: 'adminItemGroups',
@@ -336,34 +392,40 @@
 			handleShowMap() {
 				this.isMapShow = !this.isMapShow;
 			},
-			handleSubmit() {
+			handleSubmit() {	
+				newProject.clear()
 				this.$refs.itemPublishForm.validate((valid) => {
 					if(valid) {
 						this.publishing = true;
 						this.$http.post('/project/add', {
-							managerId: this.itemPublishInfo.projectManager.id,
-							recruitFronts: this.itemPublishInfo.recruitManager.id,
-							title: this.itemPublishInfo.itemName,
+							managerId: this.itemPublishInfo.managerId,							
+							recruitFronts: this.itemPublishInfo.recruitFronts,
+							title: this.itemPublishInfo.title,
 							address: this.itemPublishInfo.address,
 							introduction: this.itemPublishInfo.introduction,
 							longitude: this.itemPublishInfo.longitude,
 							latitude: this.itemPublishInfo.latitude,
+							riskIncentive:this.itemPublishInfo.riskIncentive,
+							companyDivided:this.itemPublishInfo.companyDivided,
+							profitCommission:this.itemPublishInfo.profitCommission,
+							monthPaymentRate:this.itemPublishInfo.monthPaymentRate,							
+							userId: this.itemPublishInfo.userId,
+							partTimeTeam:this.itemPublishInfo.partTimeTeam,
+							fullTimeTeam:this.itemPublishInfo.fullTimeTeam
 						}, {
 							headers: {
 								'Content-Type': 'application/json',
 							},
-						}).then((response) => {
-							console.log(response);
-							// eslint-disable-next-line
-							console.log(response.data);
-							const {
-								error,
-								errorCode,
-								moreInfo
-							} = response.data;
-							if(errorCode === 10000) {
-								this.$message({
-									message: '新建成功',
+						}).then((response) => {								
+							if(response.data.errorCode === 10000) {
+								const {
+									error,
+									errorCode,
+									moreInfo
+								} = response.data;
+								this.itemPublishInfo = response.data;
+								this.$notify({
+									title: '新建成功',
 									type: 'success',
 								});
 								this.$router.push('list');
@@ -487,20 +549,26 @@
 				});
 			},
 			handleConfirmProjectManager(index, row) {
+				this.itemPublishInfo.managerId = row.id;
 				this.itemPublishInfo.projectManager = row;
 				this.findProjectManager = false;
 			},
 			handleConfirmRecruitManager(index, row) {
+				this.itemPublishInfo.recruitFronts = row.id;
 				this.itemPublishInfo.recruitManager = row;
 				this.findRecruitManager = false;
 			},
 		},
+		mounted() {
+			this.itemPublishInfo.fullTimeTeam = newProject.listFullTime;
+			this.itemPublishInfo.partTimeTeam = newProject.listPartTime;
+		}
 	};
 </script>
 
 <style lang="scss" scoped>
 	#itemNew {
-		.fullGroups {
+		.fullGroups{
 			width: 100%;
 			height: 36px;
 			padding: 10px 0 10px 0;

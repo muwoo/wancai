@@ -2,11 +2,10 @@
 	<div id="itemGroups">
 		<div class="container">
 			<!--------添加一级班组弹出窗------->
-
 			<el-dialog id="find_out" v-model="dialogFormVisible">
 				<el-form :model="form">
 					<el-form-item label="一级班组：" :label-width="formLabelWidth">
-						<el-input class="center_input" v-model="input" auto-complete="on" placeholder="请输入班组名称"></el-input>
+						<el-input class="center_input" v-model="addgroup.name" auto-complete="on" placeholder="请输入班组名称"></el-input>
 						<span class="addbanzu" @click="inaddgroups">
 							添加
 						</span>
@@ -21,7 +20,7 @@
 						<el-table-column align="center" prop="provide" label="操作" width="200">
 							<template scope="scope">
 								<el-button size="small" type="primary" @click="choiceRow(scope.$index, scope.row)">选择</el-button>
-								<el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button>								
+								<el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -30,116 +29,119 @@
 			<div class="addgroup">
 				<div class="banzu">
 					<div>
-						一级班组：
-					</div>				
-					<el-input v-model="input" class="widthdian" placeholder="选择一级班组">
+						一级岗位：
+					</div>
+					<el-input v-model="fullTimeTeam.fristJobName" class="widthdian" placeholder="选择一级班组">
 					</el-input>
 					<div class="center_add" @click="showlisttable">
 						添加一级班组
 					</div>
-					<el-button size="small" type="primary" @click="showBothlist">选择</el-button>
 				</div>
 				<div class="banzu">
 					<div>
 						二级班组名称：
 					</div>
-					<el-input v-model="input" class="widthdian" placeholder="填写班组名称"></el-input>
+					<el-input v-model="fullTimeTeam.secondJob" auto-complete="off" class="widthdian" placeholder="填写班组名称"></el-input>
 				</div>
 				<div class="banzu">
 					<div>
 						选择收入模式：
 					</div>
-					<el-input v-model="input" class="widthdian" placeholder="填写班组名称"></el-input>
+					<el-input v-model="fullTimeTeam.incomeType" auto-complete="on" class="widthdian" placeholder="填写收入模式"></el-input>
 				</div>
 			</div>
-			<div class="numberPrice">
+			<div class="numberPrice">			
 				<div class="danjia">
 					<span>
 						接单价：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.receiveOrderAmount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						放单价：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.sendOrderAmount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						日工资：
 					</span>
-					<el-input-number v-model="num2" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.salary" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						核定日工资：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.checkDayTime" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
-						请假单价：
+						请假单价:
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.leaveAmount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						超时工资：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.overtimeAmount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
+				
+				
 				<div class="danjia">
 					<span>
 						计件单价1：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.conditionList[0].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						计件条件》=10件 ：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.conditionList[0].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						计件单价2：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.conditionList[1].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						计件条件》=20件 ：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.conditionList[1].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						计件单价3：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.conditionList[2].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						计件条件》=30件 ：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.conditionList[2].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						计件单价4：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.conditionList[3].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						计件条件》=40件 ：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.conditionList[3].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
+				
+				
 				<div class="danjia">
 					<span>
 						全勤奖：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.fullTimeBonus" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						全勤天数：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.fullTimeDays" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						餐补：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="fullTimeTeam.mealSupplement" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<el-button type="primary" @click="addBtn" class="addlast">添加</el-button>
@@ -152,17 +154,42 @@
 
 <script>
 	import util from '../../../common/util';
+	import { newProject } from '../../../store/data';
+
 	export default {
 		name: "itemGroups",
 		data() {
 			return {
-				choicegroup: [{
-					name:""
-				}],
-				choice:true,
-				input:"",
-				num1: "1",
-				num2: "1",
+				fullTimeTeam: {
+					fristJobId: 1,
+					fristJobName: "",
+					secondJob: "",
+					incomeType: '',
+					type: 1,
+					receiveOrderAmount: "",
+					sendOrderAmount: "",
+					salary: "",
+					leaveAmount: "",
+					overtimeAmount: "",
+					fullTimeBonus: "",
+					fullTimeDays: "",
+					mealSupplement: "",
+					//核定日工资
+					checkDayTime: '',
+					conditionList: [{
+						amount: '',
+						numberCondition: ''
+					}, {
+						amount: '',
+						numberCondition: ''
+					}, {
+						amount: '',
+						numberCondition: ''
+					}, {
+						amount: '',
+						numberCondition: ''
+					}]
+				},
 				dialogFormVisible: false,
 				addgroup: {
 					projectId: 1,
@@ -178,73 +205,8 @@
 						id: 2,
 						partTimeCount: "",
 						projectId: 1,
-						status: "0"
+						status: 0
 					}]
-				},
-				banzugroups:{
-					managerId:11111,
-					recruitFronts:222222,
-					title:"岗位名称",
-				    address:"杭州市西湖区",
-				    introduction:"对对对",
-				    userId:1,
-				    longitude:120.1273834,
-				    latitude:30.2419557,
-				    profitCommission:20,
-				    companyDivided:20,
-				    riskIncentive:20,
-				    partTimeTeam: [{
-						fristJobId: 1,
-						fristJobName: "一级班组",
-						secondJob: "二级班组",
-						incomeType: 1,
-						type: 0,
-						receiveOrderAmount: 10,
-						sendOrderAmount: 5,
-						salary: 10,
-						conditionList: [{
-							amount: 10,
-							condition: 10
-						}, {
-							amount: 20,
-							condition: 20
-						}, {
-							amount: 30,
-							condition: 30
-						}, {
-							amount: 40,
-							condition: 40
-						}]
-					}],
-				    fullTimeTeam:[{
-				    	fristJobId:"",
-				    	fristJobName:"",
-				    	secondJob:"",
-				    	incomeType:"",
-				    	type:"",
-				    	receiveOrderAmount:"",
-				    	sendOrderAmount:"",
-				    	salary:"",
-				    	leaveAmount:"",
-				    	overtimeAmount:"",
-				    	fullTimeBonus:"",
-				    	fullTimeDays:"",
-				    	mealSupplement:"",
-				    	checkDayTime:"",
-				    	conditionList:[{
-				    		amount:"",
-				    		condition:""
-				    		},{
-				    		amount:"",
-				    		condition:""
-				    		},{
-				    		amount:"",
-				    		condition:""
-				    		},{
-				    		amount:"",
-				    		condition:""
-				    	}]
-				    }]
 				},
 				form: {
 					name: '',
@@ -260,87 +222,24 @@
 			};
 		},
 		methods: {
-			showBothlist(){
-				const params = {
-					title:this.banzugroups.title,
-				    address:this.banzugroups.address,
-				    introduction:this.banzugroups.introduction,
-				    userId:this.banzugroups.userId,
-//				    longitude:this.banzugroups.longitude,
-//				    latitude:this.banzugroups.latitude,
-//				    profitCommission:this.banzugroups.profitCommission,
-//				    companyDivided:this.banzugroups.companyDivided,
-//				    riskIncentive:this.banzugroups.riskIncentive,
-					recruitFronts: this.banzugroups.recruitFronts,
-					managerId: this.banzugroups.managerId,
-					
-					fristJobId:this.banzugroups.fullTimeTeam.fristJobId,
-				    fristJobName:this.banzugroups.fullTimeTeam.fristJobName,
-				    secondJob:this.banzugroups.fullTimeTeam.secondJob,
-				    incomeType:this.banzugroups.fullTimeTeam.incomeType,
-				    type:this.banzugroups.fullTimeTeam.type,
-				    receiveOrderAmount:this.banzugroups.fullTimeTeam.receiveOrderAmount,
-				    sendOrderAmount:this.banzugroups.fullTimeTeam.sendOrderAmount,
-				    salary:this.banzugroups.fullTimeTeam.salary,
-				    leaveAmount:this.banzugroups.fullTimeTeam.leaveAmount,
-				    overtimeAmount:this.banzugroups.fullTimeTeam.overtimeAmount,
-				    fullTimeBonus:this.banzugroups.fullTimeTeam.fullTimeBonus,
-				    fullTimeDays:this.banzugroups.fullTimeTeam.fullTimeDays,
-				    mealSupplement:this.banzugroups.fullTimeTeam.mealSupplement,
-				    checkDayTime:this.banzugroups.fullTimeTeam.checkDayTime,
-				}
-				this.$http.post('/project/add', params).then((response) => {					
-					if(response.data.errorCode === 10000) {						
-						const {
-							introduction,
-							address,
-							title,
-							fullTimeTeam,
-							userId,
-							managerId,
-							recruitFronts,
-						} = response.data;
-						this.banzugroups.fullTimeTeam = response.data;
-						this.banzugroups.managerId = managerId,
-						this.banzugroups.recruitFronts = recruitFronts,
-						this.banzugroups.userId = userId,
-						this.banzugroups.introduction = introduction,
-						this.banzugroups.address = address,
-						this.banzugroups.title = title,
-						
-						this.listshow();
-						this.$notify({
-							title: '展示成功',
-							type: 'success',
-						});
-						console.log(response.data);
-					} else {
-						console.log(response.data);
-						this.$notify.error({
-							title: '添加异常',
-							type: 'success',
-						});
-					}
-				}).catch((error) => {
-					console.log(error);
-				});
+			dealconditionList(){
+				
 			},
-			showlisttable(){
+			showlisttable() {
 				this.dialogFormVisible = true;
 				this.listshow();
 			},
 			//内部添加班组
 			inaddgroups() {
-//				this.listshow();
 				const params = {
 					projectId: this.addgroup.projectId,
-					name: this.addgroup.name
+					name: this.addgroup.name,
 				}
 				this.$http.post('/project/job/add', params).then((response) => {
-					
 					if(response.data.errorCode === 10000) {
 						const {
-							
+							error,
+							errorCode
 						} = response.data;
 						this.listshow();
 						this.$notify({
@@ -359,14 +258,13 @@
 				});
 			},
 			//选择添加自定义班组
-			choiceRow(index, row){
+			choiceRow(index, row) {
 				const params = {
 					id: row.id
 				};
-				this.choicegroup = this.listproject.data.name;
-					
-			
-				console.log(choicegroup);
+				this.fullTimeTeam.fristJobName = row.name;
+				this.fullTimeTeam.fristJobId = row.id
+				this.dialogFormVisible = false;
 			},
 			deleteRow(index, row) {
 				const params = {
@@ -375,7 +273,7 @@
 				this.$http.post('/project/job/delete', params).then((response) => {
 					if(response.data.errorCode === 10000) {
 						const {
-					
+
 						} = response.data;
 						this.listproject.data.splice(index, 1);
 						this.$notify.error({
@@ -394,7 +292,7 @@
 			},
 			listshow() {
 				const params = {
-					id: this.listproject.data[0].id,					
+					id: this.listproject.data[0].id,
 					fullTimeCount: this.listproject.data[0].fullTimeCount,
 					partimeCount: this.listproject.data[0].partTimeCount,
 					projectId: this.listproject.data[0].projectId,
@@ -402,13 +300,13 @@
 					status: this.listproject.data[0].status
 				}
 				this.$http.post('/project/job/list', params).then((response) => {
-			if(response.data.errorCode === 10000) {
-				this.listproject.data = response.data.data
-//						this.$notify({
-//							title: "添加成功",
-//							type: 'success',
-//						});
-						}else{		
+					if(response.data.errorCode === 10000) {
+						this.listproject.data = response.data.data
+						//						this.$notify({
+						//							title: "添加成功",
+						//							type: 'success',
+						//						});
+					} else {
 						this.$notify.error({
 							title: '添加异常',
 							type: 'success',
@@ -418,12 +316,9 @@
 					console.log(error);
 				});
 			},
-			
-			
-			
-			
 			//添加班组
 			addBtn() {
+				newProject.addFullTime(this.fullTimeTeam)
 				this.$router.push({
 					name: 'adminItemNew',
 					params: {
@@ -445,8 +340,11 @@
 				this.multipleSelection = val;
 			},
 			handleChange(value) {
-				console.log(value);
+
 			}
+		},
+		mounted() {
+			
 		}
 	}
 </script>

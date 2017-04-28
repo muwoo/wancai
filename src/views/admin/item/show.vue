@@ -1,5 +1,68 @@
 <template>
 	<div id="itemShow">
+		<el-dialog v-model="dialogFormVisible">
+			<div class="addrecord">
+				<div class="names_input">
+					<span>姓名:</span>
+					<el-input v-model="newRecord.name" placeholder="请输入姓名"></el-input>
+				</div>
+				<div class="names_input">
+					<span class="padd_right">身份证号:</span>
+					<el-input v-model="newRecord.idCard" placeholder="身份证号"></el-input>
+				</div>
+				<div class="addtimerecord">
+					<span>一级岗位:</span>
+					<el-select v-model="newRecord.fristJob" placeholder="请选择">
+						<el-option v-for="item in options" :label="item.label" :value="item.value">
+						</el-option>
+					</el-select>
+				</div>
+				<div class="addtimerecord">
+					<span>二级岗位:</span>
+					<el-select v-model="newRecord.secondJob" placeholder="请选择">
+						<el-option v-for="item in options" :label="item.label" :value="item.value">
+						</el-option>
+					</el-select>
+				</div>
+				<div class="addtimerecord">
+					<span>日期:</span>
+					<div class="block">
+						<el-date-picker v-model="newRecord.time" placeholder="选择日期">
+						</el-date-picker>
+					</div>
+				</div>
+				<div class="addtimerecord">
+					<span>上班时间:</span>
+					<div class="block">
+						<el-date-picker v-model="newRecord.startWorkTime" type="datetime" placeholder="上班时间">
+						</el-date-picker>
+					</div>
+				</div>
+				<div class="addtimerecord">
+					<span>下班时间:</span>
+					<div class="block">
+						<el-date-picker v-model="newRecord.endWorkTime" type="datetime" placeholder="下班时间">
+						</el-date-picker>
+					</div>
+				</div>
+				<div class="addtimerecord">
+					<span>工时:</span>
+					<el-input-number v-model="newRecord.workHours" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				</div>
+				<div class="addtimerecord">
+					<span>件数:</span>
+					<el-input-number v-model="newRecord.number" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				</div>
+				<div class="addtimerecord">
+					<span>请假工时:</span>
+					<el-input-number v-model="newRecord.leaveHours" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				</div>
+			</div>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogFormVisible = false">取 消</el-button>
+				<el-button type="primary" @click="closefindinout">确 定</el-button>
+			</div>
+		</el-dialog>
 		<h4>项目ID: {{itemInfo.id}}，项目名称：{{itemInfo.title}}</h4>
 		<el-tabs v-model="defaultTab" type="card" @tab-click="handleTabClick">
 			<el-tab-pane label="项目信息" name="first">
@@ -25,9 +88,9 @@
 						<span>风险激励金比例：</span>
 						<el-input-number v-model="num3" :min="1" :max="100"></el-input-number>
 					</div>
-					
-<!---------班组管理------------>
-					<h3 class="tips">班组管理</h3>					
+
+					<!---------班组管理------------>
+					<h3 class="tips">班组管理</h3>
 					<div class="fullGroups">
 						<div>
 							全职班组管理
@@ -280,10 +343,11 @@
 					<el-pagination layout="prev, pager, next" @current-change="handlePartTimeStaffPageChange" :current-page="currentPartTimeStaffPage" :page-count="partTimeStaffPageCount" style="float: right;"></el-pagination>
 				</el-col>
 			</el-tab-pane>
+<!--------------------考勤管理----------------------->
 			<el-tab-pane label="考情管理" name="fifth">
 				<div class="block">
-				 	<span class="wrapper">
-					    <el-button type="primary">添加考勤记录</el-button>
+					<span class="wrapper">
+					    <el-button type="primary" @click="dialogFormVisible = true">添加考勤记录</el-button>
 					    <el-button type="primary">导入</el-button>
 					    <el-button type="primary">清算</el-button>
 					  </span>
@@ -297,7 +361,7 @@
 					<div>
 						身份证号：
 						<el-input class="idCard_input" v-model="input" placeholder="请输入内容"></el-input>
-					</div> 
+					</div>
 					<el-button class="search_button" type="primary">查询记录</el-button>
 				</div>
 				<el-tabs v-model="activeName" @tab-click="handleClick">
@@ -306,35 +370,40 @@
 						<el-button type="primary">批量删除</el-button>
 						<el-button type="primary">批量清算</el-button>
 
-						<el-table class="deaital" :data="tableData0" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+						<el-table class="deaital" :data="addrecord" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 							<el-table-column type="selection" width="55">
 							</el-table-column>
 							<el-table-column align="center" prop="name" label="姓名" width="120">
 							</el-table-column>
 							<el-table-column align="center" prop="idCard" label="身份证号" width="200">
 							</el-table-column>
-
-							<el-table-column align="center" prop="quarters" label="一级岗位" width="120">
+							<el-table-column align="center" prop="fristJob" label="一级岗位" width="120">
 							</el-table-column>
-							<el-table-column align="center" prop="quarters2" label="二级岗位" width="120">
+							<el-table-column align="center" prop="secondJob" label="二级岗位" width="120">
 							</el-table-column>
-							<el-table-column align="center" label="日期" width="120">
-								<template scope="scope">{{ scope.row.date }}</template>
+							<el-table-column align="center" porp="time" label="日期" width="120">
+								<template scope="scope">{{ scope.row.time }}</template>
 							</el-table-column>
-
-							<el-table-column align="center" prop="onbantime" label="上班时间" width="120">
+							<el-table-column align="center" prop="startWorkTime" type="datetime" label="上班时间" width="120">
 							</el-table-column>
-							<el-table-column align="center" prop="upbantime" label="下班时间" width="120">
+							<el-table-column align="center" prop="endWorkTime" type="datetime" label="下班时间" width="120">
 							</el-table-column>
-							<el-table-column align="center" prop="workhousers" label="工时" width="120">
+							<el-table-column align="center" prop="workHours"  label="工时" width="120">
 							</el-table-column>
-							<el-table-column align="center" prop="piecework" label="件数" width="120">
+							<el-table-column align="center" prop="number" label="件数" width="120">
 							</el-table-column>
-							<el-table-column align="center" prop="holidayhousers" label="请假工时" width="120">
+							<el-table-column align="center" prop="leaveHours" label="请假工时" width="120">
 							</el-table-column>
-							<el-table-column align="center" prop="status" label="状态" width="120">
+							<el-table-column align="center" label="状态" width="120">
+								<template scope="scope">
+									<div >未清算</div>
+								</template>	
 							</el-table-column>
-							<el-table-column align="center" prop="provide" label="操作" width="160">
+							<el-table-column align="center" label="操作" width="160">
+								<template scope="scope">
+									<el-button size="small" @click="changerecord(scope.$index, scope.row)">修改</el-button>
+									<el-button size="small" type="danger" @click="deleterecord(scope.$index, scope.row)">删除</el-button>
+								</template>
 							</el-table-column>
 						</el-table>
 					</el-tab-pane>
@@ -367,9 +436,16 @@
 							</el-table-column>
 							<el-table-column align="center" prop="holidayhousers" label="请假工时" width="120">
 							</el-table-column>
-							<el-table-column align="center" prop="status" label="状态" width="120">
+							<el-table-column align="center" label="状态" width="120">
+								<template scope="scope">
+									<div >未清算</div>
+								</template>
 							</el-table-column>
-							<el-table-column align="center" prop="provide" label="操作" width="160">
+							<el-table-column align="center" label="操作" width="160">
+								<template scope="scope">
+									<el-button size="small" @click="changerecord(scope.$index, scope.row)">修改</el-button>
+									<el-button size="small" type="danger" @click="deleterecord(scope.$index, scope.row)">删除</el-button>
+								</template>
 							</el-table-column>
 						</el-table>
 					</el-tab-pane>
@@ -402,9 +478,16 @@
 							</el-table-column>
 							<el-table-column align="center" prop="holidayhousers" label="请假工时" width="120">
 							</el-table-column>
-							<el-table-column align="center" prop="status" label="状态" width="120">
+							<el-table-column align="center" label="状态" width="120">
+								<template scope="scope">
+									<div >清算</div>
+								</template>
 							</el-table-column>
-							<el-table-column align="center" prop="provide" label="操作" width="160">
+							<el-table-column align="center" label="操作" width="160">
+								<template scope="scope">
+									<el-button size="small" @click="changerecord(scope.$index, scope.row)">修改</el-button>
+									<el-button size="small" type="danger" @click="deleterecord(scope.$index, scope.row)">删除</el-button>
+								</template>
 							</el-table-column>
 						</el-table>
 					</el-tab-pane>
@@ -698,21 +781,18 @@
 				<div id="chartdeaital">
 					<div>
 						项目利润：
-						<span>1000万元</span>&nbsp;&nbsp;&nbsp;					
-						同比增长：
-						<span>80%↑</span>						
+						<span>1000万元</span>&nbsp;&nbsp;&nbsp; 同比增长：
+						<span>80%↑</span>
 					</div>
 					<div>
 						项目收入：
-						<span>1000万元</span>&nbsp;&nbsp;&nbsp;						
-						同比增长：
-						<span>80%↑</span>		
+						<span>1000万元</span>&nbsp;&nbsp;&nbsp; 同比增长：
+						<span>80%↑</span>
 					</div>
 					<div>
 						项目支出：
-						<span>1000万元</span>&nbsp;&nbsp;&nbsp;						
-						同比增长：
-						<span>80%↑</span>		
+						<span>1000万元</span>&nbsp;&nbsp;&nbsp; 同比增长：
+						<span>80%↑</span>
 					</div>
 				</div>
 				<el-table class="deaital" :data="tableData7" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -729,7 +809,7 @@
 					</el-table-column>
 				</el-table>
 			</el-tab-pane>
-	</el-tabs>
+		</el-tabs>
 		</el-tab-pane>
 		</el-tabs>
 	</div>
@@ -738,6 +818,7 @@
 	import util from '../../../common/util';
 	import userInfo from '../../../components/userInfo';
 	import echarts from '../../../common/echarts';
+	import { newProject } from '../../../store/data';
 	export default {
 		name: 'itemShow',
 		components: {
@@ -751,6 +832,78 @@
 				num1: 1,
 				num2: 1,
 				num3: 1,
+				dialogFormVisible: false,
+				deleterecod:{
+					id:''
+				},
+				value3: new Date(2016, 9, 10, 18, 40),
+				options: [{
+					label: '一级班组',
+					value: '一级班组'
+				}, {
+					label: '二级班组',
+					value: '二级班组'
+				}, {
+					label: '三级班组',
+					value: '三级班组'
+				}, {
+					label: '四级班组',
+					value: '四级班组'
+				}, {
+					label: '五级班组',
+					value: '五级班组'
+				}],
+				newRecord: {
+					projectId:'',
+					name:"",
+					idCard:'',
+					fristJobId:1,
+					fristJob:"",
+					secondJobId:1,
+					secondJob:"",
+					time:"",
+					workHours:'',
+					leaveHours:'',
+					startWorkTime:'',
+					endWorkTime:'',
+					number:''
+				},
+				addrecord:[{
+					projectId:'',
+					name:"",
+					idCard:'',
+					fristJobId:1,
+					fristJob:"",
+					secondJobId:1,
+					secondJob:"",
+					time:"",
+					workHours:'',
+					leaveHours:'',
+					startWorkTime:'',
+					endWorkTime:'',
+					number:''
+				}],
+				getRecorddata:{
+					list:{
+						createdAt:'',
+						endWorkTime:'',
+						fristJob:"",
+						fristJobId:'',
+						id:'',
+						idCard:'',
+						leaveHours:'',
+						name:"",
+						number:'',
+						projectId:'',
+						secondJob:'',
+						secondJobId:'',
+						startWorkTime:'',
+						status:'',
+						time:'',
+						updatedAt:'',
+						workHours:''
+					}
+				},
 				tableData0: [{
 					name: '剑哥哥 ',
 					idCard: "640222199005261913",
@@ -981,28 +1134,185 @@
 				currentPartTimeStaffPage: 1,
 				partTimeStaffPageCount: 0,
 				pageSize: 10,
-				options: [{
-					value: '选项1',
-					label: '黄金糕'
-				}, {
-					value: '选项2',
-					label: '双皮奶'
-				}, {
-					value: '选项3',
-					label: '蚵仔煎'
-				}, {
-					value: '选项4',
-					label: '龙须面'
-				}, {
-					value: '选项5',
-					label: '北京烤鸭'
+				value4: '',
+				modifyRecord:[{
+					id:'',
+					projectId:'',
+					name:'',
+					idCard:'',
+					fristJobId:'',
+					fristJob:"",
+					secondJobId:'',
+					secondJob:'',
+					time:'',
+					workHours:'',
+					leaveHours:'',
+					startWorkTime:'',
+					endWorkTime:'',
+					number:''	
 				}],
-				value4: ''
+				recordListShow:{
+					name:'',
+					idCard:'',
+					status:0,
+					pageNum:'',
+					pageSize:''
+				}
 			};
 
 		},
 		methods: {
-
+			//获取考勤列表
+			getrecordList(){
+				const params = {
+					name: this.recordListShow.name,
+					idCard:this.recordListShow.idCard,
+					status:this.recordListShow.status,
+					pageNum:this.recordListShow.pageNum,
+					pageSize:this.recordListShow.pageSize,					
+				};
+				this.$http.post('/attendance/list', params).then((response) => {
+					if(response.data.errorCode === 10000) {
+						const {
+							name,
+							idCard,
+							pageNum,
+							pageSize
+						} = response.data.data;
+					} else {
+						this.$notify.error({
+							title: '获取数据失败',
+							type: 'success',
+						});
+					}
+				}).catch((error) => {
+					console.log(error);
+				});
+			},
+			//格式化时间
+//			formatDate(row, column) {
+//				const date = new Date(parseInt(row.startWorkTime, 0));
+//				return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm:ss');
+//			},
+			//添加考勤记录
+			closefindinout(){
+				this.dialogFormVisible = false;
+				const params = {
+					projectId:this.itemInfo.id,
+					name:this.newRecord.name,
+					idCard:this.newRecord.idCard,
+					fristJobId:this.newRecord.fristJobId,
+					fristJob:this.newRecord.fristJob,
+					secondJobId:this.newRecord.secondJobId,
+					secondJob:this.newRecord.secondJob,
+					time:this.newRecord.time,
+					workHours:this.newRecord.workHours,
+					startWorkTime:this.newRecord.startWorkTime,
+					endWorkTime:this.newRecord.endWorkTime,
+					number:this.newRecord.number,
+					leaveHours:this.newRecord.leaveHours					
+				};
+				this.$http.post('/attendance/add', params).then((response) => {
+					if(response.data.errorCode === 10000) {
+						this.addrecord.push(this.newRecord)
+						this.newRecord = {
+							projectId:'',
+							name:"",
+							idCard:'',
+							fristJobId:'',
+							fristJob:"",
+							secondJobId:'',
+							secondJob:"",
+							time:"",
+							workHours:'',
+							leaveHours:'',
+							startWorkTime:'',
+							endWorkTime:'',
+							number:''
+						}
+//						newProject.listRecord.push(this.addrecord);
+						this.getrecordList();
+						this.$notify({
+							title: "添加成功",
+							type: 'success',
+						});
+						
+					} else {
+						this.$notify.error({
+							title: '添加异常',
+							type: 'success',
+						});
+					}
+				}).catch((error) => {
+					console.log(error);
+				});
+				
+			},
+			//修改考勤记录
+			changerecord(index, row) {
+				const params = {
+					id:this.modifyRecord.id,
+					projectId:this.modifyRecord.projectId,
+					name:this.modifyRecord.name,
+					idCard:this.modifyRecord.idCard,
+					fristJobId:this.modifyRecord.fristJobId,
+					fristJob:this.modifyRecord.fristJob,
+					secondJobId:this.modifyRecord.secondJobId,
+					secondJob:this.modifyRecord.secondJob,
+					time:this.modifyRecord.time,
+					workHours:this.modifyRecord.workHours,
+					leaveHours:this.modifyRecord.leaveHours,
+					startWorkTime:this.modifyRecord.startWorkTime,
+					endWorkTime:this.modifyRecord.endWorkTime,
+					number:this.modifyRecord.number,		
+				};
+				this.$http.post('/attendance/modify', params).then((response) => {
+					if(response.data.errorCode === 10000) {
+						
+						this.$notify({
+							title: "修改成功",
+							type: 'success',
+						});
+					 this.deleterecod.splice(index, 1);
+					} else {
+						this.$notify.error({
+							title: '修改失败',
+							type: 'success',
+						});
+					}
+				}).catch((error) => {
+					console.log(error);
+				});	
+			},
+			//删除考勤记录
+			deleterecord(index, row) {
+				const params = {
+					id:row.id				
+				};
+				this.$http.post('/attendance/delete', params).then((response) => {
+					if(response.data.errorCode === 10000) {
+						this.deleterecod.id = row.id
+						this.$notify({
+							title: "删除成功",
+							type: 'success',
+						});
+					 this.deleterecod.splice(index, 1);
+					} else {
+						console.log(index);
+						console.log(row);
+						this.$notify.error({
+							title: '删除失败',
+							type: 'success',
+						});
+					}
+				}).catch((error) => {
+					console.log(error);
+				});	
+				
+			},
+			handleChange(value) {
+				console.log(value);
+			},
 			dialogVisible() {
 				const params = {
 
@@ -1018,7 +1328,7 @@
 				console.log(value);
 			},
 			handleSelectionChange(val) {
-				
+
 				this.multipleSelection = val;
 			},
 			handleClick(tab, event) {
@@ -1422,7 +1732,7 @@
 					legend: {
 						orient: 'vertical',
 						x: 'left',
-//						data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+						//						data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
 					},
 					series: [{
 						name: '数据来源',
@@ -1526,23 +1836,73 @@
 						]
 					}]
 				});
-			}			
+			}
+//			formatDate(row,column) {
+//				const date = new Date(parseInt(row.startWorkTime, 0));
+//				return util.formatDate.formatUtc(date, 'yyyy-MM-dd hh:mm');
+//			},
 		},
 
 		mounted() {
+//			this.addrecord = newProject.listRecord;
 			this.loading = true;
 			this.$http(`/project/detail?id=${this.$route.params.id}`).then((response) => {
-					this.itemInfo = response.data.data;
-					this.apps();
-					this.loading = false;
-				}).catch((error) => {
-					this.loading = false;
-				});
-			},
-		};
+				this.itemInfo = response.data.data;
+				this.apps();
+				this.loading = false;
+			}).catch((error) => {
+				this.loading = false;
+			});
+			this.getrecordList();
+		},
+	};
 </script>
 <style lang="scss" scoped>
 	#itemShow {
+		.addrecord {
+			width: 100%;
+			height: 100%;
+			padding: 10px;
+			display: flex;
+			justify-content: flex-start;
+			flex-direction: column;
+			.names_input {
+				width: 60%;
+				height: 40px;
+				padding: 10px 0 10px 100px;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				span {
+					width: 100px;
+					height: 40px;
+					display: inline-block;
+					text-align: center;
+					line-height: 40px;
+				}
+				.padd_right {
+					width: 100px;
+					height: 40px;
+					display: inline-block;
+					text-align: center;
+					line-height: 40px;
+				}
+			}
+			.addtimerecord {
+				width: 30%;
+				height: 40px;
+				padding: 10px 0 10px 100px;
+				text-align: center;
+				line-height: 40px;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				span {
+					width: 120px;
+					height: 40px;
+				}
+			}
+		}
 		.deaital {
 			text-align: center;
 		}
@@ -1558,43 +1918,42 @@
 			display: flex;
 			justify-content: space-around;
 			align-items: center;
-			#chartone{
-				width: 300px;
-				height: 300px;
-			} 
-			#charttwo{
+			#chartone {
 				width: 300px;
 				height: 300px;
 			}
-			#chartthree{
+			#charttwo {
 				width: 300px;
 				height: 300px;
-			}			
+			}
+			#chartthree {
+				width: 300px;
+				height: 300px;
+			}
 		}
-		#chartdeaital{
+		#chartdeaital {
 			width: 900px;
 			height: 60px;
 			padding-bottom: 30px;
-			
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
-			div{
+			div {
 				margin-left: 16px;
 				width: 400px;
 				height: 60px;
 				text-align: center;
 				font-size: 12px;
-				span:nth-of-type(2){
+				span:nth-of-type(2) {
 					width: 100%;
 					height: 40px;
 					color: orangered;
 				}
 			}
-			div:nth-of-type(2){
+			div:nth-of-type(2) {
 				margin-left: 2px;
 			}
-			div:nth-of-type(3){
+			div:nth-of-type(3) {
 				margin-left: 10px;
 			}
 		}
@@ -1652,7 +2011,7 @@
 			display: flex;
 			justify-content: flex-start;
 		}
-		#search_find{
+		#search_find {
 			/*width: 100px;*/
 			height: 38px;
 		}

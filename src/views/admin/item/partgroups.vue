@@ -2,11 +2,10 @@
 	<div id="partGroups">
 		<div class="container">
 			<!--------添加一级班组弹出窗------->
-
 			<el-dialog id="find_out" v-model="dialogFormVisible">
 				<el-form :model="form">
 					<el-form-item label="一级班组：" :label-width="formLabelWidth">
-						<el-input class="center_input" v-model="addgroup" auto-complete="on" placeholder="请输入班组名称"></el-input>
+						<el-input class="center_input" v-model="addgroup.name" auto-complete="on" placeholder="请输入班组名称"></el-input>
 						<span class="addbanzu" @click="inaddgroups">
 							添加
 						</span>
@@ -30,9 +29,9 @@
 			<div class="addgroup">
 				<div class="banzu">
 					<div>
-						一级班组：
+						一级岗位：
 					</div>
-					<el-input v-model="input" class="widthdian" placeholder="选择一级班组">
+					<el-input v-model="partTimeTeam.fristJobName" class="widthdian" placeholder="选择一级班组">
 					</el-input>
 					<div class="center_add" @click="showlisttable">
 						添加一级班组
@@ -42,13 +41,13 @@
 					<div>
 						二级班组名称：
 					</div>
-					<el-input v-model="input" class="widthdian" placeholder="填写班组名称"></el-input>
+					<el-input v-model="partTimeTeam.secondJob" auto-complete="off" class="widthdian" placeholder="填写班组名称"></el-input>
 				</div>
 				<div class="banzu">
 					<div>
 						选择收入模式：
 					</div>
-					<el-input v-model="input" class="widthdian" placeholder="填写班组名称"></el-input>
+					<el-input v-model="partTimeTeam.incomeType" auto-complete="on" class="widthdian" placeholder="填写收入模式"></el-input>
 				</div>
 			</div>
 			<div class="numberPrice">
@@ -56,90 +55,66 @@
 					<span>
 						接单价：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.receiveOrderAmount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						放单价：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.sendOrderAmount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						日工资：
 					</span>
-					<el-input-number v-model="num2" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.salary" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						核定日工资：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.checkDayTime" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
-				<div class="danjia">
-					<span>
-						请假单价：
-					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
-				</div>
-				<div class="danjia">
-					<span>
-						超时工资：
-					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
-				</div>
+				
+				
 				<div class="danjia">
 					<span>
 						计件单价1：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.conditionList[0].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						计件条件》=10件 ：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.conditionList[0].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						计件单价2：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.conditionList[1].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						计件条件》=20件 ：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.conditionList[1].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						计件单价3：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.conditionList[2].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						计件条件》=30件 ：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.conditionList[2].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
 				<div class="danjia">
 					<span>
 						计件单价4：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.conditionList[3].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
 					<span>
 						计件条件》=40件 ：
 					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
+					<el-input-number v-model="partTimeTeam.conditionList[3].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
 				</div>
-				<div class="danjia">
-					<span>
-						全勤奖：
-					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
-					<span>
-						全勤天数：
-					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
-				</div>
-				<div class="danjia">
-					<span>
-						餐补：
-					</span>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"></el-input-number>
-				</div>
+				
+				
 				<div class="danjia">
 					<el-button type="primary" @click="addBtn" class="addlast">添加</el-button>
 					<el-button type="danger" id="nomargin" @click="cancelBtn" class="addlast">取消</el-button>
@@ -151,17 +126,37 @@
 
 <script>
 	import util from '../../../common/util';
+	import { newProject } from '../../../store/data';
+
 	export default {
 		name: "partGroups",
 		data() {
 			return {
-				choicegroup: [{
-					name: ""
-				}],
-				choice: true,
-				input: "",
-				num1: "1",
-				num2: "1",
+				partTimeTeam: {
+					fristJobId: 1,
+					fristJobName: "",
+					secondJob: "",
+					incomeType: '',
+					type: 0,
+					receiveOrderAmount: "",
+					sendOrderAmount: "",
+					salary: "",
+					//核定日工资
+					checkDayTime: '',
+					conditionList: [{
+						amount: '',
+						numberCondition: ''
+					}, {
+						amount: '',
+						numberCondition: ''
+					}, {
+						amount: '',
+						numberCondition: ''
+					}, {
+						amount: '',
+						numberCondition: ''
+					}]
+				},
 				dialogFormVisible: false,
 				addgroup: {
 					projectId: 1,
@@ -177,61 +172,7 @@
 						id: 2,
 						partTimeCount: "",
 						projectId: 1,
-						status: "0"
-					}]
-				},
-				banzugroups: {
-					partTimeTeam: [{
-						fristJobId: 1,
-						fristJobName: "一级班组",
-						secondJob: "二级班组",
-						incomeType: 1,
-						type: 0,
-						receiveOrderAmount: 10,
-						sendOrderAmount: 5,
-						salary: 10,
-						conditionList: [{
-							amount: 10,
-							condition: 10
-						}, {
-							amount: 20,
-							condition: 20
-						}, {
-							amount: 30,
-							condition: 30
-						}, {
-							amount: 40,
-							condition: 40
-						}]
-					}],
-					fullTimeTeam: [{
-						fristJobId: 1,
-						fristJobName: "一级班组",
-						secondJob: "二级班组",
-						incomeType: 1,
-						type: 1,
-						receiveOrderAmount: 10,
-						sendOrderAmount: 5,
-						salary: 10,
-						leaveAmount: 10,
-						overtimeAmount: 20,
-						fullTimeBonus: 100,
-						fullTimeDays: 30,
-						mealSupplement: 20,
-						checkDayTime: 8,
-						conditionList: [{
-							amount: 10,
-							condition: 10
-						}, {
-							amount: 20,
-							condition: 20
-						}, {
-							amount: 30,
-							condition: 30
-						}, {
-							amount: 40,
-							condition: 40
-						}]
+						status: 0
 					}]
 				},
 				form: {
@@ -254,16 +195,15 @@
 			},
 			//内部添加班组
 			inaddgroups() {
-				//				this.listshow();
 				const params = {
 					projectId: this.addgroup.projectId,
-					name: this.addgroup.name
+					name: this.addgroup.name,
 				}
-				this.$http.post('/project/add', params).then((response) => {
-
+				this.$http.post('/project/job/add', params).then((response) => {
 					if(response.data.errorCode === 10000) {
 						const {
-
+							error,
+							errorCode
 						} = response.data;
 						this.listshow();
 						this.$notify({
@@ -271,6 +211,7 @@
 							type: 'success',
 						});
 					} else {
+						console.log(response.data);
 						this.$notify.error({
 							title: '添加异常',
 							type: 'success',
@@ -285,9 +226,9 @@
 				const params = {
 					id: row.id
 				};
-				this.choicegroup = this.listproject.data.name;
-
-				console.log(choicegroup);
+				this.partTimeTeam.fristJobName = row.name;
+				this.partTimeTeam.fristJobId = row.id
+				this.dialogFormVisible = false;
 			},
 			deleteRow(index, row) {
 				const params = {
@@ -325,10 +266,6 @@
 				this.$http.post('/project/job/list', params).then((response) => {
 					if(response.data.errorCode === 10000) {
 						this.listproject.data = response.data.data
-						//						this.$notify({
-						//							title: "添加成功",
-						//							type: 'success',
-						//						});
 					} else {
 						this.$notify.error({
 							title: '添加异常',
@@ -339,9 +276,9 @@
 					console.log(error);
 				});
 			},
-
 			//添加班组
 			addBtn() {
+				newProject.addPartTime(this.partTimeTeam)
 				this.$router.push({
 					name: 'adminItemNew',
 					params: {
@@ -363,7 +300,7 @@
 				this.multipleSelection = val;
 			},
 			handleChange(value) {
-				console.log(value);
+
 			}
 		}
 	}
