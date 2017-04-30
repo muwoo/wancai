@@ -302,10 +302,6 @@
 				this.$http.post('/project/job/list', params).then((response) => {
 					if(response.data.errorCode === 10000) {
 						this.listproject.data = response.data.data
-						//						this.$notify({
-						//							title: "添加成功",
-						//							type: 'success',
-						//						});
 					} else {
 						this.$notify.error({
 							title: '添加异常',
@@ -344,7 +340,7 @@
 			}
 		},
 		mounted() {
-			
+			this.listshow();
 		}
 	}
 </script>

@@ -12,15 +12,15 @@
 				</div>
 				<div class="addtimerecord">
 					<span>一级岗位:</span>
-					<el-select v-model="newRecord.fristJob" placeholder="请选择">
-						<el-option v-for="item in options" :label="item.label" :value="item.value">
+					<el-select v-model="listproject.data[0].name" placeholder="请选择">
+						<el-option v-for="item in listproject.data" :label="item.name" :value="item.id">
 						</el-option>
 					</el-select>
 				</div>
 				<div class="addtimerecord">
 					<span>二级岗位:</span>
-					<el-select v-model="newRecord.secondJob" placeholder="请选择">
-						<el-option v-for="item in options" :label="item.label" :value="item.value">
+					<el-select v-model="secondData.data.secondJob" placeholder="请选择">
+						<el-option v-for="item in secondData.data" :label="item.secongJob" :value="item.id">
 						</el-option>
 					</el-select>
 				</div>
@@ -33,17 +33,13 @@
 				</div>
 				<div class="addtimerecord">
 					<span>上班时间:</span>
-					<div class="block">
-						<el-date-picker v-model="newRecord.startWorkTime" type="datetime" placeholder="上班时间">
-						</el-date-picker>
-					</div>
+					<el-time-select v-model="newRecord.startWorkTime" :picker-options="{start: '06:30',step: '00:15',end: '24:00'}" placeholder="选择时间">
+					</el-time-select>
 				</div>
 				<div class="addtimerecord">
 					<span>下班时间:</span>
-					<div class="block">
-						<el-date-picker v-model="newRecord.endWorkTime" type="datetime" placeholder="下班时间">
-						</el-date-picker>
-					</div>
+					<el-time-select v-model="newRecord.endWorkTime" :picker-options="{start: '06:30',step: '00:15',end: '24:00'}" placeholder="选择时间">
+					</el-time-select>
 				</div>
 				<div class="addtimerecord">
 					<span>工时:</span>
@@ -837,6 +833,16 @@
 					id:''
 				},
 				value3: new Date(2016, 9, 10, 18, 40),
+				listproject: {
+					data: [{
+						name: '',
+						fullTimeCount: '',
+						id: '',
+						partTimeCount: '',
+						projectId: 1,
+						status: 0
+					}]
+				},
 				options: [{
 					label: '一级班组',
 					value: '一级班组'
@@ -855,13 +861,13 @@
 				}],
 				newRecord: {
 					projectId:'',
-					name:"",
+					name:'',
 					idCard:'',
-					fristJobId:1,
-					fristJob:"",
-					secondJobId:1,
-					secondJob:"",
-					time:"",
+					fristJobId:'',
+					fristJob:'',
+					secondJobId:'',
+					secondJob:'',
+					time:'',
 					workHours:'',
 					leaveHours:'',
 					startWorkTime:'',
@@ -870,13 +876,13 @@
 				},
 				addrecord:[{
 					projectId:'',
-					name:"",
+					name:'',
 					idCard:'',
-					fristJobId:1,
-					fristJob:"",
-					secondJobId:1,
-					secondJob:"",
-					time:"",
+					fristJobId:'',
+					fristJob:'',
+					secondJobId:'',
+					secondJob:'',
+					time:'',
 					workHours:'',
 					leaveHours:'',
 					startWorkTime:'',
@@ -887,12 +893,12 @@
 					list:{
 						createdAt:'',
 						endWorkTime:'',
-						fristJob:"",
+						fristJobName:'',
 						fristJobId:'',
 						id:'',
 						idCard:'',
 						leaveHours:'',
-						name:"",
+						name:'',
 						number:'',
 						projectId:'',
 						secondJob:'',
@@ -1141,7 +1147,7 @@
 					name:'',
 					idCard:'',
 					fristJobId:'',
-					fristJob:"",
+					fristJob:'',
 					secondJobId:'',
 					secondJob:'',
 					time:'',
@@ -1157,6 +1163,30 @@
 					status:0,
 					pageNum:'',
 					pageSize:''
+				},
+				//添加考勤记录二级岗位数据
+				secondData:{
+					data:[{
+						checkDayTime: '',
+						createdAt: '',
+						fristJobId: '',
+						fristJobName: '',
+						fullTimeBonus: '',
+						fullTimeDays: '',
+						id: '',
+						incomeType: '',
+						leaveAmount: '',
+						mealSupplement: '',
+						overtimeAmount: '',
+						projectId: '',
+						receiveOrderAmount: '',
+						salary: '',
+						secondJob: '',
+						sendOrderAmount: '',
+						status: 0,
+						type: 0,
+						updatedAt: ''
+					}]
 				}
 			};
 
@@ -1172,6 +1202,7 @@
 					pageSize:this.recordListShow.pageSize,					
 				};
 				this.$http.post('/attendance/list', params).then((response) => {
+					console.log(response.data.data);
 					if(response.data.errorCode === 10000) {
 						const {
 							name,
@@ -1179,6 +1210,7 @@
 							pageNum,
 							pageSize
 						} = response.data.data;
+						this.getRecorddata.list = response.data.data.list;
 					} else {
 						this.$notify.error({
 							title: '获取数据失败',
@@ -1230,7 +1262,7 @@
 							endWorkTime:'',
 							number:''
 						}
-//						newProject.listRecord.push(this.addrecord);
+						newProject.listRecord.push(this.addrecord);
 						this.getrecordList();
 						this.$notify({
 							title: "添加成功",
@@ -1245,8 +1277,49 @@
 					}
 				}).catch((error) => {
 					console.log(error);
+				});				
+			},
+			//添加考勤记录里面的二级岗位
+			secondRecord(){
+					console.log(this.listproject)
+					for(let i = 0;i<this.listproject.data.length;i++){
+						this.$http.post(`/project/team/list?fristJobId=${this.listproject.data[i].id}`).then((response) => {
+						if(response.data.errorCode === 10000) {
+							this.secondData.data = response.data.data
+						} else {
+							this.$notify.error({
+								title: '添加二级岗位异常',
+								type: 'success',
+							});
+						}
+					}).catch((error) => {
+						console.log(error);
+					});
+				}				
+			},
+			//添加考勤记录里的岗位添加功能
+			listshow() {
+				const params = {
+					id: this.listproject.data[0].id,
+					fullTimeCount: this.listproject.data[0].fullTimeCount,
+					partimeCount: this.listproject.data[0].partTimeCount,
+					projectId: this.listproject.data[0].projectId,
+					name: this.listproject.data[0].name,
+					status: this.listproject.data[0].status
+				}
+				this.$http.post('/project/job/list', params).then((response) => {
+					if(response.data.errorCode === 10000) {
+						this.listproject.data = response.data.data
+						this.secondRecord()						
+					} else {
+						this.$notify.error({
+							title: '添加异常',
+							type: 'success',
+						});
+					}
+				}).catch((error) => {
+					console.log(error);
 				});
-				
 			},
 			//修改考勤记录
 			changerecord(index, row) {
@@ -1854,6 +1927,8 @@
 				this.loading = false;
 			});
 			this.getrecordList();
+			this.listshow();
+
 		},
 	};
 </script>
