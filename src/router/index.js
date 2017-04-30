@@ -256,8 +256,8 @@ const router = new Router({
         { path: 'list', component: itemList, alias: '项目管理', name: 'adminItemList', id: 22 },
         { path: 'edit/:id', component: itemEdit, name: 'adminItemEdit', alias: '项目编辑', hidden: true },
         { path: 'show/:id', component: itemShow, name: 'adminItemShow', alias: '项目详情', hidden: true },
-        { path: 'groups/new', component: itemGroups, name: 'adminItemGroups',alias: '添加班组',hidden: true},
-        { path: 'partgroups/new', component: partGroups, name: 'adminItempartGroups',alias: '添加班组',hidden: true},
+        { path: 'groups/new', component: itemGroups, name: 'adminItemGroups',alias: '添加班组', hidden: true },
+        { path: 'partgroups/new', component: partGroups, name: 'adminItempartGroups',alias: '添加班组', hidden: true },
       ],
       meta: {
         requireAuth: true,
