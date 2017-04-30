@@ -30,6 +30,16 @@ import employe from '../components/employe';
 import projectEmploye from '../components/projectEmploye';
 import adminProfile from '../views/admin/profile';
 
+import businessRecharge from '../views/admin/finance/business_recharge';
+import businessWallet from '../views/admin/finance/business_recharge';
+import middlemanWallet from '../views/admin/finance/middleman_wallet';
+import middlemanWithdraw from '../views/admin/finance/middleman_withdraw';
+import projectManagerWallet from '../views/admin/finance/project_manager_wallet';
+import projectManagerWithdraw from '../views/admin/finance/project_manager_withdraw';
+import riskIncentive from '../views/admin/finance/riskIncentive';
+import staffWallet from '../views/admin/finance/staff_wallet';
+import staffWithdraw from '../views/admin/finance/staff_withdraw';
+
 import contentNotice from '../views/admin/content/notice';
 import contentProtocol from '../views/admin/content/protocol';
 import contentRule from '../views/admin/content/rule';
@@ -293,6 +303,30 @@ const router = new Router({
         isAdmin: true,
       },
       id: 28,
+    },
+    {
+      path: '/admin/finance',
+      name: 'admin_finance',
+      component: admin,
+      isAdmin: true,
+      iconCls: 'el-icon-menu',
+      alias: '财务管理',
+      children: [
+        { path: 'staff_wallet', component: staffWallet, alias: '求职者钱包', id: 32 },
+        { path: 'project_manager_wallet', component: projectManagerWallet, alias: '项目经理钱包', id: 33 },
+        { path: 'business_wallet', component: businessWallet, alias: '商家钱包', id: 34 },
+        { path: 'middleman_wallet', component: middlemanWallet, alias: '经纪人钱包', id: 35 },
+        { path: 'staff_withdraw', component: staffWithdraw, alias: '求职者提现', id: 36 },
+        { path: 'project_manager_withdraw', component: projectManagerWithdraw, alias: '项目经理提现', id: 37 },
+        { path: 'middleman_withdraw', component: middlemanWithdraw, alias: '经纪人提现', id: 37 },
+        { path: 'business_recharge', component: businessRecharge, alias: '商家充值', id: 38 },
+        { path: 'riskIncentive', component: riskIncentive, alias: '风险激励金', id: 40 },
+      ],
+      meta: {
+        requireAuth: true,
+        isAdmin: true,
+      },
+      id: 31,
     },
     {
       path: '/admin/content',
