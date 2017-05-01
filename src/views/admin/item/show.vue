@@ -393,7 +393,7 @@
 							<el-table-column align="center" label="状态" width="120">
 								<template scope="scope">
 									<div >未清算</div>
-								</template>	
+								</template>
 							</el-table-column>
 							<el-table-column align="center" label="操作" width="160">
 								<template scope="scope">
@@ -814,7 +814,7 @@
 	import util from '../../../common/util';
 	import userInfo from '../../../components/userInfo';
 	import echarts from '../../../common/echarts';
-	import { newProject } from '../../../store/data';
+	import { newProject } from '../../../store/groups_data';
 	export default {
 		name: 'itemShow',
 		components: {
@@ -1155,7 +1155,7 @@
 					leaveHours:'',
 					startWorkTime:'',
 					endWorkTime:'',
-					number:''	
+					number:''
 				}],
 				recordListShow:{
 					name:'',
@@ -1199,7 +1199,7 @@
 					idCard:this.recordListShow.idCard,
 					status:this.recordListShow.status,
 					pageNum:this.recordListShow.pageNum,
-					pageSize:this.recordListShow.pageSize,					
+					pageSize:this.recordListShow.pageSize,
 				};
 				this.$http.post('/attendance/list', params).then((response) => {
 					console.log(response.data.data);
@@ -1242,7 +1242,7 @@
 					startWorkTime:this.newRecord.startWorkTime,
 					endWorkTime:this.newRecord.endWorkTime,
 					number:this.newRecord.number,
-					leaveHours:this.newRecord.leaveHours					
+					leaveHours:this.newRecord.leaveHours
 				};
 				this.$http.post('/attendance/add', params).then((response) => {
 					if(response.data.errorCode === 10000) {
@@ -1268,7 +1268,7 @@
 							title: "添加成功",
 							type: 'success',
 						});
-						
+
 					} else {
 						this.$notify.error({
 							title: '添加异常',
@@ -1277,7 +1277,7 @@
 					}
 				}).catch((error) => {
 					console.log(error);
-				});				
+				});
 			},
 			//添加考勤记录里面的二级岗位
 			secondRecord(){
@@ -1295,7 +1295,7 @@
 					}).catch((error) => {
 						console.log(error);
 					});
-				}				
+				}
 			},
 			//添加考勤记录里的岗位添加功能
 			listshow() {
@@ -1310,7 +1310,7 @@
 				this.$http.post('/project/job/list', params).then((response) => {
 					if(response.data.errorCode === 10000) {
 						this.listproject.data = response.data.data
-						this.secondRecord()						
+						this.secondRecord()
 					} else {
 						this.$notify.error({
 							title: '添加异常',
@@ -1337,11 +1337,11 @@
 					leaveHours:this.modifyRecord.leaveHours,
 					startWorkTime:this.modifyRecord.startWorkTime,
 					endWorkTime:this.modifyRecord.endWorkTime,
-					number:this.modifyRecord.number,		
+					number:this.modifyRecord.number,
 				};
 				this.$http.post('/attendance/modify', params).then((response) => {
 					if(response.data.errorCode === 10000) {
-						
+
 						this.$notify({
 							title: "修改成功",
 							type: 'success',
@@ -1355,12 +1355,12 @@
 					}
 				}).catch((error) => {
 					console.log(error);
-				});	
+				});
 			},
 			//删除考勤记录
 			deleterecord(index, row) {
 				const params = {
-					id:row.id				
+					id:row.id
 				};
 				this.$http.post('/attendance/delete', params).then((response) => {
 					if(response.data.errorCode === 10000) {
@@ -1380,8 +1380,8 @@
 					}
 				}).catch((error) => {
 					console.log(error);
-				});	
-				
+				});
+
 			},
 			handleChange(value) {
 				console.log(value);
