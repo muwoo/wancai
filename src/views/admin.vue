@@ -129,13 +129,18 @@ export default {
      position: absolute;
      top: 60px;
      bottom: 0px;
-     overflow: hidden;
+    //  overflow: hidden;
+     overflow-y: scroll;
     //  background-color: pink;
 
      aside {
        width: 230px;
-       height: 1000px;
-      //  overflow-y: scroll;
+        //  height: 1000px;
+       position: absolute;
+       top: 0px;
+       bottom: 0px;
+       overflow-y: scroll;
+      //  overflow: hidden;
      }
      .panel-right {
        background: #ECEEF3;
