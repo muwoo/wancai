@@ -1,7 +1,6 @@
 <template>
 	<div id="itemGroups">
 		<div class="container">
-			<!--添加一级班组弹出窗-->
 			<el-dialog id="find_out" v-model="dialogFormVisible">
 				<el-form>
 					<el-form-item label="一级班组：" label-width='120px'>
@@ -186,17 +185,16 @@
 					name: this.addGroupInfo.name,
 				}
 				this.$http.post('/project/job/add', params).then((response) => {
+					this.addGroupInfo.name = '';
 					if(response.data.errorCode === 10000) {
-						const {
-							moreInfo,
-						} = response.data;
 						this.$notify({
 							title: '添加成功',
 							type: 'success',
 						});
+						this.getFirstGroupsList();
 					} else {
 						this.$notify.error({
-							title: 'moreInfo',
+							title: response.data.moreInfo,
 							type: 'success',
 						});
 					}
@@ -215,7 +213,7 @@
 					id: row.id
 				}).then((response) => {
 					if(response.data.errorCode === 10000) {
-						this.listProjectGroups.data.splice(index, 1);
+						this.listProjectGroups.splice(index, 1);
 						this.$notify.error({
 							title: '删除成功',
 							type: 'success',
@@ -251,7 +249,8 @@
 			},
 			//添加班组
 			handleAddGroupBtn() {
-				newProject.addFullTime(this.fullTimeTeam)
+				newProject.addFullTime(this.fullTimeTeam);
+				console.log(newProject);
 				this.$router.push({
 					name: 'adminItemNew',
 					params: {
