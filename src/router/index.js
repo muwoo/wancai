@@ -91,6 +91,9 @@ import incomeProjectManager from '../views/admin/income/project_manager';
 
 import notFound from '../views/404';
 
+import financeShow from "../views/admin/finance/show";
+
+
 Vue.use(Router);
 const router = new Router({
   // history | hash mode
@@ -265,6 +268,18 @@ const router = new Router({
       },
       id: 20,
     },
+
+    // {
+    //   path:"/admin/finance",
+    //   name:"admin_finance",
+    //   component:admin,
+    //   isAdmin:true,
+    //   iconCls: 'el-icon-menu',
+    //   alias: '财务管理',
+    //   children:[
+    //     {path:'list',component:financeProjectWalletShow,name:"adminFinance",alias:"钱包流水"}
+    //   ]
+    // },
     {
       path: '/admin/demand',
       name: 'admin_demand',
@@ -321,6 +336,7 @@ const router = new Router({
         { path: 'middleman_withdraw', component: middlemanWithdraw, alias: '经纪人提现', id: 37 },
         { path: 'business_recharge', component: businessRecharge, alias: '商家充值', id: 38 },
         { path: 'riskIncentive', component: riskIncentive, alias: '风险激励金', id: 40 },
+        {path: 'detail/:id',component:financeShow,name:"adminFinanceShow",alias:"钱包流水"}
       ],
       meta: {
         requireAuth: true,
