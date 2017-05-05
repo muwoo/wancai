@@ -268,18 +268,6 @@ const router = new Router({
       },
       id: 20,
     },
-
-    // {
-    //   path:"/admin/finance",
-    //   name:"admin_finance",
-    //   component:admin,
-    //   isAdmin:true,
-    //   iconCls: 'el-icon-menu',
-    //   alias: '财务管理',
-    //   children:[
-    //     {path:'list',component:financeProjectWalletShow,name:"adminFinance",alias:"钱包流水"}
-    //   ]
-    // },
     {
       path: '/admin/demand',
       name: 'admin_demand',
