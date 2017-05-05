@@ -32,15 +32,15 @@
 				<el-button type="primary" @click="handleFindProjectManager" size="small">查找</el-button>
 			</el-form-item>
 			<h1 class="tips">财务设置</h1>
-			<el-form-item label="利润提成（%）：" style="width: 500px;">
-				<template v-if="isProfitRateEdit">
-					<el-input v-model="itemPublishInfo.profitCommission" type="number" style="width: 100px;"></el-input>
-					<el-button type="primary" @click.prevent="handleEditProfitRate">确认</el-button>
-				</template>
-				<template v-else>
+			<el-form-item label="利润提成（%）：" style="width: 700px;">
+				<div v-if="isProfitRateEdit">
+					<el-input-number v-model="itemPublishInfo.profitCommission" :min="0" :max="100" style="width: 130px;"></el-input-number>
+					<el-button size="small" type="primary" @click.prevent="handleEditProfitRate">确认</el-button>
+				</div>
+				<div v-else>
 					<span>{{ itemPublishInfo.profitCommission }}</span>
-					<el-button type="primary" @click.prevent="handleEditProfitRate">修改</el-button>
-				</template>
+					<el-button size="small" type="primary" @click.prevent="handleEditProfitRate">修改</el-button>
+				</div>
 			</el-form-item>
 			<el-form-item label="公司分成比例（%）：" style="width: 500px;">
 				<el-input-number v-model="itemPublishInfo.companyDivided" :min="0" :max="100"></el-input-number>
@@ -57,14 +57,14 @@
 					<div>
 						全职班组管理
 					</div>
-					<el-button id="addGroups" @click="dialogVisible">添加班组</el-button>
+					<el-button id="addGroups" @click="addFullTimeJob">添加班组</el-button>
 				</div>
 				<el-table class="deaital" :data="itemPublishInfo.fullTimeTeam" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 					<el-table-column align="center" prop="fristJobName" label="一级岗位" width="120">
 					</el-table-column>
 					<el-table-column align="center" prop="secondJob" label="二级岗位" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="incomeType" label="收入模式" width="120">
+					<el-table-column align="center" prop="incomeType" label="收入模式" width="120" :formatter="formatIncomeType">
 					</el-table-column>
 					<el-table-column align="center" prop="receiveOrderAmount" label="接单价" width="200">
 					</el-table-column>
@@ -76,18 +76,18 @@
 					</el-table-column>
 					<el-table-column align="center" prop="leaveAmount" label="请假单价" width="120">
 					</el-table-column>
-					<!--<el-table-column align="center" prop="conditionList" label="计件工资" width="120">
-					</el-table-column>	-->
 					<el-table-column align="center" prop="checkDayTime" label="核定日工资" width="120">
 					</el-table-column>
 					<el-table-column align="center" prop="fullTimeBonus" label="全勤奖" width="120">
+					</el-table-column>
+					<el-table-column align="center" prop="onTrialDaySalary" label="试用期工资" width="120">
 					</el-table-column>
 					<el-table-column align="center" prop="mealSupplement" label="餐补" width="160">
 					</el-table-column>
 					<el-table-column align="center" label="操作" width="160">
 						<template scope="scope">
-							<el-button size="small" type="primary" @click="changeItem(scope.$index, scope.row)">修改</el-button>
-							<el-button size="small" type="danger" @click="deleteBtn(scope.$index, scope.row)">删除</el-button>
+							<el-button size="small" type="primary" @click="changeFullTimeItem(scope.$index, scope.row)">修改</el-button>
+							<el-button size="small" type="danger" @click="delteFullTimeItem(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -96,9 +96,7 @@
 					<div>
 						兼职班组管理
 					</div>
-
-					<el-button id="addGroups" @click="partGroupssetting">添加班组</el-button>
-
+					<el-button id="addGroups" @click="addPartTimeJob">添加班组</el-button>
 				</div>
 				<el-table class="deaital" :data="itemPublishInfo.partTimeTeam" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 					<el-table-column align="center" prop="fristJobName" label="一级岗位" width="120">
@@ -113,12 +111,12 @@
 					</el-table-column>
 					<el-table-column align="center" prop="salary" label="计时工资" width="120">
 					</el-table-column>
-					<!--<el-table-column align="center" property="conditionList" label="计件工资" width="120">
-					</el-table-column>-->
-					<el-table-column align="center" label="操作" width="200">
+					<!-- <el-table-column align="center" property="conditionList" label="计件工资" width="120">
+					</el-table-column> -->
+					<el-table-column align="center" label="操作">
 						<template scope="scope">
-							<el-button size="small" type="primary" @click="changeItempartGroups(scope.$index, scope.row)">修改</el-button>
-							<el-button size="small" type="danger" @click="partdeletebtn(scope.$index, scope.row)">删除</el-button>
+							<el-button size="small" type="primary" @click="changePartTimeItem(scope.$index, scope.row)">修改</el-button>
+							<el-button size="small" type="danger" @click="deletePartTimeItem(scope.$index, scope.row)">删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -186,7 +184,7 @@
 </template>
 
 <script>
-	import { newProject } from '../../../store/data';
+	import { newProject } from '../../../store/groups_data';
 	export default {
 		name: 'itemNew',
 		data() {
@@ -204,7 +202,7 @@
 					longitude: 120.1273834,
 					introduction: '',
 					recruitManager: '',
-					projectManager: '',					
+					projectManager: '',
 					monthPaymentRate: "",
 					partTimeTeam: [{
 						fristJobId: 1,
@@ -271,7 +269,7 @@
 						lastEditTimeAt: new Date(parseInt(Date.now(), 10)).toLocaleString().replace(/:\d{1,2}$/, ' '),
 					}],
 				},
-				
+
 				editTeamOfGroupForm: {
 					id: 0,
 					oneLevelJob: '',
@@ -322,16 +320,26 @@
 			};
 		},
 		methods: {
+			//全职班组修改按钮
+			changeFullTimeItem(index,row){
+				this.$router.push({
+					name: 'adminItemGroups',
+					params: {
+						id: this.$route.params.id
+					}
+				});
+			},
 			//删除全职班组
-			deleteBtn(index, row){
-				newProject.removeFullTime(row.firstJobId)
+			delteFullTimeItem(index, row){
+				newProject.removeFullTime(index)
 			},
 			//删除兼职班组
-			partdeletebtn(index, row){
-				newProject.removePartTime(row.firstJobId)
-				this.itemPublishInfo.partTimeTeam.splice(index, 1);
+			deletePartTimeItem(index, row){
+				console.log(index);
+				// newProject.removePartTime(row.firstJobId)
+				// this.itemPublishInfo.partTimeTeam.splice(index, 1);
 			},
-			changeItempartGroups(){
+			changePartTimeItem(){
 				this.$router.push({
 					name: 'adminItempartGroups',
 					params: {
@@ -339,29 +347,20 @@
 					}
 				});
 			},
-			dialogVisible() {
+			addFullTimeJob() {
 				this.$router.push({
 					name: 'adminItemGroups',
-					params: {
-						id: this.$route.params.id
-					}
+					// query: {
+					// 	id: this.$route.params.id
+					// }
 				});
 			},
-			partGroupssetting(){
+			addPartTimeJob(){
 				this.$router.push({
 					name: 'adminItempartGroups',
-					params: {
-						id: this.$route.params.id
-					}
-				});
-			},
-			//全职班组修改按钮
-			changeItem(index,row){
-				this.$router.push({
-					name: 'adminItemGroups',
-					params: {
-						id: this.$route.params.id
-					}
+					// query: {
+					// 	id: this.$route.params.id
+					// }
 				});
 			},
 			handleSelectionChange(val) {
@@ -392,13 +391,12 @@
 			handleShowMap() {
 				this.isMapShow = !this.isMapShow;
 			},
-			handleSubmit() {	
-				newProject.clear()
+			handleSubmit() {
 				this.$refs.itemPublishForm.validate((valid) => {
 					if(valid) {
 						this.publishing = true;
 						this.$http.post('/project/add', {
-							managerId: this.itemPublishInfo.managerId,							
+							managerId: this.itemPublishInfo.managerId,
 							recruitFronts: this.itemPublishInfo.recruitFronts,
 							title: this.itemPublishInfo.title,
 							address: this.itemPublishInfo.address,
@@ -408,15 +406,11 @@
 							riskIncentive:this.itemPublishInfo.riskIncentive,
 							companyDivided:this.itemPublishInfo.companyDivided,
 							profitCommission:this.itemPublishInfo.profitCommission,
-							monthPaymentRate:this.itemPublishInfo.monthPaymentRate,							
+							monthPaymentRate:this.itemPublishInfo.monthPaymentRate,
 							userId: this.itemPublishInfo.userId,
 							partTimeTeam:this.itemPublishInfo.partTimeTeam,
 							fullTimeTeam:this.itemPublishInfo.fullTimeTeam
-						}, {
-							headers: {
-								'Content-Type': 'application/json',
-							},
-						}).then((response) => {								
+						}).then((response) => {
 							if(response.data.errorCode === 10000) {
 								const {
 									error,
@@ -428,6 +422,7 @@
 									title: '新建成功',
 									type: 'success',
 								});
+								newProject.clear();
 								this.$router.push('list');
 							} else {
 								this.$notify.error({
@@ -558,6 +553,14 @@
 				this.itemPublishInfo.recruitManager = row;
 				this.findRecruitManager = false;
 			},
+			formatIncomeType(row, column) {
+				if (row.incomeType === 0) {
+					return '其他';
+				} else if (row.incomeType === 1) {
+					return '计时';
+				}
+				return '计件';
+			}
 		},
 		mounted() {
 			this.itemPublishInfo.fullTimeTeam = newProject.listFullTime;
