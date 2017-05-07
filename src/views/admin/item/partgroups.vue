@@ -1,123 +1,88 @@
 <template>
 	<div id="partGroups">
 		<div class="container">
-			<!--------添加一级班组弹出窗------->
 			<el-dialog id="find_out" v-model="dialogFormVisible">
-				<el-form :model="form">
-					<el-form-item label="一级班组：" :label-width="formLabelWidth">
-						<el-input class="center_input" v-model="addgroup.name" auto-complete="on" placeholder="请输入班组名称"></el-input>
-						<span class="addbanzu" @click="inaddgroups">
-							添加
-						</span>
+				<el-form>
+					<el-form-item label="一级班组：" label-width='120px'>
+						<el-input class="center_input" v-model="addGroupInfo.name" auto-complete="on" placeholder="请输入班组名称"></el-input>
+						<el-button @click="onAddFirstGroup" type="primary" size="small">添加</el-button>
 					</el-form-item>
-					<el-table class="deaital" :data="listproject.data" border tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-						<el-table-column align="center" prop="name" label="名称" width="200">
-						</el-table-column>
-						<el-table-column align="center" prop="fullTimeCount" label="全职班组" width="200">
-						</el-table-column>
-						<el-table-column align="center" prop="partTimeCount" label="兼职班组" width="200">
-						</el-table-column>
-						<el-table-column align="center" prop="provide" label="操作" width="200">
-							<template scope="scope">
-								<el-button size="small" type="primary" @click="choiceRow(scope.$index, scope.row)">选择</el-button>
-								<el-button size="small" type="danger" @click="deleteRow(scope.$index, scope.row)">删除</el-button>
-							</template>
-						</el-table-column>
-					</el-table>
 				</el-form>
+				<el-table class="deaital" :data="listProjectGroups" border tooltip-effect="dark" style="width: 100%">
+					<el-table-column align="center" prop="name" label="名称" width="200">
+					</el-table-column>
+					<el-table-column align="center" prop="fullTimeCount" label="全职班组" width="200">
+					</el-table-column>
+					<el-table-column align="center" prop="partTimeCount" label="兼职班组" width="200">
+					</el-table-column>
+					<el-table-column align="center" prop="provide" label="操作" width="200">
+						<template scope="scope">
+							<el-button size="small" type="primary" @click="choiceFirstGroup(scope.$index, scope.row)">选择</el-button>
+							<el-button size="small" type="danger" @click="deleteFirstGroup(scope.$index, scope.row)">删除</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
 			</el-dialog>
-			<div class="addgroup">
-				<div class="banzu">
-					<div>
-						一级岗位：
-					</div>
-					<el-input v-model="partTimeTeam.fristJobName" class="widthdian" placeholder="选择一级班组">
-					</el-input>
-					<div class="center_add" @click="showlisttable">
-						添加一级班组
-					</div>
+			<div class="addGroup">
+				<div class="group">
+					<div>一级岗位：</div>
+					<span v-if="partTimeTeam.fristJobName">{{ partTimeTeam.fristJobName }}</span>
+					<span v-else v-model="partTimeTeam.fristJobName">无</span>
+					<el-button @click="showListTable" type="primary" size="small" style="margin-left: 10px;">添加</el-button>
 				</div>
-				<div class="banzu">
-					<div>
-						二级班组名称：
-					</div>
-					<el-input v-model="partTimeTeam.secondJob" auto-complete="off" class="widthdian" placeholder="填写班组名称"></el-input>
+				<div class="group">
+					<div>二级班组名称：</div>
+			 	  <el-input v-model="partTimeTeam.secondJob" auto-complete="off" style="width: 180px;" placeholder="填写班组名称"></el-input>
 				</div>
-				<div class="banzu">
-					<div>
-						选择收入模式：
-					</div>
-					<el-input v-model="partTimeTeam.incomeType" auto-complete="on" class="widthdian" placeholder="填写收入模式"></el-input>
+				<div class="group">
+					<div>选择收入模式：</div>
+					<el-select v-model="partTimeTeam.incomeType" placeholder="请选择">
+					 <el-option
+						 v-for="item in secondJobType"
+						 :label="item.label"
+						 :value="item.value">
+					 </el-option>
+				 </el-select>
 				</div>
 			</div>
 			<div class="numberPrice">
-				<div class="danjia">
-					<span>
-						接单价：
-					</span>
-					<el-input-number v-model="partTimeTeam.receiveOrderAmount" @change="handleChange" :min="1" :max="10000"></el-input-number>
-					<span>
-						放单价：
-					</span>
-					<el-input-number v-model="partTimeTeam.sendOrderAmount" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				<div class="univalence">
+					<span>接单价：</span>
+					<el-input-number v-model="partTimeTeam.receiveOrderAmount" :min="1"></el-input-number>
+					<span>放单价：</span>
+					<el-input-number v-model="partTimeTeam.sendOrderAmount" :min="1"></el-input-number>
 				</div>
-				<div class="danjia">
-					<span>
-						日工资：
-					</span>
-					<el-input-number v-model="partTimeTeam.salary" @change="handleChange" :min="1" :max="10000"></el-input-number>
-					<span>
-						核定日工资：
-					</span>
-					<el-input-number v-model="partTimeTeam.checkDayTime" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				<div class="univalence">
+					<span>计时工资:</span>
+					<el-input-number v-model="partTimeTeam.salary" :min="1"></el-input-number>
 				</div>
-				
-				
-				<div class="danjia">
-					<span>
-						计件单价1：
-					</span>
-					<el-input-number v-model="partTimeTeam.conditionList[0].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
-					<span>
-						计件条件》=10件 ：
-					</span>
-					<el-input-number v-model="partTimeTeam.conditionList[0].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				<div class="univalence">
+					<span>计件单价：</span>
+					<el-input-number v-model="partTimeTeam.conditionList[0].amount" :min="1"></el-input-number>
+					<span>计件条件 >= (件)</span>
+					<el-input-number v-model="partTimeTeam.conditionList[0].numberCondition" :min="1"></el-input-number>
 				</div>
-				<div class="danjia">
-					<span>
-						计件单价2：
-					</span>
-					<el-input-number v-model="partTimeTeam.conditionList[1].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
-					<span>
-						计件条件》=20件 ：
-					</span>
-					<el-input-number v-model="partTimeTeam.conditionList[1].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				<div class="univalence">
+					<span>计件单价：</span>
+					<el-input-number v-model="partTimeTeam.conditionList[1].amount" :min="1"></el-input-number>
+					<span>计件条件 >= (件)</span>
+					<el-input-number v-model="partTimeTeam.conditionList[1].numberCondition" :min="1"></el-input-number>
 				</div>
-				<div class="danjia">
-					<span>
-						计件单价3：
-					</span>
-					<el-input-number v-model="partTimeTeam.conditionList[2].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
-					<span>
-						计件条件》=30件 ：
-					</span>
-					<el-input-number v-model="partTimeTeam.conditionList[2].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				<div class="univalence">
+					<span>计件单价：</span>
+					<el-input-number v-model="partTimeTeam.conditionList[2].amount" :min="1"></el-input-number>
+					<span>计件条件 >= (件)</span>
+					<el-input-number v-model="partTimeTeam.conditionList[2].numberCondition" :min="1"></el-input-number>
 				</div>
-				<div class="danjia">
-					<span>
-						计件单价4：
-					</span>
-					<el-input-number v-model="partTimeTeam.conditionList[3].amount" @change="handleChange" :min="1" :max="10000"></el-input-number>
-					<span>
-						计件条件》=40件 ：
-					</span>
-					<el-input-number v-model="partTimeTeam.conditionList[3].numberCondition" @change="handleChange" :min="1" :max="10000"></el-input-number>
+				<div class="univalence">
+					<span>计件单价：</span>
+					<el-input-number v-model="partTimeTeam.conditionList[3].amount" :min="1"></el-input-number>
+					<span>计件条件 >= (件)</span>
+					<el-input-number v-model="partTimeTeam.conditionList[3].numberCondition" :min="1"></el-input-number>
 				</div>
-				
-				
-				<div class="danjia">
-					<el-button type="primary" @click="addBtn" class="addlast">添加</el-button>
-					<el-button type="danger" id="nomargin" @click="cancelBtn" class="addlast">取消</el-button>
+				<div class="univalence">
+					<el-button type="primary" @click="handleAddGroupBtn" class="addlast">添加</el-button>
+					<el-button type="danger" id="nomargin" @click="handleCancelBtn" class="addlast">取消</el-button>
 				</div>
 			</div>
 		</div>
@@ -126,94 +91,80 @@
 
 <script>
 	import util from '../../../common/util';
-	import { newProject } from '../../../store/data';
+	import { newProject } from '../../../store/groups_data';
 
 	export default {
 		name: "partGroups",
 		data() {
 			return {
 				partTimeTeam: {
-					fristJobId: 1,
-					fristJobName: "",
-					secondJob: "",
-					incomeType: '',
+					fristJobId: '',
+					fristJobName: '',
+					secondJob: '',
+					incomeType: 0,
 					type: 0,
-					receiveOrderAmount: "",
-					sendOrderAmount: "",
-					salary: "",
-					//核定日工资
-					checkDayTime: '',
+					receiveOrderAmount: '',
+					sendOrderAmount: '',
+					salary: '',
 					conditionList: [{
-						amount: '',
-						numberCondition: ''
-					}, {
-						amount: '',
-						numberCondition: ''
-					}, {
-						amount: '',
-						numberCondition: ''
-					}, {
-						amount: '',
-						numberCondition: ''
+						amount: 1,
+						numberCondition: 1
+					},
+					{
+						amount: 1,
+						numberCondition: 1
+					},
+					{
+						amount: 1,
+						numberCondition: 1
+					},
+					{
+						amount: 1,
+						numberCondition: 1
 					}]
 				},
-				dialogFormVisible: false,
-				addgroup: {
+				listProjectGroups: [],
+				addGroupInfo: {
 					projectId: 1,
-					name: ""
+					name: ''
 				},
-				deleteBt: {
-					id: 1
+				secondJobType: [{
+					value: 0,
+					label: '其他',
 				},
-				listproject: {
-					data: [{
-						name: "",
-						fullTimeCount: "",
-						id: 2,
-						partTimeCount: "",
-						projectId: 1,
-						status: 0
-					}]
+				{
+					value: 1,
+					label: '计时',
 				},
-				form: {
-					name: '',
-					region: '',
-					date1: '',
-					date2: '',
-					delivery: false,
-					type: [],
-					resource: '',
-					desc: ''
-				},
-				formLabelWidth: '120px'
+				{
+					value: 2,
+					label: '计件',
+				}],
+				dialogFormVisible: false,
 			};
 		},
 		methods: {
-			showlisttable() {
+			showListTable() {
 				this.dialogFormVisible = true;
-				this.listshow();
+				this.getFirstGroupsList();
 			},
 			//内部添加班组
-			inaddgroups() {
+			onAddFirstGroup() {
 				const params = {
-					projectId: this.addgroup.projectId,
-					name: this.addgroup.name,
+					projectId: this.addGroupInfo.projectId,
+					name: this.addGroupInfo.name,
 				}
 				this.$http.post('/project/job/add', params).then((response) => {
+					this.addGroupInfo.name = '';
 					if(response.data.errorCode === 10000) {
-						const {
-							error,
-							errorCode
-						} = response.data;
-						this.listshow();
 						this.$notify({
 							title: '添加成功',
 							type: 'success',
 						});
+						this.getFirstGroupsList();
 					} else {
-						console.log(response.data);
 						this.$notify.error({
-							title: '添加异常',
+							title: response.data.moreInfo,
 							type: 'success',
 						});
 					}
@@ -222,31 +173,27 @@
 				});
 			},
 			//选择添加自定义班组
-			choiceRow(index, row) {
-				const params = {
-					id: row.id
-				};
+			choiceFirstGroup(index, row) {
 				this.partTimeTeam.fristJobName = row.name;
 				this.partTimeTeam.fristJobId = row.id
 				this.dialogFormVisible = false;
 			},
-			deleteRow(index, row) {
-				const params = {
+			deleteFirstGroup(index, row) {
+				this.$http.post('/project/job/delete', {
 					id: row.id
-				};
-				this.$http.post('/project/job/delete', params).then((response) => {
+				}).then((response) => {
 					if(response.data.errorCode === 10000) {
-						const {
-
-						} = response.data;
-						this.listproject.data.splice(index, 1);
+						this.listProjectGroups.splice(index, 1);
 						this.$notify.error({
 							title: '删除成功',
 							type: 'success',
 						});
 					} else {
+						const {
+							moreInfo
+						} = response.data;
 						this.$notify.error({
-							title: '删除失败',
+							title: moreInfo,
 							type: 'success',
 						});
 					}
@@ -254,21 +201,15 @@
 					console.log(error);
 				});
 			},
-			listshow() {
-				const params = {
-					id: this.listproject.data[0].id,
-					fullTimeCount: this.listproject.data[0].fullTimeCount,
-					partimeCount: this.listproject.data[0].partTimeCount,
-					projectId: this.listproject.data[0].projectId,
-					name: this.listproject.data[0].name,
-					status: this.listproject.data[0].status
-				}
-				this.$http.post('/project/job/list', params).then((response) => {
+			getFirstGroupsList() {
+				this.$http.post('/project/job/list', {
+					projectId: 1
+				}).then((response) => {
 					if(response.data.errorCode === 10000) {
-						this.listproject.data = response.data.data
+						this.listProjectGroups = response.data.data
 					} else {
 						this.$notify.error({
-							title: '添加异常',
+							title: '拉取列表异常',
 							type: 'success',
 						});
 					}
@@ -277,8 +218,8 @@
 				});
 			},
 			//添加班组
-			addBtn() {
-				newProject.addPartTime(this.partTimeTeam)
+			handleAddGroupBtn() {
+				newProject.addPartTime(this.partTimeTeam);
 				this.$router.push({
 					name: 'adminItemNew',
 					params: {
@@ -287,7 +228,7 @@
 				});
 			},
 			//取消按钮
-			cancelBtn() {
+			handleCancelBtn() {
 				this.$router.push({
 					name: 'adminItemNew',
 					params: {
@@ -295,19 +236,15 @@
 					}
 				});
 			},
-			handleSelectionChange(val) {
-				this.listshow();
-				this.multipleSelection = val;
-			},
-			handleChange(value) {
-
-			}
-		}
+		},
 	}
 </script>
 
 <style lang="scss" scoped>
 	#partGroups {
+		.tips {
+			border-bottom: 1px solid #e5e9f2;
+		}
 		width: 100%;
 		height: 100%;
 		.deaital {
@@ -320,26 +257,16 @@
 			.center_input {
 				width: 70%;
 			}
-			.addbanzu {
-				width: 50px;
-				margin-left: 20px;
-				color: royalblue;
-				cursor: pointer;
-			}
-			.addgroup {
+			.addGroup {
 				width: 100%;
 				height: 200px;
-				.banzu {
+				.group {
 					width: 100%;
 					height: 40px;
 					padding: 10px 0;
 					display: flex;
 					justify-content: flex-start;
 					align-items: center;
-					.widthdian {
-						width: 550px;
-						height: 100%;
-					}
 					div {
 						width: 160px;
 						height: 100%;
@@ -360,7 +287,7 @@
 			.numberPrice {
 				width: 100%;
 				height: 100%;
-				.danjia {
+				.univalence {
 					width: 100%;
 					height: 40px;
 					padding: 14px 0;

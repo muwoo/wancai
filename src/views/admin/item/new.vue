@@ -103,7 +103,7 @@
 					</el-table-column>
 					<el-table-column align="center" prop="secondJob" label="二级岗位" width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="incomeType" label="收入模式" width="120">
+					<el-table-column align="center" prop="incomeType" label="收入模式" width="120" :formatter="formatIncomeType">
 					</el-table-column>
 					<el-table-column align="center" prop="receiveOrderAmount" label="接单价" width="200">
 					</el-table-column>
@@ -335,9 +335,7 @@
 			},
 			//删除兼职班组
 			deletePartTimeItem(index, row){
-				console.log(index);
-				// newProject.removePartTime(row.firstJobId)
-				// this.itemPublishInfo.partTimeTeam.splice(index, 1);
+				newProject.removePartTime(index)
 			},
 			changePartTimeItem(){
 				this.$router.push({
