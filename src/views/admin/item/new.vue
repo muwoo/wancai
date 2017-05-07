@@ -45,11 +45,8 @@
 			<el-form-item label="公司分成比例（%）：" style="width: 500px;">
 				<el-input-number v-model="itemPublishInfo.companyDivided" :min="0" :max="100"></el-input-number>
 			</el-form-item>
-			<el-form-item label="风险激励金总额（元）：" style="width: 500px;">
-				<el-input-number v-model="itemPublishInfo.riskIncentive" :min="0" :max="999999"></el-input-number>
-			</el-form-item>
 			<el-form-item label="月缴纳比例（%）：" style="width: 500px;">
-				<el-input-number v-model="itemPublishInfo.monthPaymentRate" :min="0" :max="100"></el-input-number>
+				<el-input-number v-model="itemPublishInfo.riskIncentive" :min="0" :max="100"></el-input-number>
 			</el-form-item>
 			<h1 class="tips">班组管理</h1>
 			<template>
@@ -111,8 +108,6 @@
 					</el-table-column>
 					<el-table-column align="center" prop="salary" label="计时工资" width="120">
 					</el-table-column>
-					<!-- <el-table-column align="center" property="conditionList" label="计件工资" width="120">
-					</el-table-column> -->
 					<el-table-column align="center" label="操作">
 						<template scope="scope">
 							<el-button size="small" type="primary" @click="changePartTimeItem(scope.$index, scope.row)">修改</el-button>
@@ -140,7 +135,7 @@
 				<el-button slot="append" icon="search" @click="getSearchRecruit"></el-button>
 			</el-input>
 			<div class="search-table">
-				<el-table :data="searchData">
+				<el-table :data="searchData" v-loading="loading">
 					<el-table-column property="id" label="id"></el-table-column>
 					<el-table-column property="username" label="姓名"></el-table-column>
 					<el-table-column property="idCard" label="身份证" width="200"></el-table-column>
@@ -193,90 +188,18 @@
 					managerId:'',
 					recruitFronts:'',
 					title:"",
-				    userId:1,
-				    profitCommission:'',
-				    companyDivided:'',
-				    riskIncentive: '',
+			    profitCommission:'',
+			    companyDivided:'',
+			    riskIncentive: '',
 					address: '',
-					latitude: 30.2419557,
-					longitude: 120.1273834,
+					latitude: '',
+					longitude: '',
 					introduction: '',
 					recruitManager: '',
 					projectManager: '',
 					monthPaymentRate: "",
-					partTimeTeam: [{
-						fristJobId: 1,
-						fristJobName: "",
-						secondJob: "",
-						incomeType: 1,
-						type: 0,
-						receiveOrderAmount: "",
-						sendOrderAmount: "",
-						salary: "",
-						conditionList: [{
-							amount: '',
-							numberCondition: ''
-						}, {
-							amount: '',
-							numberCondition: ''
-						}, {
-							amount: '',
-							numberCondition: ''
-						}, {
-							amount: '',
-							numberCondition:''
-						}]
-					}],
-					fullTimeTeam:[{
-				    	fristJobId:1,
-				    	fristJobName:"",
-				    	secondJob:"",
-				    	incomeType:1,
-				    	type:1,
-				    	receiveOrderAmount:"",
-				    	sendOrderAmount:"",
-				    	salary:"",
-				    	leaveAmount:"",
-				    	overtimeAmount:"",
-				    	fullTimeBonus:"",
-				    	fullTimeDays:"",
-				    	mealSupplement:"",
-				    	//核定日工资
-				    	checkDayTime:'',
-				    	conditionList:[{
-				    		amount: '',
-							numberCondition: ''
-						}, {
-							amount: '',
-							numberCondition: ''
-						}, {
-							amount: '',
-							numberCondition: ''
-						}, {
-							amount: '',
-							numberCondition: ''
-						}]
-				    }],
-				    conditionList:{
-				    	amount:10
-				    },
-					teamOfGroupData: [{
-						oneLevelJob: '接单员',
-						twoLevelJob: '分拣员',
-						incomeMode: '计件',
-						getOrderPrice: 22,
-						giveOrderPrice: 19,
-						lastEditTimeAt: new Date(parseInt(Date.now(), 10)).toLocaleString().replace(/:\d{1,2}$/, ' '),
-					}],
-				},
-
-				editTeamOfGroupForm: {
-					id: 0,
-					oneLevelJob: '',
-					twoLevelJob: '',
-					incomeMode: '',
-					getOrderPrice: 0,
-					giveOrderPrice: 0,
+					partTimeTeam: [],
+					fullTimeTeam:[],
 				},
 				mapConfig: {
 					location: '',
@@ -346,6 +269,7 @@
 				});
 			},
 			addFullTimeJob() {
+				newProject.itemPublishInfo = this.itemPublishInfo;
 				this.$router.push({
 					name: 'adminItemGroups',
 					// query: {
@@ -354,6 +278,7 @@
 				});
 			},
 			addPartTimeJob(){
+				newProject.itemPublishInfo = this.itemPublishInfo;
 				this.$router.push({
 					name: 'adminItempartGroups',
 					// query: {
@@ -401,12 +326,12 @@
 							introduction: this.itemPublishInfo.introduction,
 							longitude: this.itemPublishInfo.longitude,
 							latitude: this.itemPublishInfo.latitude,
-							riskIncentive:this.itemPublishInfo.riskIncentive,
-							companyDivided:this.itemPublishInfo.companyDivided,
 							profitCommission:this.itemPublishInfo.profitCommission,
+							companyDivided:this.itemPublishInfo.companyDivided,
+							riskIncentive:this.itemPublishInfo.riskIncentive,
 							monthPaymentRate:this.itemPublishInfo.monthPaymentRate,
-							userId: this.itemPublishInfo.userId,
-							partTimeTeam:this.itemPublishInfo.partTimeTeam,
+							// userId: this.itemPublishInfo.userId,
+							partTimeTeam: this.itemPublishInfo.partTimeTeam,
 							fullTimeTeam:this.itemPublishInfo.fullTimeTeam
 						}).then((response) => {
 							if(response.data.errorCode === 10000) {
@@ -415,7 +340,7 @@
 									errorCode,
 									moreInfo
 								} = response.data;
-								this.itemPublishInfo = response.data;
+								newProject.clear();
 								this.$notify({
 									title: '新建成功',
 									type: 'success',
@@ -563,6 +488,9 @@
 		mounted() {
 			this.itemPublishInfo.fullTimeTeam = newProject.listFullTime;
 			this.itemPublishInfo.partTimeTeam = newProject.listPartTime;
+			if (this.itemPublishInfo.fullTimeTeam.length != 0 || this.itemPublishInfo.partTimeTeam.length != 0) {
+				this.itemPublishInfo = newProject.itemPublishInfo;
+			}
 		}
 	};
 </script>

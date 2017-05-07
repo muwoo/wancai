@@ -1,6 +1,7 @@
 export var newProject = {
 	listFullTime:[],
 	listPartTime:[],
+	itemPublishInfo: {},
 	addFullTime: function(data) {
 		this.listFullTime.push(data)
 	},
@@ -22,6 +23,7 @@ export var newProject = {
 	clear: function() {
 		this.listFullTime = []
 		this.listPartTime = []
+		this.itemPublishInfo = {}
 	},
 	listRecord:[],
 	addlistRecord: function(data){
